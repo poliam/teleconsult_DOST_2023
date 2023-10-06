@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+{% block title %} Patient List {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.card-header{
+		background-color:#6417A180;
+	}
+	
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<h2 class="dashboard_welcome_greeting">Patient Edit</h2>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			<form id="Create_patient" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Personal Information</h4>
+  					</div>
+  					<div class="card-body">
+  						<div class="row">
+  							<div class="col-sm-6">
+  								{% if patientDetailed.profile_picture|length > 0 %}
+                        			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-60 h-60 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
+		                        {% endif %}
+  								<div class="mb-3">
+  									<label for="patientProf" class="form-label">Patient Profile Picture</label>
+  									<input class="form-control" type="file" id="patientProf" name="patientProf">
+								</div>
+  							</div>
+  						</div>
+    					<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Fname" >First Name *</label>
+   		 							<input type="text" class="form-control" id="Fname" name="Fname" placeholder="First Name" value="{{ patientDetailed.first_name }}" required>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Mname" >Middle Name *</label>
+   		 							<input type="text" class="form-control" id="Mname" name="Mname" placeholder="Middle Name" value="{{ patientDetailed.middle_name }}" required>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Lname" >Last Name *</label>
+   		 							<input type="text" class="form-control" id="Lname" name="Lname" placeholder="Last Name" value="{{ patientDetailed.last_name }}" required>
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="gender" >Gender *</label>
+   		 							<select class="form-control" id="gender" name="gender" required>
+	 									<option value="0" > - Select Gender - </option>
+	 									<option value="Male" {% if patientDetailed.gender == "Male" %} selected {% endif %}>Male</option>
+	 									<option value="Female" {% if patientDetailed.gender == "Female" %} selected {% endif %}>Female</option>
+   		 							</select>
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="birth_date">Birthday(dd/mm/yyyy) *</label>
+   		 							<input type="text" class="form-control" id="birth_date" name="birth_date" placeholder="(dd/mm/yyyy)" value="{{ patientDetailed.BOD| date:'d/m/Y' }}" required>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="marital_status">Marital Status</label>
+									<select class="form-control" id="marital_status" name="marital_status" required>
+										<option value="0">- - Select Status - -</option>
+   		 								<option value="Single" {% if patientDetailed.marital_status == "Single" %} selected  {% endif %}>Single</option>
+   		 								<option value="Married" {% if patientDetailed.marital_status == "Married" %} selected  {% endif %}>Married</option>
+   		 								<option value="Widowed" {% if patientDetailed.marital_status == "Widowed" %} selected  {% endif %}>Widowed</option>
+   		 								<option value="Divorced" {% if patientDetailed.marital_status == "Divorced" %} selected  {% endif %}>Divorced</option>
+   		 								<option value="Separated" {% if patientDetailed.marital_status == "Separated" %} selected  {% endif %}>Separated </option>
+   		 								<option value="Registered Partnership" {% if patientDetailed.marital_status == "Registered Partnership" %} selected  {% endif %}>Registered Partnership</option>
+   		 							</select>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="contact_number" >Contact Number</label>
+   		 							<input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ patientDetailed.contact_number }}" placeholder="Contact Number">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="alias" >Alias</label>
+   		 							<input type="text" class="form-control" id="alias" name="alias" value="{{ patientDetailed.alias }}" placeholder="Alias">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div  class="form-group">
+    								<label for="Patient_email">Email</label>
+   		 							<input type="text" class="form-control" id="Patient_email" name="Patient_email" value="{{ patientDetailed.email }}" aria-describedby="lastNameHelp" placeholder="Email">
+    								
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+				</div>
+				<br>
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Personal Address</h4>
+  					</div>
+  					<div class="card-body">
+    					<h5>Current Address</h5>
+    					<div class="row">
+    						<div class="col-sm-8">
+    							<div class="form-group">
+    								<label for="current_street_address">Street Address</label>
+   		 							<input type="text" class="form-control" id="current_street_address" name="current_street_address" value="{{ patientCurrentAddress.street }}" placeholder="Street Address">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="apt" >Apt, suite, etc(optional)</label>
+   		 							<input type="text" class="form-control" id="apt" name="apt" value="{{ patientCurrentAddress.apt }}" placeholder="Street Address">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="current_address_city">City</label>
+   		 							<input type="text" class="form-control" id="current_address_city" name="current_address_city" value="{{ patientCurrentAddress.city }}" placeholder="City">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="current_address_country">Country</label>
+   		 							<input type="text" class="form-control" id="current_address_country" name="current_address_country" value="{{ patientCurrentAddress.country }}" placeholder="Country">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="current_address_zipcode">Zip / postcode</label>
+   		 							<input type="text" class="form-control" id="current_address_zipcode" name="current_address_zipcode" value="{{ patientCurrentAddress.zip_code }}" placeholder="Zip / postcode">
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+    				<div class="card-body">
+    					<h5>Philippine Address</h5>
+    					<div class="row">
+    						<div class="col-sm-8">
+    							<div class="form-group">
+    								<label for="ph_street_address">Street Address</label>
+   		 							<input type="text" class="form-control" id="ph_street_address" name="ph_street_address" value="{{ patientPhAddress.street }}" placeholder="Street Address">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="ph_barangay">Barangay</label>
+   		 							<input type="text" class="form-control" id="ph_barangay" name="ph_barangay" value="{{ patientPhAddress.barangay }}" placeholder="Street Address">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="province">Province</label>
+   		 							<input type="text" class="form-control" id="province" name="province" value="{{ patientPhAddress.province }}" placeholder="Province">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="ph_city">City</label>
+   		 							<input type="text" class="form-control" id="ph_city" name="ph_city" value="{{ patientPhAddress.city }}" placeholder="City">
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+    				
+				</div>
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Other Detail</h4>
+  					</div>
+  					<div class="card-body">
+    					<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="birth_place">Birth Place</label>
+   		 							<input type="text" class="form-control" id='birth_place' name="birth_place" value="{{ patientDetailed.birth_place }}" placeholder="Birth Place">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="religion">Religion</label>
+   		 							<input type="text" class="form-control" id="religion" name="religion" value="{{ patientDetailed.religion }}"  placeholder="Street Address">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="highest_educational_attainment">Highest Education Attainment</label>
+   		 							<input type="text" class="form-control" id="highest_educational_attainment" name="highest_educational_attainment" value="{{ patientDetailed.high_education }}" placeholder="Highest Education Attainment">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="citizenship">Citizenship</label>
+   		 							<input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ patientDetailed.citizenship }}" placeholder="Citizenship">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Nationality">Nationality</label>
+   		 							<input type="text" class="form-control" id='Nationality' name="Nationality" value="{{ patientDetailed.nationality }}" placeholder="Nationality">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Workplace">Workplace</label>
+   		 							<input type="text" class="form-control" id="Workplace" name="Workplace" value="{{ patientDetailed.workplace }}" placeholder="Workplace">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Occupation">Occupation</label>
+   		 							<input type="text" class="form-control" id="Occupation" name="Occupation" value="{{ patientDetailed.occupation }}" placeholder="Occupation">
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+				</div>
+				<br/>
+				<div class="row justify-content-md-center">
+				    <div class="col-md-auto">
+				      <button type="submit" class="btn btn-outline-success add_patient_btn">Update Patient</button>
+				      <a href="{% url 'PatientDetailed' patientDetailed.pk %}" style="text-decoration:none;">
+				      <button type="button" class="btn btn-outline-secondary">Cancel</button>
+				      </a>
+				    </div>
+  				</div>
+				<br/><br/>
+			</form>
+		</div>
+		<div class="col-sm-1"></div>
+	</div>
+</div>
+{% endblock content %}
+
+
+{% block script %}
+<script type="text/javascript">
+
+	
+</script>
+{% endblock script %}
