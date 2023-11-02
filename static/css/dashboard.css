@@ -99,10 +99,10 @@ main {
 .fw-semibold { font-weight: 600; }
 .lh-tight { line-height: 1.25; }
 
-.nav-item{
+.base_navbar{
   padding-bottom: 13%;
 }
-.nav-item a{
+.base_navbar a{
   text-decoration: none;
   color: #6417A180;
 }
@@ -135,4 +135,8 @@ main {
 .user_header_names{
   padding: 0.3rem 0.5rem;
   font-weight: 700;
+}
+
+.card_background_color{
+  background-color: #6417A180;
 }

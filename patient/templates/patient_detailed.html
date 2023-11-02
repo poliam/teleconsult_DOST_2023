@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Patient List {% endblock title %}
+{% block title %} Patient Detail {% endblock title %}
 
 {% block style %}
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -16,6 +16,36 @@
 		float: right;
 		cursor: pointer;
 	}
+	.patient_family_details{
+		float: left;
+		color: white;
+	}
+	.patient_family_details button{
+		float: right;
+	}
+
+	.relative_table th {
+		color: #6417A1;
+	}
+
+	.patient_allergies{
+		color: white;
+	}
+	.patient_allergies button {
+		float: right;
+	}
+
+	.consultation_detail{
+		color: white;
+	}
+
+	.consultation_detail button{
+		float: right;
+	}
+
+	.patient_allergies_table th {
+		color: #6417A1;
+	}
 	.patient_detail_name a {
 		text-decoration: none;
 		color: white;
@@ -23,6 +53,17 @@
 	.patient_detiel_label{
 		color: #6417A1;
 		font-weight: 700;
+	}
+
+	.patient_GPS{
+		color: white;
+	}
+	.patient_GPS button {
+		float: right;
+	}
+
+	.patient_GPS_table th {
+		color: #6417A1;
 	}
 	
 </style>
@@ -42,7 +83,7 @@
   				<h5 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i class="fa-solid fa-pen-to-square"></i></a></h5>
   				<div class="card-body" style="text-align:center;">
 					{% if patientDetailed.profile_picture|length > 0 %}
-            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-60 h-60 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
+            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-40 h-40 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
                     {% endif %}
   				</div>
   				<div class="card-body">
@@ -86,7 +127,185 @@
 			</div>
 		</div>
 		<div class="col-sm-8">
-			
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="card">
+  						<h5 class="card-header patient_family_details card_background_color">Family Relative <a href="{% url 'PatientCreateRelative' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Relative</button></a></h5>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table relative_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col">#</th>
+		      									<th scope="col">Name</th>
+		      									<th scope="col">Relation</th>
+		      									<th scope="col">Sex</th>
+		      									<th scope="col">Age</th>
+		      									<th scope="col">Occupation</th>
+		      									<th scope="col"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for relative in list_of_relatives %}
+		  										<tr>
+		  											<td>{{ forloop.counter }}</td>
+		  											<td>{{ relative.last_name }}, {{ relative.first_name }} {{ relative.middle_name }}</td>
+		  											<td>{{ relative.relationship }}</td>
+		  											<td>{{ relative.gender }}</td>
+		  											<td>{{ relative.age }}</td>
+		  											<td>{{ relative.occupation }}</td>
+		  											<td>
+		  												<a href="{% url 'PatientEditRelative' relative.pk %}">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can"></i>
+		  												</a>
+		  											</td>
+		  										</tr>
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>		
+				</div>	
+				<div class="col-sm-4">
+					<div class="card">
+	  					<h5 class="card-header patient_allergies card_background_color">Medical Allergies <a href="{% url 'PatientCreateAllergy' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Allergies</button></a></h5>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_allergies_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="80%">Medicine</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for allegry in list_of_allergies %}
+			  									<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>{{ allegry.medicine_name.name }}</td>
+			  										<td>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can"></i>
+		  												</a>
+		  											</td>
+			  									</tr>
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>	
+				</div>
+			</div>
+			<br/>
+			<div class="card">
+  				<h5 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen <a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add GPS</button></a></h5>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12">
+    						<table class="table patient_GPS_table">
+    							<thead>
+    								<tr>
+      									<th scope="col" width="10%">#</th>
+      									<th scope="col" width="80%">Consultation Date</th>
+      									<th width="10%"></th>
+    								</tr>
+  								</thead>
+  								<tbody>
+  									<tr>
+  										<td></td>
+  										<td></td>
+  										<td>
+											<a href="">
+												<i class="fa-solid fa-trash-can"></i>
+											</a>
+										</td>
+  									</tr>
+  								</tbody>
+    						</table>	
+    					</div>
+    				</div>
+  				</div>
+			</div>
+			<br/>
+			<div class="card">
+  				<h5 class="card-header patient_GPS card_background_color">HAMILTON DEPRESSION <a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add HAM-D</button></a></h5>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12">
+    						<table class="table patient_GPS_table">
+    							<thead>
+    								<tr>
+      									<th scope="col" width="10%">#</th>
+      									<th scope="col" width="60%">Consultation Date</th>
+      									<th scope="col" width="20%">Score</th>
+      									<th width="10%"></th>
+    								</tr>
+  								</thead>
+  								<tbody>
+  									<tr>
+  										<td></td>
+  										<td></td>
+  										<td></td>
+  										<td>
+											<a href="">
+												<i class="fa-solid fa-trash-can"></i>
+											</a>
+										</td>
+  									</tr>
+  								</tbody>
+    						</table>	
+    					</div>
+    				</div>
+  				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="card">
+  				<h5 class="card-header patient_allergies card_background_color">Consultations <a href="{% url 'CreateConsultation' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Consultation</button></a></h5>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12">
+    						<table class="table patient_allergies_table">
+    							<thead>
+    								<tr>
+      									<th scope="col" width="10%">#</th>
+      									<th scope="col">Consultation Date</th>
+      									<th scope="col">Consultation Type</th>
+    								</tr>
+  								</thead>
+  								<tbody>
+  									
+  								</tbody>
+    						</table>	
+    					</div>
+    				</div>
+  				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="card">
+  				<h5 class="card-header consultation_detail card_background_color">Consultations Details<a href="#" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Edit Consultation</button></a></h5>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12">
+    						
+    					</div>
+    				</div>
+  				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Create Patients {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.add_patient_btn{
+		color: #6417A180;
+		border-color: #6417A180;
+	}
+	.card-header{
+		background-color:#6417A180;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="dashboard_welcome_greeting">Update Patient Relatives</h2>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			{% if error_msg %}
+				<div class="alert alert-warning" role="alert" style="text-align:center;">
+				  {{ error_msg }}
+				</div>
+			{% endif %}
+			{% if success_msg %}
+				<div class="alert alert-success" role="alert" style="text-align:center;">
+ 					{{ success_msg }} <a href="{% url 'PatientDetailed' relative_details.details.pk %}">Return to patient detials</a>
+				</div>
+			{% endif %}
+			<form id="patient_create_relatives" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}	
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Relative Personal Info</h4>
+  					</div>
+  					<div class="card-body">
+    					<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="first_name">First Name</label>
+   		 							<input type="text" class="form-control" id='first_name' name="first_name" value="{{ relative_details.first_name }}" placeholder="First Name">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="middle_name">Middle Name</label>
+   		 							<input type="text" class="form-control" id='middle_name' name="middle_name" value="{{ relative_details.middle_name }}" placeholder="Middle Name">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="last_name">Last Name</label>
+   		 							<input type="text" class="form-control" id='last_name' name="last_name" value="{{ relative_details.last_name }}" placeholder="Last Name">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="gender" >Sex *</label>
+   		 							<select class="form-control" id="gender" name="gender" required>
+	 									<option value="0" > - Select Gender - </option>
+	 									<option value="Male" {% if relative_details.gender == "Male" %} selected {% endif %}>Male</option>
+	 									<option value="Female" {% if relative_details.gender == "Female" %} selected {% endif %}>Female</option>
+   		 							</select>
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="gender_indentity" >Gender Identity</label>
+   		 							<input type="text" class="form-control" id="gender_indentity" name="gender_indentity" placeholder="Gender Identity" value="{{ relative_details.gender_indentity|default_if_none:'' }}">
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="birth_date">Birthday(dd/mm/yyyy) *</label>
+   		 							<input type="text" class="form-control" id="birth_date" name="birth_date" placeholder="(dd/mm/yyyy)" value="{{ relative_details.DOB| date:'d/m/Y' }}" required>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="marital_status">Marital Status</label>
+									<select class="form-control" id="marital_status" name="marital_status" required>
+										<option value="0">- - Select Status - -</option>
+   		 								<option value="Single" {% if relative_details.marital_status == "Single" %} selected  {% endif %}>Single</option>
+   		 								<option value="Married" {% if relative_details.marital_status == "Married" %} selected  {% endif %}>Married</option>
+   		 								<option value="Widowed" {% if relative_details.marital_status == "Widowed" %} selected  {% endif %}>Widowed</option>
+   		 								<option value="Divorced" {% if relative_details.marital_status == "Divorced" %} selected  {% endif %}>Divorced</option>
+   		 								<option value="Separated" {% if relative_details.marital_status == "Separated" %} selected  {% endif %}>Separated </option>
+   		 								<option value="Registered Partnership" {% if relative_details.marital_status == "Registered Partnership" %} selected  {% endif %}>Registered Partnership</option>
+   		 							</select>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="relationship" >relationship</label>
+    								<select class="form-control" id="relationship" name="relationship" required>
+    									<option value="0">- - Select relationship - -</option>
+    									<option value="Mother" {% if relative_details.relationship == "Mother" %} selected  {% endif %}>Mother</option>
+    									<option value="Father" {% if relative_details.relationship == "Father" %} selected  {% endif %}>Father</option>
+    									<option value="Son" {% if relative_details.relationship == "Son" %} selected  {% endif %}>Son</option>
+    									<option value="Daughter" {% if relative_details.relationship == "Daughter" %} selected  {% endif %}>Daughter</option>
+    									<option value="Brother" {% if relative_details.relationship == "Brother" %} selected  {% endif %}>Brother</option>
+    									<option value="Niece or nephew" {% if relative_details.relationship == "Niece or nephew" %} selected  {% endif %}>Niece or nephew</option>
+    									<option value="Aunt" {% if relative_details.relationship == "Aunt" %} selected  {% endif %}>Aunt</option>
+    									<option value="Uncle" {% if relative_details.relationship == "Uncle" %} selected  {% endif %}>Uncle</option>
+    									<option value="Sister" {% if relative_details.relationship == "Sister" %} selected  {% endif %}>Sister</option>
+    									<option value="Spouse" {% if relative_details.relationship == "Spouse" %} selected  {% endif %}>Spouse</option>
+    									<option value="Son-in-law" {% if relative_details.relationship == "Son-in-law" %} selected  {% endif %}>Son-in-law</option>
+    									<option value="Daughter-in-law" {% if relative_details.relationship == "Daughter-in-law" %} selected  {% endif %}>Daughter-in-law</option>
+    									<option value="Second Cousin" {% if relative_details.relationship == "Second Cousin" %} selected  {% endif %}>Second Cousin</option>
+    									<option value="Third Cousin" {% if relative_details.relationship == "Third Cousin" %} selected  {% endif %}>Third Cousin</option>
+    									<option value="Wife" {% if relative_details.relationship == "Wife" %} selected  {% endif %}>Wife</option>
+    									<option value="Husband" {% if relative_details.relationship == "Husband" %} selected  {% endif %}>Husband</option>
+    								</select>
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="highest_educational_attainment">Highest Education Attainment</label>
+   		 							<input type="text" class="form-control" id="highest_educational_attainment" name="highest_educational_attainment" value="{{ relative_details.high_education|default_if_none:'' }}" placeholder="Highest Education Attainment">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Workplace">Workplace</label>
+   		 							<input type="text" class="form-control" id="Workplace" name="Workplace" value="{{ relative_details.workplace|default_if_none:'' }}" placeholder="Workplace">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="Occupation">Occupation</label>
+   		 							<input type="text" class="form-control" id="Occupation" name="Occupation" value="{{ relative_details.occupation|default_if_none:'' }}" placeholder="Occupation">
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="contact_number" >Contact Number</label>
+   		 							<input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ relative_details.contact_number|default_if_none:'' }}" placeholder="Contact Number">
+  								</div>
+    						</div>
+    						
+    						<div class="col-sm-4">
+    							<div  class="form-group">
+    								<label for="Patient_email">Email</label>
+   		 							<input type="text" class="form-control" id="Patient_email" name="Patient_email" value="{{ relative_details.email|default_if_none:'' }}" aria-describedby="lastNameHelp" placeholder="Email">
+    								
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+				</div>
+				<br/>
+				<div class="row justify-content-md-center">
+				    <div class="col-md-auto">
+				      <button type="submit" class="btn btn-outline-success">Update Relative</button>
+				      {% if relative_details.details.pk %}
+				      	<a href="{% url 'PatientDetailed' relative_details.details.pk %}" style="text-decoration:none;">
+				      {% else %}
+				      	<a href="{{request.META.HTTP_REFERER}}" style="text-decoration:none;">
+				      {% endif %}
+				      
+				      <button type="button" class="btn btn-outline-secondary">Cancel</button>
+				      </a>
+				    </div>
+  				</div>
+				<br/><br/>
+			</form>
+		</div>
+		<div class="col-sm-1"></div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$( "#birth_date" ).datepicker({ dateFormat: 'dd/mm/yy' });
+	})
+</script>
+{% endblock script %}

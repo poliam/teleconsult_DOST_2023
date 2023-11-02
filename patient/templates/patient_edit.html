@@ -77,6 +77,13 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
+    								<label for="gender_indentity" >Gender Identity</label>
+   		 							<input type="text" class="form-control" id="gender_indentity" name="gender_indentity" placeholder="Gender Identity" value="{{ patientDetailed.gender_indentity|default_if_none:'' }}">
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
     								<label for="birth_date">Birthday(dd/mm/yyyy) *</label>
    		 							<input type="text" class="form-control" id="birth_date" name="birth_date" placeholder="(dd/mm/yyyy)" value="{{ patientDetailed.BOD| date:'d/m/Y' }}" required>
   								</div>
@@ -98,19 +105,19 @@
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="contact_number" >Contact Number</label>
-   		 							<input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ patientDetailed.contact_number }}" placeholder="Contact Number">
+   		 							<input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ patientDetailed.contact_number|default_if_none:'' }}" placeholder="Contact Number">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="alias" >Alias</label>
-   		 							<input type="text" class="form-control" id="alias" name="alias" value="{{ patientDetailed.alias }}" placeholder="Alias">
+   		 							<input type="text" class="form-control" id="alias" name="alias" value="{{ patientDetailed.alias|default_if_none:'' }}" placeholder="Alias">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div  class="form-group">
     								<label for="Patient_email">Email</label>
-   		 							<input type="text" class="form-control" id="Patient_email" name="Patient_email" value="{{ patientDetailed.email }}" aria-describedby="lastNameHelp" placeholder="Email">
+   		 							<input type="text" class="form-control" id="Patient_email" name="Patient_email" value="{{ patientDetailed.email|default_if_none:'' }}" aria-describedby="lastNameHelp" placeholder="Email">
     								
   								</div>
     						</div>
@@ -128,31 +135,31 @@
     						<div class="col-sm-8">
     							<div class="form-group">
     								<label for="current_street_address">Street Address</label>
-   		 							<input type="text" class="form-control" id="current_street_address" name="current_street_address" value="{{ patientCurrentAddress.street }}" placeholder="Street Address">
+   		 							<input type="text" class="form-control" id="current_street_address" name="current_street_address" value="{{ patientCurrentAddress.street|default_if_none:'' }}" placeholder="Street Address">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="apt" >Apt, suite, etc(optional)</label>
-   		 							<input type="text" class="form-control" id="apt" name="apt" value="{{ patientCurrentAddress.apt }}" placeholder="Street Address">
+   		 							<input type="text" class="form-control" id="apt" name="apt" value="{{ patientCurrentAddress.apt|default_if_none:'' }}" placeholder="Street Address">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="current_address_city">City</label>
-   		 							<input type="text" class="form-control" id="current_address_city" name="current_address_city" value="{{ patientCurrentAddress.city }}" placeholder="City">
+   		 							<input type="text" class="form-control" id="current_address_city" name="current_address_city" value="{{ patientCurrentAddress.city|default_if_none:'' }}" placeholder="City">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="current_address_country">Country</label>
-   		 							<input type="text" class="form-control" id="current_address_country" name="current_address_country" value="{{ patientCurrentAddress.country }}" placeholder="Country">
+   		 							<input type="text" class="form-control" id="current_address_country" name="current_address_country" value="{{ patientCurrentAddress.country|default_if_none:'' }}" placeholder="Country">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="current_address_zipcode">Zip / postcode</label>
-   		 							<input type="text" class="form-control" id="current_address_zipcode" name="current_address_zipcode" value="{{ patientCurrentAddress.zip_code }}" placeholder="Zip / postcode">
+   		 							<input type="text" class="form-control" id="current_address_zipcode" name="current_address_zipcode" value="{{ patientCurrentAddress.zip_code|default_if_none:'' }}" placeholder="Zip / postcode">
   								</div>
     						</div>
     					</div>
@@ -163,25 +170,25 @@
     						<div class="col-sm-8">
     							<div class="form-group">
     								<label for="ph_street_address">Street Address</label>
-   		 							<input type="text" class="form-control" id="ph_street_address" name="ph_street_address" value="{{ patientPhAddress.street }}" placeholder="Street Address">
+   		 							<input type="text" class="form-control" id="ph_street_address" name="ph_street_address" value="{{ patientPhAddress.street|default_if_none:'' }}" placeholder="Street Address">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="ph_barangay">Barangay</label>
-   		 							<input type="text" class="form-control" id="ph_barangay" name="ph_barangay" value="{{ patientPhAddress.barangay }}" placeholder="Street Address">
+   		 							<input type="text" class="form-control" id="ph_barangay" name="ph_barangay" value="{{ patientPhAddress.barangay|default_if_none:'' }}" placeholder="Street Address">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="province">Province</label>
-   		 							<input type="text" class="form-control" id="province" name="province" value="{{ patientPhAddress.province }}" placeholder="Province">
+   		 							<input type="text" class="form-control" id="province" name="province" value="{{ patientPhAddress.province|default_if_none:'' }}" placeholder="Province">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="ph_city">City</label>
-   		 							<input type="text" class="form-control" id="ph_city" name="ph_city" value="{{ patientPhAddress.city }}" placeholder="City">
+   		 							<input type="text" class="form-control" id="ph_city" name="ph_city" value="{{ patientPhAddress.city|default_if_none:'' }}" placeholder="City">
   								</div>
     						</div>
     					</div>
@@ -197,43 +204,43 @@
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="birth_place">Birth Place</label>
-   		 							<input type="text" class="form-control" id='birth_place' name="birth_place" value="{{ patientDetailed.birth_place }}" placeholder="Birth Place">
+   		 							<input type="text" class="form-control" id='birth_place' name="birth_place" value="{{ patientDetailed.birth_place|default_if_none:'' }}" placeholder="Birth Place">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="religion">Religion</label>
-   		 							<input type="text" class="form-control" id="religion" name="religion" value="{{ patientDetailed.religion }}"  placeholder="Street Address">
+   		 							<input type="text" class="form-control" id="religion" name="religion" value="{{ patientDetailed.religion|default_if_none:'' }}"  placeholder="Street Address">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="highest_educational_attainment">Highest Education Attainment</label>
-   		 							<input type="text" class="form-control" id="highest_educational_attainment" name="highest_educational_attainment" value="{{ patientDetailed.high_education }}" placeholder="Highest Education Attainment">
+   		 							<input type="text" class="form-control" id="highest_educational_attainment" name="highest_educational_attainment" value="{{ patientDetailed.high_education|default_if_none:'' }}" placeholder="Highest Education Attainment">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="citizenship">Citizenship</label>
-   		 							<input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ patientDetailed.citizenship }}" placeholder="Citizenship">
+   		 							<input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ patientDetailed.citizenship|default_if_none:'' }}" placeholder="Citizenship">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="Nationality">Nationality</label>
-   		 							<input type="text" class="form-control" id='Nationality' name="Nationality" value="{{ patientDetailed.nationality }}" placeholder="Nationality">
+   		 							<input type="text" class="form-control" id='Nationality' name="Nationality" value="{{ patientDetailed.nationality|default_if_none:'' }}" placeholder="Nationality">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="Workplace">Workplace</label>
-   		 							<input type="text" class="form-control" id="Workplace" name="Workplace" value="{{ patientDetailed.workplace }}" placeholder="Workplace">
+   		 							<input type="text" class="form-control" id="Workplace" name="Workplace" value="{{ patientDetailed.workplace|default_if_none:'' }}" placeholder="Workplace">
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
     								<label for="Occupation">Occupation</label>
-   		 							<input type="text" class="form-control" id="Occupation" name="Occupation" value="{{ patientDetailed.occupation }}" placeholder="Occupation">
+   		 							<input type="text" class="form-control" id="Occupation" name="Occupation" value="{{ patientDetailed.occupation|default_if_none:'' }}" placeholder="Occupation">
   								</div>
     						</div>
     					</div>

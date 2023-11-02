@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, address
+from patient.models import details, address, relatives, medicine, allergies
 import random, os
 from datetime import date, datetime
 
@@ -43,6 +43,7 @@ def PatientCreate(request):
 		new_patient.middle_name = request.POST['Mname']
 		new_patient.last_name = request.POST['Lname']
 		new_patient.gender = request.POST['gender']
+		new_patient.gender_indentity = request.POST['gender_indentity']
 		new_patient.BOD = formatDate(request.POST['birth_date'])
 		new_patient.marital_status = request.POST['marital_status']
 		new_patient.contact_number = request.POST['contact_number']
@@ -130,7 +131,7 @@ def PatientCreate(request):
 			new_patient.delete()
 			returnVal['error_msg'] = "Error on Saving PH address!"
 			return render(request, 'patient_create.html', returnVal)
-		return redirect("PatientDetailed", patient_id=patient_instance.pk)
+		return redirect("PatientDetailed", patient_id=new_patient.pk)
 	return render(request, 'patient_create.html', returnVal)
 
 @login_required(login_url='/login')
@@ -142,6 +143,8 @@ def PatientDetailed(request, patient_id):
 	returnVal['userDetails'] = profile_details
 	returnVal['patientDetailed'] = patient_instance
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
+	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id)
+	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')
@@ -161,6 +164,7 @@ def PatientEdit(request, patient_id):
 		patient_instance.middle_name = request.POST['Mname']
 		patient_instance.last_name = request.POST['Lname']
 		patient_instance.gender = request.POST['gender']
+		patient_instance.gender_indentity = request.POST['gender_indentity']
 		patient_instance.BOD = formatDate(request.POST['birth_date'])
 		patient_instance.marital_status = request.POST['marital_status']
 		patient_instance.contact_number = request.POST['contact_number']
@@ -220,6 +224,160 @@ def PatientEdit(request, patient_id):
 				return render(request, 'patient_edit.html', returnVal)
 		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 	return render(request, 'patient_edit.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientCreateRelative(request, patient_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	returnVal['patient_id'] = patient_id
+	try:
+		patient_instance = details.objects.get(pk=patient_id)
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_create_relative.html', returnVal)
+	if request.method == 'POST':
+		returnVal['first_name'] = request.POST['first_name']
+		returnVal['middle_name'] = request.POST['middle_name']
+		returnVal['last_name'] = request.POST['last_name']
+		returnVal['gender'] = request.POST['gender']
+		returnVal['gender_indentity'] = request.POST['gender_indentity']
+		returnVal['birth_date'] = request.POST['birth_date']
+		returnVal['marital_status'] = request.POST['marital_status']
+		returnVal['relationship'] = request.POST['relationship']
+		returnVal['highest_educational_attainment'] = request.POST['highest_educational_attainment']
+		returnVal['Workplace'] = request.POST['Workplace']
+		returnVal['Occupation'] = request.POST['Occupation']
+		returnVal['contact_number'] = request.POST['contact_number']
+		returnVal['Patient_email'] = request.POST['Patient_email']
+
+		new_relatives = relatives()
+		new_relatives.first_name = request.POST['first_name']
+		new_relatives.middle_name = request.POST['middle_name']
+		new_relatives.last_name = request.POST['last_name']
+		new_relatives.gender = request.POST['gender']
+		new_relatives.gender_indentity = request.POST['gender_indentity']
+		new_relatives.DOB = formatDate(request.POST['birth_date'])
+		new_relatives.marital_status = request.POST['marital_status']
+		new_relatives.relationship = request.POST['relationship']
+		new_relatives.high_education = request.POST['highest_educational_attainment']
+		new_relatives.occupation = request.POST['Occupation']
+		new_relatives.contact_number = request.POST['contact_number']
+		new_relatives.email = request.POST['Patient_email']
+		new_relatives.details = patient_instance
+
+		try:
+			new_relatives.save()
+			return redirect("PatientDetailed", patient_id=patient_instance.pk)
+		except:
+			returnVal['error_msg'] = "Error on Saving a Patient relative!"
+			return render(request, 'patient_create_relative.html', returnVal)
+	return render(request, 'patient_create_relative.html', returnVal)
+
+
+@login_required(login_url='/login')
+def PatientEditRelative(request, relative_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+
+	try:
+		relative_details = relatives.objects.get(pk=relative_id)
+	except:
+		returnVal['error_msg'] = "Relative Does not exists!"
+		return render(request, 'patient_edit_relative.html', returnVal)
+
+	if request.method == "POST":
+		relative_details.first_name = request.POST['first_name']
+		relative_details.middle_name = request.POST['middle_name']
+		relative_details.last_name = request.POST['last_name']
+		relative_details.gender = request.POST['gender']
+		relative_details.gender_indentity = request.POST['gender_indentity']
+		relative_details.DOB = formatDate(request.POST['birth_date'])
+		relative_details.marital_status = request.POST['marital_status']
+		relative_details.relationship = request.POST['relationship']
+		relative_details.high_education = request.POST['highest_educational_attainment']
+		relative_details.occupation = request.POST['Occupation']
+		relative_details.contact_number = request.POST['contact_number']
+		relative_details.email = request.POST['Patient_email']
+
+		try:
+			relative_details.save()
+		except:
+			returnVal['error_msg'] = "error on updating relative"
+			return render(request, 'patient_edit_relative.html', returnVal)
+		returnVal['success_msg'] = "Update successful!"
+	returnVal['relative_details'] = relative_details
+	return render(request, 'patient_edit_relative.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientCreateAllergy(request, patient_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
+	try:
+		patient_instance = details.objects.get(pk=patient_id)
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_create_allergies.html', returnVal)
+	returnVal['patientDetailed'] = patient_instance
+
+	if request.method == "POST":
+		medicine_name = request.POST['medicine_name']
+		try:
+			medicine_instance = medicine.objects.get(name=medicine_name)
+		except:
+			new_medicine = medicine()
+			new_medicine.name = medicine_name
+			try:
+				new_medicine.save()
+			except:
+				returnVal['error_msg'] = "Error on creating medicine"
+				return render(request, 'patient_create_allergies.html', returnVal)
+			medicine_instance = new_medicine
+		new_allergy = allergies()
+		new_allergy.medicine_name = medicine_instance
+		new_allergy.details = patient_instance
+		try:
+			new_allergy.save()
+			return redirect("PatientDetailed", patient_id=patient_instance.pk)
+		except:
+			returnVal['error_msg'] = "Error on saving allergies"
+			return render(request, 'patient_create_allergies.html', returnVal)
+	return render(request, 'patient_create_allergies.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientCreateGPS(request, patient_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	try:
+		patient_instance = details.objects.get(pk=patient_id)
+		returnVal['patientDetail'] = patient_instance
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_create_gps.html', returnVal)
+	return render(request, 'patient_create_gps.html', returnVal)
+
+
+@login_required(login_url='/login')
+def PatientCreateHamD(request, patient_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	try:
+		patient_instance = details.objects.get(pk=patient_id)
+		returnVal['patientDetail'] = patient_instance
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_create_hamd.html', returnVal)
+	return render(request, 'patient_create_hamd.html', returnVal)
 
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")

@@ -1,0 +1,4 @@
+/consultation/__pycache__/*
+/consultation/migrations/__pycache__/*
+/patient/migrations/__pycache__/*
+/Teleconsult/__pycache__/*

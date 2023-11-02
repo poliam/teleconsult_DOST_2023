@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class details(models.Model):
@@ -6,6 +7,7 @@ class details(models.Model):
 	middle_name = models.CharField(max_length=250, null=True, blank=True)
 	last_name = models.CharField(max_length=250, null=True, blank=True)
 	gender = models.CharField(max_length=250, null=True, blank=True)
+	gender_indentity = models.CharField(max_length=250, null=True, blank=True)
 	BOD = models.DateField(null=True, blank=True)
 	marital_status = models.CharField(max_length=250, null=True, blank=True)
 	contact_number = models.CharField(max_length=250, null=True, blank=True)
@@ -24,6 +26,8 @@ class details(models.Model):
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
+	def age(self):
+		return int((datetime.now().date() - self.BOD).days / 365.25)
 
 class address(models.Model):
 	street = models.CharField(max_length=250, null=True, blank=True)
@@ -38,5 +42,37 @@ class address(models.Model):
 	update_date = models.DateTimeField(auto_now_add=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
-	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL,)
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
 	
+class relatives(models.Model):
+	first_name = models.CharField(max_length=250, null=True, blank=True)
+	middle_name = models.CharField(max_length=250, null=True, blank=True)
+	last_name = models.CharField(max_length=250, null=True, blank=True)
+	gender = models.CharField(max_length=250, null=True, blank=True)
+	gender_indentity = models.CharField(max_length=250, null=True, blank=True)
+	DOB = models.DateField(null=True, blank=True)
+	marital_status = models.CharField(max_length=250, null=True, blank=True)
+	relationship = models.CharField(max_length=250, null=True, blank=True)
+	high_education = models.CharField(max_length=250, null=True, blank=True)
+	occupation = models.CharField(max_length=250, null=True, blank=True)
+	Workplace = models.CharField(max_length=250, null=True, blank=True)
+	contact_number = models.CharField(max_length=250, null=True, blank=True)
+	email = models.CharField(max_length=250, null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	def age(self):
+		return int((datetime.now().date() - self.DOB).days / 365.25)
+
+class medicine(models.Model):
+	name = models.CharField(max_length=250, null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
+class allergies(models.Model):
+	medicine_name = models.ForeignKey(medicine, null=True, blank=True, on_delete=models.SET_NULL)
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	is_delete = models.BooleanField(default=0)

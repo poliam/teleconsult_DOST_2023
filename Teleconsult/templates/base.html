@@ -18,13 +18,13 @@
 <body style="background-color: #fbfafa;">
 	<main>
 		<div class="b-example-divider"></div>
-		<div class="d-flex flex-column flex-shrink-0 admin_base_sidebar_wrapper" style="">
+		<div class="d-flex flex-column flex-shrink-0 admin_base_sidebar_wrapper" style="border-right: 1px solid #c9c9c9;">
     		<a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right" style="margin:0 auto;">
       			<img id="admin_base_logo" src="{% static 'images/logo.png' %}" width="60px">
       			<span class="visually-hidden">Icon-only</span>
     		</a>
     		<ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
       				<a href="{% url 'dashboard' %}">
       					{% if sidebar == 'dashboard' %}
       						<div class="card nav-card-active">
@@ -43,7 +43,7 @@
       					{% endif %}
         			</a>
       			</li>
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
       				<a href="{% url 'PatientLists' %}">
       				{% if sidebar == 'patient' %}
 	      				<div class="card nav-card-active">
@@ -63,7 +63,7 @@
       				</a>
         			
       			</li>
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
 	        		<a href="#">
 	        			{% if request.path == '/portal/admin/tasks_list' or request.path == '/portal/admin/tasks' or sidebar == "task" %}
 	        				<div class="card nav-card-active">
@@ -83,7 +83,7 @@
         			</a>
       			</li>
       			
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
         			<a href="#">
         				{% if sidebar == "services" %}
         					<div class="card  nav-card-active">
@@ -103,7 +103,7 @@
 	      				
         			</a>
       			</li>
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
         			<a href="#">
 	      				<div class="card nav-card">
 	  						<div class="card-body sidebar-card-body">
@@ -113,7 +113,7 @@
 						</div>
         			</a>
       			</li>
-      			<li class="nav-item">
+      			<li class="nav-item base_navbar">
         			<a href="#">
 	      				<div class="card nav-card">
 	  						<div class="card-body sidebar-card-body">
@@ -146,7 +146,7 @@
     				</form>
   				</div>
 			</nav> -->
-			<br/><br/><br/>
+			<br/>
 			{% block content %}
 
 			{% endblock %}

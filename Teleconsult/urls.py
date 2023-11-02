@@ -27,4 +27,5 @@ urlpatterns = [
     path("login", TeleconsultView.login_user, name="login_user"),
     path('singup', TeleconsultView.signup, name="signup"),
     path('patient/', include('patient.urls')),
+    path('consultation', include('consultation.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

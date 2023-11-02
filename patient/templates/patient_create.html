@@ -65,12 +65,19 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="gender" >Gender *</label>
+    								<label for="gender" >Sex *</label>
    		 							<select class="form-control" id="gender" name="gender" required>
 	 									<option value="0" > - Select Gender - </option>
 	 									<option value="Male" {% if gender == "Male" %} selected {% endif %}>Male</option>
 	 									<option value="Female" {% if gender == "Female" %} selected {% endif %}>Female</option>
    		 							</select>
+    								
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="gender_indentity" >Gender Identity</label>
+   		 							<input type="text" class="form-control" id="gender_indentity" name="gender_indentity" placeholder="Gender Identity" value="{{ gender_indentity }}">
     								
   								</div>
     						</div>
