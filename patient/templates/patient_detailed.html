@@ -221,15 +221,25 @@
     								</tr>
   								</thead>
   								<tbody>
-  									<tr>
-  										<td></td>
-  										<td></td>
-  										<td>
-											<a href="">
-												<i class="fa-solid fa-trash-can"></i>
-											</a>
-										</td>
-  									</tr>
+  									{% for GPS in list_of_GPS %}
+	  									<tr>
+	  										<td>{{ forloop.counter }}</td>
+	  										<td>
+	  											<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none;font-weight: 700;">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a></td>
+	  										<td>
+												<a href="">
+													<i class="fa-solid fa-trash-can"></i>
+												</a>
+											</td>
+	  									</tr>
+  									{% empty %}
+  										<tr>
+  											<td colspan="3">
+  												No Global Psychotrauma Screen Created. . .
+  											</td>
+  										</tr>
+
+  									{% endfor %}
   								</tbody>
     						</table>	
     					</div>

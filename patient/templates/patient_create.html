@@ -5,6 +5,7 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style type="text/css">
 	.dashboard_welcome_greeting{
 		color: #6417A1;
@@ -83,7 +84,7 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="birth_date">Birthday(dd/mm/yyyy) *</label>
+    								<label for="birth_date">Birthday(mm/dd/yyyy) *</label>
    		 							<input type="text" class="form-control" id="birth_date" name="birth_date" placeholder="(dd/mm/yyyy)" value="{{ birth_date }}" required>
   								</div>
     						</div>
@@ -263,11 +264,11 @@
 {% endblock content %}
 
 {% block script %}
-<script src="{% static 'js/jquery-3.6.0.js' %}"></script>
-<script src="{% static 'js/jquery-ui.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$( "#birth_date" ).datepicker({ dateFormat: 'dd/mm/yy' });
+		$( "#birth_date" ).datepicker();
 	})
 </script>
 {% endblock script %}

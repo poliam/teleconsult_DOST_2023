@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, address, relatives, medicine, allergies
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event
 import random, os
 from datetime import date, datetime
 
@@ -145,6 +145,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
+	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')
@@ -362,8 +363,148 @@ def PatientCreateGPS(request, patient_id):
 	except:
 		returnVal['error_msg'] = "Patient does not exists"
 		return render(request, 'patient_create_gps.html', returnVal)
+
+	if request.method == "POST":
+		gps_instance = Create_global_psychotrauma_screen(request, patient_instance)
+		if gps_instance == False:
+			return render(request, 'patient_create_gps.html', returnVal)
+
+		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 	return render(request, 'patient_create_gps.html', returnVal)
 
+def Create_global_psychotrauma_screen(request, patient_instance):
+	new_global_psychotrauma_screen = global_psychotrauma_screen()
+	new_global_psychotrauma_screen.details = patient_instance
+	new_global_psychotrauma_screen.consultation_date = formatDate(request.POST['consultation_date'])
+	new_global_psychotrauma_screen.event_description = request.POST['event_description']
+	new_global_psychotrauma_screen.event_happened = request.POST['event_happened']
+	new_global_psychotrauma_screen.physical_violence = request.POST['physical_violence']
+	new_global_psychotrauma_screen.sexual_violence = request.POST['sexual_violence']
+	new_global_psychotrauma_screen.emotional_abuse = request.POST['emotional_abuse']
+	new_global_psychotrauma_screen.serious_injury = request.POST['serious_injury']
+	new_global_psychotrauma_screen.life_threatening = request.POST['life_threatening']
+	new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
+	new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
+	new_global_psychotrauma_screen.covid =  request.POST.get('covid', False)
+	new_global_psychotrauma_screen.single_event_occurring = request.POST['single_event_occurring']
+	new_global_psychotrauma_screen.range_event_occurring_from = request.POST['range_event_occurring_from']
+	new_global_psychotrauma_screen.range_event_occurring_to = request.POST['range_event_occurring_to']
+	try:
+		new_global_psychotrauma_screen.save()
+	except:
+		return False
+
+	new_considering_event = considering_event()
+	new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
+	new_considering_event.considering_event_1 = request.POST['considering_event_1']
+	new_considering_event.considering_event_2 = request.POST['considering_event_2']
+	new_considering_event.considering_event_3 = request.POST['considering_event_3']
+	new_considering_event.considering_event_4 = request.POST['considering_event_4']
+	new_considering_event.considering_event_5 = request.POST['considering_event_5']
+	new_considering_event.considering_event_6 = request.POST['considering_event_6']
+	new_considering_event.considering_event_7 = request.POST['considering_event_7']
+	new_considering_event.considering_event_8 = request.POST['considering_event_8']
+	new_considering_event.considering_event_9 = request.POST['considering_event_9']
+	new_considering_event.considering_event_10 = request.POST['considering_event_10']
+	new_considering_event.considering_event_11 = request.POST['considering_event_11']
+	new_considering_event.considering_event_12 = request.POST['considering_event_12']
+	new_considering_event.considering_event_13 = request.POST['considering_event_13']
+	new_considering_event.considering_event_14 = request.POST['considering_event_14']
+	new_considering_event.considering_event_15 = request.POST['considering_event_15']
+	new_considering_event.considering_event_16 = request.POST['considering_event_16']
+	new_considering_event.considering_event_17 = request.POST['considering_event_17']
+	new_considering_event.considering_event_18 = request.POST['considering_event_18']
+	new_considering_event.considering_event_19 = request.POST['considering_event_19']
+	new_considering_event.considering_event_20 = request.POST['considering_event_20']
+	new_considering_event.considering_event_21 = request.POST['considering_event_21']
+	new_considering_event.considering_event_22 = request.POST['considering_event_22']
+	new_considering_event.considering_event_23 = request.POST['considering_event_23']
+	try:
+		new_considering_event.save()
+	except:
+		new_global_psychotrauma_screen.delete()
+		return False
+
+
+@login_required(login_url='/login')
+def PatientUpdateGPS(request, gps_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	global_psychotrauma_screen_instance = global_psychotrauma_screen.objects.get(pk=gps_id)
+	
+	try:
+		global_psychotrauma_screen_instance = global_psychotrauma_screen.objects.get(pk=gps_id)
+		returnVal['global_psychotrauma_screen_instance'] = global_psychotrauma_screen_instance
+	except:
+		returnVal['error_msg'] = "Global Psychotrauma Screen Data does not exists"
+		return render(request, 'patient_edit_gps.html', returnVal)
+
+	try:
+		patient_instance = details.objects.get(pk=global_psychotrauma_screen_instance.details.pk)
+		returnVal['patientDetail'] = patient_instance
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_edit_gps.html', returnVal)
+		
+	try:
+		considering_event_instance = considering_event.objects.get(global_psychotrauma_screen=gps_id)
+		returnVal['considering_event_instance'] = considering_event_instance
+	except:
+		returnVal['error_msg'] = "Considering Event Data does not exists"
+		return render(request, 'patient_edit_gps.html', returnVal)
+
+	if request.method == "POST":
+		global_psychotrauma_screen_instance.event_description = request.POST['event_description']
+		global_psychotrauma_screen_instance.event_happened = request.POST['event_happened']
+		global_psychotrauma_screen_instance.physical_violence = request.POST['physical_violence']
+		global_psychotrauma_screen_instance.sexual_violence = request.POST['sexual_violence']
+		global_psychotrauma_screen_instance.emotional_abuse = request.POST['emotional_abuse']
+		global_psychotrauma_screen_instance.serious_injury = request.POST['serious_injury']
+		global_psychotrauma_screen_instance.life_threatening = request.POST['life_threatening']
+		global_psychotrauma_screen_instance.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
+		global_psychotrauma_screen_instance.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
+		global_psychotrauma_screen_instance.covid =  request.POST.get('covid', False)
+		global_psychotrauma_screen_instance.single_event_occurring = request.POST['single_event_occurring']
+		global_psychotrauma_screen_instance.range_event_occurring_from = request.POST['range_event_occurring_from']
+		global_psychotrauma_screen_instance.range_event_occurring_to = request.POST['range_event_occurring_to']
+		try:
+			global_psychotrauma_screen_instance.save()
+		except:
+			returnVal['error_msg'] = "error on Saving the GPS Data!"
+			return render(request, 'patient_edit_gps.html', returnVal)
+
+		considering_event_instance.considering_event_1 = request.POST['considering_event_1']
+		considering_event_instance.considering_event_2 = request.POST['considering_event_2']
+		considering_event_instance.considering_event_3 = request.POST['considering_event_3']
+		considering_event_instance.considering_event_4 = request.POST['considering_event_4']
+		considering_event_instance.considering_event_5 = request.POST['considering_event_5']
+		considering_event_instance.considering_event_6 = request.POST['considering_event_6']
+		considering_event_instance.considering_event_7 = request.POST['considering_event_7']
+		considering_event_instance.considering_event_8 = request.POST['considering_event_8']
+		considering_event_instance.considering_event_9 = request.POST['considering_event_9']
+		considering_event_instance.considering_event_10 = request.POST['considering_event_10']
+		considering_event_instance.considering_event_11 = request.POST['considering_event_11']
+		considering_event_instance.considering_event_12 = request.POST['considering_event_12']
+		considering_event_instance.considering_event_13 = request.POST['considering_event_13']
+		considering_event_instance.considering_event_14 = request.POST['considering_event_14']
+		considering_event_instance.considering_event_15 = request.POST['considering_event_15']
+		considering_event_instance.considering_event_16 = request.POST['considering_event_16']
+		considering_event_instance.considering_event_17 = request.POST['considering_event_17']
+		considering_event_instance.considering_event_18 = request.POST['considering_event_18']
+		considering_event_instance.considering_event_19 = request.POST['considering_event_19']
+		considering_event_instance.considering_event_20 = request.POST['considering_event_20']
+		considering_event_instance.considering_event_21 = request.POST['considering_event_21']
+		considering_event_instance.considering_event_22 = request.POST['considering_event_22']
+		considering_event_instance.considering_event_23 = request.POST['considering_event_23']
+		try:
+			considering_event_instance.save()
+		except:
+			returnVal['error_msg'] = "error on Saving the GPS Data!"
+			return render(request, 'patient_edit_gps.html', returnVal)
+		return redirect("PatientDetailed", patient_id=patient_instance.pk)
+	return render(request, 'patient_edit_gps.html', returnVal)
 
 @login_required(login_url='/login')
 def PatientCreateHamD(request, patient_id):
@@ -379,10 +520,11 @@ def PatientCreateHamD(request, patient_id):
 		return render(request, 'patient_create_hamd.html', returnVal)
 	return render(request, 'patient_create_hamd.html', returnVal)
 
+
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")
 	if len(current_date_split) == 3:
-		return current_date_split[2]+"-"+current_date_split[1]+"-"+current_date_split[0]
+		return current_date_split[2]+"-"+current_date_split[0]+"-"+current_date_split[1]
 	else:
 		return False
 
