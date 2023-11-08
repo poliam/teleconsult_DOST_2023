@@ -51,8 +51,8 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
-    								<input type="text" class="form-control" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)">
+    								<label for="consultation_date">Consultation Date(mm/dd/yyyy)</label>
+    								<input type="text" class="form-control" id="consultation_date" value='{{ hamd_details.consultation_date|date:"m/d/Y" }}' name="consultation_date" placeholder="(mm/dd/yyy)">
   								</div>	
     						</div>
     					</div>
@@ -63,23 +63,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">1. DEPRESSED MOOD <br/>(Gloomy attitude, pessimism about the future, feeling of sadness, tendency to weep)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depressed_mood" value="0" required>
+  											<input class="form-check-input" type="radio" name="depressed_mood" value="0" {% if hamd_details.depressed_mood == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depressed_mood" value="1" required>
+  											<input class="form-check-input" type="radio" name="depressed_mood" value="1" {% if hamd_details.depressed_mood == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Sadness, etc.</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depressed_mood" value="2" required>
+  											<input class="form-check-input" type="radio" name="depressed_mood" value="2" {% if hamd_details.depressed_mood == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Occasional weeping</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depressed_mood" value="3" required>
+  											<input class="form-check-input" type="radio" name="depressed_mood" value="3" {% if hamd_details.depressed_mood == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Frequent weeping</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depressed_mood" value="4" required>
+  											<input class="form-check-input" type="radio" name="depressed_mood" value="4" {% if hamd_details.depressed_mood == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Extreme symptoms</label>
 										</div>
     								</div>
@@ -89,23 +89,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">2. FEELINGS OF GUILT</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="feeling_of_guilt"value="0" required>
+  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="0" {% if hamd_details.feeling_of_guilt == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="1" required>
+  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="1" {% if hamd_details.feeling_of_guilt == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Self-reproach, feels he/she has let people down</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="2" required>
+  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="2" {% if hamd_details.feeling_of_guilt == '2' %} checked {% endif %} required>
   											<label class="form-check-label" >Ideas of guilt</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="3" required>
+  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="3" {% if hamd_details.feeling_of_guilt == '3' %} checked {% endif %} required>
   											<label class="form-check-label"> Present illness is a punishment; delusions of guilt</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="4" required>
+  											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="4" {% if hamd_details.feeling_of_guilt == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Hallucinations of guilt</label>
 										</div>
     								</div>
@@ -115,23 +115,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">3. SUICIDE</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="suicide" value="0" required>
+  											<input class="form-check-input" type="radio" name="suicide" value="0" {% if hamd_details.suicide == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="suicide" value="1" required>
+  											<input class="form-check-input" type="radio" name="suicide" value="1" {% if hamd_details.suicide == '1' %} checked {% endif %} required>
   											<label class="form-check-label" >Feels life is not worth living</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="suicide" value="2" required>
+  											<input class="form-check-input" type="radio" name="suicide" value="2" {% if hamd_details.suicide == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Wishes he/she were dead</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="suicide" value="3" required>
+  											<input class="form-check-input" type="radio" name="suicide" value="3" {% if hamd_details.suicide == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Suicidal ideas or gestures</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="suicide" value="4" required>
+  											<input class="form-check-input" type="radio" name="suicide" value="4" {% if hamd_details.suicide == '4' %} checked {% endif %} required>
   											<label class="form-check-label"> Attempts at suicide</label>
 										</div>
     								</div>
@@ -141,15 +141,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">4. INSOMNIA - Initial<br/>(Difficulty in falling asleep)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_initial" value="0" required>
+  											<input class="form-check-input" type="radio" name="insomnia_initial" value="0" {% if hamd_details.insomnia_initial == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_initial" value="1" required>
+  											<input class="form-check-input" type="radio" name="insomnia_initial" value="1" {% if hamd_details.insomnia_initial == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Occasional</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_initial" value="2" required>
+  											<input class="form-check-input" type="radio" name="insomnia_initial" value="2" {% if hamd_details.insomnia_initial == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Frequent</label>
 										</div>
     								</div>
@@ -159,15 +159,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">5. INSOMNIA - Middle<br/>(Difficulty in falling asleep)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_middle" value="0" required>
+  											<input class="form-check-input" type="radio" name="insomnia_middle" value="0" {% if hamd_details.insomnia_middle == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_middle" value="1" required>
+  											<input class="form-check-input" type="radio" name="insomnia_middle" value="1" {% if hamd_details.insomnia_middle == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Occasional</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_middle" value="2" required>
+  											<input class="form-check-input" type="radio" name="insomnia_middle" value="2" {% if hamd_details.insomnia_middle == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Frequent</label>
 										</div>
 										
@@ -178,15 +178,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">6. INSOMNIA - Delayed<br/>(Waking in early hours of the morning and unable to fall asleep again)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="0" required>
+  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="0" {% if hamd_details.insomnia_delayed == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="1" required>
+  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="1" {% if hamd_details.insomnia_delayed == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Occasional</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="2" required>
+  											<input class="form-check-input" type="radio" name="insomnia_delayed" value="2" {% if hamd_details.insomnia_delayed == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Frequent</label>
 										</div>
 										
@@ -197,23 +197,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">7. WORK AND INTERESTS</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="work_and_interests" value="0" required>
+  											<input class="form-check-input" type="radio" name="work_and_interests" value="0" {% if hamd_details.work_and_interests == '0' %} checked {% endif %} required>
   											<label class="form-check-label">No difficulty</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="work_and_interests" value="1" required>
+  											<input class="form-check-input" type="radio" name="work_and_interests" value="1" {% if hamd_details.work_and_interests == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Feelings of incapacity, listlessness, indecision and vacillation</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="work_and_interests" value="2" required>
+  											<input class="form-check-input" type="radio" name="work_and_interests" value="2" {% if hamd_details.work_and_interests == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Loss of interest in hobbies, decreased social activities</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="work_and_interests" value="3" required>
+  											<input class="form-check-input" type="radio" name="work_and_interests" value="3" {% if hamd_details.work_and_interests == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Productivity decreased</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="work_and_interests" value="4" required>
+  											<input class="form-check-input" type="radio" name="work_and_interests" value="4" {% if hamd_details.work_and_interests == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Unable to work. Stopped working because of present illness only. (Absence from work after treatment or recovery may rate a lower score)</label>
 										</div>
     								</div>
@@ -223,23 +223,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">8. RETARDATION - Delayed<br/>(Slowness of thought, speech, and activity; apathy; stupor.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="retardation_delayed" value="0" required>
+  											<input class="form-check-input" type="radio" name="retardation_delayed" value="0" {% if hamd_details.retardation_delayed == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="retardation_delayed" value="1" required>
+  											<input class="form-check-input" type="radio" name="retardation_delayed" value="1" {% if hamd_details.retardation_delayed == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Slight retardation at interview</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="retardation_delayed" value="2" required>
+  											<input class="form-check-input" type="radio" name="retardation_delayed" value="2" {% if hamd_details.retardation_delayed == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Obvious retardation at interview</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="retardation_delayed" value="3" required>
+  											<input class="form-check-input" type="radio" name="retardation_delayed" value="3" {% if hamd_details.retardation_delayed == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Interview difficult</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="retardation_delayed" value="4" required>
+  											<input class="form-check-input" type="radio" name="retardation_delayed" value="4" {% if hamd_details.retardation_delayed == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Complete stupor</label>
 										</div>
     								</div>
@@ -249,15 +249,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">9. AGITATION - Delayed<br/>(Restlessness associated with anxiety.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="agitation_delayed" value="0" required>
+  											<input class="form-check-input" type="radio" name="agitation_delayed" value="0" {% if hamd_details.agitation_delayed == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="agitation_delayed" value="1" required>
+  											<input class="form-check-input" type="radio" name="agitation_delayed" value="1" {% if hamd_details.agitation_delayed == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Occasional</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="agitation_delayed" value="2" required>
+  											<input class="form-check-input" type="radio" name="agitation_delayed" value="2" {% if hamd_details.agitation_delayed == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Frequent</label>
 										</div>
     								</div>
@@ -267,23 +267,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">10. ANXIETY - PSYCHIC</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="0" required>
+  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="0" {% if hamd_details.anxiety_psychic == '0' %} checked {% endif %} required>
   											<label class="form-check-label">No difficulty</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="1" required>
+  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="1" {% if hamd_details.anxiety_psychic == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Tension and irritability</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="2" required>
+  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="2" {% if hamd_details.anxiety_psychic == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Worrying about minor matters</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="3" required>
+  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="3" {% if hamd_details.anxiety_psychic == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Apprehensive attitude</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="4" required>
+  											<input class="form-check-input" type="radio" name="anxiety_psychic" value="4" {% if hamd_details.anxiety_psychic == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Fears</label>
 										</div>
     								</div>
@@ -293,23 +293,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">11. ANXIETY - SOMATIC <br/> Gastrointestinal, indigestion Cardiovascular, palpitation, Headaches Respiratory, Genito-urinary, etc.</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="0" required>
+  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="0" {% if hamd_details.anxiety_somatic == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="1" required>
+  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="1" {% if hamd_details.anxiety_somatic == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="2" required>
+  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="2" {% if hamd_details.anxiety_somatic == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Moderate</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="3" required>
+  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="3" {% if hamd_details.anxiety_somatic == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="4" required>
+  											<input class="form-check-input" type="radio" name="anxiety_somatic" value="4" {% if hamd_details.anxiety_somatic == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Incapacitating</label>
 										</div>
     								</div>
@@ -319,15 +319,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">12. SOMATIC SYMPTOMS - GASTROINTESTINAL<br/>(Loss of appetite , heavy feeling in abdomen; constipation)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="0" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="0" {% if hamd_details.somatic_symptoms_gastrointestinal == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="1" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="1" {% if hamd_details.somatic_symptoms_gastrointestinal == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="2" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="2" {% if hamd_details.somatic_symptoms_gastrointestinal == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
 										
@@ -338,15 +338,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">13. SOMATIC SYMPTOMS - GENERAL<br/>(Heaviness in limbs, back or head; diffuse backache; loss of energy and fatiguability)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="0" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="0" {% if hamd_details.somatic_symptoms_general == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="1" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="1" {% if hamd_details.somatic_symptoms_general == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="2" required>
+  											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="2" {% if hamd_details.somatic_symptoms_general == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
 										
@@ -357,15 +357,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">14. GENITAL SYMPTOMS<br/>(Loss of libido, menstrual disturbances)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="genital_symptoms" value="0" required>
+  											<input class="form-check-input" type="radio" name="genital_symptoms" value="0" {% if hamd_details.genital_symptoms == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="genital_symptoms" value="1" required>
+  											<input class="form-check-input" type="radio" name="genital_symptoms" value="1" {% if hamd_details.genital_symptoms == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="genital_symptoms" value="2" required>
+  											<input class="form-check-input" type="radio" name="genital_symptoms" value="2" {% if hamd_details.genital_symptoms == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
 										
@@ -376,23 +376,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">15. HYPOCHONDRIASIS</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="hypochondriasis" value="0" required>
+  											<input class="form-check-input" type="radio" name="hypochondriasis" value="0" {% if hamd_details.hypochondriasis == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Not present</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="hypochondriasis" value="1" required>
+  											<input class="form-check-input" type="radio" name="hypochondriasis" value="1" {% if hamd_details.hypochondriasis == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Self-absorption (bodily)</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="hypochondriasis" value="2" required>
+  											<input class="form-check-input" type="radio" name="hypochondriasis" value="2" {% if hamd_details.hypochondriasis == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Preoccupation with health</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="hypochondriasis" value="3" required>
+  											<input class="form-check-input" type="radio" name="hypochondriasis" value="3" {% if hamd_details.hypochondriasis == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Querulous attitude</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="hypochondriasis" value="4" required>
+  											<input class="form-check-input" type="radio" name="hypochondriasis" value="4" {% if hamd_details.hypochondriasis == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Hypochondriacal delusions</label>
 										</div>
     								</div>
@@ -402,15 +402,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">16. WEIGHT LOSS</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="weight_loss" value="0" required>
+  											<input class="form-check-input" type="radio" name="weight_loss" value="0" {% if hamd_details.hypochondriasis == '0' %} checked {% endif %} required>
   											<label class="form-check-label">No weight loss</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="weight_loss" value="1" required>
+  											<input class="form-check-input" type="radio" name="weight_loss" value="1" {% if hamd_details.hypochondriasis == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Slight</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="weight_loss" value="2" required>
+  											<input class="form-check-input" type="radio" name="weight_loss" value="2" {% if hamd_details.hypochondriasis == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Obvious or severe</label>
 										</div>
     								</div>
@@ -420,15 +420,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">17. INSIGHT <br/>(Insight must be interpreted in terms of patient’s understanding and background.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insight" value="0" required>
+  											<input class="form-check-input" type="radio" name="insight" value="0" {% if hamd_details.insight == '0' %} checked {% endif %} required>
   											<label class="form-check-label">No loss</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insight" value="1" required>
+  											<input class="form-check-input" type="radio" name="insight" value="1" {% if hamd_details.insight == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Partial or doubtfull loss</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="insight" value="2" required>
+  											<input class="form-check-input" type="radio" name="insight" value="2" {% if hamd_details.insight == '2' %} checked {% endif %} required>
   											<label class="form-check-label"> Loss of insight</label>
 										</div>
     								</div>
@@ -439,33 +439,33 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">18. DIURNAL VARIATION <br/>(Symptoms worse in morning or evening. Note which it is.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
-  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_none" value="0" required>
+  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_none" value="0" {% if hamd_details.diurnal_variation == '0' %} checked {% endif %} required>
   											<label class="form-check-label">No variation</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_mild" value="1" required>
+  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_mild" value="1" {% if hamd_details.diurnal_variation == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild variation;</label>
 										</div>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_am" id="diurnal_variation_mild_am" value="1" disabled>
+											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_am" id="diurnal_variation_mild_am" value="1" {% if hamd_details.diurnal_variation_mild_am %} checked {% endif %}>
   											<label class="form-check-label">AM</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_pm" id="diurnal_variation_mild_pm" value="1" disabled>
+											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_pm" id="diurnal_variation_mild_pm" value="1" {% if hamd_details.diurnal_variation_mild_pm %} checked {% endif %}>
   											<label class="form-check-label">PM</label>
 										</div>
 										<div class="form-check">
-  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_severe" value="2" required>
+  											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_severe" {% if hamd_details.diurnal_variation == '2' %} checked {% endif %} value="2" required>
   											<label class="form-check-label">Severe variation;</label>
 										</div>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" mane="diurnal_variation_severe_am" id="diurnal_variation_severe_am" value="1" disabled>
+											<input class="form-check-input" type="checkbox" mane="diurnal_variation_severe_am" id="diurnal_variation_severe_am" value="1" {% if hamd_details.diurnal_variation_severe_am %} checked {% endif %}>
   											<label class="form-check-label">AM</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="diurnal_variation_severe_pm" id="diurnal_variation_severe_pm" value="1" disabled>
+											<input class="form-check-input" type="checkbox" name="diurnal_variation_severe_pm" id="diurnal_variation_severe_pm" value="1" {% if hamd_details.diurnal_variation_severe_pm %} checked {% endif %}>
   											<label class="form-check-label">PM</label>
 										</div>
     								</div>
@@ -475,23 +475,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">19. DEPERSONALIZATION AND DEREALIZATION <br/>(feelings of unreality, nihilistic ideas)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="0" required>
+  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="0" {% if hamd_details.depersonalization_and_derelization == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="1" required>
+  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="1" {% if hamd_details.depersonalization_and_derelization == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="2" required>
+  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="2" {% if hamd_details.depersonalization_and_derelization == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Moderate</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="3" required>
+  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="3" {% if hamd_details.depersonalization_and_derelization == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="4" required>
+  											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="4" {% if hamd_details.depersonalization_and_derelization == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Incapacitating</label>
 										</div>
     								</div>
@@ -501,23 +501,23 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">20. PARANOID SYMPTOMS <br/>(Not with a depressive quality)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="0" required>
+  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="0" {% if hamd_details.paranoid_symptoms == '0' %} checked {% endif %} required>
   											<label class="form-check-label">None</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="1" required>
+  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="1" {% if hamd_details.paranoid_symptoms == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Suspicious</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="2" required>
+  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="2" {% if hamd_details.paranoid_symptoms == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Ideas of reference</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="3" required>
+  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="3" {% if hamd_details.paranoid_symptoms == '3' %} checked {% endif %} required>
   											<label class="form-check-label">Delusions of reference and persecution</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="4" required>
+  											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="4" {% if hamd_details.paranoid_symptoms == '4' %} checked {% endif %} required>
   											<label class="form-check-label">Hallucinations, persecutory</label>
 										</div>
     								</div>
@@ -527,15 +527,15 @@
     								<label for="staticEmail" class="col-sm-3 col-form-label">21. OBSESSIONAL SYMPTOMS <br/>(Obsessive thoughts and compulsions against which the patient struggles)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="0" required>
+  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="0" {% if hamd_details.obsessional_symptoms == '0' %} checked {% endif %} required>
   											<label class="form-check-label">Absent</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="1" required>
+  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="1" {% if hamd_details.obsessional_symptoms == '1' %} checked {% endif %} required>
   											<label class="form-check-label">Mild</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="2" required>
+  											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="2" {% if hamd_details.obsessional_symptoms == '2' %} checked {% endif %} required>
   											<label class="form-check-label">Severe</label>
 										</div>
     								</div>
@@ -570,10 +570,43 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var date = new Date();
-    	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		$( "#cosnultation_date" ).datepicker();
-		$('#cosnultation_date').datepicker('setDate', today);
+		$("#cosnultation_date").datepicker();
+
+		var diurnal_variation_none = $("#diurnal_variation_none").is(':checked');
+		if(diurnal_variation_none){
+			$("#diurnal_variation_mild_am").attr('disabled', 'disabled');
+			$("#diurnal_variation_mild_pm").attr('disabled', 'disabled');
+			$("#diurnal_variation_severe_am").attr('disabled', 'disabled');
+			$("#diurnal_variation_severe_pm").attr('disabled', 'disabled');
+
+			$('#diurnal_variation_mild_am').prop('checked', false);
+			$('#diurnal_variation_mild_pm').prop('checked', false);
+			$('#diurnal_variation_severe_am').prop('checked', false);
+			$('#diurnal_variation_severe_pm').prop('checked', false);
+		}
+		
+		var diurnal_variation_mild = $("#diurnal_variation_mild").is(':checked');
+		if(diurnal_variation_mild){
+			$("#diurnal_variation_mild_am").removeAttr('disabled');
+			$("#diurnal_variation_mild_pm").removeAttr('disabled');
+
+			$("#diurnal_variation_severe_am").attr('disabled', 'disabled');
+			$("#diurnal_variation_severe_pm").attr('disabled', 'disabled');
+
+			$('#diurnal_variation_severe_am').prop('checked', false);
+			$('#diurnal_variation_severe_pm').prop('checked', false);
+		}
+		var diurnal_variation_severe = $("#diurnal_variation_severe").is(':checked');
+		if(diurnal_variation_severe){
+			$("#diurnal_variation_severe_am").removeAttr('disabled');
+			$("#diurnal_variation_severe_pm").removeAttr('disabled');
+
+			$("#diurnal_variation_mild_am").attr('disabled', 'disabled');
+			$("#diurnal_variation_mild_pm").attr('disabled', 'disabled');
+
+			$('#diurnal_variation_mild_am').prop('checked', false);
+			$('#diurnal_variation_mild_pm').prop('checked', false);
+		}
 
 		$("#diurnal_variation_none").on('click', function(){
 			$("#diurnal_variation_mild_am").attr('disabled', 'disabled');

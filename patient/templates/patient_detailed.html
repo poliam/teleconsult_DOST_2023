@@ -225,7 +225,8 @@
 	  									<tr>
 	  										<td>{{ forloop.counter }}</td>
 	  										<td>
-	  											<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none;font-weight: 700;">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a></td>
+	  											<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none;font-weight: 700;">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
+	  										</td>
 	  										<td>
 												<a href="">
 													<i class="fa-solid fa-trash-can"></i>
@@ -256,22 +257,35 @@
     							<thead>
     								<tr>
       									<th scope="col" width="10%">#</th>
-      									<th scope="col" width="60%">Consultation Date</th>
-      									<th scope="col" width="20%">Score</th>
+      									<th scope="col" width="40%">Consultation Date</th>
+      									<th scope="col" width="20%">Score(1-17)</th>
+      									<th scope="col" width="20%">Total Score</th>
       									<th width="10%"></th>
     								</tr>
   								</thead>
   								<tbody>
-  									<tr>
-  										<td></td>
-  										<td></td>
-  										<td></td>
-  										<td>
-											<a href="">
-												<i class="fa-solid fa-trash-can"></i>
-											</a>
-										</td>
-  									</tr>
+  									{% for hamd in list_of_hamd %}
+  										<tr>
+	  										<td>{{ forloop.counter }}</td>
+	  										<td>
+	  											<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none;font-weight: 700;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
+	  										</td>
+	  										<td><b>{{ hamd.score }}</b></td>
+	  										<td><b>{{ hamd.total_score }}</b></td>
+	  										<td>
+												<a href="">
+													<i class="fa-solid fa-trash-can"></i>
+												</a>
+											</td>
+	  									</tr>
+  									{% empty %}
+  										<tr>
+  											<td colspan="5">
+  												HAMILTON DEPRESSION Screen Created. . .
+  											</td>
+  										</tr>
+  									{% endfor %}
+  									
   								</tbody>
     						</table>	
     					</div>

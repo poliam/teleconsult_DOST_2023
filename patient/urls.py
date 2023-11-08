@@ -14,6 +14,7 @@ urlpatterns = [
    path('patient_create_gps/<patient_id>', views.PatientCreateGPS, name="PatientCreateGPS"),
    path('patient_update_gps/<gps_id>', views.PatientUpdateGPS, name="PatientUpdateGPS"),
    path('patient_create_hamd/<patient_id>', views.PatientCreateHamD, name="PatientCreateHamD"),
+   path('patient_update_hamd/<hamd_id>', views.PatientUpdateHamD, name="PatientUpdateHamD"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

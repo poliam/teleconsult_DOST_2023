@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd
 import random, os
 from datetime import date, datetime
 
@@ -146,6 +146,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
+	returnVal['list_of_hamd'] = hamd.objects.filter(details=patient_id)
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')
@@ -372,6 +373,7 @@ def PatientCreateGPS(request, patient_id):
 		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 	return render(request, 'patient_create_gps.html', returnVal)
 
+@login_required(login_url='/login')
 def Create_global_psychotrauma_screen(request, patient_instance):
 	new_global_psychotrauma_screen = global_psychotrauma_screen()
 	new_global_psychotrauma_screen.details = patient_instance
@@ -518,7 +520,155 @@ def PatientCreateHamD(request, patient_id):
 	except:
 		returnVal['error_msg'] = "Patient does not exists"
 		return render(request, 'patient_create_hamd.html', returnVal)
+
+	if request.method == "POST":
+		score = 0
+		total_score = 0
+		new_hamd = hamd()
+		new_hamd.consultation_date = formatDate(request.POST['consultation_date'])
+		new_hamd.details = patient_instance
+		new_hamd.depressed_mood = request.POST['depressed_mood']
+		score = score + int(new_hamd.depressed_mood)
+		new_hamd.feeling_of_guilt = request.POST['feeling_of_guilt']
+		score = score + int(new_hamd.feeling_of_guilt)
+		new_hamd.suicide = request.POST['suicide']
+		score = score + int(new_hamd.suicide)
+		new_hamd.insomnia_initial = request.POST['insomnia_initial']
+		score = score + int(new_hamd.insomnia_initial)
+		new_hamd.insomnia_middle = request.POST['insomnia_middle']
+		score = score + int(new_hamd.insomnia_middle)
+		new_hamd.insomnia_delayed = request.POST['insomnia_delayed']
+		score = score + int(new_hamd.insomnia_delayed)
+		new_hamd.work_and_interests = request.POST['work_and_interests']
+		score = score + int(new_hamd.work_and_interests)
+		new_hamd.retardation_delayed = request.POST['retardation_delayed']
+		score = score + int(new_hamd.retardation_delayed)
+		new_hamd.agitation_delayed = request.POST['agitation_delayed']
+		score = score + int(new_hamd.agitation_delayed)
+		new_hamd.anxiety_psychic = request.POST['anxiety_psychic']
+		score = score + int(new_hamd.anxiety_psychic)
+		new_hamd.anxiety_somatic = request.POST['anxiety_somatic']
+		score = score + int(new_hamd.anxiety_somatic)
+		new_hamd.somatic_symptoms_gastrointestinal = request.POST['somatic_symptoms_gastrointestinal']
+		score = score + int(new_hamd.somatic_symptoms_gastrointestinal)
+		new_hamd.somatic_symptoms_general = request.POST['somatic_symptoms_general']
+		score = score + int(new_hamd.somatic_symptoms_general)
+		new_hamd.genital_symptoms = request.POST['genital_symptoms']
+		score = score + int(new_hamd.genital_symptoms)
+		new_hamd.hypochondriasis = request.POST['hypochondriasis']
+		score = score + int(new_hamd.hypochondriasis)
+		new_hamd.weight_loss = request.POST['weight_loss']
+		score = score + int(new_hamd.weight_loss)
+		new_hamd.insight = request.POST['insight']
+		score = score + int(new_hamd.insight)
+		new_hamd.score = score
+		total_score = score
+		new_hamd.diurnal_variation = request.POST['diurnal_variation']
+		total_score = total_score + int(new_hamd.diurnal_variation)
+
+		new_hamd.diurnal_variation_mild_am = request.POST.get('diurnal_variation_mild_am', False)
+		new_hamd.diurnal_variation_mild_pm = request.POST.get('diurnal_variation_mild_pm', False)
+		new_hamd.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
+		new_hamd.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
+
+		new_hamd.depersonalization_and_derelization = request.POST['depersonalization_and_derelization']
+		total_score = total_score + int(new_hamd.depersonalization_and_derelization)
+		new_hamd.paranoid_symptoms = request.POST['paranoid_symptoms']
+		total_score = total_score + int(new_hamd.paranoid_symptoms)
+		new_hamd.obsessional_symptoms = request.POST['obsessional_symptoms']
+		total_score = total_score + int(new_hamd.obsessional_symptoms)
+		new_hamd.total_score = total_score
+		try:
+			new_hamd.save()
+		except:
+			returnVal['error_msg'] = "Error on saving hamd Data"
+			return render(request, 'patient_create_hamd.html', returnVal)
+		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 	return render(request, 'patient_create_hamd.html', returnVal)
+
+
+@login_required(login_url='/login')
+def PatientUpdateHamD(request, hamd_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "patient"
+	returnVal['userDetails'] = profile_details
+	try:
+		hamd_details = hamd.objects.get(pk=hamd_id)
+	except:
+		returnVal['error_msg'] = "Error HAMD data does not exists!"
+		return render(request, 'patient_edit_hamd.html', returnVal)
+	returnVal['hamd_details'] = hamd_details
+	try:
+		patient_instance = details.objects.get(pk=hamd_details.details.pk)
+		returnVal['patientDetail'] = patient_instance
+	except:
+		returnVal['error_msg'] = "Patient does not exists"
+		return render(request, 'patient_edit_hamd.html', returnVal)
+
+	if request.method == "POST":
+		score = 0
+		total_score = 0
+		hamd_details.consultation_date = formatDate(request.POST['consultation_date'])
+		hamd_details.depressed_mood = request.POST['depressed_mood']
+		score = score + int(hamd_details.depressed_mood)
+		hamd_details.feeling_of_guilt = request.POST['feeling_of_guilt']
+		score = score + int(hamd_details.feeling_of_guilt)
+		hamd_details.suicide = request.POST['suicide']
+		score = score + int(hamd_details.suicide)
+		hamd_details.insomnia_initial = request.POST['insomnia_initial']
+		score = score + int(hamd_details.insomnia_initial)
+		hamd_details.insomnia_middle = request.POST['insomnia_middle']
+		score = score + int(hamd_details.insomnia_middle)
+		hamd_details.insomnia_delayed = request.POST['insomnia_delayed']
+		score = score + int(hamd_details.insomnia_delayed)
+		hamd_details.work_and_interests = request.POST['work_and_interests']
+		score = score + int(hamd_details.work_and_interests)
+		hamd_details.retardation_delayed = request.POST['retardation_delayed']
+		score = score + int(hamd_details.retardation_delayed)
+		hamd_details.agitation_delayed = request.POST['agitation_delayed']
+		score = score + int(hamd_details.agitation_delayed)
+		hamd_details.anxiety_psychic = request.POST['anxiety_psychic']
+		score = score + int(hamd_details.anxiety_psychic)
+		hamd_details.anxiety_somatic = request.POST['anxiety_somatic']
+		score = score + int(hamd_details.anxiety_somatic)
+		hamd_details.somatic_symptoms_gastrointestinal = request.POST['somatic_symptoms_gastrointestinal']
+		score = score + int(hamd_details.somatic_symptoms_gastrointestinal)
+		hamd_details.somatic_symptoms_general = request.POST['somatic_symptoms_general']
+		score = score + int(hamd_details.somatic_symptoms_general)
+		hamd_details.genital_symptoms = request.POST['genital_symptoms']
+		score = score + int(hamd_details.genital_symptoms)
+		hamd_details.hypochondriasis = request.POST['hypochondriasis']
+		score = score + int(hamd_details.hypochondriasis)
+		hamd_details.weight_loss = request.POST['weight_loss']
+		score = score + int(hamd_details.weight_loss)
+		hamd_details.insight = request.POST['insight']
+		score = score + int(hamd_details.insight)
+		hamd_details.score = score
+		total_score = score
+		hamd_details.diurnal_variation = request.POST['diurnal_variation']
+		total_score = total_score + int(hamd_details.diurnal_variation)
+
+		hamd_details.diurnal_variation_mild_am = request.POST.get('diurnal_variation_mild_am', False)
+		hamd_details.diurnal_variation_mild_pm = request.POST.get('diurnal_variation_mild_pm', False)
+		hamd_details.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
+		hamd_details.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
+
+		hamd_details.depersonalization_and_derelization = request.POST['depersonalization_and_derelization']
+		total_score = total_score + int(hamd_details.depersonalization_and_derelization)
+		hamd_details.paranoid_symptoms = request.POST['paranoid_symptoms']
+		total_score = total_score + int(hamd_details.paranoid_symptoms)
+		hamd_details.obsessional_symptoms = request.POST['obsessional_symptoms']
+		total_score = total_score + int(hamd_details.obsessional_symptoms)
+		hamd_details.total_score = total_score
+		try:
+			hamd_details.save()
+		except:
+			returnVal['error_msg'] = "Error on saving hamd Data"
+			return render(request, 'patient_create_hamd.html', returnVal)
+		return redirect("PatientDetailed", patient_id=patient_instance.pk)
+
+	return render(request, 'patient_edit_hamd.html', returnVal)
 
 
 def formatDate(dateValue):
