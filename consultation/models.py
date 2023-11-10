@@ -1,4 +1,5 @@
 from django.db import models
+from patient.models import details
 
 # Create your models here.
 
@@ -90,6 +91,39 @@ class preoccupation(models.Model):
 class condition(models.Model):
 	name = models.CharField(max_length=250, null=True, blank=True)
 	status = models.BooleanField(default=1)
-	is_delete = models.BooleanField(default=0) 
+	is_delete = models.BooleanField(default=0)
+
+class encounter(models.Model):
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	reason_for_interaction = models.CharField(max_length=250, null=True, blank=True)
+	cconsultation_date = models.DateTimeField(auto_now_add=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
+class vitalsign(models.Model):
+	encounter = models.ForeignKey(encounter, null=True, blank=True, on_delete=models.SET_NULL)
+	height = models.CharField(max_length=250, null=True, blank=True)
+	weight = models.CharField(max_length=250, null=True, blank=True)
+	blood_pressure = models.CharField(max_length=250, null=True, blank=True)
+	temperature = models.CharField(max_length=250, null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
+class chief_complaints(models.Model):
+	encounter = models.ForeignKey(encounter, null=True, blank=True, on_delete=models.SET_NULL)
+	patient_complaints = models.TextField(null=True, blank=True)
+	informant_complaints = models.TextField(null=True, blank=True)
+	informatmant_relationship = models.CharField(max_length=250, null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
 
 	

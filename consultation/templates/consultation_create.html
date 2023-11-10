@@ -40,7 +40,14 @@
 {% endblock style %}
 
 {% block content %}
+<nav class="navbar navbar-light bg-light justify-content-between sticky-top">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Back</button>
+  	<form class="form-inline">
+    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+  	</form>
+</nav>
 <div class="container-fluid">
+	
 	<div class="row">
 		<div class="col-sm-12">
 			{% if error_msg %}
