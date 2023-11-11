@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd
+from patient.patient_forms import AddRelativesForm, EditRelativesForm
 import random, os
 from datetime import date, datetime
 
@@ -231,50 +232,31 @@ def PatientEdit(request, patient_id):
 def PatientCreateRelative(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patient_id'] = patient_id
+	
 	try:
 		patient_instance = details.objects.get(pk=patient_id)
 	except:
 		returnVal['error_msg'] = "Patient does not exists"
 		return render(request, 'patient_create_relative.html', returnVal)
+	form = AddRelativesForm()
+	returnVal['form'] = form
 	if request.method == 'POST':
-		returnVal['first_name'] = request.POST['first_name']
-		returnVal['middle_name'] = request.POST['middle_name']
-		returnVal['last_name'] = request.POST['last_name']
-		returnVal['gender'] = request.POST['gender']
-		returnVal['gender_indentity'] = request.POST['gender_indentity']
-		returnVal['birth_date'] = request.POST['birth_date']
-		returnVal['marital_status'] = request.POST['marital_status']
-		returnVal['relationship'] = request.POST['relationship']
-		returnVal['highest_educational_attainment'] = request.POST['highest_educational_attainment']
-		returnVal['Workplace'] = request.POST['Workplace']
-		returnVal['Occupation'] = request.POST['Occupation']
-		returnVal['contact_number'] = request.POST['contact_number']
-		returnVal['Patient_email'] = request.POST['Patient_email']
-
-		new_relatives = relatives()
-		new_relatives.first_name = request.POST['first_name']
-		new_relatives.middle_name = request.POST['middle_name']
-		new_relatives.last_name = request.POST['last_name']
-		new_relatives.gender = request.POST['gender']
-		new_relatives.gender_indentity = request.POST['gender_indentity']
-		new_relatives.DOB = formatDate(request.POST['birth_date'])
-		new_relatives.marital_status = request.POST['marital_status']
-		new_relatives.relationship = request.POST['relationship']
-		new_relatives.high_education = request.POST['highest_educational_attainment']
-		new_relatives.occupation = request.POST['Occupation']
-		new_relatives.contact_number = request.POST['contact_number']
-		new_relatives.email = request.POST['Patient_email']
-		new_relatives.details = patient_instance
-
-		try:
-			new_relatives.save()
-			return redirect("PatientDetailed", patient_id=patient_instance.pk)
-		except:
-			returnVal['error_msg'] = "Error on Saving a Patient relative!"
+		form = AddRelativesForm(request.POST)
+		if form.is_valid():
+			if form.save(request, patient_instance):
+				return redirect("PatientDetailed", patient_id=patient_instance.pk)
+			else:
+				returnVal['form'] = form
+				returnVal['error_msg'] = "Error on Saving a Patient relative!"
+				return render(request, 'patient_create_relative.html', returnVal)
+		else:
+			returnVal['error_msg'] = form.errors
 			return render(request, 'patient_create_relative.html', returnVal)
+
 	return render(request, 'patient_create_relative.html', returnVal)
 
 
@@ -284,35 +266,50 @@ def PatientEditRelative(request, relative_id):
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
-
+	
 	try:
 		relative_details = relatives.objects.get(pk=relative_id)
 	except:
 		returnVal['error_msg'] = "Relative Does not exists!"
 		return render(request, 'patient_edit_relative.html', returnVal)
-
-	if request.method == "POST":
-		relative_details.first_name = request.POST['first_name']
-		relative_details.middle_name = request.POST['middle_name']
-		relative_details.last_name = request.POST['last_name']
-		relative_details.gender = request.POST['gender']
-		relative_details.gender_indentity = request.POST['gender_indentity']
-		relative_details.DOB = formatDate(request.POST['birth_date'])
-		relative_details.marital_status = request.POST['marital_status']
-		relative_details.relationship = request.POST['relationship']
-		relative_details.high_education = request.POST['highest_educational_attainment']
-		relative_details.occupation = request.POST['Occupation']
-		relative_details.contact_number = request.POST['contact_number']
-		relative_details.email = request.POST['Patient_email']
-
-		try:
-			relative_details.save()
-		except:
-			returnVal['error_msg'] = "error on updating relative"
+	form = EditRelativesForm(instance=relative_details)
+	returnVal['form'] = form
+	if request.method == 'POST':
+		form = EditRelativesForm(request.POST, instance=relative_details)
+		if form.is_valid():
+			form.save()
+			return redirect("PatientDetailed", patient_id=relative_details.details.pk)
+		else:
+			returnVal['error_msg'] = "Error on Saving a Patient relative!"
 			return render(request, 'patient_edit_relative.html', returnVal)
-		returnVal['success_msg'] = "Update successful!"
+	
 	returnVal['relative_details'] = relative_details
 	return render(request, 'patient_edit_relative.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientGetRelative(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	relative_id = request.GET['relative_id']
+	try:
+		relative_details = relatives.objects.get(pk=relative_id)
+	except:
+		returnVal['error_msg'] = "Relative Does not exists!"
+		return JsonResponse(returnVal, safe=False)
+	returnVal['relative_name'] = relative_details.last_name+", "+relative_details.first_name+" "+relative_details.middle_name
+	returnVal['relative_gender'] = relative_details.gender
+	returnVal['relative_gender_indentity'] = relative_details.gender_indentity
+	returnVal['relative_age'] = relative_details.age
+	returnVal['relative_marital_status'] = relative_details.marital_status
+	returnVal['relative_relationship'] = relative_details.relationship
+	returnVal['relative_high_education'] = relative_details.high_education
+	returnVal['relative_occupation'] = relative_details.occupation
+	returnVal['relative_Workplace'] = relative_details.Workplace
+	returnVal['relative_contact_number'] = relative_details.contact_number
+	returnVal['relative_email'] = relative_details.email
+	returnVal['relative_is_emergency'] = relative_details.is_emergency
+	returnVal['status_code'] = 1
+	return JsonResponse(returnVal, safe=False)
 
 @login_required(login_url='/login')
 def PatientCreateAllergy(request, patient_id):

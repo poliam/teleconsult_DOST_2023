@@ -65,7 +65,15 @@
 	.patient_GPS_table th {
 		color: #6417A1;
 	}
-	
+	.relative_emergency_yes{
+		color: green;
+	}
+	.relative_remove_icon{
+		color: red;
+	}
+	.remove-margin-bottom{
+		margin-bottom:0px !important;
+	}
 </style>
 {% endblock style %}
 
@@ -140,9 +148,8 @@
 		      									<th scope="col">#</th>
 		      									<th scope="col">Name</th>
 		      									<th scope="col">Relation</th>
-		      									<th scope="col">Sex</th>
-		      									<th scope="col">Age</th>
-		      									<th scope="col">Occupation</th>
+		      									<th scope="col">Contact Number</th>
+		      									<th scope="col">Is Emergency</th>
 		      									<th scope="col"></th>
 		    								</tr>
 		  								</thead>
@@ -150,17 +157,16 @@
 		  									{% for relative in list_of_relatives %}
 		  										<tr>
 		  											<td>{{ forloop.counter }}</td>
-		  											<td>{{ relative.last_name }}, {{ relative.first_name }} {{ relative.middle_name }}</td>
+		  											<td style="cursor:pointer;" attr_id='{{ relative.pk }}' onclick="showRelativeDetails(this);" data-bs-toggle="modal" data-bs-target="#relativeDetailsModal"><b style="color:#6417A1;">{{ relative.last_name }}, {{ relative.first_name }} {{ relative.middle_name }}</b></td>
 		  											<td>{{ relative.relationship }}</td>
-		  											<td>{{ relative.gender }}</td>
-		  											<td>{{ relative.age }}</td>
-		  											<td>{{ relative.occupation }}</td>
+		  											<td>{{ relative.contact_number }}</td>
+		  											<td style="text-align: center;">{% if relative.is_emergency %} <i class="fa-solid fa-circle-check relative_emergency_yes"></i> {% else %} <i class="fa-solid fa-circle-minus"></i> {% endif %} </td>
 		  											<td>
-		  												<a href="{% url 'PatientEditRelative' relative.pk %}">
+		  												<a href="{% url 'PatientEditRelative' relative.pk %}" style="text-decoration:none; color: #6417A1">
 		  													<i class="fa-solid fa-pen-to-square"></i>
 		  												</a>
 		  												<a href="">
-		  													<i class="fa-solid fa-trash-can"></i>
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
 		  												</a>
 		  											</td>
 		  										</tr>
@@ -333,12 +339,165 @@
 		</div>
 	</div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="relativeDetailsModal" tabindex="-1" aria-labelledby="relativeDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="relativeDetailsModalLabel" style="color:#6417A1;">Relative Details</h5>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="relative_modal_body">
+      				
+      			</div>
+        		<div class="row justify-content-md-center" id="relative_form" style="display:none;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Name:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_name" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Gender:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_gender" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Gender Identity:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_gender_indentity" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Age:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_age" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Marital Status:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_marital_status" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Relationship:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_relationship" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Highest Educational Attainment:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_high_education" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Occupation:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_occupation" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Workplace:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_Workplace" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Contact Number:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_contact_number" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Email:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_Email" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Is Emergeny:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_is_emergency" value=''>
+    					</div>
+  					</div>
+				</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
 {% endblock content %}
 
 
 {% block script %}
 <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+	function showRelativeDetails(that) {
+		var relative_id = $(that).attr("attr_id");
+		$("#relative_modal_body").show();
+		$("#relative_form").hide();
+		$("#relative_modal_body").empty();
+	    $("#relative_modal_body").append("Retrieving Data . . . ");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetRelative' %}",
+	        data: {
+	        	"relative_id":relative_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		createRelativeForm(data)
+	        	}else{
+	        		$("#relative_modal_body").empty();
+	        		$("#relative_modal_body").append(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
 
+	function createRelativeForm(object){
+		$("#relative_modal_body").hide();
+		$("#relative_form").show();
+		$("#relative_view_name").val(object.relative_name);
+		$("#relative_view_gender").val(object.relative_gender);
+		$("#relative_view_gender_indentity").val(object.relative_gender_indentity);
+		$("#relative_view_age").val(object.relative_age);
+		$("#relative_view_marital_status").val(object.relative_marital_status);
+		$("#relative_view_relationship").val(object.relative_relationship);
+		$("#relative_view_high_education").val(object.relative_high_education);
+		$("#relative_view_occupation").val(object.relative_occupation);
+		$("#relative_view_Workplace").val(object.relative_Workplace);
+		$("#relative_view_contact_number").val(object.relative_contact_number);
+		$("#relative_view_Email").val(object.relative_email);
+		if(object.relative_is_emergency){
+			$("#relative_view_is_emergency").val('YES');
+		}else{
+			$("#relative_view_is_emergency").val('NO');
+		}
+		
+		
+	}
 </script>
 {% endblock script %}

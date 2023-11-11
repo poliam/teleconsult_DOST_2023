@@ -26,6 +26,8 @@ class details(models.Model):
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
+
+	@property
 	def age(self):
 		return int((datetime.now().date() - self.BOD).days / 365.25)
 
@@ -64,6 +66,9 @@ class relatives(models.Model):
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	is_emergency = models.BooleanField(default=0)
+
+	@property
 	def age(self):
 		return int((datetime.now().date() - self.DOB).days / 365.25)
 
