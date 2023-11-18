@@ -44,11 +44,195 @@ RELATIONSHIP_CHOICES = (
 	("Guardian", "Guardian"),
 )
 
+
+class AddPatientForm(forms.ModelForm):
+	profile_picture = forms.ImageField(required=False, label='Choose your image')
+	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
+	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
+	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
+	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
+	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
+	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
+	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+	birth_place = forms.CharField(required=False, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
+	religion = forms.CharField(required=False, label="Religion", widget=forms.TextInput(attrs={'placeholder': 'Religion'}))
+	high_education = forms.CharField(required=False, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
+	citizenship = forms.CharField(required=False, label="Citizenship", widget=forms.TextInput(attrs={'placeholder': 'Citizenship'}))
+	nationality = forms.CharField(required=False, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
+	workplace = forms.CharField(required=False, label="Workplace", widget=forms.TextInput(attrs={'placeholder': 'Workplace'}))
+	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
+
+	def __init__(self, *args, **kwargs):
+		super(AddPatientForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	def patientCheck(self):
+		first_name = self.cleaned_data['first_name']
+		middle_name = self.cleaned_data['middle_name']
+		last_name = self.cleaned_data['last_name']
+		BOD = self.cleaned_data['BOD']
+		try:
+			patient_exists = details.objects.get(first_name=first_name, middle_name=middle_name, last_name=last_name)
+			return "Email already present."
+		except:
+			return False
+
+	def save(self, *args, **kwargs):
+		new_patient = details()
+		new_patient.profile_picture = self.cleaned_data['profile_picture']
+		new_patient.first_name = self.cleaned_data['first_name']
+		new_patient.middle_name = self.cleaned_data['middle_name']
+		new_patient.last_name = self.cleaned_data['last_name']
+		new_patient.gender = self.cleaned_data['gender']
+		new_patient.gender_indentity = self.cleaned_data['gender_indentity']
+		new_patient.BOD = self.cleaned_data['BOD']
+		new_patient.marital_status = self.cleaned_data['marital_status']
+		new_patient.contact_number = self.cleaned_data['contact_number']
+		new_patient.alias = self.cleaned_data['alias']
+		new_patient.email = self.cleaned_data['email']
+		new_patient.birth_place = self.cleaned_data['birth_place']
+		new_patient.religion = self.cleaned_data['religion']
+		new_patient.high_education = self.cleaned_data['high_education']
+		new_patient.citizenship = self.cleaned_data['citizenship']
+		new_patient.nationality = self.cleaned_data['nationality']
+		new_patient.workplace = self.cleaned_data['workplace']
+		new_patient.occupation = self.cleaned_data['occupation']
+		try:
+			new_patient.save()
+		except:
+			return False
+		return new_patient
+
+	class Meta:
+		model = details
+		fields = ['profile_picture','first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation']
+
+class EditPatientForm(forms.ModelForm):
+	profile_picture = forms.ImageField(required=False, label='Choose your image')
+	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
+	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
+	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
+	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
+	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
+	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
+	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+	birth_place = forms.CharField(required=False, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
+	religion = forms.CharField(required=False, label="Religion", widget=forms.TextInput(attrs={'placeholder': 'Religion'}))
+	high_education = forms.CharField(required=False, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
+	citizenship = forms.CharField(required=False, label="Citizenship", widget=forms.TextInput(attrs={'placeholder': 'Citizenship'}))
+	nationality = forms.CharField(required=False, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
+	workplace = forms.CharField(required=False, label="Workplace", widget=forms.TextInput(attrs={'placeholder': 'Workplace'}))
+	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
+
+	def __init__(self, *args, **kwargs):
+		super(EditPatientForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	class Meta:
+		model = details
+		fields = ['profile_picture', 'first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation']
+
+class AddPatientAddressForm(forms.ModelForm):
+	current_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
+	current_apt = forms.CharField(required=False, label="apt", widget=forms.TextInput(attrs={'placeholder': 'apt'}))
+	current_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
+	current_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
+	current_country = forms.CharField(required=False, label="Country", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
+
+	ph_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
+	ph_apt = forms.CharField(required=False, label="apt", widget=forms.TextInput(attrs={'placeholder': 'apt'}))
+	ph_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
+	ph_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
+	ph_country = forms.CharField(required=False, label="Country", widget=forms.HiddenInput(), initial='Philippines')
+	ph_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	ph_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
+
+	def __init__(self, *args, **kwargs):
+		super(AddPatientAddressForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	def save(self, patient_instance, *args, **kwargs):
+		new_patient_current_address = address()
+		new_patient_current_address.current_street = self.cleaned_data['current_street']
+		new_patient_current_address.current_apt = self.cleaned_data['current_apt']
+		new_patient_current_address.current_city = self.cleaned_data['current_city']
+		new_patient_current_address.current_country = self.cleaned_data['current_country']
+		new_patient_current_address.current_zip_code = self.cleaned_data['current_zip_code']
+		new_patient_current_address.ph_street = self.cleaned_data['ph_street']
+		new_patient_current_address.ph_barangay = self.cleaned_data['ph_barangay']
+		new_patient_current_address.ph_province = self.cleaned_data['ph_province']
+		new_patient_current_address.ph_city = self.cleaned_data['ph_city']
+		new_patient_current_address.ph_zip_code = self.cleaned_data['ph_zip_code']
+		new_patient_current_address.details = patient_instance
+		try:
+			new_patient_current_address.save()
+		except:
+			return False
+		return new_patient_current_address.pk
+
+	class Meta:
+		model = address
+		fields = ['current_street', 'current_apt', 'current_barangay','current_city', 'current_country', 'current_province', 'current_zip_code', 'ph_street', 'ph_apt', 'ph_barangay', 'ph_city', 'ph_country', 'ph_province', 'ph_zip_code']
+
+class EditPatientAddressForm(forms.ModelForm):
+	current_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
+	current_apt = forms.CharField(required=False, label="apt", widget=forms.TextInput(attrs={'placeholder': 'apt'}))
+	current_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
+	current_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
+	current_country = forms.CharField(required=False, label="Country", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
+
+	ph_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
+	ph_apt = forms.CharField(required=False, label="apt", widget=forms.TextInput(attrs={'placeholder': 'apt'}))
+	ph_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
+	ph_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
+	ph_country = forms.CharField(required=False, label="Country", widget=forms.HiddenInput(), initial='Philippines')
+	ph_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	ph_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
+
+	def __init__(self, *args, **kwargs):
+		super(EditPatientAddressForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	class Meta:
+		model = address
+		fields = ['current_street', 'current_apt', 'current_barangay','current_city', 'current_country', 'current_province', 'current_zip_code', 'ph_street', 'ph_apt', 'ph_barangay', 'ph_city', 'ph_country', 'ph_province', 'ph_zip_code']
+
+
 class AddRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=False, label="Gemder", choices=SEX_CHOICES, initial=0)
+	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
 	DOB = forms.DateField(required=False, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
 	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
@@ -103,7 +287,7 @@ class EditRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=False, label="Gemder", choices=SEX_CHOICES, initial=0)
+	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
 	DOB = forms.DateField(required=False, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
 	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial=0)

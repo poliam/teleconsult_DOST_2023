@@ -21,7 +21,9 @@
 {% endblock style %}
 
 {% block content %}
+
 <div class="container-fluid">
+	
 	<div class="row">
 		<h2 class="dashboard_welcome_greeting">Create Patient</h2>
 	</div>
@@ -29,96 +31,86 @@
 	<div class="row">
 		<div class="col-sm-1"></div>
 		<div class="col-sm-10">
+			{% if error_msg %}
+				<div class="alert alert-warning" role="alert">
+				  {{ error_msg }}
+				</div>
+			{% endif %}
 			<form id="Create_patient" method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="card">
   					<div class="card-header">
     					<h4>Personal Information</h4>
   					</div>
+
   					<div class="card-body">
   						<div class="row">
   							<div class="col-sm-6">
   								<div class="mb-3">
-  									<label for="patientProf" class="form-label">Patient Profile Picture</label>
-  									<input class="form-control" type="file" id="patientProf" name="patientProf">
+  									{{ form.profile_picture.label }}
+                                	{{ form.profile_picture }}
 								</div>
   							</div>
   						</div>
     					<div class="row">
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Fname" >First Name *</label>
-   		 							<input type="text" class="form-control" id="Fname" name="Fname" placeholder="First Name" value="{{ Fname }}" required>
+    								{{ form.first_name.label }}{% if form.first_name.field.required %}*{% endif %}
+    								{{ form.first_name }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Mname" >Middle Name *</label>
-   		 							<input type="text" class="form-control" id="Mname" name="Mname" placeholder="Middle Name" value="{{ Mname }}" required>
+    								{{ form.middle_name.label }}{% if form.middle_name.field.required %}*{% endif %}
+    								{{ form.middle_name }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Lname" >Last Name *</label>
-   		 							<input type="text" class="form-control" id="Lname" name="Lname" placeholder="Last Name" value="{{ Lname }}" required>
-    								
+    								{{ form.last_name.label }}{% if form.last_name.field.required %}*{% endif %}
+    								{{ form.last_name }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="gender" >Sex *</label>
-   		 							<select class="form-control" id="gender" name="gender" required>
-	 									<option value="0" > - Select Gender - </option>
-	 									<option value="Male" {% if gender == "Male" %} selected {% endif %}>Male</option>
-	 									<option value="Female" {% if gender == "Female" %} selected {% endif %}>Female</option>
-   		 							</select>
-    								
+    								{{ form.gender.label }}{% if form.gender.field.required %}*{% endif %}
+    								{{ form.gender }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="gender_indentity" >Gender Identity</label>
-   		 							<input type="text" class="form-control" id="gender_indentity" name="gender_indentity" placeholder="Gender Identity" value="{{ gender_indentity }}">
-    								
+    								{{ form.gender_indentity.label }}{% if form.gender_indentity.field.required %}*{% endif %}
+    								{{ form.gender_indentity }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="birth_date">Birthday(mm/dd/yyyy) *</label>
-   		 							<input type="text" class="form-control" id="birth_date" name="birth_date" placeholder="(dd/mm/yyyy)" value="{{ birth_date }}" required>
+    								{{ form.BOD.label }}{% if form.BOD.field.required %}*{% endif %}
+    								{{ form.BOD }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="marital_status">Marital Status</label>
-									<select class="form-control" id="marital_status" name="marital_status" required>
-										<option value="0">- - Select Status - -</option>
-   		 								<option value="Single" {% if marital_status == "Single" %} selected  {% endif %}>Single</option>
-   		 								<option value="Married" {% if marital_status == "Married" %} selected  {% endif %}>Married</option>
-   		 								<option value="Widowed" {% if marital_status == "Widowed" %} selected  {% endif %}>Widowed</option>
-   		 								<option value="Divorced" {% if marital_status == "Divorced" %} selected  {% endif %}>Divorced</option>
-   		 								<option value="Separated" {% if marital_status == "Separated" %} selected  {% endif %}>Separated </option>
-   		 								<option value="Registered Partnership" {% if marital_status == "Registered Partnership" %} selected  {% endif %}>Registered Partnership</option>
-   		 							</select>
+    								{{ form.marital_status.label }}{% if form.marital_status.field.required %}*{% endif %}
+    								{{ form.marital_status }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="contact_number" >Contact Number</label>
-   		 							<input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ contact_number }}" placeholder="Contact Number">
+    								{{ form.contact_number.label }}{% if form.contact_number.field.required %}*{% endif %}
+    								{{ form.contact_number }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="alias" >Alias</label>
-   		 							<input type="text" class="form-control" id="alias" name="alias" value="{{ alias }}" placeholder="Alias">
+    								{{ form.alias.label }}{% if form.alias.field.required %}*{% endif %}
+    								{{ form.alias }}
   								</div>
     						</div>
     						<div class="col-sm-4">
-    							<div  class="form-group">
-    								<label for="Patient_email">Email</label>
-   		 							<input type="text" class="form-control" id="Patient_email" name="Patient_email" value="{{ Patient_email }}" aria-describedby="lastNameHelp" placeholder="Email">
-    								
+    							<div class="form-group">
+    								{{ form.email.label }}{% if form.email.field.required %}*{% endif %}
+    								{{ form.email }}
   								</div>
     						</div>
     					</div>
@@ -134,32 +126,32 @@
     					<div class="row">
     						<div class="col-sm-8">
     							<div class="form-group">
-    								<label for="current_street_address">Street Address</label>
-   		 							<input type="text" class="form-control" id="current_street_address" name="current_street_address" value="{{ current_street_address }}" placeholder="Street Address">
+    								{{ FormAddPatientAddress.current_street.label }}{% if FormAddPatientAddress.current_street.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.current_street }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="apt" >Apt, suite, etc(optional)</label>
-   		 							<input type="text" class="form-control" id="apt" name="apt" value="{{ apt }}" placeholder="Street Address">
+    								{{ FormAddPatientAddress.current_apt.label }}{% if FormAddPatientAddress.current_apt.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.current_apt }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="current_address_city">City</label>
-   		 							<input type="text" class="form-control" id="current_address_city" name="current_address_city" value="{{ current_address_city }}" placeholder="City">
+    								{{ FormAddPatientAddress.current_city.label }}{% if FormAddPatientAddress.current_city.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.current_city }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="current_address_country">Country</label>
-   		 							<input type="text" class="form-control" id="current_address_country" name="current_address_country" value="{{ current_address_country }}" placeholder="Country">
+    								{{ FormAddPatientAddress.current_country.label }}{% if FormAddPatientAddress.current_country.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.current_country }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="current_address_zipcode">Zip / postcode</label>
-   		 							<input type="text" class="form-control" id="current_address_zipcode" name="current_address_zipcode" value="{{ current_address_zipcode }}" placeholder="Zip / postcode">
+    								{{ FormAddPatientAddress.current_zip_code.label }}{% if FormAddPatientAddress.current_zip_code.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.current_zip_code }}
   								</div>
     						</div>
     					</div>
@@ -169,28 +161,36 @@
     					<div class="row">
     						<div class="col-sm-8">
     							<div class="form-group">
-    								<label for="ph_street_address">Street Address</label>
-   		 							<input type="text" class="form-control" id="ph_street_address" name="ph_street_address" value="{{ ph_street_address }}" placeholder="Street Address">
+    								{{ FormAddPatientAddress.ph_street.label }}{% if FormAddPatientAddress.ph_street.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.ph_street }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="ph_barangay">Barangay</label>
-   		 							<input type="text" class="form-control" id="ph_barangay" name="ph_barangay" value="{{ ph_barangay }}" placeholder="Street Address">
+    								{{ FormAddPatientAddress.ph_barangay.label }}{% if FormAddPatientAddress.ph_barangay.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.ph_barangay }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="province">Province</label>
-   		 							<input type="text" class="form-control" id="province" name="province" value="{{ province }}" placeholder="Province">
+    								{{ FormAddPatientAddress.ph_province.label }}{% if FormAddPatientAddress.ph_province.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.ph_province }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="ph_city">City</label>
-   		 							<input type="text" class="form-control" id="ph_city" name="ph_city" value="{{ ph_city }}" placeholder="City">
+    								{{ FormAddPatientAddress.ph_city.label }}{% if FormAddPatientAddress.ph_city.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.ph_city }}
   								</div>
     						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								{{ FormAddPatientAddress.ph_zip_code.label }}{% if FormAddPatientAddress.ph_zip_code.field.required %}*{% endif %}
+    								{{ FormAddPatientAddress.ph_zip_code }}
+  								</div>
+    						</div>
+    						{{ FormAddPatientAddress.ph_country }}
+    						
     					</div>
     				</div>
     				
@@ -203,44 +203,44 @@
     					<div class="row">
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="birth_place">Birth Place</label>
-   		 							<input type="text" class="form-control" id='birth_place' name="birth_place" value="{{ birth_place }}" placeholder="Birth Place">
+    								{{ form.birth_place.label }}{% if form.birth_place.field.required %}*{% endif %}
+    								{{ form.birth_place }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="religion">Religion</label>
-   		 							<input type="text" class="form-control" id="religion" name="religion" value="{{ religion }}"  placeholder="Street Address">
+    								{{ form.religion.label }}{% if form.religion.field.required %}*{% endif %}
+    								{{ form.religion }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="highest_educational_attainment">Highest Education Attainment</label>
-   		 							<input type="text" class="form-control" id="highest_educational_attainment" name="highest_educational_attainment" value="{{ highest_educational_attainment }}" placeholder="Highest Education Attainment">
+    								{{ form.high_education.label }}{% if form.high_education.field.required %}*{% endif %}
+    								{{ form.high_education }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="citizenship">Citizenship</label>
-   		 							<input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ citizenship }}" placeholder="Citizenship">
+    								{{ form.citizenship.label }}{% if form.citizenship.field.required %}*{% endif %}
+    								{{ form.citizenship }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Nationality">Nationality</label>
-   		 							<input type="text" class="form-control" id='Nationality' name="Nationality" value="{{ Nationality }}" placeholder="Nationality">
+    								{{ form.nationality.label }}{% if form.nationality.field.required %}*{% endif %}
+    								{{ form.nationality }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Workplace">Workplace</label>
-   		 							<input type="text" class="form-control" id="Workplace" name="Workplace" value="{{ Workplace }}" placeholder="Workplace">
+    								{{ form.workplace.label }}{% if form.workplace.field.required %}*{% endif %}
+    								{{ form.workplace }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								<label for="Occupation">Occupation</label>
-   		 							<input type="text" class="form-control" id="Occupation" name="Occupation" value="{{ Occupation }}" placeholder="Occupation">
+    								{{ form.occupation.label }}{% if form.occupation.field.required %}*{% endif %}
+    								{{ form.occupation }}
   								</div>
     						</div>
     					</div>
@@ -268,7 +268,7 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$( "#birth_date" ).datepicker();
+		$( "#id_BOD" ).datepicker({ dateFormat: 'dd/mm/yy' });
 	})
 </script>
 {% endblock script %}

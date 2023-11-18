@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, address, relatives, medicine, allergies
+from patient.models import details, relatives, medicine, allergies
 from consultation.models import *
 import random, os
 from datetime import date, datetime
