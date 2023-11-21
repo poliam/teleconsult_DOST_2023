@@ -1,0 +1,348 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Patient Survey</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<style type="text/css">
+		.card-header{
+			background-color: #6417A180;
+    		color: white;
+    		text-align: center;
+		}
+	</style>
+</head>
+<body style="background-color: #fbfafa;">
+	<form method="POST" enctype="multipart/form-data">
+		<div class="container-fluid">
+			<br/>
+			<div class="row justify-content-md-center impormasyon_basa">
+	    		<div class="col-sm-9">
+	    			<div class="card ">
+			  			<h5 class="card-header">Mental Health Literacy Survey</h5>
+			  			<div class="card-body">
+	    					<p>Magandang araw!</p>
+	    					<p>Inaanyayahan kang lumahok sa isang pananaliksik mula sa Southern Philippines Medical Center. Ang iyong pakikilahok ay ganap na boluntaryo. Wala rin tama o mali sa pagsagot. Pakibasa ang impormasyon sa ibaba, at magtanong tungkol sa anumang hindi mo naiintindihan, bago magpasya kung lalahok. </p>
+	    					
+	    					<b>LAYUNIN NG PAG-AARAL</b>
+	    					<p>Ang pag-aaral na ito ay naglalayong imbestigahan ang paggamit ng telepsychiatry sa pagbibigay ng mga serbisyo sa pangangalaga sa kalusugang pangkaisipan at ang antas ng mental health literacy ng mga OFW sa mga piling lungsod sa Saudi Arabia.</p>
+
+	    					<b>PAMAMARAAN NG PAG-AARAL</b>
+	    					<p>Kung boluntaryo kang lumahok sa pag-aaral na ito, hihilingin sa iyong lumahok sa pamamagitan ng pagsagot sa survey questionnaire na maaari mong tapusin sa loob ng wala pang 30 minuto.</p>
+
+	    					<b>MGA POTENSYAL NA MGA PANGANIB AT KAHIRAPAN</b>
+	    					<p>Maaaring makaramdam ka ng kakulangan sa ginhawa sa panahon ng panayam dahil sa sensitibong katangian ng paksang pinag-aaralan. Maaari mong piliing huwag sagutin ang mga tanong na nagpaparamdam sa iyo ng anumang sikolohikal o emosyonal na pagkabalisa o maaari kang mag-withdraw bilang kalahok ng pag-aaral kung sa palagay mo ay hindi mo matalakay ang impormasyong hinihingi sa iyo. Pinahahalagahan ng mga mananaliksik ang iyong pakikilahok at ilalagay ang iyong kapakanan bilang kanilang pinakamataas na priyoridad sa panahon ng pag-aaral.</p>
+
+	    					<b>MGA POTENSYAL NA BENEPISYO SA MGA KASALO AT/O SA LIPUNAN</b>
+	    					<p>Ang pag-aaral na ito ay maaaring makabuo ng may-katuturang impormasyon na maaaring maging kapaki-pakinabang sa mga pampubliko at pribadong administrador, mga tagapamahala ng human resource, at mga gumagawa ng patakaran. Ang mga resulta, mga talakayan, at mga natuklasan mula sa pag-aaral na ito ay maaaring magpasiklab ng impormasyong nakabatay sa ebidensya na maaaring magamit ng mga ahensya ng gobyerno tulad ng Department of Health (DOH) at Department of Migrant Workers - Overseas Workers Welfare Association (DMW-OWWA).</p>
+
+	    					<b>KUMPIDENSYAL</b>
+	    					<p>Pananatilihin naming kumpidensyal ang iyong mga tala para sa pag-aaral na ito hangga't pinahihintulutan ng batas. Ang anumang makikilalang impormasyon na nakuha kaugnay ng pag-aaral na ito ay mananatiling kumpidensyal, maliban kung kinakailangan upang protektahan ang iyong mga karapatan o kapakanan. Nangangahulugan ang sertipiko na ito na maaaring labanan ng mananaliksik ang pagpapalabas ng impormasyon tungkol sa iyong pakikilahok sa mga taong hindi konektado sa pag-aaral. Kapag ang mga resulta ng pananaliksik ay nai-publish o tinalakay sa mga kumperensya, walang makikilalang impormasyon ang gagamitin.</p>
+
+	    					<b>PAKIKILAHOK AT PAG-WITHRAWAL</b>
+	    					<p>Ang iyong pakikilahok ay boluntaryo. Ang iyong pagtanggi na lumahok ay walang kasamang parusa o pagkawala ng mga benepisyo kung saan ikaw ay may karapatan. Maaari mong bawiin ang iyong pahintulot anumang oras at ihinto ang paglahok nang walang parusa. Hindi mo tinatalikuran ang anumang legal na paghahabol, karapatan o remedyo dahil sa iyong pakikilahok sa pananaliksik na pag-aaral na ito.</p>
+
+	    					<b>IMPORMASYON SA CONTACT NG IMBESTIGATOR</b>
+	    					<p>Kung mayroon kang anumang mga katanungan o alalahanin tungkol sa pananaliksik, mangyaring makipag-ugnayan kay Gregorio R. Candelario, Jr. ng Southern Philippines Medical Center, Davao City sa pamamagitan ng mobile phone number 0932-6141866 o sa pamamagitan ng email sa gregjrcandelario2@gmail.com; o kung kailangan mo siyang makita, maaari siyang mahanap sa Data Privacy and Telemedicine Office ng Southern Philippines Medical Center.</p>
+
+	    					<b>KARAPATAN NG KALAHOK SA PANANALIKSIK</b>
+	    					<p>Kung mayroon kang mga tanong, alalahanin, o reklamo tungkol sa iyong karapatan bilang kalahok sa pananaliksik o sa pananaliksik sa pangkalahatan at hindi mo magawang makipag-ugnayan sa pangkat ng pananaliksik, o kung gusto mong makipag-usap sa isang taong independyente sa pangkat ng pananaliksik, mangyaring makipag-ugnayan sa Project Leader na si Gregorio R. Candelario, Jr., Head ng Data Privacy and Telemedicine Office ng Southern Philippines Medical Center, sa numerong ito: 0932-6141866.</p>
+
+	    					<p>Maraming salamat sa iyong partisipasyon!</p>
+	    					<hr>
+	    					<p>Nabasa ko ang impormasyong ibinigay sa itaas at nabigyan ako ng pagkakataong magtanong. Sumasang-ayon akong lumahok sa pag-aaral na ito at kolektahin ang aking impormasyon. </p>
+	    					<a class="btn btn-success" id="nabasa">Oo</a>
+	    				</div>
+	    				
+	    			</div>
+	    		</div>
+	    	</div>
+			<div class="row justify-content-md-center section_i" style="display:none;">
+		    	<div class="col-sm-8">
+					<div class="card">
+			  			<h5 class="card-header">Section I</h5>
+			  			<div class="card-body">
+							<p><b>Panuto:</b> Mangyaring bilugan ang pagpipiliang pinakamahusay na naglalarawan sa iyong sagot.</p>
+							<b>Mga Pagpipilian:</b>
+							<ul>
+								<li>Lubos na Maaari = Sigurado ako na ito ay maaari</li>
+								<li>Maaari = Sa tingin ko ito ay maaari ngunit hindi ako sigurado</li>
+								<li>Hindi Maaari = Sa tingin ko ito ay hindi maari ngunit hindi ako sigurado</li>
+								<li>Lubos na Hindi Maaari = Sigurado ako na HINDI ito maaari</li>
+							</ul>
+							<hr>
+							<p>1. Kung ang isang tao ay labis na kinabahan o nababalisa sa isa o higit pang mga sitwasyon kasama ng ibang tao (halimbawa, isang party) o mga sitwasyon sa pagganap (halimbawa, pagtatanghal sa isang pulong) kung saan siya ay natatakot na masuri ng iba, hanggang saan sa tingin mo ang posibilidad na mayroon silang <b>Social Phobia?</b></p>
+							{{ form.social_phobia }}
+							<hr>
+							<p>2. Kung ang isang tao ay nakaranas ng labis na pag-aalala tungkol sa ilang mga kaganapan o aktibidad kung saan ang antas ng pag-aalala na ito ay hindi nararapat, nahihirapang kontrolin ang pag-aalala na ito at nagkaroon ng mga pisikal na sintomas tulad ng pagkakaroon ng tension na mga kalamnan at pakiramdam ng pagkapagod, hanggang saan sa tingin mo ang posibilidad na mayroon sila <b>Generalized Anxiety Disorder?</b></p>
+							{{ form.generalized_anxiety_disorder }}
+							<hr>
+							<p>3. Kung ang isang tao ay nakaranas ng mababang mood sa loob ng dalawa o higit pang mga linggo, nawalan ng kasiyahan o interes sa kanilang mga normal na aktibidad at nakaranas ng mga pagbabago sa kanilang gana at pagtulog, hanggang saan sa tingin mo ang posibilidad na mayroon silang <b>Major Depressive Disorder?</b></p>
+							{{ form.major_depressive_disorder }}
+							<hr>
+							<p>4. Hanggang saan sa tingin mo ang posibilidad na ang <b>Personality Disorder</b> ay isang kategorya ng sakit sa isip?</p>
+							{{ form.disorder_personality_disorder }}
+							<hr>
+							<p>5. Hanggang saan sa tingin mo ang posibilidad na ang <b>Dysthymia</b> ay isang medikal na karamdaman?</p>
+							{{ form.dysthymia }}
+							<hr>
+							<p>6. Hanggang saan sa tingin mo ang posibilidad na ang diagnosis ng <b>Agoraphobia</b> ay kinabibilangan ng pagkabalisa tungkol sa mga sitwasyon kung saan ang pagtakas ay maaaring mahirap o nakakahiya?</p>
+							{{ form.agoraphobia }}
+							<hr>
+							<p>7. Hanggang saan sa tingin mo ay malamang na kasama sa diagnosis ng <b>Bipolar Disorder</b> ang pagdanas ng mga panahon ng mataas (i.e., mataas) at mga panahon ng depresyon (i.e., mababang) mood?</p>
+							{{ form.bipolar_disorder }}
+							<hr>
+							<p>8. Hanggang saan sa tingin mo ang malamang na ang diagnosis ng <b>Drug Dependence</b> ay kinabibilangan ng pisikal at sikolohikal na pagpapaubaya ng gamot (ibig sabihin, nangangailangan ng higit pa sa gamot upang makakuha ng parehong epekto)?</p>
+							{{ form.drug_dependence }}
+							<hr>
+							<p>9. Hanggang saan sa tingin mo ang posibilidad na sa pangkalahatan sa Pilipinas, ang mga babae ay <b>MAS</b> malamang na makaranas ng anumang uri ng sakit sa pag-iisip kumpara sa mga lalaki.</p>
+							{{ form.mas_babae }}
+							<hr>
+							<p>10. Sa palagay mo, gaano kalaki ang posibilidad na sa pangkalahatan, sa Pilipinas, <b>MAS</b> malamang na makaranas ng anxiety disorder ang mga lalaki kumpara sa mga babae?</p>
+							{{ form.mas_lalake }}
+			    			<hr>
+			    			<div class="row justify-content-md-center">
+			    				<div class="col-sm-6" style="text-align:center;">
+			    					<button type="button" class="btn btn-outline-dark" id="section_i_back">Back</button>
+			    					<button type="button" class="btn btn-success" id="section_i_next">Next</button>
+			    				</div>
+			    			</div>
+			  			</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row justify-content-md-center section_ii" style="display:none;">
+		    	<div class="col-sm-8">
+					<div class="card">
+			  			<h5 class="card-header">Section II</h5>
+			  			<div class="card-body">
+							<b>Mga pagpipilian:</b>
+							<ul>
+								<li>Labis na Nakakatulong = Sigurado ako na ito ay lubhang nakakatulong</li>
+								<li>Nakatutulong = Sa tingin ko ito ay nakakatulong ngunit hindi ako sigurado</li>
+								<li>Hindi nakakatulong = Sa tingin ko ito ay hindi nakakatulong ngunit hindi ako sigurado</li>
+								<li>Labis na Hindi Nakakatulong = Sigurado ako na HINDI ito nakakatulong</li>
+							</ul>
+			    			<hr>
+			    			<p>11. Hanggang saan sa tingin mo magiging kapaki-pakinabang para sa isang tao na <b>mapabuti ang kalidad ng kanilang pagtulog</b> kung nahihirapan silang pamahalaan ang kanilang mga emosyon (hal., pagiging lubhang nababalisa o nanlulumo)?</p>
+			    			{{ form.kalidad_pagtulog }}
+			    			<hr>
+			    			<p>12. Hanggang saan sa tingin mo makatutulong para sa isang tao na <b>iwasan ang lahat ng mga aktibidad o sitwasyon na nagdulot sa kanila ng pagkabalisa</b> kung nahihirapan silang pamahalaan ang kanilang mga damdamin?</p>
+			    			{{ form.iwasan_aktibidad }}
+			    			<hr>
+			    			<div class="row justify-content-md-center">
+			    				<div class="col-sm-6" style="text-align:center;">
+			    					<button type="button" class="btn btn-outline-dark" id="section_ii_back">Back</button>
+			    					<button type="button" class="btn btn-success" id="section_ii_next">Next</button>
+			    				</div>
+			    			</div>
+			  			</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row justify-content-md-center section_iii" style="display:none;">
+		    	<div class="col-sm-8">
+					<div class="card">
+			  			<h5 class="card-header">Section III</h5>
+			  			<div class="card-body">
+							<b>Mga pagpipilian:</b>
+							<ul>
+								<li>Lubos na Maaari = Sigurado ako na ito ay maaari</li>
+								<li>Maaari = Sa tingin ko ito ay maaari ngunit hindi ako sigurado</li>
+								<li>Hindi Maaari = Sa tingin ko ito ay hindi maari ngunit hindi ako sigurado</li>
+								<li>Lubos na Hindi Maaari = Sigurado ako na HINDI ito maaari</li>
+							</ul>
+			    			<hr>
+			    			<p>13. Hanggang saan sa tingin mo ang posibilidad na ang <b>Cognitive Behavior Therapy (CBT)</b> ay isang therapy batay sa mga mapaghamong negatibong kaisipan at pagtaas ng mga kapaki-pakinabang na pag-uugali?</p>
+			    			{{ form.cognitive_behavior_therapy }}
+			    			<hr>
+			    			<p>14. Ang mga mental health professional ay nakatali sa pagiging kumpidensyal; gayunpaman may ilang mga kundisyon kung saan hindi ito nalalapat. Hanggang saan sa tingin mo ang posibilidad na ang sumusunod ay isang kondisyon na magpapahintulot sa kanila na <b>itigil ang pagiging kumpidensyal:</b> <br/>kung ikaw ay nasa agarang panganib na makapinsala sa iyong sarili o sa iba</p>
+			    			{{ form.kumpidensyal }}
+			    			<hr>
+			    			<p>15. Ang mga mental health professional ay nakatali sa pagiging kumpidensyal; gayunpaman may ilang mga kundisyon kung saan hindi ito nalalapat. Hanggang saan sa tingin mo ang posibilidad na ang sumusunod ay isang kondisyon na magpapahintulot sa kanila na <b>itigil ang pagiging kumpidensyal:</b> <br/>kung ang iyong problema ay hindi nagbabanta sa buhay at gusto nilang tulungan ang iba upang mas suportahan ka?</p>
+			    			{{ form.hindi_nagbabanta }}
+			    			<hr>
+			    			<div class="row justify-content-md-center">
+			    				<div class="col-sm-6" style="text-align:center;">
+			    					<button type="button" class="btn btn-outline-dark" id="section_iii_back">Back</button>
+			    					<button type="button" class="btn btn-success" id="section_iii_next">Next</button>
+			    				</div>
+			    			</div>
+			  			</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row justify-content-md-center section_iv" style="display:none;">
+		    	<div class="col-sm-8">
+					<div class="card">
+			  			<h5 class="card-header">Section IV</h5>
+			  			<div class="card-body">
+			  				<p><b>Panuto:</b> Pakisaad kung hanggang saan ka sumasang-ayon sa mga sumusunod na pahayag.</p>
+							<b>Mga pagpipilian:</b>
+							<ul>
+								<li>Lubos na Sumasang-ayon</li>
+								<li>Sumasang-ayon</li>
+								<li>Sinuma'y hindi sang-ayon o hindi sang-ayon</li>
+								<li>Hindi Sumasang-ayon</li>
+								<li>Lubos na Hindi Sumasang-ayon</li>
+							</ul>
+			    			<hr>
+			    			<p>16. Nakatitiyak ako na alam ko kung saan hahanapin ang impormasyon tungkol sa sakit sa isip.</p>
+			    			{{ form.hahanapin_impormasyon_sakit_isip }}
+			    			<hr>
+			    			<p>17. Ako ay may tiwala sa paggamit ng computer o telepono upang humingi ng impormasyon tungkol sa sakit sa isip.</p>
+			    			{{ form.humingi_impormasyon_sakit_isip }}
+			    			<hr>
+			    			<p>18. Nakatitiyak akong dumalo nang harapang appointment para humingi ng impormasyon tungkol sa sakit sa isip (hal., pagpapatingin sa isang doktor).</p>
+			    			{{ form.pagpapatingin_sa_doktor }}
+			    			<hr>
+			    			<p>19. Nakatitiyak ako na mayroon akong akses sa mga mapagkukunan (hal., doktor, internet, mga kaibigan) na magagamit ko upang maghanap ng impormasyon tungkol sa sakit sa isip.</p>
+			    			{{ form.mapagkukunan_impormasyon_sakit_isip }}
+			    			<hr>
+			    			<p>20. Ang mga taong may sakit sa pag-iisip ay maaaring bumalik sa tamang kaisipan kailanman gusto nila.</p>
+			    			{{ form.bumalik_tamang_kaisipan }}
+			    			<hr>
+			    			<p>21. Ang sakit sa isip ay tanda ng personal na kahinaan.</p>
+			    			{{ form.sakit_medikal }}
+			    			<hr>
+			    			<p>22. Ang isang sakit sa isip ay hindi isang tunay na sakit na medikal.</p>
+			    			{{ form.personal_kahinaan }}
+			    			<hr>
+			    			<p>23. Ang mga taong may sakit sa pag-iisip ay mapanganib.</p>
+			    			{{ form.mapanganib }}
+			    			<hr>
+			    			<p>24. Pinakamabuting umiwas sa mga taong may sakit sa pag-iisip upang hindi ka magkaroon ng ganitong problema.</p>
+			    			{{ form.umiwas_taong_sakit_isip }}
+			    			<hr>
+			    			<p>25. Kung ako ay may sakit sa pag-iisip hindi ko sasabihin kahit kanino.</p>
+			    			{{ form.hindi_sasabihin_kahit_kanino }}
+			    			<hr>
+			    			<p>26. Ang pagpapatingin sa isang mental health professional ay nangangahulugan na hindi ka sapat na malakas upang pamahalaan ang iyong sariling mga paghihirap.</p>
+			    			{{ form.question_26 }}
+			    			<hr>
+			    			<p>27. Kung mayroon akong sakit sa isip, hindi ako hihingi ng tulong sa isang mental health professional.</p>
+			    			{{ form.question_27 }}
+			    			<hr>
+			    			<p>28. Naniniwala ako na ang paggamot para sa isang sakit sa isip, na ibinigay ng isang mental health professional, ay hindi magiging epektibo.</p>
+			    			{{ form.hindi_magiging_epektibo }}
+			    			<hr>
+			    			<div class="row justify-content-md-center">
+			    				<div class="col-sm-6" style="text-align:center;">
+			    					<button type="button" class="btn btn-outline-dark" id="section_iv_back">Back</button>
+			    					<button type="button" class="btn btn-success" id="section_iv_next">Next</button>
+			    				</div>
+			    			</div>
+			  			</div>
+					</div>
+				</div>
+		    </div>
+
+		    <div class="row justify-content-md-center section_v" style="display:none;">
+		    	<div class="col-sm-8">
+					<div class="card">
+			  			<h5 class="card-header">Section V</h5>
+			  			<div class="card-body">
+			  				<p><b>Panuto:</b> Pakisaad kung hanggang saan ka sumasang-ayon sa mga sumusunod na pahayag.</p>
+							<b>Mga pagpipilian:</b>
+							<ul>
+								<li>Siguradong papayag</li>
+								<li>Malamang papayag</li>
+								<li>Sinuma'y papayag o hindi papayag</li>
+								<li>Malamang hindi papayag</li>
+								<li>Talagang hindi papayag</li>
+							</ul>
+			    			<hr>
+			    			<p>29. Gaano ka kahandang lumipat ng bahay malapit sa isang taong may sakit sa pag-iisip?</p>
+			    			{{ form.lumipat_ng_bahay }}
+			    			<hr>
+			    			<p>30. Gaano ka handa na gumugol ng isang gabi sa pakikisalamuha sa isang taong may sakit sa pag-iisip?</p>
+			    			{{ form.pakikisalamuha_isang_taong }}
+			    			<hr>
+			    			<p>31. Gaano ka handa na makipagkaibigan sa isang taong may sakit sa pag-iisip? </p>
+			    			{{ form.question_31 }}
+			    			<hr>
+			    			<p>32. Gaano ka handa na magkaroon ng isang taong may sakit sa pag-iisip na makasama sa isang trabaho?</p>
+			    			{{ form.question_32 }}
+			    			<hr>
+			    			<p>33. Gaano ka papayag na ang isang taong may sakit sa pag-iisip ay magiging parte ng iyong pamilya sa pamamagitan ng kasal?</p>
+			    			{{ form.question_33 }}
+			    			<hr>
+			    			<p>34. Gaano ka payag na bumoto para sa isang politiko kung alam mo na sila ay nagdusa ng sakit sa pag-iisip?</p>
+			    			{{ form.question_34 }}
+			    			<hr>
+			    			<p>35. Gaano ka payag na magpatrabaho ng isang tao kung alam mong mayroon silang sakit sa pag-iisip?</p>
+			    			{{ form.question_35 }}
+			    			<hr>
+			    			<div class="row justify-content-md-center">
+			    				<div class="col-sm-6" style="text-align:center;">
+			    					<button type="button" class="btn btn-outline-dark" id="section_v_back">Back</button>
+			    					<button type="submit" class="btn btn-success">Next</button>
+			    				</div>
+			    			</div>
+			  			</div>
+					</div>
+				</div>
+		    </div>
+		    <br/>
+		</div>
+	</form>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$("#nabasa").click(function(){
+			$(".section_i").show(400);
+			$(".impormasyon_basa").hide();
+		})
+		$("#section_i_back").click(function(){
+			$(".impormasyon_basa").show(400);
+			$(".section_i").hide();
+		})
+		$("#section_i_next").click(function(){
+			$(".section_ii").show(400);
+			$(".section_i").hide();
+			
+		})
+
+		$("#section_ii_back").click(function(){
+			$(".section_ii").hide();
+			$(".section_i").show(400);
+		})
+		$("#section_ii_next").click(function(){
+			$(".section_iii").show(400);
+			$(".section_ii").hide();
+		})
+
+		$("#section_iii_back").click(function(){
+			$(".section_iii").hide();
+			$(".section_ii").show(400);
+		})
+		$("#section_iii_next").click(function(){
+			$(".section_iii").hide();
+			$(".section_iv").show(400);
+		})
+
+		$("#section_iv_back").click(function(){
+			$(".section_iv").hide();
+			$(".section_iii").show(400);
+		})
+		$("#section_iv_next").click(function(){
+			$(".section_iv").hide();
+			$(".section_v").show(400);
+		})
+
+		$("#section_v_back").click(function(){
+			$(".section_v").hide();
+			$(".section_iv").show(400);
+		})
+
+
+	</script>
+
+	
+</body> 
+</html>

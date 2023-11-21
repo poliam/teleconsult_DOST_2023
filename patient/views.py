@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd
-from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm
+from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm
 import random, os
 from datetime import date, datetime
 
@@ -539,6 +539,10 @@ def PatientUpdateHamD(request, hamd_id):
 
 	return render(request, 'patient_edit_hamd.html', returnVal)
 
+def PatientSurvey(request, patient_id):
+	returnVal = {}
+	returnVal['form'] = patientSurveyForm()
+	return render(request, 'patient_survey.html', returnVal)
 
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")

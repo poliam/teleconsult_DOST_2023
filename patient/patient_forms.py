@@ -1,5 +1,5 @@
 from django import forms
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
 
 SEX_CHOICES = (
 	(0, "- - Select Sex - -"),
@@ -42,6 +42,36 @@ RELATIONSHIP_CHOICES = (
 	("Husband", "Husband"),
 	("Friend", "Friend"),
 	("Guardian", "Guardian"),
+)
+
+SECTION_I_CHOICES = (
+	("Lubos na Maari", "Lubos na Maari"), 
+	("Maaari", "Maaari"),
+	("Hindi Maaari", "Hindi Maaari"),
+	("Lubos na Hindi Maaari", "Lubos na Hindi Maaari"),
+)
+
+SECTION_II_CHOICES = (
+	("Labis na Nakakatulong", "Labis na Nakakatulong"),
+	("Nakakatulong", "Nakakatulong"),
+	("Hindi Nakakatulong", "Hindi Nakakatulong"),
+	("Labis na Hindi Nakakatulong", "Labis na Hindi Nakakatulong"),
+)
+
+SECTION_IV_CHOICES = (
+	("Lubos na Sumasang-ayon", "Lubos na Sumasang-ayon"),
+	("Sumasang-ayon", "Sumasang-ayon"),
+	("Sinuma'y hindi sang-ayon o hindi sang-ayon", "Sinuma'y hindi sang-ayon o hindi sang-ayon"),
+	("Hindi Sumasang-ayon", "Hindi Sumasang-ayon"),
+	("Lubos na Hindi Sumasang-ayon", "Lubos na Hindi Sumasang-ayon"),
+)
+
+SECTION_V_CHOICES = (
+	("Siguradong papayag", "Siguradong papayag"),
+	("Malamang papayag", "Malamang papayag"),
+	("Sinuma'y papayag o hindi papayag", "Sinuma'y papayag o hindi papayag"),
+	("Malamang hindi papayag", "Malamang hindi papayag"),
+	("Talagang hindi papayag", "Talagang hindi papayag"),
 )
 
 
@@ -312,6 +342,60 @@ class EditRelativesForm(forms.ModelForm):
 	class Meta:
 		model = relatives
 		fields = ['first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'DOB', 'marital_status', 'relationship', 'high_education', 'Workplace', 'occupation', 'contact_number', 'email', 'is_emergency']
+
+
+class patientSurveyForm(forms.ModelForm):
+
+	social_phobia = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	generalized_anxiety_disorder = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	major_depressive_disorder = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	disorder_personality_disorder = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	dysthymia = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	agoraphobia = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	bipolar_disorder = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	drug_dependence = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	mas_babae = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	mas_lalake = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+
+	kalidad_pagtulog = forms.TypedChoiceField(required=True, choices=SECTION_II_CHOICES, widget=forms.RadioSelect)
+	iwasan_aktibidad = forms.TypedChoiceField(required=True, choices=SECTION_II_CHOICES, widget=forms.RadioSelect)
+
+	cognitive_behavior_therapy = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	kumpidensyal = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	hindi_nagbabanta = forms.TypedChoiceField(required=True, choices=SECTION_I_CHOICES, widget=forms.RadioSelect)
+	
+	hahanapin_impormasyon_sakit_isip = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	humingi_impormasyon_sakit_isip = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	pagpapatingin_sa_doktor = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	mapagkukunan_impormasyon_sakit_isip = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	bumalik_tamang_kaisipan = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	personal_kahinaan = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	sakit_medikal = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	mapanganib = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	umiwas_taong_sakit_isip = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	hindi_sasabihin_kahit_kanino = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	question_26 = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	question_27 = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+	hindi_magiging_epektibo = forms.TypedChoiceField(required=True, choices=SECTION_IV_CHOICES, widget=forms.RadioSelect)
+
+	lumipat_ng_bahay = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	pakikisalamuha_isang_taong = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	question_31 = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	question_32 = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	question_33 = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	question_34 = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+	question_35 = forms.TypedChoiceField(required=True, choices=SECTION_V_CHOICES, widget=forms.RadioSelect)
+
+	
+
+	def __init__(self, *args, **kwargs):
+		super(patientSurveyForm, self).__init__(*args, **kwargs)
+
+		
+
+	class Meta:
+		model = patient_survey
+		fields = ['social_phobia']
 
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")
