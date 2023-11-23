@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd
+from django.conf import settings
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
 from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm
 import random, os
 from datetime import date, datetime
@@ -90,9 +91,16 @@ def PatientDetailed(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
 	patient_instance = details.objects.get(pk=patient_id)
+	try:
+		patient_survey.objects.get(details = patient_instance.pk)
+		returnVal['has_survey'] = 1
+	except:
+		returnVal['has_survey'] = 0 
+
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patientDetailed'] = patient_instance
+	returnVal['CURRENT_URL'] = settings.CURRENT_URL
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
@@ -539,10 +547,32 @@ def PatientUpdateHamD(request, hamd_id):
 
 	return render(request, 'patient_edit_hamd.html', returnVal)
 
+def PatientSurveyCompleted(request):
+	return render(request, 'patient_survey_complete.html')
+
 def PatientSurvey(request, patient_id):
 	returnVal = {}
 	returnVal['form'] = patientSurveyForm()
-	return render(request, 'patient_survey.html', returnVal)
+
+	try:
+		patient_instance = details.objects.get(pk=patient_id)
+	except:
+		return redirect("dashboard")
+
+	if request.method == "POST":
+		form = patientSurveyForm(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.details = patient_instance
+			post.save()
+			return render(request, 'patient_survey_complete.html')
+	try: 
+		taken_survey = patient_survey.objects.get(details=patient_instance.pk)
+		return render(request, 'patient_survey_complete.html')
+	except:
+		return render(request, 'patient_survey.html', returnVal)
+
+
 
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")

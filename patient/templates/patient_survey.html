@@ -19,6 +19,7 @@
 </head>
 <body style="background-color: #fbfafa;">
 	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
 		<div class="container-fluid">
 			<br/>
 			<div class="row justify-content-md-center impormasyon_basa">
@@ -303,6 +304,14 @@
 			$(".section_i").hide();
 		})
 		$("#section_i_next").click(function(){
+			var input_arrays = ['social_phobia', 'generalized_anxiety_disorder', 'major_depressive_disorder', 'disorder_personality_disorder', 'dysthymia', 'agoraphobia', 'bipolar_disorder', 'drug_dependence', 'mas_babae', 'mas_lalake'];
+			for (var i = input_arrays.length - 1; i >= 0; i--) {
+				var loopvar = $("input[name='"+input_arrays[i]+"']").is(':checked');
+				if (loopvar == false){
+					$("input[name='"+input_arrays[i]+"']").focus();
+					return false;
+				}
+			}
 			$(".section_ii").show(400);
 			$(".section_i").hide();
 			
@@ -313,6 +322,14 @@
 			$(".section_i").show(400);
 		})
 		$("#section_ii_next").click(function(){
+			var input_arrays = ['kalidad_pagtulog', 'iwasan_aktibidad']
+			for (var i = input_arrays.length - 1; i >= 0; i--) {
+				var loopvar = $("input[name='"+input_arrays[i]+"']").is(':checked');
+				if (loopvar == false){
+					$("input[name='"+input_arrays[i]+"']").focus();
+					return false;
+				}
+			}
 			$(".section_iii").show(400);
 			$(".section_ii").hide();
 		})
@@ -322,6 +339,14 @@
 			$(".section_ii").show(400);
 		})
 		$("#section_iii_next").click(function(){
+			var input_arrays = ['cognitive_behavior_therapy', 'kumpidensyal', 'hindi_nagbabanta']
+			for (var i = input_arrays.length - 1; i >= 0; i--) {
+				var loopvar = $("input[name='"+input_arrays[i]+"']").is(':checked');
+				if (loopvar == false){
+					$("input[name='"+input_arrays[i]+"']").focus();
+					return false;
+				}
+			}
 			$(".section_iii").hide();
 			$(".section_iv").show(400);
 		})
@@ -331,6 +356,14 @@
 			$(".section_iii").show(400);
 		})
 		$("#section_iv_next").click(function(){
+			var input_arrays = ['hahanapin_impormasyon_sakit_isip', 'humingi_impormasyon_sakit_isip', 'pagpapatingin_sa_doktor', 'mapagkukunan_impormasyon_sakit_isip', 'bumalik_tamang_kaisipan', 'sakit_medikal', 'personal_kahinaan', 'mapanganib', 'umiwas_taong_sakit_isip', 'hindi_sasabihin_kahit_kanino', 'question_26', 'question_27', 'hindi_magiging_epektibo']
+			for (var i = input_arrays.length - 1; i >= 0; i--) {
+				var loopvar = $("input[name='"+input_arrays[i]+"']").is(':checked');
+				if (loopvar == false){
+					$("input[name='"+input_arrays[i]+"']").focus();
+					return false;
+				}
+			}
 			$(".section_iv").hide();
 			$(".section_v").show(400);
 		})

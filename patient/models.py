@@ -180,6 +180,7 @@ class hamd(models.Model):
 class patient_survey(models.Model):
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
 	responde_date = models.DateTimeField(auto_now_add=True)
+	
 	social_phobia = models.CharField(max_length=250, blank=True, null=True)
 	generalized_anxiety_disorder = models.CharField(max_length=250, blank=True, null=True)
 	major_depressive_disorder = models.CharField(max_length=250, blank=True, null=True)

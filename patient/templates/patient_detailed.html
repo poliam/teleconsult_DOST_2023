@@ -130,6 +130,17 @@
     							</div>
   							</div>
     					</div>
+    					<div class="col-sm-12">
+    						<span style="display:none;">
+    							<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
+    						</span>
+    						{% if has_survey == 1 %}
+    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i></label>
+    						{% else %}
+    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i></label>
+    						{% endif %}
+    						
+    					</div>
     				</div>
   				</div>
 			</div>
@@ -450,6 +461,18 @@
 {% block script %}
 <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+	function copySurveyText(){
+		  var copyText = document.getElementById("patientSurvayLink");
+		 // Select the text field
+  		copyText.select();
+  		copyText.setSelectionRange(0, 99999); // For mobile devices
+  		// Copy the text inside the text field
+  		navigator.clipboard.writeText(copyText.value);
+
+  		// Alert the copied text
+ 		 alert("Copy Link!");
+	}
+
 	function showRelativeDetails(that) {
 		var relative_id = $(that).attr("attr_id");
 		$("#relative_modal_body").show();
