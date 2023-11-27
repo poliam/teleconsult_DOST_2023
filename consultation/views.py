@@ -173,6 +173,9 @@ def EncounterDetails(request):
 	returnVal = {}
 	encounter_id = request.GET['enouter_id']
 	returnVal['encounter_details'] = encounter.objects.get(pk=encounter_id)
+	returnVal['chief_complaints'] = chief_complaints.objects.get(encounter=encounter_id)
+	returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id)
+	returnVal['mental_general_description'] = mental_general_description.objects.get(encounter=encounter_id)
 	html = render_to_string('consultation_details.html', returnVal)
 	return HttpResponse(html)
 

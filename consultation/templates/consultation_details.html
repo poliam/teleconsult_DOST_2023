@@ -1,5 +1,130 @@
-<div class="row">
-	<div class="col-sm-12">
-		<h1>Consultation Details</h1>
+
+<div class="card">
+	<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+		<h5 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseChiefComplaints" aria-expanded="false" aria-controls="collapseChiefComplaints">Chief Complaints</h5>
+	</div>
+	<div class="collapse" id="collapseChiefComplaints">
+		<div class="card card-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<h6>Patient Complaints:</h6>
+				</div>
+				<div class="col-sm-12">
+					<textarea class="form-control"  row="6" readonly>{{ chief_complaints.patient_complaints}}</textarea>
+				</div>
+				<div class="col-sm-12">
+					<h6>Informant Complaints:</h6>
+				</div>
+				<div class="col-sm-12">
+					<textarea class="form-control" row="6" readonly>{{ chief_complaints.informant_complaints}}</textarea>
+				</div>
+				<div class="col-sm-12">
+					<h6>Informant Relationshop:</h6>
+				</div>
+				<div class="col-sm-12">
+					<input type="text" class="form-control"  value="{{ chief_complaints.informatmant_relationship}}" readonly>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+<div class="card" style="margin-top:0.3rem;">
+	<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+		<h5 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseHistoryofPresentIllness" aria-expanded="false" aria-controls="collapseHistoryofPresentIllness">History of Present Illness</h5>
+	</div>
+	<div class="collapse" id="collapseHistoryofPresentIllness">
+		<div class="card card-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<table class="table ">
+						<thead class="patient_detail_name">
+    						<tr>
+      							<th scope="col" width="10%">Number of</th>
+      							<th scope="col" width="15%">calendrical</th>
+      							<th scope="col" width="85%">Details</th>
+    						</tr>
+  						</thead>
+  						<tbody>
+  							{% for history in history_present_illness %}
+  								<tr>
+  									<td>{{ history.number }}</td>
+  									<td>{{ history.calendrical }}</td>
+  									<td>{{ history.details }}</td>
+  								</tr>
+  							{% empty %}
+  								<tr>
+  									<td colspan="3">No record of present illness. . .</td>
+  								</tr>
+  							{% endfor %}
+  						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card" style="margin-top:0.3rem;">
+	<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+		<h5 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMentalStatus" aria-expanded="false" aria-controls="collapseMentalStatus">Mental Status</h5>
+	</div>
+	<div class="collapse" id="collapseMentalStatus">
+		<div class="card card-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<h6>General Description</h6>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="mb-3">
+  						<label for="exampleFormControlInput1" class="form-label">Dress Grooming</label>
+  						<input type="text" class="form-control" readonly value="{{ mental_general_description.dress_grooming.name }}">
+					</div>
+				</div>
+				<div class='col-sm-4'>
+					<div class="mb-3">
+  						<label for="exampleFormControlTextarea1" class="form-label">Physical Characteristics</label>
+  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.physical_characteristics }}</textarea>
+					</div>
+				</div>
+				<div class='col-sm-4'>
+					<div class="mb-3">
+  						<label for="exampleFormControlTextarea1" class="form-label">Posture Gait</label>
+  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.posture_gait }}</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="mb-3">
+  						<label for="exampleFormControlInput1" class="form-label">Attitude</label>
+  						<input type="text" class="form-control" readonly value="{{ mental_general_description.attitude.name }}">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="mb-3">
+  						<label for="exampleFormControlInput1" class="form-label">Facial Expression</label>
+  						<input type="text" class="form-control" readonly value="{{ mental_general_description.facial_expression.name }}">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="mb-3">
+  						<label for="exampleFormControlInput1" class="form-label">Motor Active</label>
+  						<input type="text" class="form-control" readonly value="{{ mental_general_description.motor_active.name }}">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="mb-3">
+  						<label for="exampleFormControlInput1" class="form-label">Movement</label>
+  						<input type="text" class="form-control" readonly value="{{ mental_general_description.movement.name }}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
