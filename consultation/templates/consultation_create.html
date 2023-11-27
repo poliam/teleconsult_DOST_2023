@@ -40,11 +40,14 @@
 {% endblock style %}
 
 {% block content %}
-<nav class="navbar navbar-light bg-light justify-content-between sticky-top">
-	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Back</button>
-  	<form class="form-inline">
+<form method="POST">
+	{% csrf_token %}	
+	<nav class="navbar navbar-light bg-light justify-content-between sticky-top">
+		<a href="{% url 'PatientDetailed' patientDetailed.pk %}" class="btn btn-outline-success my-2 my-sm-0" style="text-decoration:none;">
+			Back
+		</a>
+  	
     	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
-  	</form>
 </nav>
 <div class="container-fluid">
 	
@@ -93,15 +96,12 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<label><b>Date of Consultations (mm/dd/yyyy)*</b></label>
-								<input type="text" class="form-control" id="consultation_date" name="consultation_date" value="" placeholder="consultation date">
+								<label><b>{{ consultationEncounterForm.consultation_date.label }}{% if consultationEncounterForm.consultation_date.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.consultation_date }}
 							</div>
 							<div class="form-group">
-								<label><b>Reason for Interaction*</b></label>
-								<select id="reason_for_interaction" name="reason_for_interaction" class="form-control">
-									<option value="1">Outpatient - Checkup</option>
-									<option value="1">Outpatient - Followup</option>
-								</select>
+								<label><b>{{ consultationEncounterForm.reason_for_interaction.label }}{% if consultationEncounterForm.reason_for_interaction.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.reason_for_interaction }}
 							</div>
 						</div>
 					</div>
@@ -116,26 +116,26 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label>Height(cm)</label>
-						<input type="text" class="form-control" id="vital_height" name="vital_height" value="" placeholder="height">
+						{{ vitalSignForm.height.label }}{% if vitalSignForm.height.field.required %}*{% endif %}
+						{{ vitalSignForm.height }}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label>Weight(kg)</label>
-						<input type="text" class="form-control" id="vital_weight" name="vital_weight" value="" placeholder="Weight">
+						{{ vitalSignForm.weight.label }}{% if vitalSignForm.weight.field.required %}*{% endif %}
+						{{ vitalSignForm.weight }}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label>Blood Pressure(kg)</label>
-						<input type="text" class="form-control" id="vital_blood_pressure" name="vital_blood_pressure" value="" placeholder="Blood Pressure">
+						{{ vitalSignForm.blood_pressure.label }}{% if vitalSignForm.blood_pressure.field.required %}*{% endif %}
+						{{ vitalSignForm.blood_pressure }}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label>Temperature(C)</label>
-						<input type="text" class="form-control" id="vital_temperature" name="vital_temperature" value="" placeholder="Temperature">
+						{{ vitalSignForm.temperature.label }}{% if vitalSignForm.temperature.field.required %}*{% endif %}
+						{{ vitalSignForm.temperature }}
 					</div>
 				</div>
 			</div>
@@ -171,38 +171,20 @@
 					<div class="row justify-content-md-center">
 						<div class="col-sm-10">
 							<div class="form-group">
-								<label>Patient</label>
-								<textarea class="form-control" rows="4"></textarea>
+								{{ ConsultationChiefComplaintForm.patient_complaints.label }}{% if ConsultationChiefComplaintForm.patient_complaints.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.patient_complaints }}
 							</div>
 						</div>
 						<div class="col-sm-10">
 							<div class="form-group">
-								<label>Informant</label>
-								<textarea class="form-control" rows="4"></textarea>
+								{{ ConsultationChiefComplaintForm.informant_complaints.label }}{% if ConsultationChiefComplaintForm.informant_complaints.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.informant_complaints }}
 							</div>
 						</div>
 						<div class="col-sm-10">
 							<div class="form-group">
-								<label>Informant Relationship</label>
-								<select class="form-control">
-										<option value="0">- - Select relationship - -</option>
-    									<option value="Mother" {% if relative_details.relationship == "Mother" %} selected  {% endif %}>Mother</option>
-    									<option value="Father" {% if relative_details.relationship == "Father" %} selected  {% endif %}>Father</option>
-    									<option value="Son" {% if relative_details.relationship == "Son" %} selected  {% endif %}>Son</option>
-    									<option value="Daughter" {% if relative_details.relationship == "Daughter" %} selected  {% endif %}>Daughter</option>
-    									<option value="Brother" {% if relative_details.relationship == "Brother" %} selected  {% endif %}>Brother</option>
-    									<option value="Niece or nephew" {% if relative_details.relationship == "Niece or nephew" %} selected  {% endif %}>Niece or nephew</option>
-    									<option value="Aunt" {% if relative_details.relationship == "Aunt" %} selected  {% endif %}>Aunt</option>
-    									<option value="Uncle" {% if relative_details.relationship == "Uncle" %} selected  {% endif %}>Uncle</option>
-    									<option value="Sister" {% if relative_details.relationship == "Sister" %} selected  {% endif %}>Sister</option>
-    									<option value="Spouse" {% if relative_details.relationship == "Spouse" %} selected  {% endif %}>Spouse</option>
-    									<option value="Son-in-law" {% if relative_details.relationship == "Son-in-law" %} selected  {% endif %}>Son-in-law</option>
-    									<option value="Daughter-in-law" {% if relative_details.relationship == "Daughter-in-law" %} selected  {% endif %}>Daughter-in-law</option>
-    									<option value="Second Cousin" {% if relative_details.relationship == "Second Cousin" %} selected  {% endif %}>Second Cousin</option>
-    									<option value="Third Cousin" {% if relative_details.relationship == "Third Cousin" %} selected  {% endif %}>Third Cousin</option>
-    									<option value="Wife" {% if relative_details.relationship == "Wife" %} selected  {% endif %}>Wife</option>
-    									<option value="Husband" {% if relative_details.relationship == "Husband" %} selected  {% endif %}>Husband</option>
-								</select>
+								{{ ConsultationChiefComplaintForm.informatmant_relationship.label }}{% if ConsultationChiefComplaintForm.informatmant_relationship.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.informatmant_relationship }}
 							</div>
 						</div>
 					</div>
@@ -211,32 +193,64 @@
   				<div class="tab-pane fade" id="HOPI" role="tabpanel" aria-labelledby="HOPI-tab">
   					<br/>
   					<div class="row justify-content-md-center">
-  						<div class="col-sm-2">Number of</div>
+  						<div class="col-sm-1">Number of</div>
   						<div class="col-sm-2">Min/Hr/Days/Month/Year*</div>
-  						<div class="col-sm-6">Details*</div>
+  						<div class="col-sm-7">Details*</div>
   						<div class="col-sm-2"></div>
   					</div>
   					<hr>
-  					<form class="HOPI-form">
-  						<div class="row">
-	  						<div class="col-sm-2">
-	  							<input type="text" class="form-control" id="HOPI_NUM[]" name="HOPI_NUM[]" placeholder="Number">
-	  						</div>
-	  						<div class="col-sm-2">
-	  							<input type="text" class="form-control" id="HOPI_TIME[]" name="HOPI_TIME[]" placeholder="Min/Hr/Days/Month/Year">
-	  						</div>
-	  						<div class="col-sm-7">
-	  							<textarea class="form-control" id="HOPI_DETAILS[]" name="HOPI_DETAILS[]" rows="1"></textarea>
-	  						</div>
-	  						<div class="col-sm-1">
-	  							<button type="button" class="btn btn-outline-danger form-control">Remove</button>
-	  						</div>
-	  					</div>
-  					</form>
+  					<span class="HOPI-form">
+  						{% for HOPI in  HOPI_List %}
+  							<div class="row">
+		  						<div class="col-sm-1">
+		  							<input type="text" class="form-control" id="HOPI_NUM[]" name="HOPI_NUM[]" value="{{ HOPI.HOPI_NUM }}" placeholder="Number">
+		  						</div>
+		  						<div class="col-sm-2">
+		  							<select id="HOPI_TIME[]" name="HOPI_TIME[]" class="form-control">
+		  								<option value="">- - Select Option - -</option>
+		  								<option value="Minutes" {% if HOPI.HOPI_TIME == 'Minutes'%} selected {% endif %}>Minutes</option>
+		  								<option value="Hours" {% if HOPI.HOPI_TIME == 'Hours'%} selected {% endif %}>Hours</option>
+		  								<option value="Days" {% if HOPI.HOPI_TIME == 'Days'%} selected {% endif %}>Days</option>
+		  								<option value="Months" {% if HOPI.HOPI_TIME == 'Months'%} selected {% endif %}>Months</option>
+		  								<option value="Years" {% if HOPI.HOPI_TIME == 'Years'%} selected {% endif %}>Years</option>
+		  							</select>
+		  						</div>
+		  						<div class="col-sm-8">
+		  							<textarea class="form-control" id="HOPI_DETAILS[]" name="HOPI_DETAILS[]" rows="1" >{{ HOPI.HOPI_DETAILS }}</textarea>
+		  						</div>
+		  						<div class="col-sm-1">
+		  							<button type="button" class="btn btn-outline-danger form-control">Remove</button>
+		  						</div>
+		  					</div>
+  						{% empty %}
+  							<div class="row">
+		  						<div class="col-sm-1">
+		  							<input type="text" class="form-control" id="HOPI_NUM[]" name="HOPI_NUM[]" placeholder="Number">
+		  						</div>
+		  						<div class="col-sm-2">
+		  							<select id="HOPI_TIME[]" name="HOPI_TIME[]" class="form-control">
+		  								<option value="">- - Select Option - -</option>
+		  								<option value="Minutes">Minutes</option>
+		  								<option value="Hours">Hours</option>
+		  								<option value="Days">Days</option>
+		  								<option value="Months">Months</option>
+		  								<option value="Years">Years</option>
+		  							</select>
+		  						</div>
+		  						<div class="col-sm-8">
+		  							<textarea class="form-control" id="HOPI_DETAILS[]" name="HOPI_DETAILS[]" rows="1"></textarea>
+		  						</div>
+		  						<div class="col-sm-1">
+		  							<button type="button" class="btn btn-outline-danger form-control">Remove</button>
+		  						</div>
+		  					</div>
+  						{% endfor %}
+  						
+  					</span>
   					<br/>
   					<div class="row justify-content-md-center">
   						<div class="col-sm-6">
-  							<button type="button" class="btn btn-outline-info form-control">Add More</button>
+  							<button type="button" class="btn btn-outline-info form-control" onclick="AddMoreHOPI();">Add More</button>
   						</div>
   					</div>
   				</div>
@@ -248,117 +262,68 @@
   						<hr>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Dress Grooming</label>
-								<select class="form-control">
-										<option value="0">- - Select Grooming - -</option>
-    									{% if grooming_list %}
-    										{% for grooming in grooming_list %}
-    											<option value="{{ grooming.pk }}">{{ grooming.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.dress_grooming.label }}
+								{{ MentalGeneralDescriptionForm.dress_grooming }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Physical characteristics</label>
-								<textarea class="form-control" rows="4"></textarea>
+								{{ MentalGeneralDescriptionForm.physical_characteristics.label }}
+								{{ MentalGeneralDescriptionForm.physical_characteristics }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Posture and gait</label>
-								<textarea class="form-control" rows="4"></textarea>
+								{{ MentalGeneralDescriptionForm.posture_gait.label }}
+								{{ MentalGeneralDescriptionForm.posture_gait }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Attitude</label>
-								<select class="form-control">
-										<option value="0">- - Attitude - -</option>
-    									{% if attitude_list %}
-    										{% for attitude in attitude_list %}
-    											<option value="{{ attitude.pk }}">{{ attitude.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.attitude.label }}
+								{{ MentalGeneralDescriptionForm.attitude }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Facial Expression</label>
-								<select class="form-control">
-										<option value="0">- - Facial Expression - -</option>
-    									{% if facialexpression_list %}
-    										{% for facialexpression in facialexpression_list %}
-    											<option value="{{ facialexpression.pk }}">{{ facialexpression.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.facial_expression.label }}
+								{{ MentalGeneralDescriptionForm.facial_expression }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Motor Active</label>
-								<select class="form-control">
-										<option value="0">- - Motor Active - -</option>
-    									{% if motoactive_list %}
-    										{% for motoactive in motoactive_list %}
-    											<option value="{{ motoactive.pk }}">{{ motoactive.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.motor_active.label }}
+								{{ MentalGeneralDescriptionForm.motor_active }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Movement</label>
-								<select class="form-control">
-										<option value="0">- - Movement - -</option>
-    									{% if movement_list %}
-    										{% for movement in movement_list %}
-    											<option value="{{ movement.pk }}">{{ movement.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.movement.label }}
+								{{ MentalGeneralDescriptionForm.movement }}
 							</div>
   						</div>
   						<div class="col-sm-12">
   							<div class="form-group">
-								<label>Behavior Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalGeneralDescriptionForm.behavior_remarks.label }}
+								{{ MentalGeneralDescriptionForm.behavior_remarks }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Speech</label>
-								<select class="form-control">
-										<option value="0">- - Speech - -</option>
-    									{% if speech_list %}
-    										{% for speech in speech_list %}
-    											<option value="{{ speech.pk }}">{{ speech.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.speech.label }}
+								{{ MentalGeneralDescriptionForm.speech }}
 							</div>
   						</div>
   						<div class="col-sm-3">
   							<div class="form-group">
-								<label>Aphasia</label>
-								<select class="form-control">
-										<option value="0">- - Aphasia - -</option>
-    									{% if aphasia_list %}
-    										{% for aphasia in aphasia_list %}
-    											<option value="{{ aphasia.pk }}">{{ aphasia.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalGeneralDescriptionForm.aphasia.label }}
+								{{ MentalGeneralDescriptionForm.aphasia }}
 							</div>
   						</div>
   						<div class="col-sm-6">
   							<div class="form-group">
-								<label>Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalGeneralDescriptionForm.remarks.label }}
+								{{ MentalGeneralDescriptionForm.remarks }}
 							</div>
   						</div>
   					</div>  <!-- General Description -->
@@ -368,47 +333,26 @@
   						<hr>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Mood</label>
-								<select class="form-control">
-										<option value="0">- - Mood - -</option>
-    									{% if mood_list %}
-    										{% for mood in mood_list %}
-    											<option value="{{ mood.pk }}">{{ mood.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalEmotionForm.mood.label }}
+								{{ MentalEmotionForm.mood }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Affect</label>
-								<select class="form-control">
-										<option value="0">- - Affect - -</option>
-    									{% if affect_list %}
-    										{% for affect in affect_list %}
-    											<option value="{{ affect.pk }}">{{ affect.name }}</option>
-    										{% endfor %}
-    									{% endif %}
-								</select>
+								{{ MentalEmotionForm.affect.label }}
+								{{ MentalEmotionForm.affect }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Sign of Depression</label>
-								<select class="form-control">
-									<option value="0">- - Sign of Depression - -</option>
-									{% if insomnia_list %}
-										{% for insomnia in insomnia_list %}
-											<option value="{{ insomnia.pk }}">{{ insomnia.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalEmotionForm.sign_depression.label }}
+								{{ MentalEmotionForm.sign_depression }}
 							</div>
   						</div>
   						<div class="col-sm-12">
   							<div class="form-group">
-								<label>Emotion Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalEmotionForm.emotion_remarks.label }}
+								{{ MentalEmotionForm.emotion_remarks }}
 							</div>
   						</div>
   					</div>	<!-- emotional end -->
@@ -418,50 +362,36 @@
   						<hr>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Consciousness</label>
-								<select class="form-control">
-									<option value="0">- - Affect - -</option>
-									{% if orientation_list %}
-										{% for orientation in orientation_list %}
-											<option value="{{ orientation.pk }}">{{ orientation.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalCognitiveForm.consciousness.label }}
+								{{ MentalCognitiveForm.consciousness }}
 							</div>
   						</div>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Memory</label>
-								<select class="form-control">
-									<option value="0">- - Memory - -</option>
-									{% if memory_list %}
-										{% for memory in memory_list %}
-											<option value="{{ memory.pk }}">{{ memory.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalCognitiveForm.memory.label }}
+								{{ MentalCognitiveForm.memory }}
 							</div>
   						</div>
   						<div class="col-sm-2">
   							<div class="form-check">
-  								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-  								<label class="form-check-label" for="defaultCheck1">Is able to pay attention</label>
+								{{ MentalCognitiveForm.attention }}
+								{{ MentalCognitiveForm.attention.label }}
 							</div>
 							<div class="form-check">
-  								<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-  								<label class="form-check-label" for="defaultCheck2">Is able to concentrate</label>
+  								{{ MentalCognitiveForm.concentrate }}
+								{{ MentalCognitiveForm.concentrate.label }}
 							</div>
   						</div>
   						<div class="col-sm-6">
   							<div class="form-group">
-								<label>Memory Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalCognitiveForm.memory_remarks.label }}
+								{{ MentalCognitiveForm.memory_remarks }}
 							</div>
   						</div>
   						<div class="col-sm-6">
   							<div class="form-group">
-								<label>Abstractability Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalCognitiveForm.abstractability_remarks.label }}
+								{{ MentalCognitiveForm.abstractability_remarks }}
 							</div>
   						</div>
   					</div> <!-- cognitive functions -->
@@ -471,67 +401,32 @@
   						<hr>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Disordered Perceptions</label>
-								<select class="form-control">
-									<option value="0">- - Disordered Perceptions - -</option>
-									{% if disorderedperception_list %}
-										{% for disorderedperception in disorderedperception_list %}
-											<option value="{{ disorderedperception.pk }}">{{ disorderedperception.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalThoughtPerceptionForm.disordered_perception.label }}
+								{{ MentalThoughtPerceptionForm.disordered_perception }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Thought Content</label>
-								<select class="form-control">
-									<option value="0">- - Thought Content - -</option>
-									{% if thoughtcontent_list %}
-										{% for thoughtcontent in thoughtcontent_list %}
-											<option value="{{ thoughtcontent.pk }}">{{ thoughtcontent.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalThoughtPerceptionForm.thought_content.label }}
+								{{ MentalThoughtPerceptionForm.thought_content }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Delusion Content</label>
-								<select class="form-control">
-									<option value="0">- - Delusion Content - -</option>
-									{% if delusioncontent_list %}
-										{% for delusioncontent in delusioncontent_list %}
-											<option value="{{ delusioncontent.pk }}">{{ delusioncontent.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalThoughtPerceptionForm.delusion_content.label }}
+								{{ MentalThoughtPerceptionForm.delusion_content }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Thought Form</label>
-								<select class="form-control">
-									<option value="0">- - Thought Form - -</option>
-									{% if thoughtform_list %}
-										{% for thoughtform in thoughtform_list %}
-											<option value="{{ thoughtform.pk }}">{{ thoughtform.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalThoughtPerceptionForm.thought_form.label }}
+								{{ MentalThoughtPerceptionForm.thought_form }}
 							</div>
   						</div>
   						<div class="col-sm-4">
   							<div class="form-group">
-								<label>Preoccupations</label>
-								<select class="form-control">
-									<option value="0">- - Preoccupations - -</option>
-									{% if preoccupation_list %}
-										{% for preoccupation in preoccupation_list %}
-											<option value="{{ preoccupation.pk }}">{{ preoccupation.name }}</option>
-										{% endfor %}
-									{% endif %}
-								</select>
+								{{ MentalThoughtPerceptionForm.preoccupations.label }}
+								{{ MentalThoughtPerceptionForm.preoccupations }}
 							</div>
   						</div>
   					</div><!-- Thought and Perception -->
@@ -541,26 +436,26 @@
   						<hr>
   						<div class="col-sm-1">
   							<div class="form-check">
-  								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-								<label class="form-check-label" for="flexCheckDefault">Is patient suicidal?</label>
+								{{ MentalSuicidalityForm.is_suicidal }}
+								{{ MentalSuicidalityForm.is_suicidal.label }}
 							</div>
   						</div>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Suicidality homicidality Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.suicidality_remarks.label }}
+								{{ MentalSuicidalityForm.suicidality_remarks }}
 							</div>
   						</div>
   						<div class="col-sm-1">
   							<div class="form-check">
-  								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-								<label class="form-check-label" for="flexCheckDefault">Is patient homicidal?</label>
+  								{{ MentalSuicidalityForm.is_homicidal }}
+								{{ MentalSuicidalityForm.is_homicidal.label }}
 							</div>
   						</div>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Impulse Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.impulse_remarks.label }}
+								{{ MentalSuicidalityForm.impulse_remarks }}
 							</div>
   						</div>
   					</div><!-- Suicidality, Homocidality and Impulse Control -->
@@ -570,14 +465,14 @@
   						<hr>
   						<div class="col-sm-6">
   							<div class="form-group">
-								<label>Reliability</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.reliability.label }}
+								{{ MentalSuicidalityForm.reliability }}
 							</div>
   						</div>
   						<div class="col-sm-6">
   							<div class="form-group">
-								<label>Reliability Impression</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.reliability_impression.label }}
+								{{ MentalSuicidalityForm.reliability_impression }}
 							</div>
   						</div>
   					</div><!-- Reliability -->
@@ -587,20 +482,20 @@
   						<hr>
   						<div class="col-sm-2">
   							  <div class="form-check">
-  								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-								<label class="form-check-label" for="flexCheckDefault">Is surroundings inappropriate?</label>
+  								{{ MentalSuicidalityForm.surroundings_inappropriate }}
+								{{ MentalSuicidalityForm.surroundings_inappropriate.label }}
 							</div>
   						</div>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Environment</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.environment.label }}
+								{{ MentalSuicidalityForm.environment }}
 							</div>
   						</div>
   						<div class="col-sm-5">
   							<div class="form-group">
-								<label>Remarks</label>
-								<textarea class="form-control" rows="3"></textarea>
+								{{ MentalSuicidalityForm.environment_remarks.label }}
+								{{ MentalSuicidalityForm.environment_remarks }}
 							</div>
   						</div>
   					</div><!-- The Environment -->
@@ -615,30 +510,38 @@
   						<div class="col-sm-2"></div>
   					</div>
   					<hr>
-  					<form class="HOPI-form">
-  						<div class="row">
-	  						<div class="col-sm-2">
-	  							<select class="form-control" name="condition[]">
-	  								<option>- - condition - -</option>
-	  								{% if condition_list %}
-	  									{% for condition in condition_list %}
-	  										<option value="{{ condition.pk }}">{{ condition.name }}</option>
-	  									{% endfor %}
-	  								{% endif %}
-	  							</select>
-	  						</div>
-	  						<div class="col-sm-9">
-	  							<textarea class="form-control" name="condition_detail[]" rows="1"></textarea>
-	  						</div>
-	  						<div class="col-sm-1">
-	  							<button type="button" class="btn btn-outline-danger form-control">Remove</button>
-	  						</div>
-	  					</div>
-  					</form>
+  					<span class="conditionFormWrapper">
+  						{% for condition in  conditionFormList %}
+  							<div class="row">
+		  						<div class="col-sm-2">
+		  							<input type="text" class="form-control condition" name="condition[]" id="condition[]" value="{{ condition.condition }}" placeholder="Condition">
+		  						</div>
+		  						<div class="col-sm-9">
+		  							<textarea class="form-control" name="condition_detail[]" rows="1">{{ condition.condition_detail }}</textarea>
+		  						</div>
+		  						<div class="col-sm-1">
+		  							<button type='button' class='btn btn-outline-danger form-control' onclick='RemoveHOPIRow(this);'>Remove</button>
+		  						</div>
+		  					</div>
+  						{% empty %}
+  							<div class="row">
+		  						<div class="col-sm-2">
+		  							<input type="text" class="form-control condition" name="condition[]" id="condition[]" placeholder="Condition">
+		  						</div>
+		  						<div class="col-sm-9">
+		  							<textarea class="form-control" name="condition_detail[]" rows="1"></textarea>
+		  						</div>
+		  						<div class="col-sm-1">
+		  							
+		  						</div>
+		  					</div>
+  						{% endfor %}
+  						
+  					</span>
   					<br/>
   					<div class="row justify-content-md-center">
   						<div class="col-sm-6">
-  							<button type="button" class="btn btn-outline-info form-control">Add More</button>
+  							<button type="button" class="btn btn-outline-info form-control" onclick="AddMoreCondition()">Add More</button>
   						</div>
   					</div>
   				</div>
@@ -651,46 +554,47 @@
   								<div class="col-sm-12">
   									<div class="form-group">
 										<label>Drug*</label>
-										<select class="form-control">
-												<option value="0">- - Drug- -</option>
-										</select>
+										<input type="text" name="drug" id="drug" placeholder="Drugs" class="form-control">
+										<div class="invalid-feedback drug_invalid">
+        									Drug field should not be empty!
+      									</div>
 									</div>
   								</div>
   								<div class="col-sm-6">
   									<div class="form-group">
 										<label>Presentation/Strength</label>
-										<input type="text" class="form-control" name="" placeholder="Strength">
+										<input type="text" class="form-control" id="drug_strength" placeholder="Strength">
 									</div>
   								</div>
   								<div class="col-sm-6">
   									<div class="form-group">
 										<label>Dose</label>
-										<input type="text" class="form-control" name="" placeholder="Dose">
+										<input type="text" class="form-control" id="drug_dose" placeholder="Dose">
 									</div>
   								</div>
   								<div class="col-sm-4">
   									<div class="form-group">
 										<label>Route</label>
-										<input type="text" class="form-control" name="" placeholder="Route">
+										<input type="text" class="form-control" id="drug_Route" placeholder="Route">
 									</div>
   								</div>
   								<div class="col-sm-4">
   									<div class="form-group">
 										<label>Frequency</label>
-										<input type="text" class="form-control" name="" placeholder="Frequency">
+										<input type="text" class="form-control" id="drug_Frequency" placeholder="Frequency">
 									</div>
   								</div>
   								<div class="col-sm-4">
   									<div class="form-group">
 										<label>No of drugs</label>
-										<input type="text" class="form-control" name="" placeholder="Frequency">
+										<input type="text" class="form-control" id="drug_no" placeholder="Frequency">
 									</div>
   								</div>
   							</div>
   							<br/>
   							<div class="row">
   								<div class="col-sm-12">
-  									<button type="button" class="btn btn-outline-info form-control">Add Treatment</button>
+  									<button type="button" class="btn btn-outline-info form-control" onclick="AddTreatment()">Add Treatment</button>
   								</div>
   							</div>
   						</div>
@@ -701,20 +605,14 @@
 								    	<th scope="col">Drug</th>
 								    	<th scope="col">Presentation/Strength</th>
 								    	<th scope="col">Dose</th>
+								    	<th scope="col">Route</th>
 								    	<th scope="col">Frequency</th>
 								    	<th scope="col">No of drugs</th>
 								    	<th scope="col"></th>
 								    </tr>
   								</thead>
-  								<tbody>
-  									<tr>
-  										<td>Paracetamol</td>
-  										<td>25mg</td>
-  										<td></td>
-  										<td>3x a day</td>
-  										<td>15pcs</td>
-  										<td><button type="button" class="btn btn-outline-danger">Remove</button></td>
-  									</tr>
+  								<tbody class="drug_treatment_wrapper">
+
   								</tbody>
   							</table>
   						</div>	
@@ -733,8 +631,8 @@
   					<div class="row justify-content-md-center">
   						<div class="col-sm-10">
 							<div class="form-group">
-								<label>Notes</label>
-								<textarea class="form-control" rows="4"></textarea>
+								{{ consultationEncounterForm.encounter_notes.label }}
+								{{ consultationEncounterForm.encounter_notes }}
 							</div>
 						</div>
   					</div>
@@ -744,6 +642,18 @@
 		</div>
 	</div>
 </div>
+</form>
+
+<form id="list_of_condition" style="display:none;">
+	{% for condition in condition_list %}
+		<input type="hidden" name="{{ condition.name }}" value="{{ condition.name }}">
+	{% endfor%}
+</form>
+<form id="list_of_medicine" style="display:none;">
+	{% for med in medicine %}
+		<input type="hidden" name="{{ med.name }}" value="{{ med.name }}">
+	{% endfor%}
+</form>
 {% endblock content %}
 
 
@@ -753,8 +663,117 @@
 <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
+		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
+		LoadAutocomplete()
+		LoadAutocompleteDrug()
+
 	})
+
+	function AddTreatment(){
+		$(".drug_invalid").hide();
+		var drug = $("#drug").val();
+		var strength = $("#drug_strength").val();
+		var dose = $("#drug_dose").val();
+		var Route = $("#drug_Route").val();
+		var frequency = $("#drug_Frequency").val();
+		var no = $("#drug_no").val();
+		if(drug == ""){
+			$(".drug_invalid").show();
+			return false;
+		}
+		var drug_html = "";
+		drug_html += "<tr>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='drug[]' value='"+drug+"'></td>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='strength[]' value='"+strength+"'></td>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='dose[]' value='"+dose+"'></td>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='Route[]' value='"+Route+"'></td>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='frequency[]' value='"+frequency+"'></td>";
+		drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='drug_no[]' value='"+no+"'></td>";
+		drug_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveDrugs(this);'>Remove</button></td>";
+
+		drug_html += "</tr>";
+		$(".drug_treatment_wrapper").append(drug_html);
+		$("#drug").val("");
+		$("#drug_strength").val("");
+		$("#drug_dose").val("");
+		$("#drug_Route").val("");
+		$("#drug_Frequency").val("");
+		$("#drug_no").val("");
+	}
+
+	function RemoveDrugs(that){
+		$(that).parent().parent('tr').remove();
+	}
+
+	function RemoveHOPIRow(that){
+		$(that).parent().parent('div').remove();
+	}
+
+	function LoadAutocompleteDrug(){
+		var availableTags = [];
+		var medicine_array = $("#list_of_medicine").serializeArray();
+		$.each(medicine_array, function(index, value){
+			availableTags.push(value.name);
+		})
+		$( "#drug" ).autocomplete({
+      		source: availableTags
+    	});
+	}
+
+	function LoadAutocomplete(){
+		var availableTags = [];
+		var condition_array = $("#list_of_condition").serializeArray();
+		$.each(condition_array, function(index, value){
+			availableTags.push(value.name);
+		})
+		$(".condition").autocomplete({
+      		source: availableTags
+    	});
+	}
+
+	function AddMoreCondition(){
+		var contition_html = "";
+		contition_html += "<div class='row' style='margin-top:0.3rem;'>";
+		contition_html += "	<div class='col-sm-2'>";
+		contition_html += "		<input type='text' class='form-control condition' name='condition[]' id='condition[]' placeholder='Condition'>";
+		contition_html += "	</div>";
+		contition_html += "	<div class='col-sm-9'>";
+		contition_html += "		<textarea class='form-control' name='condition_detail[]' rows='1'></textarea>";
+		contition_html += "	</div>";
+		contition_html += "	<div class='col-sm-1'>";
+		contition_html += "		<button type='button' class='btn btn-outline-danger form-control' onclick='RemoveHOPIRow(this);'>Remove</button>";
+		contition_html += "	</div>";
+		contition_html += "</div>";
+		$(".conditionFormWrapper").append(contition_html);
+		LoadAutocomplete();
+
+	}
+
+	function AddMoreHOPI(){
+		var HOPI_html = "";
+		HOPI_html += "<div class='row' style='margin-top:0.3rem;'>";
+		HOPI_html += "	<div class='col-sm-1'>";
+		HOPI_html += "		<input class='form-control' type='text' id='HOPI_NUM[]' name='HOPI_NUM[]' placeholder='Number'>";
+		HOPI_html += "	</div>";
+		HOPI_html += "	<div class='col-sm-2'>";
+		HOPI_html += " 		<select id='HOPI_TIME[]' name='HOPI_TIME[]' class='form-control'>";
+		HOPI_html += "			<option value=''>- - Select Option - -</option>";
+		HOPI_html += "			<option value='Minutes'>Minutes</option>";
+		HOPI_html += "			<option value='Hours'>Hours</option>";
+		HOPI_html += "			<option value='Days'>Days</option>";
+		HOPI_html += "			<option value='Months'>Months</option>";
+		HOPI_html += "			<option value='Years'>Years</option>";
+		HOPI_html += "		</select>";
+		HOPI_html += "	</div>";
+		HOPI_html += "	<div class='col-sm-8'>";
+		HOPI_html += "		<input class='form-control' type='text' id='HOPI_DETAILS[]' name='HOPI_DETAILS[]' rows='1'>";
+		HOPI_html += "	</div>";
+		HOPI_html += "	<div class='col-sm-1'>";
+		HOPI_html += "		<button type='button' class='btn btn-outline-danger form-control' onclick='RemoveHOPIRow(this);'>Remove</button>";
+		HOPI_html += "	</div>";
+		HOPI_html += "</div>";
+		$(".HOPI-form").append(HOPI_html)
+	}
 	
 </script>
 {% endblock script %}

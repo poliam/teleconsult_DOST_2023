@@ -328,8 +328,22 @@
     								</tr>
   								</thead>
   								<tbody>
+  									{% for encounter in list_of_encounter %}
+  										<tr>
+  											<td>{{ forloop.counter }}</td>
+  											<td style="cursor:pointer; color: #6417A1; font-weight: 700;" attr_id="{{encounter.pk}}" onclick="SelectEncounter(this)">{{ encounter.consultation_date|date:"F d, Y (D)" }}</td>
+  											<td style="color: #6417A1; font-weight: 700;">{{ encounter.reason_for_interaction }}</td>
+  										</tr>
+  									{% empty %}
+  										<tr>
+  											<td colspan="5">
+  												No consultation have been entered. . .
+  											</td>
+  										</tr>
+  									{% endfor %}
   									
   								</tbody>
+  									
     						</table>	
     					</div>
     				</div>
@@ -339,7 +353,7 @@
 		<div class="col-sm-8">
 			<div class="card">
   				<h5 class="card-header consultation_detail card_background_color">Consultations Details<a href="#" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Edit Consultation</button></a></h5>
-  				<div class="card-body">
+  				<div class="card-body consultation_detail_wrapper">
     				<div class="row">
     					<div class="col-sm-12">
     						
@@ -471,6 +485,27 @@
 
   		// Alert the copied text
  		 alert("Copy Link!");
+	}
+
+	function SelectEncounter(that){
+		$(".consultation_detail_wrapper").empty();
+		$(".consultation_detail_wrapper").append("loading . . .");
+		var encounter_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'EncounterDetails' %}",
+	        data: {
+	        	"enouter_id":encounter_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$(".consultation_detail_wrapper").empty();
+				$(".consultation_detail_wrapper").append(data);
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
 	}
 
 	function showRelativeDetails(that) {

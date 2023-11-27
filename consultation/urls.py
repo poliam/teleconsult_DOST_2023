@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
    path('create/<patient_id>', views.CreateConsultation, name="CreateConsultation"),
+   path('details', views.EncounterDetails, name="EncounterDetails"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

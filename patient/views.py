@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
 from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm
+from consultation.models import encounter
 import random, os
 from datetime import date, datetime
 
@@ -106,6 +107,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
 	returnVal['list_of_hamd'] = hamd.objects.filter(details=patient_id)
+	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id)
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')
