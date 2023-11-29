@@ -3,6 +3,8 @@ from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
+from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
 
 
@@ -12,6 +14,8 @@ def dashboard(request):
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "dashboard"
 	returnVal['userDetails'] = profile_details
+	returnVal['number_of_patients'] = details.objects.filter(status=1).count()
+	returnVal['number_of_consultations'] = encounter.objects.filter(status=1).count()
 	return render(request, 'dashboard.html', returnVal)
 
 def login_user(request):

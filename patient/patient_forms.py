@@ -272,7 +272,7 @@ class AddRelativesForm(forms.ModelForm):
 	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
 	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-	is_emergency = forms.BooleanField(label='Call incase of Emergency') 
+	is_emergency = forms.BooleanField(label='Call incase of Emergency', required=False) 
 
 	def __init__(self, *args, **kwargs):
 		super(AddRelativesForm, self).__init__(*args, **kwargs)
@@ -299,6 +299,7 @@ class AddRelativesForm(forms.ModelForm):
 		new_relatives.occupation = request.POST['occupation']
 		new_relatives.contact_number = request.POST['contact_number']
 		new_relatives.email = request.POST['email']
+		new_relatives.is_emergency = request.POST['is_emergency']
 		new_relatives.details = patient_instance
 
 		try:
@@ -327,7 +328,7 @@ class EditRelativesForm(forms.ModelForm):
 	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
 	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-	is_emergency = forms.BooleanField(label='Call incase of Emergency') 
+	is_emergency = forms.BooleanField(label='Call incase of Emergency', required=False) 
 
 	def __init__(self, *args, **kwargs):
 		super(EditRelativesForm, self).__init__(*args, **kwargs)

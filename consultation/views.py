@@ -159,6 +159,7 @@ def CreateConsultation(request, patient_id):
 					new_treatment.route = Route[i]
 					new_treatment.frequency = frequency[i]
 					new_treatment.drug_no = drug_no[i]
+					new_treatment.encounter = EncounterPost
 					new_treatment.save()
 			return redirect("PatientDetailed", patient_id=patient_instance.pk)
 
@@ -173,9 +174,16 @@ def EncounterDetails(request):
 	returnVal = {}
 	encounter_id = request.GET['enouter_id']
 	returnVal['encounter_details'] = encounter.objects.get(pk=encounter_id)
+	returnVal['vital_sign'] = vitalsign.objects.get(encounter=encounter_id)
 	returnVal['chief_complaints'] = chief_complaints.objects.get(encounter=encounter_id)
 	returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id)
 	returnVal['mental_general_description'] = mental_general_description.objects.get(encounter=encounter_id)
+	returnVal['mental_emotions'] = mental_emotions.objects.get(encounter=encounter_id)
+	returnVal['mental_cognitive_function'] = mental_cognitive_function.objects.get(encounter=encounter_id)
+	returnVal['mental_thought_perception'] = mental_thought_perception.objects.get(encounter=encounter_id)
+	returnVal['suicidality'] = suicidality.objects.get(encounter=encounter_id)
+	returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id)
+	returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id)
 	html = render_to_string('consultation_details.html', returnVal)
 	return HttpResponse(html)
 

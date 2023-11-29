@@ -51,9 +51,9 @@
 		    				Patients
 		  				</div>
 		  				<div class="card-body">
-		    				<h5 class="card-title">8</h5>
+		    				<h5 class="card-title">{{ number_of_patients }}</h5>
 		    				<p class="card-text"></p>
-		    				<a href="#" class="view_more" >View more</a>
+		    				<a href="{% url 'PatientLists' %}" class="view_more" >View more</a>
 		  				</div>
 					</div>
 				</div>
@@ -63,9 +63,10 @@
 		    				Consultations
 		  				</div>
 		  				<div class="card-body">
-		    				<h5 class="card-title">24</h5>
+		    				<h5 class="card-title">{{ number_of_consultations }}</h5>
 		    				<p class="card-text"></p>
-		    				<a href="#" class="view_more">View More</a>
+		    				<br/>
+		    				<!-- <a href="#" class="view_more">View More</a> -->
 		  				</div>
 					</div>
 				</div>
@@ -134,23 +135,23 @@
 			  	<thead style="background-color: #6417A180;">
 			    	<tr>
 			      		<th scope="col">#</th>
-			      		<th scope="col">First</th>
-			      		<th scope="col">Last</th>
-			      		<th scope="col">Handle</th>
+			      		<th scope="col">Name</th>
+			      		<th scope="col">Consultation Type</th>
+			      		<th scope="col">Status</th>
 			    	</tr>
 			  	</thead>
 				<tbody>
 	    			<tr>
 	      				<th scope="row">1</th>
-	      				<td>Mark</td>
-	      				<td>Otto</td>
-	      				<td>@mdo</td>
+	      				<td>Crumb, William Valderosa</td>
+	      				<td>Outpatient - Checkup</td>
+	      				<td>Pending <i class="fa-solid fa-hourglass-half" style="color:gray;"></i></td>
 	    			</tr>
 	    			<tr>
 	      				<th scope="row">2</th>
-	      				<td>Jacob</td>
-	      				<td>Thornton</td>
-	      				<td>@fat</td>
+	      				<td>Sample2, Sample2 Sample2</td>
+	      				<td>Outpatient - Followup</td>
+	      				<td>Done <i class="fa-solid fa-circle-check" style="color:green;"></i></td>
 	    			</tr>
 	  			</tbody>
 			</table>

@@ -58,11 +58,11 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `auth_permission` */
 
-insert  into `auth_permission`(`id`,`name`,`content_type_id`,`codename`) values (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add details',7,'add_details'),(26,'Can change details',7,'change_details'),(27,'Can delete details',7,'delete_details'),(28,'Can view details',7,'view_details'),(29,'Can add address',8,'add_address'),(30,'Can change address',8,'change_address'),(31,'Can delete address',8,'delete_address'),(32,'Can view address',8,'view_address'),(33,'Can add relatives',9,'add_relatives'),(34,'Can change relatives',9,'change_relatives'),(35,'Can delete relatives',9,'delete_relatives'),(36,'Can view relatives',9,'view_relatives'),(37,'Can add allergies',10,'add_allergies'),(38,'Can change allergies',10,'change_allergies'),(39,'Can delete allergies',10,'delete_allergies'),(40,'Can view allergies',10,'view_allergies'),(41,'Can add medicine',11,'add_medicine'),(42,'Can change medicine',11,'change_medicine'),(43,'Can delete medicine',11,'delete_medicine'),(44,'Can view medicine',11,'view_medicine'),(45,'Can add dress_and_grooming',12,'add_dress_and_grooming'),(46,'Can change dress_and_grooming',12,'change_dress_and_grooming'),(47,'Can delete dress_and_grooming',12,'delete_dress_and_grooming'),(48,'Can view dress_and_grooming',12,'view_dress_and_grooming'),(49,'Can add attitude',13,'add_attitude'),(50,'Can change attitude',13,'change_attitude'),(51,'Can delete attitude',13,'delete_attitude'),(52,'Can view attitude',13,'view_attitude'),(53,'Can add facialexpression',14,'add_facialexpression'),(54,'Can change facialexpression',14,'change_facialexpression'),(55,'Can delete facialexpression',14,'delete_facialexpression'),(56,'Can view facialexpression',14,'view_facialexpression'),(57,'Can add movement',15,'add_movement'),(58,'Can change movement',15,'change_movement'),(59,'Can delete movement',15,'delete_movement'),(60,'Can view movement',15,'view_movement'),(61,'Can add motoactive',16,'add_motoactive'),(62,'Can change motoactive',16,'change_motoactive'),(63,'Can delete motoactive',16,'delete_motoactive'),(64,'Can view motoactive',16,'view_motoactive'),(65,'Can add speech',17,'add_speech'),(66,'Can change speech',17,'change_speech'),(67,'Can delete speech',17,'delete_speech'),(68,'Can view speech',17,'view_speech'),(69,'Can add aphasia',18,'add_aphasia'),(70,'Can change aphasia',18,'change_aphasia'),(71,'Can delete aphasia',18,'delete_aphasia'),(72,'Can view aphasia',18,'view_aphasia'),(73,'Can add mood',19,'add_mood'),(74,'Can change mood',19,'change_mood'),(75,'Can delete mood',19,'delete_mood'),(76,'Can view mood',19,'view_mood'),(77,'Can add affect',20,'add_affect'),(78,'Can change affect',20,'change_affect'),(79,'Can delete affect',20,'delete_affect'),(80,'Can view affect',20,'view_affect'),(81,'Can add insomnia',21,'add_insomnia'),(82,'Can change insomnia',21,'change_insomnia'),(83,'Can delete insomnia',21,'delete_insomnia'),(84,'Can view insomnia',21,'view_insomnia'),(85,'Can add memory',22,'add_memory'),(86,'Can change memory',22,'change_memory'),(87,'Can delete memory',22,'delete_memory'),(88,'Can view memory',22,'view_memory'),(89,'Can add orientation',23,'add_orientation'),(90,'Can change orientation',23,'change_orientation'),(91,'Can delete orientation',23,'delete_orientation'),(92,'Can view orientation',23,'view_orientation'),(93,'Can add disorderedperception',24,'add_disorderedperception'),(94,'Can change disorderedperception',24,'change_disorderedperception'),(95,'Can delete disorderedperception',24,'delete_disorderedperception'),(96,'Can view disorderedperception',24,'view_disorderedperception'),(97,'Can add thoughtcontent',25,'add_thoughtcontent'),(98,'Can change thoughtcontent',25,'change_thoughtcontent'),(99,'Can delete thoughtcontent',25,'delete_thoughtcontent'),(100,'Can view thoughtcontent',25,'view_thoughtcontent'),(101,'Can add delusioncontent',26,'add_delusioncontent'),(102,'Can change delusioncontent',26,'change_delusioncontent'),(103,'Can delete delusioncontent',26,'delete_delusioncontent'),(104,'Can view delusioncontent',26,'view_delusioncontent'),(105,'Can add thoughtform',27,'add_thoughtform'),(106,'Can change thoughtform',27,'change_thoughtform'),(107,'Can delete thoughtform',27,'delete_thoughtform'),(108,'Can view thoughtform',27,'view_thoughtform'),(109,'Can add preoccupation',28,'add_preoccupation'),(110,'Can change preoccupation',28,'change_preoccupation'),(111,'Can delete preoccupation',28,'delete_preoccupation'),(112,'Can view preoccupation',28,'view_preoccupation'),(113,'Can add condition',29,'add_condition'),(114,'Can change condition',29,'change_condition'),(115,'Can delete condition',29,'delete_condition'),(116,'Can view condition',29,'view_condition'),(117,'Can add global_psychotrauma_screen',30,'add_global_psychotrauma_screen'),(118,'Can change global_psychotrauma_screen',30,'change_global_psychotrauma_screen'),(119,'Can delete global_psychotrauma_screen',30,'delete_global_psychotrauma_screen'),(120,'Can view global_psychotrauma_screen',30,'view_global_psychotrauma_screen'),(121,'Can add considering_event',31,'add_considering_event'),(122,'Can change considering_event',31,'change_considering_event'),(123,'Can delete considering_event',31,'delete_considering_event'),(124,'Can view considering_event',31,'view_considering_event');
+insert  into `auth_permission`(`id`,`name`,`content_type_id`,`codename`) values (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add details',7,'add_details'),(26,'Can change details',7,'change_details'),(27,'Can delete details',7,'delete_details'),(28,'Can view details',7,'view_details'),(29,'Can add address',8,'add_address'),(30,'Can change address',8,'change_address'),(31,'Can delete address',8,'delete_address'),(32,'Can view address',8,'view_address'),(33,'Can add relatives',9,'add_relatives'),(34,'Can change relatives',9,'change_relatives'),(35,'Can delete relatives',9,'delete_relatives'),(36,'Can view relatives',9,'view_relatives'),(37,'Can add allergies',10,'add_allergies'),(38,'Can change allergies',10,'change_allergies'),(39,'Can delete allergies',10,'delete_allergies'),(40,'Can view allergies',10,'view_allergies'),(41,'Can add medicine',11,'add_medicine'),(42,'Can change medicine',11,'change_medicine'),(43,'Can delete medicine',11,'delete_medicine'),(44,'Can view medicine',11,'view_medicine'),(45,'Can add dress_and_grooming',12,'add_dress_and_grooming'),(46,'Can change dress_and_grooming',12,'change_dress_and_grooming'),(47,'Can delete dress_and_grooming',12,'delete_dress_and_grooming'),(48,'Can view dress_and_grooming',12,'view_dress_and_grooming'),(49,'Can add attitude',13,'add_attitude'),(50,'Can change attitude',13,'change_attitude'),(51,'Can delete attitude',13,'delete_attitude'),(52,'Can view attitude',13,'view_attitude'),(53,'Can add facialexpression',14,'add_facialexpression'),(54,'Can change facialexpression',14,'change_facialexpression'),(55,'Can delete facialexpression',14,'delete_facialexpression'),(56,'Can view facialexpression',14,'view_facialexpression'),(57,'Can add movement',15,'add_movement'),(58,'Can change movement',15,'change_movement'),(59,'Can delete movement',15,'delete_movement'),(60,'Can view movement',15,'view_movement'),(61,'Can add motoactive',16,'add_motoactive'),(62,'Can change motoactive',16,'change_motoactive'),(63,'Can delete motoactive',16,'delete_motoactive'),(64,'Can view motoactive',16,'view_motoactive'),(65,'Can add speech',17,'add_speech'),(66,'Can change speech',17,'change_speech'),(67,'Can delete speech',17,'delete_speech'),(68,'Can view speech',17,'view_speech'),(69,'Can add aphasia',18,'add_aphasia'),(70,'Can change aphasia',18,'change_aphasia'),(71,'Can delete aphasia',18,'delete_aphasia'),(72,'Can view aphasia',18,'view_aphasia'),(73,'Can add mood',19,'add_mood'),(74,'Can change mood',19,'change_mood'),(75,'Can delete mood',19,'delete_mood'),(76,'Can view mood',19,'view_mood'),(77,'Can add affect',20,'add_affect'),(78,'Can change affect',20,'change_affect'),(79,'Can delete affect',20,'delete_affect'),(80,'Can view affect',20,'view_affect'),(81,'Can add insomnia',21,'add_insomnia'),(82,'Can change insomnia',21,'change_insomnia'),(83,'Can delete insomnia',21,'delete_insomnia'),(84,'Can view insomnia',21,'view_insomnia'),(85,'Can add memory',22,'add_memory'),(86,'Can change memory',22,'change_memory'),(87,'Can delete memory',22,'delete_memory'),(88,'Can view memory',22,'view_memory'),(89,'Can add orientation',23,'add_orientation'),(90,'Can change orientation',23,'change_orientation'),(91,'Can delete orientation',23,'delete_orientation'),(92,'Can view orientation',23,'view_orientation'),(93,'Can add disorderedperception',24,'add_disorderedperception'),(94,'Can change disorderedperception',24,'change_disorderedperception'),(95,'Can delete disorderedperception',24,'delete_disorderedperception'),(96,'Can view disorderedperception',24,'view_disorderedperception'),(97,'Can add thoughtcontent',25,'add_thoughtcontent'),(98,'Can change thoughtcontent',25,'change_thoughtcontent'),(99,'Can delete thoughtcontent',25,'delete_thoughtcontent'),(100,'Can view thoughtcontent',25,'view_thoughtcontent'),(101,'Can add delusioncontent',26,'add_delusioncontent'),(102,'Can change delusioncontent',26,'change_delusioncontent'),(103,'Can delete delusioncontent',26,'delete_delusioncontent'),(104,'Can view delusioncontent',26,'view_delusioncontent'),(105,'Can add thoughtform',27,'add_thoughtform'),(106,'Can change thoughtform',27,'change_thoughtform'),(107,'Can delete thoughtform',27,'delete_thoughtform'),(108,'Can view thoughtform',27,'view_thoughtform'),(109,'Can add preoccupation',28,'add_preoccupation'),(110,'Can change preoccupation',28,'change_preoccupation'),(111,'Can delete preoccupation',28,'delete_preoccupation'),(112,'Can view preoccupation',28,'view_preoccupation'),(113,'Can add condition',29,'add_condition'),(114,'Can change condition',29,'change_condition'),(115,'Can delete condition',29,'delete_condition'),(116,'Can view condition',29,'view_condition'),(117,'Can add global_psychotrauma_screen',30,'add_global_psychotrauma_screen'),(118,'Can change global_psychotrauma_screen',30,'change_global_psychotrauma_screen'),(119,'Can delete global_psychotrauma_screen',30,'delete_global_psychotrauma_screen'),(120,'Can view global_psychotrauma_screen',30,'view_global_psychotrauma_screen'),(121,'Can add considering_event',31,'add_considering_event'),(122,'Can change considering_event',31,'change_considering_event'),(123,'Can delete considering_event',31,'delete_considering_event'),(124,'Can view considering_event',31,'view_considering_event'),(125,'Can add hamd',32,'add_hamd'),(126,'Can change hamd',32,'change_hamd'),(127,'Can delete hamd',32,'delete_hamd'),(128,'Can view hamd',32,'view_hamd'),(129,'Can add encounter',33,'add_encounter'),(130,'Can change encounter',33,'change_encounter'),(131,'Can delete encounter',33,'delete_encounter'),(132,'Can view encounter',33,'view_encounter'),(133,'Can add vitalsign',34,'add_vitalsign'),(134,'Can change vitalsign',34,'change_vitalsign'),(135,'Can delete vitalsign',34,'delete_vitalsign'),(136,'Can view vitalsign',34,'view_vitalsign'),(137,'Can add chief_complaints',35,'add_chief_complaints'),(138,'Can change chief_complaints',35,'change_chief_complaints'),(139,'Can delete chief_complaints',35,'delete_chief_complaints'),(140,'Can view chief_complaints',35,'view_chief_complaints'),(141,'Can add patient_survey',36,'add_patient_survey'),(142,'Can change patient_survey',36,'change_patient_survey'),(143,'Can delete patient_survey',36,'delete_patient_survey'),(144,'Can view patient_survey',36,'view_patient_survey'),(145,'Can add history_present_illness',37,'add_history_present_illness'),(146,'Can change history_present_illness',37,'change_history_present_illness'),(147,'Can delete history_present_illness',37,'delete_history_present_illness'),(148,'Can view history_present_illness',37,'view_history_present_illness'),(149,'Can add mental_general_description',38,'add_mental_general_description'),(150,'Can change mental_general_description',38,'change_mental_general_description'),(151,'Can delete mental_general_description',38,'delete_mental_general_description'),(152,'Can view mental_general_description',38,'view_mental_general_description'),(153,'Can add mental_emotions',39,'add_mental_emotions'),(154,'Can change mental_emotions',39,'change_mental_emotions'),(155,'Can delete mental_emotions',39,'delete_mental_emotions'),(156,'Can view mental_emotions',39,'view_mental_emotions'),(157,'Can add mental_cognitive_function',40,'add_mental_cognitive_function'),(158,'Can change mental_cognitive_function',40,'change_mental_cognitive_function'),(159,'Can delete mental_cognitive_function',40,'delete_mental_cognitive_function'),(160,'Can view mental_cognitive_function',40,'view_mental_cognitive_function'),(161,'Can add diagnosis',41,'add_diagnosis'),(162,'Can change diagnosis',41,'change_diagnosis'),(163,'Can delete diagnosis',41,'delete_diagnosis'),(164,'Can view diagnosis',41,'view_diagnosis'),(165,'Can add mental_thought_perception',42,'add_mental_thought_perception'),(166,'Can change mental_thought_perception',42,'change_mental_thought_perception'),(167,'Can delete mental_thought_perception',42,'delete_mental_thought_perception'),(168,'Can view mental_thought_perception',42,'view_mental_thought_perception'),(169,'Can add suicidality',43,'add_suicidality'),(170,'Can change suicidality',43,'change_suicidality'),(171,'Can delete suicidality',43,'delete_suicidality'),(172,'Can view suicidality',43,'view_suicidality'),(173,'Can add treatment',44,'add_treatment'),(174,'Can change treatment',44,'change_treatment'),(175,'Can delete treatment',44,'delete_treatment'),(176,'Can view treatment',44,'view_treatment');
 
 /*Table structure for table `auth_user` */
 
@@ -86,7 +86,7 @@ CREATE TABLE `auth_user` (
 
 /*Data for the table `auth_user` */
 
-insert  into `auth_user`(`id`,`password`,`last_login`,`is_superuser`,`username`,`first_name`,`last_name`,`email`,`is_staff`,`is_active`,`date_joined`) values (4,'pbkdf2_sha256$600000$nu1jNivWMlGkJeTDkMKbll$L0NMfCCbxxDiuKW2vluJL/LP6amJHFE1HVoYOA5c+9E=','2023-11-02 03:19:05.080502',0,'poliamusername','William','Crumb','poliamcrumb@gmail.com',0,1,'2023-08-03 05:05:03.665995');
+insert  into `auth_user`(`id`,`password`,`last_login`,`is_superuser`,`username`,`first_name`,`last_name`,`email`,`is_staff`,`is_active`,`date_joined`) values (4,'pbkdf2_sha256$600000$nu1jNivWMlGkJeTDkMKbll$L0NMfCCbxxDiuKW2vluJL/LP6amJHFE1HVoYOA5c+9E=','2023-11-18 00:38:54.067007',0,'poliamusername','William','Crumb','poliamcrumb@gmail.com',0,1,'2023-08-03 05:05:03.665995');
 
 /*Table structure for table `auth_user_groups` */
 
@@ -170,6 +170,30 @@ CREATE TABLE `consultation_attitude` (
 
 insert  into `consultation_attitude`(`id`,`name`,`status`,`is_delete`) values (1,'Cooperative',1,0),(2,'Attentive',1,0),(3,'Frank',1,0),(4,'Playful',1,0),(5,'Ingratiating',1,0),(6,'Evasive',1,0),(7,'Guarded',1,0),(8,'Hostile',1,0),(9,'Belligerent',1,0),(10,'Contemptuous',1,0),(11,'Seductive',1,0),(12,'Demanding',1,0),(13,'Sullen',1,0),(14,'Passive',1,0),(15,'Manipulative',1,0),(16,'Complaining',1,0),(17,'Suspicious',1,0),(18,'Withdrawn',1,0),(19,'Obsequious',1,0);
 
+/*Table structure for table `consultation_chief_complaints` */
+
+DROP TABLE IF EXISTS `consultation_chief_complaints`;
+
+CREATE TABLE `consultation_chief_complaints` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `patient_complaints` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `informant_complaints` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `informatmant_relationship` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_chief_c_encounter_id_0dc92676_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_chief_c_encounter_id_0dc92676_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_chief_complaints` */
+
+insert  into `consultation_chief_complaints`(`id`,`patient_complaints`,`informant_complaints`,`informatmant_relationship`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`encounter_id`) values (13,'Patient Complaints','Informant Complaints','Friend','2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,14);
+
 /*Table structure for table `consultation_condition` */
 
 DROP TABLE IF EXISTS `consultation_condition`;
@@ -201,6 +225,31 @@ CREATE TABLE `consultation_delusioncontent` (
 /*Data for the table `consultation_delusioncontent` */
 
 insert  into `consultation_delusioncontent`(`id`,`name`,`status`,`is_delete`) values (1,'Thought withdrawal',1,0),(2,'Thought insertion',1,0),(3,'Thought broadcast',1,0),(4,'Suspiciousness',1,0),(5,'Grandiose delusions',1,0),(6,'Somatic delusions',1,0),(7,'Delusional guilt',1,0),(8,'Nihilistic delusions',1,0),(9,'Ideas of inference',1,0),(10,'Magical thinking',1,0),(11,'Thought contentt',1,0),(12,'Bizarre behavior',1,0);
+
+/*Table structure for table `consultation_diagnosis` */
+
+DROP TABLE IF EXISTS `consultation_diagnosis`;
+
+CREATE TABLE `consultation_diagnosis` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `condition_details` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `condition_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_diagnos_condition_id_7f6423fb_fk_consultat` (`condition_id`),
+  KEY `consultation_diagnos_encounter_id_4e7df389_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_diagnos_condition_id_7f6423fb_fk_consultat` FOREIGN KEY (`condition_id`) REFERENCES `consultation_condition` (`id`),
+  CONSTRAINT `consultation_diagnos_encounter_id_4e7df389_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_diagnosis` */
+
+insert  into `consultation_diagnosis`(`id`,`condition_details`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`condition_id`,`encounter_id`) values (5,'AKA Details','2023-11-26 16:47:56.291889','2023-11-26 16:47:56.291889',NULL,1,0,2,14),(6,'Cadasil Details','2023-11-26 16:47:56.293027','2023-11-26 16:47:56.293027',NULL,1,0,89,14);
 
 /*Table structure for table `consultation_disorderedperception` */
 
@@ -234,6 +283,31 @@ CREATE TABLE `consultation_dress_and_grooming` (
 
 insert  into `consultation_dress_and_grooming`(`id`,`name`,`status`,`is_delete`) values (1,'Meticulous',1,0),(2,'Skillfully applied',1,0),(3,'Garish',1,0),(4,'Self-neglect',1,0),(5,'Dress',1,0),(6,'Immaculate',1,0),(7,'Unconventional',1,0),(8,'Fashionable',1,0);
 
+/*Table structure for table `consultation_encounter` */
+
+DROP TABLE IF EXISTS `consultation_encounter`;
+
+CREATE TABLE `consultation_encounter` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `reason_for_interaction` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `details_id` bigint(20) DEFAULT NULL,
+  `consultation_date` date DEFAULT NULL,
+  `encounter_notes` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `treatment_recommendations` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_encounter_details_id_89da6f4b_fk_patient_details_id` (`details_id`),
+  CONSTRAINT `consultation_encounter_details_id_89da6f4b_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_encounter` */
+
+insert  into `consultation_encounter`(`id`,`reason_for_interaction`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`,`consultation_date`,`encounter_notes`,`treatment_recommendations`) values (14,'Outpatient','2023-11-26 16:47:55.413971','2023-11-26 16:47:55.413971',NULL,1,0,23,'2023-11-27','Encounter Notes','Treatment recommendations');
+
 /*Table structure for table `consultation_facialexpression` */
 
 DROP TABLE IF EXISTS `consultation_facialexpression`;
@@ -249,6 +323,30 @@ CREATE TABLE `consultation_facialexpression` (
 /*Data for the table `consultation_facialexpression` */
 
 insert  into `consultation_facialexpression`(`id`,`name`,`status`,`is_delete`) values (1,'Pleasant',1,0),(2,'Happy',1,0),(3,'Sad',1,0),(4,'Perplexed',1,0),(5,'Angry',1,0),(6,'Tense',1,0),(7,'Mobile',1,0),(8,'Bland',1,0),(9,'Flat',1,0);
+
+/*Table structure for table `consultation_history_present_illness` */
+
+DROP TABLE IF EXISTS `consultation_history_present_illness`;
+
+CREATE TABLE `consultation_history_present_illness` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `number` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `calendrical` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `details` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_history_encounter_id_fcd01039_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_history_encounter_id_fcd01039_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_history_present_illness` */
+
+insert  into `consultation_history_present_illness`(`id`,`number`,`calendrical`,`details`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`encounter_id`) values (7,'1','Minutes','Minutes','2023-11-26 16:47:56.284926','2023-11-26 16:47:56.284926',NULL,1,0,14),(8,'2','Hours','Hours','2023-11-26 16:47:56.289318','2023-11-26 16:47:56.289318',NULL,1,0,14);
 
 /*Table structure for table `consultation_insomnia` */
 
@@ -279,6 +377,150 @@ CREATE TABLE `consultation_memory` (
 /*Data for the table `consultation_memory` */
 
 insert  into `consultation_memory`(`id`,`name`,`status`,`is_delete`) values (1,'Short-term memory',1,0),(2,'Long-term memory',1,0),(3,'Amnesia',1,0),(4,'Anterograde amnesia',1,0),(5,'Retrograde amnesia',1,0),(6,'Head injuries',1,0),(7,'Transient global amnesia',1,0);
+
+/*Table structure for table `consultation_mental_cognitive_function` */
+
+DROP TABLE IF EXISTS `consultation_mental_cognitive_function`;
+
+CREATE TABLE `consultation_mental_cognitive_function` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `attention` tinyint(1) NOT NULL,
+  `concentrate` tinyint(1) NOT NULL,
+  `memory_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `abstractability_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `consciousness_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  `memory_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_mental__consciousness_id_068fc561_fk_consultat` (`consciousness_id`),
+  KEY `consultation_mental__encounter_id_6cfd3f56_fk_consultat` (`encounter_id`),
+  KEY `consultation_mental__memory_id_f947a758_fk_consultat` (`memory_id`),
+  CONSTRAINT `consultation_mental__consciousness_id_068fc561_fk_consultat` FOREIGN KEY (`consciousness_id`) REFERENCES `consultation_orientation` (`id`),
+  CONSTRAINT `consultation_mental__encounter_id_6cfd3f56_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`),
+  CONSTRAINT `consultation_mental__memory_id_f947a758_fk_consultat` FOREIGN KEY (`memory_id`) REFERENCES `consultation_memory` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_mental_cognitive_function` */
+
+insert  into `consultation_mental_cognitive_function`(`id`,`attention`,`concentrate`,`memory_remarks`,`abstractability_remarks`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`consciousness_id`,`encounter_id`,`memory_id`) values (4,1,0,'Memory Remarks','Abstractability Remarks','2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,5,14,4);
+
+/*Table structure for table `consultation_mental_emotions` */
+
+DROP TABLE IF EXISTS `consultation_mental_emotions`;
+
+CREATE TABLE `consultation_mental_emotions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `emotion_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `affect_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  `mood_id` bigint(20) DEFAULT NULL,
+  `sign_depression_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_mental__affect_id_694a2bb5_fk_consultat` (`affect_id`),
+  KEY `consultation_mental__encounter_id_78fb6fb3_fk_consultat` (`encounter_id`),
+  KEY `consultation_mental__mood_id_00351ea6_fk_consultat` (`mood_id`),
+  KEY `consultation_mental__sign_depression_id_b696cc11_fk_consultat` (`sign_depression_id`),
+  CONSTRAINT `consultation_mental__affect_id_694a2bb5_fk_consultat` FOREIGN KEY (`affect_id`) REFERENCES `consultation_affect` (`id`),
+  CONSTRAINT `consultation_mental__encounter_id_78fb6fb3_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`),
+  CONSTRAINT `consultation_mental__mood_id_00351ea6_fk_consultat` FOREIGN KEY (`mood_id`) REFERENCES `consultation_mood` (`id`),
+  CONSTRAINT `consultation_mental__sign_depression_id_b696cc11_fk_consultat` FOREIGN KEY (`sign_depression_id`) REFERENCES `consultation_insomnia` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_mental_emotions` */
+
+insert  into `consultation_mental_emotions`(`id`,`emotion_remarks`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`affect_id`,`encounter_id`,`mood_id`,`sign_depression_id`) values (5,'Emotions Remarks','2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,5,14,3,NULL);
+
+/*Table structure for table `consultation_mental_general_description` */
+
+DROP TABLE IF EXISTS `consultation_mental_general_description`;
+
+CREATE TABLE `consultation_mental_general_description` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `physical_characteristics` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `posture_gait` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `behavior_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `aphasia_id` bigint(20) DEFAULT NULL,
+  `attitude_id` bigint(20) DEFAULT NULL,
+  `dress_grooming_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  `facial_expression_id` bigint(20) DEFAULT NULL,
+  `motor_active_id` bigint(20) DEFAULT NULL,
+  `movement_id` bigint(20) DEFAULT NULL,
+  `speech_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_mental__aphasia_id_7e43bd32_fk_consultat` (`aphasia_id`),
+  KEY `consultation_mental__attitude_id_b8e8a74f_fk_consultat` (`attitude_id`),
+  KEY `consultation_mental__dress_grooming_id_b756d1f8_fk_consultat` (`dress_grooming_id`),
+  KEY `consultation_mental__encounter_id_3e6b038d_fk_consultat` (`encounter_id`),
+  KEY `consultation_mental__facial_expression_id_fedda513_fk_consultat` (`facial_expression_id`),
+  KEY `consultation_mental__motor_active_id_fbf494f7_fk_consultat` (`motor_active_id`),
+  KEY `consultation_mental__movement_id_39176ff7_fk_consultat` (`movement_id`),
+  KEY `consultation_mental__speech_id_3196be11_fk_consultat` (`speech_id`),
+  CONSTRAINT `consultation_mental__aphasia_id_7e43bd32_fk_consultat` FOREIGN KEY (`aphasia_id`) REFERENCES `consultation_aphasia` (`id`),
+  CONSTRAINT `consultation_mental__attitude_id_b8e8a74f_fk_consultat` FOREIGN KEY (`attitude_id`) REFERENCES `consultation_attitude` (`id`),
+  CONSTRAINT `consultation_mental__dress_grooming_id_b756d1f8_fk_consultat` FOREIGN KEY (`dress_grooming_id`) REFERENCES `consultation_dress_and_grooming` (`id`),
+  CONSTRAINT `consultation_mental__encounter_id_3e6b038d_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`),
+  CONSTRAINT `consultation_mental__facial_expression_id_fedda513_fk_consultat` FOREIGN KEY (`facial_expression_id`) REFERENCES `consultation_facialexpression` (`id`),
+  CONSTRAINT `consultation_mental__motor_active_id_fbf494f7_fk_consultat` FOREIGN KEY (`motor_active_id`) REFERENCES `consultation_motoactive` (`id`),
+  CONSTRAINT `consultation_mental__movement_id_39176ff7_fk_consultat` FOREIGN KEY (`movement_id`) REFERENCES `consultation_movement` (`id`),
+  CONSTRAINT `consultation_mental__speech_id_3196be11_fk_consultat` FOREIGN KEY (`speech_id`) REFERENCES `consultation_speech` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_mental_general_description` */
+
+insert  into `consultation_mental_general_description`(`id`,`physical_characteristics`,`posture_gait`,`behavior_remarks`,`remarks`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`aphasia_id`,`attitude_id`,`dress_grooming_id`,`encounter_id`,`facial_expression_id`,`motor_active_id`,`movement_id`,`speech_id`) values (7,'Physical Characteristics','Posture Gait','Behavior Remarks','Remarks','2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,2,3,5,14,2,7,5,16);
+
+/*Table structure for table `consultation_mental_thought_perception` */
+
+DROP TABLE IF EXISTS `consultation_mental_thought_perception`;
+
+CREATE TABLE `consultation_mental_thought_perception` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `delusion_content_id` bigint(20) DEFAULT NULL,
+  `disordered_perception_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  `preoccupations_id` bigint(20) DEFAULT NULL,
+  `thought_content_id` bigint(20) DEFAULT NULL,
+  `thought_form_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_mental__delusion_content_id_2681df44_fk_consultat` (`delusion_content_id`),
+  KEY `consultation_mental__disordered_perceptio_2a3c5568_fk_consultat` (`disordered_perception_id`),
+  KEY `consultation_mental__encounter_id_f7187d0f_fk_consultat` (`encounter_id`),
+  KEY `consultation_mental__preoccupations_id_20bc8f8f_fk_consultat` (`preoccupations_id`),
+  KEY `consultation_mental__thought_content_id_54920adf_fk_consultat` (`thought_content_id`),
+  KEY `consultation_mental__thought_form_id_74f93119_fk_consultat` (`thought_form_id`),
+  CONSTRAINT `consultation_mental__delusion_content_id_2681df44_fk_consultat` FOREIGN KEY (`delusion_content_id`) REFERENCES `consultation_delusioncontent` (`id`),
+  CONSTRAINT `consultation_mental__disordered_perceptio_2a3c5568_fk_consultat` FOREIGN KEY (`disordered_perception_id`) REFERENCES `consultation_disorderedperception` (`id`),
+  CONSTRAINT `consultation_mental__encounter_id_f7187d0f_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`),
+  CONSTRAINT `consultation_mental__preoccupations_id_20bc8f8f_fk_consultat` FOREIGN KEY (`preoccupations_id`) REFERENCES `consultation_preoccupation` (`id`),
+  CONSTRAINT `consultation_mental__thought_content_id_54920adf_fk_consultat` FOREIGN KEY (`thought_content_id`) REFERENCES `consultation_thoughtcontent` (`id`),
+  CONSTRAINT `consultation_mental__thought_form_id_74f93119_fk_consultat` FOREIGN KEY (`thought_form_id`) REFERENCES `consultation_thoughtform` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_mental_thought_perception` */
+
+insert  into `consultation_mental_thought_perception`(`id`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`delusion_content_id`,`disordered_perception_id`,`encounter_id`,`preoccupations_id`,`thought_content_id`,`thought_form_id`) values (3,'2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,1,3,14,NULL,1,5);
 
 /*Table structure for table `consultation_mood` */
 
@@ -374,6 +616,36 @@ CREATE TABLE `consultation_speech` (
 
 insert  into `consultation_speech`(`id`,`name`,`status`,`is_delete`) values (1,'Normal rate',1,0),(2,'Slow',1,0),(3,'Hesitant',1,0),(4,'Rapid',1,0),(5,'Pressured',1,0),(6,'Monotonous',1,0),(7,'Emotional',1,0),(8,'Loud',1,0),(9,'Whispered',1,0),(10,'Mumbled',1,0),(11,'Precise',1,0),(12,'Slurred',1,0),(13,'Accented',1,0),(14,'Stuttering',1,0),(15,'Stilted',1,0),(16,'Rambling',1,0),(17,'Impoverished',1,0),(18,'Neologisms',1,0),(19,'Aphasia',1,0);
 
+/*Table structure for table `consultation_suicidality` */
+
+DROP TABLE IF EXISTS `consultation_suicidality`;
+
+CREATE TABLE `consultation_suicidality` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_suicidal` tinyint(1) NOT NULL,
+  `suicidality_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_homicidal` tinyint(1) NOT NULL,
+  `impulse_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reliability` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reliability_impression` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `surroundings_inappropriate` tinyint(1) NOT NULL,
+  `environment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `environment_remarks` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_suicida_encounter_id_dc7090e2_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_suicida_encounter_id_dc7090e2_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_suicidality` */
+
+insert  into `consultation_suicidality`(`id`,`is_suicidal`,`suicidality_remarks`,`is_homicidal`,`impulse_remarks`,`reliability`,`reliability_impression`,`surroundings_inappropriate`,`environment`,`environment_remarks`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`encounter_id`) values (3,1,'Suicidality Homicidality Remarks',1,'Impulse Remarks','Reliability','Reliability Impression',1,'Environment','Remarks','2023-11-26 16:47:56.284926','2023-11-26 16:47:56.284926',NULL,1,0,14);
+
 /*Table structure for table `consultation_thoughtcontent` */
 
 DROP TABLE IF EXISTS `consultation_thoughtcontent`;
@@ -405,6 +677,60 @@ CREATE TABLE `consultation_thoughtform` (
 /*Data for the table `consultation_thoughtform` */
 
 insert  into `consultation_thoughtform`(`id`,`name`,`status`,`is_delete`) values (1,'Flow of ideas',1,0),(2,'Spontaneous',1,0),(3,'Goal directed',1,0),(4,'Impoverised',1,0),(5,'Racing thoughts',1,0),(6,'Blocking',1,0),(7,'Circumstantial',1,0),(8,'Perseverative',1,0),(9,'Flight of ideas',1,0),(10,'Loose associations',1,0),(11,'Illogical',1,0),(12,'Incoherent',1,0),(13,'Neologism',1,0),(14,'Distractible',1,0),(15,'Clang association',1,0),(16,'Tangentiality',1,0),(17,'Overvalued ideas',1,0),(18,'Conceptual disorganization',1,0);
+
+/*Table structure for table `consultation_treatment` */
+
+DROP TABLE IF EXISTS `consultation_treatment`;
+
+CREATE TABLE `consultation_treatment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `strength` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dose` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `route` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `frequency` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `drug_no` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `drugs_id` bigint(20) DEFAULT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_treatment_drugs_id_da38f9e9_fk_patient_medicine_id` (`drugs_id`),
+  KEY `consultation_treatme_encounter_id_4037c0f7_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_treatme_encounter_id_4037c0f7_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`),
+  CONSTRAINT `consultation_treatment_drugs_id_da38f9e9_fk_patient_medicine_id` FOREIGN KEY (`drugs_id`) REFERENCES `patient_medicine` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_treatment` */
+
+insert  into `consultation_treatment`(`id`,`strength`,`dose`,`route`,`frequency`,`drug_no`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`drugs_id`,`encounter_id`) values (1,'25mg','5mb','','2x per day','14','2023-11-26 16:47:56.296299','2023-11-26 16:47:56.296299',NULL,1,0,1,14),(2,'','5ml','','3x a day','1','2023-11-26 16:47:56.297832','2023-11-26 16:47:56.297832',NULL,1,0,3,14);
+
+/*Table structure for table `consultation_vitalsign` */
+
+DROP TABLE IF EXISTS `consultation_vitalsign`;
+
+CREATE TABLE `consultation_vitalsign` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `height` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `weight` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `blood_pressure` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `temperature` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `encounter_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `consultation_vitalsi_encounter_id_7c7e163d_fk_consultat` (`encounter_id`),
+  CONSTRAINT `consultation_vitalsi_encounter_id_7c7e163d_fk_consultat` FOREIGN KEY (`encounter_id`) REFERENCES `consultation_encounter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `consultation_vitalsign` */
+
+insert  into `consultation_vitalsign`(`id`,`height`,`weight`,`blood_pressure`,`temperature`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`encounter_id`) values (14,'169','70','80/120','36.8','2023-11-26 16:47:56.269027','2023-11-26 16:47:56.269027',NULL,1,0,14);
 
 /*Table structure for table `django_admin_log` */
 
@@ -438,11 +764,11 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `django_content_type` */
 
-insert  into `django_content_type`(`id`,`app_label`,`model`) values (1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(20,'consultation','affect'),(18,'consultation','aphasia'),(13,'consultation','attitude'),(29,'consultation','condition'),(26,'consultation','delusioncontent'),(24,'consultation','disorderedperception'),(12,'consultation','dress_and_grooming'),(14,'consultation','facialexpression'),(21,'consultation','insomnia'),(22,'consultation','memory'),(19,'consultation','mood'),(16,'consultation','motoactive'),(15,'consultation','movement'),(23,'consultation','orientation'),(28,'consultation','preoccupation'),(17,'consultation','speech'),(25,'consultation','thoughtcontent'),(27,'consultation','thoughtform'),(5,'contenttypes','contenttype'),(8,'patient','address'),(10,'patient','allergies'),(31,'patient','considering_event'),(7,'patient','details'),(30,'patient','global_psychotrauma_screen'),(11,'patient','medicine'),(9,'patient','relatives'),(6,'sessions','session');
+insert  into `django_content_type`(`id`,`app_label`,`model`) values (1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(20,'consultation','affect'),(18,'consultation','aphasia'),(13,'consultation','attitude'),(35,'consultation','chief_complaints'),(29,'consultation','condition'),(26,'consultation','delusioncontent'),(41,'consultation','diagnosis'),(24,'consultation','disorderedperception'),(12,'consultation','dress_and_grooming'),(33,'consultation','encounter'),(14,'consultation','facialexpression'),(37,'consultation','history_present_illness'),(21,'consultation','insomnia'),(22,'consultation','memory'),(40,'consultation','mental_cognitive_function'),(39,'consultation','mental_emotions'),(38,'consultation','mental_general_description'),(42,'consultation','mental_thought_perception'),(19,'consultation','mood'),(16,'consultation','motoactive'),(15,'consultation','movement'),(23,'consultation','orientation'),(28,'consultation','preoccupation'),(17,'consultation','speech'),(43,'consultation','suicidality'),(25,'consultation','thoughtcontent'),(27,'consultation','thoughtform'),(44,'consultation','treatment'),(34,'consultation','vitalsign'),(5,'contenttypes','contenttype'),(8,'patient','address'),(10,'patient','allergies'),(31,'patient','considering_event'),(7,'patient','details'),(30,'patient','global_psychotrauma_screen'),(32,'patient','hamd'),(11,'patient','medicine'),(36,'patient','patient_survey'),(9,'patient','relatives'),(6,'sessions','session');
 
 /*Table structure for table `django_migrations` */
 
@@ -454,11 +780,11 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `django_migrations` */
 
-insert  into `django_migrations`(`id`,`app`,`name`,`applied`) values (1,'contenttypes','0001_initial','2023-08-03 03:19:18.874511'),(2,'auth','0001_initial','2023-08-03 03:19:19.730004'),(3,'admin','0001_initial','2023-08-03 03:19:19.913130'),(4,'admin','0002_logentry_remove_auto_add','2023-08-03 03:19:19.920330'),(5,'admin','0003_logentry_add_action_flag_choices','2023-08-03 03:19:19.940647'),(6,'contenttypes','0002_remove_content_type_name','2023-08-03 03:19:20.031441'),(7,'auth','0002_alter_permission_name_max_length','2023-08-03 03:19:20.096554'),(8,'auth','0003_alter_user_email_max_length','2023-08-03 03:19:20.143096'),(9,'auth','0004_alter_user_username_opts','2023-08-03 03:19:20.148505'),(10,'auth','0005_alter_user_last_login_null','2023-08-03 03:19:20.212514'),(11,'auth','0006_require_contenttypes_0002','2023-08-03 03:19:20.223126'),(12,'auth','0007_alter_validators_add_error_messages','2023-08-03 03:19:20.226493'),(13,'auth','0008_alter_user_username_max_length','2023-08-03 03:19:20.272901'),(14,'auth','0009_alter_user_last_name_max_length','2023-08-03 03:19:20.307082'),(15,'auth','0010_alter_group_name_max_length','2023-08-03 03:19:20.346469'),(16,'auth','0011_update_proxy_permissions','2023-08-03 03:19:20.359442'),(17,'auth','0012_alter_user_first_name_max_length','2023-08-03 03:19:20.402231'),(18,'sessions','0001_initial','2023-08-03 03:19:20.469799'),(19,'patient','0001_initial','2023-09-26 05:05:59.945422'),(20,'patient','0002_alter_details_bod','2023-10-06 05:27:42.496619'),(21,'patient','0003_details_gender_indentity','2023-10-06 05:27:42.520590'),(22,'patient','0004_relatives','2023-10-06 07:02:44.564526'),(23,'patient','0005_relatives_workplace','2023-10-06 07:38:10.623623'),(24,'patient','0006_medicine_allergies','2023-10-09 06:43:06.745639'),(25,'consultation','0001_initial','2023-10-18 02:38:01.757096'),(26,'consultation','0002_attitude','2023-10-18 02:46:50.641566'),(27,'consultation','0003_facialexpression','2023-10-18 02:54:42.153848'),(28,'consultation','0004_movement','2023-10-18 03:00:34.511517'),(29,'consultation','0005_motoactive','2023-10-18 03:06:26.957282'),(30,'consultation','0006_speech','2023-10-18 03:13:57.375731'),(31,'consultation','0007_aphasia','2023-10-18 03:19:32.248563'),(32,'consultation','0008_mood','2023-10-18 03:26:02.555550'),(33,'consultation','0009_affect','2023-10-18 03:30:00.816129'),(34,'consultation','0010_insomnia','2023-10-18 03:34:48.549589'),(35,'consultation','0011_memory_orientation','2023-10-18 03:41:07.218015'),(36,'consultation','0012_disorderedperception','2023-10-18 13:21:58.264309'),(37,'consultation','0013_thoughtcontent','2023-10-18 13:28:38.505051'),(38,'consultation','0014_delusioncontent_thoughtform','2023-10-18 13:33:35.474295'),(39,'consultation','0015_preoccupation','2023-10-18 14:13:56.731008'),(40,'consultation','0016_condition','2023-10-18 14:36:30.375411'),(41,'patient','0007_global_psychotrauma_screen_considering_event','2023-11-02 04:04:06.659658');
+insert  into `django_migrations`(`id`,`app`,`name`,`applied`) values (1,'contenttypes','0001_initial','2023-08-03 03:19:18.874511'),(2,'auth','0001_initial','2023-08-03 03:19:19.730004'),(3,'admin','0001_initial','2023-08-03 03:19:19.913130'),(4,'admin','0002_logentry_remove_auto_add','2023-08-03 03:19:19.920330'),(5,'admin','0003_logentry_add_action_flag_choices','2023-08-03 03:19:19.940647'),(6,'contenttypes','0002_remove_content_type_name','2023-08-03 03:19:20.031441'),(7,'auth','0002_alter_permission_name_max_length','2023-08-03 03:19:20.096554'),(8,'auth','0003_alter_user_email_max_length','2023-08-03 03:19:20.143096'),(9,'auth','0004_alter_user_username_opts','2023-08-03 03:19:20.148505'),(10,'auth','0005_alter_user_last_login_null','2023-08-03 03:19:20.212514'),(11,'auth','0006_require_contenttypes_0002','2023-08-03 03:19:20.223126'),(12,'auth','0007_alter_validators_add_error_messages','2023-08-03 03:19:20.226493'),(13,'auth','0008_alter_user_username_max_length','2023-08-03 03:19:20.272901'),(14,'auth','0009_alter_user_last_name_max_length','2023-08-03 03:19:20.307082'),(15,'auth','0010_alter_group_name_max_length','2023-08-03 03:19:20.346469'),(16,'auth','0011_update_proxy_permissions','2023-08-03 03:19:20.359442'),(17,'auth','0012_alter_user_first_name_max_length','2023-08-03 03:19:20.402231'),(18,'sessions','0001_initial','2023-08-03 03:19:20.469799'),(19,'patient','0001_initial','2023-09-26 05:05:59.945422'),(20,'patient','0002_alter_details_bod','2023-10-06 05:27:42.496619'),(21,'patient','0003_details_gender_indentity','2023-10-06 05:27:42.520590'),(22,'patient','0004_relatives','2023-10-06 07:02:44.564526'),(23,'patient','0005_relatives_workplace','2023-10-06 07:38:10.623623'),(24,'patient','0006_medicine_allergies','2023-10-09 06:43:06.745639'),(25,'consultation','0001_initial','2023-10-18 02:38:01.757096'),(26,'consultation','0002_attitude','2023-10-18 02:46:50.641566'),(27,'consultation','0003_facialexpression','2023-10-18 02:54:42.153848'),(28,'consultation','0004_movement','2023-10-18 03:00:34.511517'),(29,'consultation','0005_motoactive','2023-10-18 03:06:26.957282'),(30,'consultation','0006_speech','2023-10-18 03:13:57.375731'),(31,'consultation','0007_aphasia','2023-10-18 03:19:32.248563'),(32,'consultation','0008_mood','2023-10-18 03:26:02.555550'),(33,'consultation','0009_affect','2023-10-18 03:30:00.816129'),(34,'consultation','0010_insomnia','2023-10-18 03:34:48.549589'),(35,'consultation','0011_memory_orientation','2023-10-18 03:41:07.218015'),(36,'consultation','0012_disorderedperception','2023-10-18 13:21:58.264309'),(37,'consultation','0013_thoughtcontent','2023-10-18 13:28:38.505051'),(38,'consultation','0014_delusioncontent_thoughtform','2023-10-18 13:33:35.474295'),(39,'consultation','0015_preoccupation','2023-10-18 14:13:56.731008'),(40,'consultation','0016_condition','2023-10-18 14:36:30.375411'),(41,'patient','0007_global_psychotrauma_screen_considering_event','2023-11-02 04:04:06.659658'),(42,'patient','0008_hamd','2023-11-10 11:53:11.549332'),(43,'patient','0009_hamd_diurnal_variation_mild_am_and_more','2023-11-10 11:53:11.643555'),(44,'consultation','0017_encounter_vitalsign_chief_complaints','2023-11-10 11:53:11.784651'),(45,'patient','0010_relatives_is_emergency','2023-11-11 02:53:14.944683'),(46,'patient','0011_remove_address_apt_remove_address_barangay_and_more','2023-11-18 04:39:42.628561'),(47,'patient','0012_patient_survey','2023-11-19 15:02:51.336316'),(48,'patient','0013_rename_disorder_personality_disorder_patient_survey_disorder_personality_disorder','2023-11-19 15:41:30.317050'),(49,'patient','0014_remove_patient_survey_panganib_na_makapinsala','2023-11-26 00:32:31.952801'),(50,'consultation','0018_remove_encounter_cconsultation_date_and_more','2023-11-26 01:05:25.694453'),(51,'consultation','0019_history_present_illness','2023-11-26 05:25:55.904022'),(52,'consultation','0020_mental_general_description','2023-11-26 07:03:20.129273'),(53,'consultation','0021_mental_emotions','2023-11-26 07:20:00.580076'),(54,'consultation','0022_mental_cognitive_function','2023-11-26 07:39:53.826295'),(55,'consultation','0023_suicidality_mental_thought_perception_diagnosis','2023-11-26 15:14:37.007276'),(56,'consultation','0024_encounter_encounter_notes_and_more','2023-11-26 16:42:59.022995');
 
 /*Table structure for table `django_session` */
 
@@ -474,7 +800,7 @@ CREATE TABLE `django_session` (
 
 /*Data for the table `django_session` */
 
-insert  into `django_session`(`session_key`,`session_data`,`expire_date`) values ('525825nlpbmbiik59hkfzjy7cqrhp71r','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qvuGN:oZOE2xvVinZ52ynriXwxwijDU_mMDsmGsJDYcCMppn0','2023-11-09 06:54:39.474205'),('dti25gnwm0m1odzw28m3lieyx8s8z2hv','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qkyJb:d6DztciWQYVDPjdiz8K_rWLufPxrAzuaJq7PimZ0n7A','2023-10-10 03:00:47.970206'),('fr505xnwyf1djtt4cg4z01c2gw9zovy5','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qqnMO:DvrODntPoTuE9ClY_FWFEjYb6PDoAYrUcCDZ19e3dCU','2023-10-26 04:31:44.512720'),('hvgb53iipxfnes2d0r54q0xm3bw8qkxs','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qe5FN:Fq9uPAl0OjS4EXIM-Pb8H8Y7_aKT6NdOtyMW3EdINew','2023-09-21 02:59:57.078822'),('hyzx713k3c0en3p2vjogrfort7ct96jw','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qyOEb:G4VGevPyxwAhlbgJR2iFhKWkH4ru7NpwA4rBG1gMtuk','2023-11-16 03:19:05.082509'),('x4remxbf6umqdpm8zbo043bruyh4lorw','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qRQgK:uNXZQiGK5FmXHtwbLL7IxBkmjB9tJBrxGzXwBMOf2Dc','2023-08-17 05:15:28.669378');
+insert  into `django_session`(`session_key`,`session_data`,`expire_date`) values ('525825nlpbmbiik59hkfzjy7cqrhp71r','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qvuGN:oZOE2xvVinZ52ynriXwxwijDU_mMDsmGsJDYcCMppn0','2023-11-09 06:54:39.474205'),('53ex1ua71f1i7wjtywenu7hzmyzaxprh','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1r49MM:r1Dc8eyb4HpSpfJqmBoOtwRbfVlmmCY4cgVj2lU5YTo','2023-12-02 00:38:54.084938'),('dti25gnwm0m1odzw28m3lieyx8s8z2hv','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qkyJb:d6DztciWQYVDPjdiz8K_rWLufPxrAzuaJq7PimZ0n7A','2023-10-10 03:00:47.970206'),('fr505xnwyf1djtt4cg4z01c2gw9zovy5','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qqnMO:DvrODntPoTuE9ClY_FWFEjYb6PDoAYrUcCDZ19e3dCU','2023-10-26 04:31:44.512720'),('hvgb53iipxfnes2d0r54q0xm3bw8qkxs','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qe5FN:Fq9uPAl0OjS4EXIM-Pb8H8Y7_aKT6NdOtyMW3EdINew','2023-09-21 02:59:57.078822'),('hyzx713k3c0en3p2vjogrfort7ct96jw','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qyOEb:G4VGevPyxwAhlbgJR2iFhKWkH4ru7NpwA4rBG1gMtuk','2023-11-16 03:19:05.082509'),('x4remxbf6umqdpm8zbo043bruyh4lorw','.eJxVjDsOwjAQBe_iGllZ_5eSnjNYa3uNAyiR4qRC3B0ipYD2zcx7iUjb2uLWeYljEWdhxOl3S5QfPO2g3Gm6zTLP07qMSe6KPGiX17nw83K4fweNevvWg9IMFUg79pkxFAXJO1sdVqOwEoSSlbfGaAIMwSEWD3pAbZNhAiPeH9DmNvo:1qRQgK:uNXZQiGK5FmXHtwbLL7IxBkmjB9tJBrxGzXwBMOf2Dc','2023-08-17 05:15:28.669378');
 
 /*Table structure for table `patient_address` */
 
@@ -482,27 +808,33 @@ DROP TABLE IF EXISTS `patient_address`;
 
 CREATE TABLE `patient_address` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `street` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `apt` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `barangay` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `province` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zip_code` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_current` tinyint(1) NOT NULL,
   `create_date` datetime(6) NOT NULL,
   `update_date` datetime(6) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `is_delete` tinyint(1) NOT NULL,
   `details_id` bigint(20) DEFAULT NULL,
+  `current_apt` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_barangay` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_city` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_country` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_province` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_street` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_zip_code` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_apt` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_barangay` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_city` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_country` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_province` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_street` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ph_zip_code` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `patient_address_details_id_faa9fcce_fk_patient_details_id` (`details_id`),
   CONSTRAINT `patient_address_details_id_faa9fcce_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_address` */
 
-insert  into `patient_address`(`id`,`street`,`apt`,`barangay`,`province`,`city`,`country`,`zip_code`,`is_current`,`create_date`,`update_date`,`status`,`is_delete`,`details_id`) values (4,'block 18 lot 35 Deca Home Cat grande','Not',NULL,NULL,'Davao City','Philippines','8000',1,'2023-09-27 04:40:06.473391','2023-09-27 04:40:06.473391',1,0,3),(5,'Block 18 Lot 35 Deca Home',NULL,'Cat Grande','Davao Del Sur','Davao City','Philippines',NULL,0,'2023-09-27 04:40:06.475831','2023-09-27 04:40:06.475831',1,0,3),(10,'','',NULL,NULL,'','','',1,'2023-10-31 02:57:44.300016','2023-10-31 02:57:44.300016',1,0,6),(11,'',NULL,'','','','Philippines',NULL,0,'2023-10-31 02:57:44.303734','2023-10-31 02:57:44.303734',1,0,6);
+insert  into `patient_address`(`id`,`create_date`,`update_date`,`status`,`is_delete`,`details_id`,`current_apt`,`current_barangay`,`current_city`,`current_country`,`current_province`,`current_street`,`current_zip_code`,`ph_apt`,`ph_barangay`,`ph_city`,`ph_country`,`ph_province`,`ph_street`,`ph_zip_code`) values (28,'2023-11-18 04:58:47.422265','2023-11-18 04:58:47.423268',1,0,23,'Current Apt2','','Current City2','Current Country2','','Current Street2','Current Zip Code2','','Ph Barangay3','Ph City3','','Ph Province3','Ph Street3','Ph Zip Code3');
 
 /*Table structure for table `patient_allergies` */
 
@@ -518,11 +850,11 @@ CREATE TABLE `patient_allergies` (
   KEY `patient_allergies_medicine_name_id_97602c59_fk_patient_m` (`medicine_name_id`),
   CONSTRAINT `patient_allergies_details_id_1f8ac3c5_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`),
   CONSTRAINT `patient_allergies_medicine_name_id_97602c59_fk_patient_m` FOREIGN KEY (`medicine_name_id`) REFERENCES `patient_medicine` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_allergies` */
 
-insert  into `patient_allergies`(`id`,`is_delete`,`details_id`,`medicine_name_id`) values (1,0,3,3);
+insert  into `patient_allergies`(`id`,`is_delete`,`details_id`,`medicine_name_id`) values (1,0,3,3),(2,0,23,3);
 
 /*Table structure for table `patient_considering_event` */
 
@@ -562,11 +894,11 @@ CREATE TABLE `patient_considering_event` (
   PRIMARY KEY (`id`),
   KEY `patient_considering__global_psychotrauma__ac7c8b93_fk_patient_g` (`global_psychotrauma_screen_id`),
   CONSTRAINT `patient_considering__global_psychotrauma__ac7c8b93_fk_patient_g` FOREIGN KEY (`global_psychotrauma_screen_id`) REFERENCES `patient_global_psychotrauma_screen` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_considering_event` */
 
-insert  into `patient_considering_event`(`id`,`considering_event_1`,`considering_event_2`,`considering_event_3`,`considering_event_4`,`considering_event_5`,`considering_event_6`,`considering_event_7`,`considering_event_8`,`considering_event_9`,`considering_event_10`,`considering_event_11`,`considering_event_12`,`considering_event_13`,`considering_event_14`,`considering_event_15`,`considering_event_16`,`considering_event_17`,`considering_event_18`,`considering_event_19`,`considering_event_20`,`considering_event_21`,`considering_event_22`,`considering_event_23`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`global_psychotrauma_screen_id`) values (1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,'9','2023-11-02 04:40:21.143310','2023-11-02 04:40:21.143310',NULL,1,0,2);
+insert  into `patient_considering_event`(`id`,`considering_event_1`,`considering_event_2`,`considering_event_3`,`considering_event_4`,`considering_event_5`,`considering_event_6`,`considering_event_7`,`considering_event_8`,`considering_event_9`,`considering_event_10`,`considering_event_11`,`considering_event_12`,`considering_event_13`,`considering_event_14`,`considering_event_15`,`considering_event_16`,`considering_event_17`,`considering_event_18`,`considering_event_19`,`considering_event_20`,`considering_event_21`,`considering_event_22`,`considering_event_23`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`global_psychotrauma_screen_id`) values (1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,'9','2023-11-02 04:40:21.143310','2023-11-02 04:40:21.143310',NULL,1,0,2),(2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,'6','2023-11-29 10:56:19.604151','2023-11-29 10:56:19.604151',NULL,1,0,3);
 
 /*Table structure for table `patient_details` */
 
@@ -598,11 +930,11 @@ CREATE TABLE `patient_details` (
   `is_delete` tinyint(1) NOT NULL,
   `gender_indentity` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_details` */
 
-insert  into `patient_details`(`id`,`first_name`,`middle_name`,`last_name`,`gender`,`BOD`,`marital_status`,`contact_number`,`alias`,`email`,`birth_place`,`religion`,`high_education`,`citizenship`,`nationality`,`workplace`,`occupation`,`profile_picture`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`gender_indentity`) values (3,'William','Valderosa','Crumb','Male','1991-10-06','Married','09663308394','Poliam','poliamcrumb@gmail.com','Davao City','Roman Catholic','Collage','Filippino','Filipino','House','Software Developer','prof_pic/profile_picture_4_844.jpg','2023-09-27 04:40:06.448807','2023-09-27 04:40:06.448807',NULL,1,0,NULL),(6,'desiderio','Lopez','ampe','Male','2023-10-31','Married','','','sample','','','','','','','','','2023-10-31 02:57:44.262642','2023-10-31 02:57:44.262642',NULL,1,0,'');
+insert  into `patient_details`(`id`,`first_name`,`middle_name`,`last_name`,`gender`,`BOD`,`marital_status`,`contact_number`,`alias`,`email`,`birth_place`,`religion`,`high_education`,`citizenship`,`nationality`,`workplace`,`occupation`,`profile_picture`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`gender_indentity`) values (3,'William','Valderosa','Crumb','Male','1991-10-06','Married','09663308394','Poliam','poliamcrumb@gmail.com','Davao City','Roman Catholic','Collage','Filippino','Filipino','House','Software Developer','prof_pic/profile_picture_4_844.jpg','2023-09-27 04:40:06.448807','2023-09-27 04:40:06.448807',NULL,1,0,NULL),(6,'desiderio','Lopez','ampe','Male','2023-10-31','Married','','','sample','','','','','','','','','2023-10-31 02:57:44.262642','2023-10-31 02:57:44.262642',NULL,1,0,''),(23,'Sample2','Sample2','Sample2','Male','1991-01-11','Single','091712345678','Sample','sample@gmail.com','Sample birth place4','Sample religion4','Sample Highest education4','Sample Citizenship4','Sample Nationality4','Sample Workplace4','Sample Occupation4','prof_pic/download_m5EkJzh.jfif','2023-11-18 04:58:47.421262','2023-11-18 04:58:47.421262',NULL,1,0,'Gay');
 
 /*Table structure for table `patient_global_psychotrauma_screen` */
 
@@ -633,11 +965,60 @@ CREATE TABLE `patient_global_psychotrauma_screen` (
   PRIMARY KEY (`id`),
   KEY `patient_global_psych_details_id_0e5f96ab_fk_patient_d` (`details_id`),
   CONSTRAINT `patient_global_psych_details_id_0e5f96ab_fk_patient_d` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_global_psychotrauma_screen` */
 
-insert  into `patient_global_psychotrauma_screen`(`id`,`consultation_date`,`event_description`,`event_happened`,`physical_violence`,`sexual_violence`,`emotional_abuse`,`serious_injury`,`life_threatening`,`sudden_death_of_loved_one`,`cause_harm_to_others`,`covid`,`single_event_occurring`,`range_event_occurring_from`,`range_event_occurring_to`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`) values (2,'2023-11-02 04:40:20.658417','was','last half year','to yourself','happened to someone else','to yourself','happened to someone else','to yourself',1,0,1,'12','22','32','2023-11-02 04:40:20.658417','2023-11-02 04:40:20.658417',NULL,1,0,3);
+insert  into `patient_global_psychotrauma_screen`(`id`,`consultation_date`,`event_description`,`event_happened`,`physical_violence`,`sexual_violence`,`emotional_abuse`,`serious_injury`,`life_threatening`,`sudden_death_of_loved_one`,`cause_harm_to_others`,`covid`,`single_event_occurring`,`range_event_occurring_from`,`range_event_occurring_to`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`) values (2,'2023-11-02 04:40:20.658417','was','last half year','to yourself','happened to someone else','to yourself','happened to someone else','to yourself',1,0,1,'12','22','32','2023-11-02 04:40:20.658417','2023-11-02 04:40:20.658417',NULL,1,0,3),(3,'2023-11-29 10:56:19.602180','Sample Describe Event','last month','to yourself','happened to someone else','to yourself','happened to someone else','to yourself',1,1,0,'12','13','15','2023-11-29 10:56:19.602180','2023-11-29 10:56:19.602180',NULL,1,0,23);
+
+/*Table structure for table `patient_hamd` */
+
+DROP TABLE IF EXISTS `patient_hamd`;
+
+CREATE TABLE `patient_hamd` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `consultation_date` datetime(6) NOT NULL,
+  `score` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `depressed_mood` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `feeling_of_guilt` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `suicide` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `insomnia_initial` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `insomnia_middle` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `insomnia_delayed` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_and_interests` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `retardation_delayed` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agitation_delayed` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anxiety_psychic` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anxiety_somatic` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `somatic_symptoms_gastrointestinal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `somatic_symptoms_general` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `genital_symptoms` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hypochondriasis` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `weight_loss` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `insight` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `diurnal_variation` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `depersonalization_and_derelization` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paranoid_symptoms` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `obsessional_symptoms` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `history` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `details_id` bigint(20) DEFAULT NULL,
+  `diurnal_variation_mild_am` tinyint(1) NOT NULL,
+  `diurnal_variation_mild_pm` tinyint(1) NOT NULL,
+  `diurnal_variation_severe_am` tinyint(1) NOT NULL,
+  `diurnal_variation_severe_pm` tinyint(1) NOT NULL,
+  `total_score` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `patient_hamd_details_id_bf70dab8_fk_patient_details_id` (`details_id`),
+  CONSTRAINT `patient_hamd_details_id_bf70dab8_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `patient_hamd` */
+
+insert  into `patient_hamd`(`id`,`consultation_date`,`score`,`depressed_mood`,`feeling_of_guilt`,`suicide`,`insomnia_initial`,`insomnia_middle`,`insomnia_delayed`,`work_and_interests`,`retardation_delayed`,`agitation_delayed`,`anxiety_psychic`,`anxiety_somatic`,`somatic_symptoms_gastrointestinal`,`somatic_symptoms_general`,`genital_symptoms`,`hypochondriasis`,`weight_loss`,`insight`,`diurnal_variation`,`depersonalization_and_derelization`,`paranoid_symptoms`,`obsessional_symptoms`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`,`diurnal_variation_mild_am`,`diurnal_variation_mild_pm`,`diurnal_variation_severe_am`,`diurnal_variation_severe_pm`,`total_score`) values (1,'2023-11-29 10:48:45.956669','24','2','1','1','2','2','1','2','2','1','1','2','1','1','1','2','1','1','1','1','1','1','2023-11-29 10:48:45.956669','2023-11-29 10:48:45.956669',NULL,1,0,23,0,1,0,0,'28');
 
 /*Table structure for table `patient_medicine` */
 
@@ -653,7 +1034,59 @@ CREATE TABLE `patient_medicine` (
 
 /*Data for the table `patient_medicine` */
 
-insert  into `patient_medicine`(`id`,`name`,`status`,`is_delete`) values (1,'paracetamol',1,0),(2,'citirizine',1,0),(3,'calpol',1,0);
+insert  into `patient_medicine`(`id`,`name`,`status`,`is_delete`) values (1,'Paracetamol',1,0),(2,'Citirizine',1,0),(3,'Calpol',1,0);
+
+/*Table structure for table `patient_patient_survey` */
+
+DROP TABLE IF EXISTS `patient_patient_survey`;
+
+CREATE TABLE `patient_patient_survey` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `responde_date` datetime(6) NOT NULL,
+  `social_phobia` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `generalized_anxiety_disorder` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `major_depressive_disorder` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `disorder_personality_disorder` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dysthymia` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agoraphobia` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bipolar_disorder` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `drug_dependence` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mas_babae` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mas_lalake` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kalidad_pagtulog` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `iwasan_aktibidad` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cognitive_behavior_therapy` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kumpidensyal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hindi_nagbabanta` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hahanapin_impormasyon_sakit_isip` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `humingi_impormasyon_sakit_isip` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pagpapatingin_sa_doktor` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mapagkukunan_impormasyon_sakit_isip` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bumalik_tamang_kaisipan` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `personal_kahinaan` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sakit_medikal` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mapanganib` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `umiwas_taong_sakit_isip` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hindi_sasabihin_kahit_kanino` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_26` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_27` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hindi_magiging_epektibo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lumipat_ng_bahay` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pakikisalamuha_isang_taong` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_31` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_32` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_33` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_34` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `question_35` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `details_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `patient_patient_survey_details_id_5a1f3ab9_fk_patient_details_id` (`details_id`),
+  CONSTRAINT `patient_patient_survey_details_id_5a1f3ab9_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `patient_patient_survey` */
 
 /*Table structure for table `patient_relatives` */
 
@@ -680,14 +1113,15 @@ CREATE TABLE `patient_relatives` (
   `is_delete` tinyint(1) NOT NULL,
   `details_id` bigint(20) DEFAULT NULL,
   `Workplace` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_emergency` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `patient_relatives_details_id_bd3f40cd_fk_patient_details_id` (`details_id`),
   CONSTRAINT `patient_relatives_details_id_bd3f40cd_fk_patient_details_id` FOREIGN KEY (`details_id`) REFERENCES `patient_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `patient_relatives` */
 
-insert  into `patient_relatives`(`id`,`first_name`,`middle_name`,`last_name`,`gender`,`gender_indentity`,`DOB`,`marital_status`,`relationship`,`high_education`,`occupation`,`contact_number`,`email`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`,`Workplace`) values (1,'Dearly','Toro-Toro','Crumb','Female','','1989-01-21','Married','Wife','Collage','Virtual Assitances','09663308394','dearlydeardee@gmail.com','2023-10-06 07:44:16.933745','2023-10-06 07:44:16.933745',NULL,1,0,3,NULL);
+insert  into `patient_relatives`(`id`,`first_name`,`middle_name`,`last_name`,`gender`,`gender_indentity`,`DOB`,`marital_status`,`relationship`,`high_education`,`occupation`,`contact_number`,`email`,`create_date`,`update_date`,`history`,`status`,`is_delete`,`details_id`,`Workplace`,`is_emergency`) values (1,'Dearly','Toro-Toro','Crumb','Female','','1989-01-21','Married','Wife','Collage','Virtual Assitances','09663308394','dearlydeardee@gmail.com','2023-10-06 07:44:16.933745','2023-10-06 07:44:16.933745',NULL,1,0,3,NULL,0),(2,'sample2','sample2','sample2','Male','Gay','1991-07-11','Widowed','Daughter','High School','Killer','09161231231','sample2x','2023-11-10 17:56:04.057209','2023-11-10 17:56:04.057209',NULL,1,0,3,'Davao',1),(3,'Sample Relative','Relative','Sample','Female','Bi','1990-04-10','Married','Wife','High School','Manager','09171234567','sampleemail@gmail.com','2023-11-29 10:50:26.730700','2023-11-29 10:50:26.730700',NULL,1,0,23,'Kuwait',1),(4,'Another','Relative','Sample','Male','Gay','1992-01-11','Widowed','Second Cousin','Elementary','Waiter','09177654321','Anotheremail@gmail.com','2023-11-29 10:52:08.401690','2023-11-29 10:52:08.401690',NULL,1,0,23,'Kuwait',0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
