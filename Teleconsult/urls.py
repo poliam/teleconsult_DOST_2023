@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", TeleconsultView.dashboard, name="dashboard"),
     path("login", TeleconsultView.login_user, name="login_user"),
+    path('logout', TeleconsultView.Logout, name="Logout"),
     path('singup', TeleconsultView.signup, name="signup"),
     path('patient/', include('patient.urls')),
     path('consultation', include('consultation.urls')),

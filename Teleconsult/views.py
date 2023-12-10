@@ -50,3 +50,7 @@ def signup(request):
 		else:
 			errormsg = "Username Already Taken!"
 	return render(request, "signup.html", {"error_msg":errormsg, "success": success, "successmsg": successmsg})
+
+def Logout(request):
+	logout(request)
+	return redirect('LandingPage')
