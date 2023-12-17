@@ -91,6 +91,24 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
+    								{{ form.employment_status.label }}{% if form.employment_status.field.required %}*{% endif %}
+    								{{ form.employment_status }}
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}*{% endif %}
+    								{{ form.mental_health_history }}
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}*{% endif %}
+    								{{ form.access_to_mental_health }}
+  								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
     								{{ form.marital_status.label }}{% if form.marital_status.field.required %}*{% endif %}
     								{{ form.marital_status }}
   								</div>

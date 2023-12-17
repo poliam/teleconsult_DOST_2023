@@ -203,3 +203,25 @@ class AddMentalSuicidalityForm(forms.ModelForm):
 		model = suicidality
 		fields = ['is_suicidal', 'is_homicidal', 'suicidality_remarks', 'impulse_remarks', 'reliability', 'reliability_impression', 'surroundings_inappropriate', 'environment', 'environment_remarks']
 
+class AddReferralForm(forms.ModelForm):
+	referred_to = forms.CharField(required=False, label="Referred To", widget=forms.TextInput(attrs={'placeholder': 'Referred To'}))
+	referred_from = forms.CharField(required=False, label="Referred From", widget=forms.TextInput(attrs={'placeholder': 'Referred From'}))
+	brief_summary = forms.CharField(required=False, label="Brief Summary", widget=forms.Textarea(attrs={'rows':3}))
+	impression = forms.CharField(required=False, label="Impression", widget=forms.Textarea(attrs={'rows':3}))
+	reason_for_referral = forms.CharField(required=False, label="Reason For Referral", widget=forms.Textarea(attrs={'rows':3}))
+
+
+	def __init__(self, *args, **kwargs):
+		super(AddReferralForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+
+	class Meta:
+		model = Referral
+		fields = ['referred_to', 'referred_from', 'brief_summary', 'impression', 'reason_for_referral']
+

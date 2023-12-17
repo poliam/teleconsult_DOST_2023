@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from patient.models import details, medicine
 
 # Create your models here.
@@ -152,6 +153,8 @@ class encounter(models.Model):
 	consultation_date = models.DateField(null=True, blank=True)
 	create_date = models.DateTimeField(auto_now_add=True)
 	update_date = models.DateTimeField(auto_now_add=True)
+	update_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='update_by')
+	consulted_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
@@ -300,5 +303,17 @@ class treatment(models.Model):
 	is_delete = models.BooleanField(default=0)
 
 
-
+class Referral(models.Model):
+	encounter = models.ForeignKey(encounter, null=True, blank=True, on_delete=models.SET_NULL)
+	referred_to = models.CharField(max_length=250, null=True, blank=True)
+	referred_from = models.CharField(max_length=250, null=True, blank=True)
+	brief_summary = models.TextField(null=True, blank=True)
+	impression = models.TextField(null=True, blank=True)
+	reason_for_referral = models.TextField(null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	create_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
 	

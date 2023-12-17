@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from patient.models import details, relatives, medicine, allergies
 from consultation.models import *
-from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm
+from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm
 import random, os
 from datetime import date, datetime
 
@@ -32,6 +32,7 @@ def CreateConsultation(request, patient_id):
 	returnVal['MentalCognitiveForm'] = AddMentalCognitiveForm()
 	returnVal['MentalThoughtPerceptionForm'] = AddMentalThoughtPerceptionForm()
 	returnVal['MentalSuicidalityForm'] = AddMentalSuicidalityForm()
+	returnVal['ReferralForm'] = AddReferralForm()
 	returnVal['condition_list'] = condition.objects.all()
 	returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
 
@@ -53,6 +54,9 @@ def CreateConsultation(request, patient_id):
 		returnVal['MentalThoughtPerceptionForm'] = MentalThoughtPerceptionForm
 		MentalSuicidalityForm = AddMentalSuicidalityForm(request.POST)
 		returnVal['MentalSuicidalityForm'] = MentalSuicidalityForm
+		ReferralForm = AddReferralForm(request.POST)
+		returnVal['ReferralForm'] = ReferralForm
+
 
 		HOPI_List = []
 		HOPI_NUM = request.POST.getlist('HOPI_NUM[]')
@@ -86,9 +90,10 @@ def CreateConsultation(request, patient_id):
 
 
 
-		if vitalSignForm.is_valid() and consultationEncounterForm.is_valid() and ConsultationChiefComplaintForm.is_valid() and MentalGeneralDescriptionForm.is_valid() and MentalEmotionForm.is_valid() and MentalCognitiveForm.is_valid() and MentalThoughtPerceptionForm.is_valid() and MentalSuicidalityForm.is_valid():
+		if vitalSignForm.is_valid() and consultationEncounterForm.is_valid() and ConsultationChiefComplaintForm.is_valid() and MentalGeneralDescriptionForm.is_valid() and MentalEmotionForm.is_valid() and MentalCognitiveForm.is_valid() and MentalThoughtPerceptionForm.is_valid() and MentalSuicidalityForm.is_valid() and ReferralForm.is_valid():
 			EncounterPost = consultationEncounterForm.save(commit=False)
 			EncounterPost.details = patient_instance
+			EncounterPost.consulted_by = profile_details
 			EncounterPost.save()
 
 			vitalSignPost = vitalSignForm.save(commit=False)
@@ -119,12 +124,23 @@ def CreateConsultation(request, patient_id):
 			MentalSuicidalityPost.encounter = EncounterPost
 			MentalSuicidalityPost.save()
 
+			referred_to = request.POST.get('referred_to', False)
+			impression = request.POST.get('impression', False)
+			reason_for_referral = request.POST.get('reason_for_referral', False)
+
+
+
+			if referred_to != "" and impression !="" and reason_for_referral != "":
+				ReferralFormPost = ReferralForm.save(commit=False)
+				ReferralFormPost.encounter = EncounterPost
+				ReferralFormPost.save()
+
 			for i in range(len(HOPI_NUM)):
 				if HOPI_NUM[i] != "" or HOPI_TIME[i] != "" or HOPI_DETAILS[i] != "":
 					new_history_present_illness = history_present_illness()
 					new_history_present_illness.number = HOPI_NUM[i]
 					new_history_present_illness.calendrical = HOPI_TIME[i]
-					new_history_present_illness.details = HOPI_TIME[i]
+					new_history_present_illness.details = HOPI_DETAILS[i]
 					new_history_present_illness.encounter = EncounterPost
 					new_history_present_illness.save()
 
@@ -176,15 +192,386 @@ def EncounterDetails(request):
 	returnVal['encounter_details'] = encounter.objects.get(pk=encounter_id)
 	returnVal['vital_sign'] = vitalsign.objects.get(encounter=encounter_id)
 	returnVal['chief_complaints'] = chief_complaints.objects.get(encounter=encounter_id)
-	returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id)
+	returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
 	returnVal['mental_general_description'] = mental_general_description.objects.get(encounter=encounter_id)
 	returnVal['mental_emotions'] = mental_emotions.objects.get(encounter=encounter_id)
 	returnVal['mental_cognitive_function'] = mental_cognitive_function.objects.get(encounter=encounter_id)
 	returnVal['mental_thought_perception'] = mental_thought_perception.objects.get(encounter=encounter_id)
+	returnVal['referral_details'] = Referral.objects.get(encounter=encounter_id)
 	returnVal['suicidality'] = suicidality.objects.get(encounter=encounter_id)
-	returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id)
-	returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id)
+	returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id, is_delete=0, status=1)
 	html = render_to_string('consultation_details.html', returnVal)
 	return HttpResponse(html)
+
+@login_required(login_url='login')
+def EditConsultation(request, encounter_id):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	returnVal['sidebar'] = "Consultation"
+	returnVal['userDetails'] = profile_details
+	if request.user.groups.filter(name='Doctor').exists():
+		returnVal['user_role'] = "Doctor"
+		
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+		returnVal['encounter_details'] = encounter_instance
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return render(request, 'error_page.html', returnVal)
+
+	try:
+		patient_instance = details.objects.get(pk=encounter_instance.details.pk)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return render(request, 'error_page.html', returnVal)
+
+	try:
+		vitalsign_instance = vitalsign.objects.get(encounter=encounter_id)
+		returnVal['vitalSignForm'] = AddConsultationVitalSignForm(instance=vitalsign_instance)
+	except:
+		returnVal['vitalSignForm'] = AddConsultationVitalSignForm()
+
+
+	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm(instance=encounter_instance)
+
+	try:
+		chief_complaints_instance = chief_complaints.objects.get(encounter=encounter_id)
+		returnVal['ConsultationChiefComplaintForm'] = AddConsultationChiefComplaintForm(instance=chief_complaints_instance)
+	except:
+		returnVal['ConsultationChiefComplaintForm'] = AddConsultationChiefComplaintForm()
+
+	try:
+		mental_general_description_instance = mental_general_description.objects.get(encounter=encounter_id)
+		returnVal['MentalGeneralDescriptionForm'] = AddMentalGeneralDescriptionForm(instance=mental_general_description_instance)
+	except:
+		returnVal['MentalGeneralDescriptionForm'] = AddMentalGeneralDescriptionForm()
+
+	try:
+		mental_emotions_instance = mental_emotions.objects.get(encounter=encounter_id)
+		returnVal['MentalEmotionForm'] = AddMentalEmotionForm(instance=mental_emotions_instance)
+	except:
+		returnVal['MentalEmotionForm'] = AddMentalEmotionForm()
+
+	try:
+		mental_cognitive_function_instance = mental_cognitive_function.objects.get(encounter=encounter_id)
+		returnVal['MentalCognitiveForm'] = AddMentalCognitiveForm(instance=mental_cognitive_function_instance)
+	except:
+		returnVal['MentalCognitiveForm'] = AddMentalCognitiveForm()
+
+	try:
+		mental_thought_perception_instance = mental_thought_perception.objects.get(encounter=encounter_id)
+		returnVal['MentalThoughtPerceptionForm'] = AddMentalThoughtPerceptionForm(instance=mental_thought_perception_instance)
+	except:
+		returnVal['MentalThoughtPerceptionForm'] = AddMentalThoughtPerceptionForm()
+
+	try:
+		suicidality_instance = suicidality.objects.get(encounter=encounter_id)
+		returnVal['MentalSuicidalityForm'] = AddMentalSuicidalityForm(instance=suicidality_instance)
+	except:
+		returnVal['MentalSuicidalityForm'] = AddMentalSuicidalityForm()
+
+
+	try:
+		Referral_instance = Referral.objects.get(encounter=encounter_id)
+		returnVal['ReferralForm'] = AddReferralForm(instance=Referral_instance)
+	except:
+		returnVal['ReferralForm'] = AddReferralForm()
+
+	try:
+		treatment_list = treatment.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+		returnVal['treatment_list'] = treatment_list
+	except:
+		returnVal['treatment_list'] = False
+
+	if request.method == 'POST':
+		try:
+			vitalsign_instance = vitalsign.objects.get(encounter=encounter_id)
+			vitalSignForm = AddConsultationVitalSignForm(request.POST, instance=vitalsign_instance)
+		except:
+			vitalSignForm = AddConsultationVitalSignForm(request.POST)
+		returnVal['vitalSignForm'] = vitalSignForm
+		
+		consultationEncounterForm = AddConsultationEncounterForm(request.POST, instance=encounter_instance)
+		returnVal['consultationEncounterForm'] = consultationEncounterForm
+		
+		try:
+			chief_complaints_instance = chief_complaints.objects.get(encounter=encounter_id)
+			ConsultationChiefComplaintForm = AddConsultationChiefComplaintForm(request.POST, instance=chief_complaints_instance)
+		except:
+			ConsultationChiefComplaintForm = AddConsultationChiefComplaintForm(request.POST)
+		returnVal['ConsultationChiefComplaintForm'] = ConsultationChiefComplaintForm
+		
+		try:
+			mental_general_description_instance = mental_general_description.objects.get(encounter=encounter_id)
+			MentalGeneralDescriptionForm = AddMentalGeneralDescriptionForm(request.POST, instance=mental_general_description_instance)
+		except:
+			MentalGeneralDescriptionForm = AddMentalGeneralDescriptionForm(request.POST)
+			returnVal['MentalGeneralDescriptionForm'] = MentalGeneralDescriptionForm
+
+		try:
+			mental_emotions_instance = mental_emotions.objects.get(encounter=encounter_id)
+			MentalEmotionForm = AddMentalEmotionForm(request.POST, instance=mental_emotions_instance)
+		except:
+			MentalEmotionForm = AddMentalEmotionForm(request.POST)
+		returnVal['MentalEmotionForm'] = MentalEmotionForm
+
+		try:
+			mental_cognitive_function_instance = mental_cognitive_function.objects.get(encounter=encounter_id)
+			MentalCognitiveForm = AddMentalCognitiveForm(request.POST, instance=mental_cognitive_function_instance)
+		except:
+			MentalCognitiveForm = AddMentalCognitiveForm(request.POST)
+		returnVal['MentalCognitiveForm'] = MentalCognitiveForm
+
+		try:
+			mental_thought_perception_instance = mental_thought_perception.objects.get(encounter=encounter_id)
+			MentalThoughtPerceptionForm = AddMentalThoughtPerceptionForm(request.POST, instance=mental_thought_perception_instance)
+		except:
+			MentalThoughtPerceptionForm = AddMentalThoughtPerceptionForm(request.POST)
+		returnVal['MentalThoughtPerceptionForm'] = MentalThoughtPerceptionForm
+
+		try:
+			suicidality_instance = suicidality.objects.get(encounter=encounter_id)
+			MentalSuicidalityForm = AddMentalSuicidalityForm(request.POST, instance=suicidality_instance)
+		except:
+			MentalSuicidalityForm = AddMentalSuicidalityForm(request.POST)
+		returnVal['MentalSuicidalityForm'] = MentalSuicidalityForm
+
+		try:
+			Referral_instance = Referral.objects.get(encounter=encounter_id)
+			ReferralForm = AddReferralForm(request.POST, instance=Referral_instance)
+		except:
+			ReferralForm = AddReferralForm(request.POST)
+		returnVal['ReferralForm'] = ReferralForm
+
+		if vitalSignForm.is_valid() and consultationEncounterForm.is_valid() and ConsultationChiefComplaintForm.is_valid() and MentalGeneralDescriptionForm.is_valid() and MentalEmotionForm.is_valid() and MentalCognitiveForm.is_valid() and MentalThoughtPerceptionForm.is_valid() and MentalSuicidalityForm.is_valid() and ReferralForm.is_valid():
+			EncounterPost = consultationEncounterForm.save(commit=False)
+			EncounterPost.update_by = profile_details
+			if returnVal['user_role'] == "Doctor":
+				EncounterPost.consulted_by = profile_details
+			EncounterPost.save()
+
+			vitalSignPost = vitalSignForm.save(commit=False)
+			vitalSignPost.save()
+
+			ConsultationChiefComplaintPost = ConsultationChiefComplaintForm.save(commit=False)
+			ConsultationChiefComplaintPost.encounter =  encounter_instance
+			ConsultationChiefComplaintPost.save()
+
+			MentalGeneralDescriptionPost = MentalGeneralDescriptionForm.save(commit=False)
+			MentalGeneralDescriptionPost.encounter =  encounter_instance
+			MentalGeneralDescriptionPost.save()
+
+			MentalEmotionPost = MentalEmotionForm.save(commit=False)
+			MentalEmotionPost.encounter =  encounter_instance
+			MentalEmotionPost.save()
+
+			MentalCognitivePost = MentalCognitiveForm.save(commit=False)
+			MentalCognitivePost.encounter =  encounter_instance
+			MentalCognitivePost.save()
+
+			MentalThoughtPerceptionPost = MentalThoughtPerceptionForm.save(commit=False)
+			MentalThoughtPerceptionPost.encounter =  encounter_instance
+			MentalThoughtPerceptionPost.save()
+
+			MentalSuicidalityPost = MentalSuicidalityForm.save(commit=False)
+			MentalSuicidalityPost.encounter =  encounter_instance
+			MentalSuicidalityPost.save()
+
+			referred_to = request.POST.get('referred_to', False)
+			impression = request.POST.get('impression', False)
+			reason_for_referral = request.POST.get('reason_for_referral', False)
+
+			if referred_to != "" and impression !="" and reason_for_referral != "":
+				ReferralFormPost = ReferralForm.save(commit=False)
+				ReferralFormPost.encounter =  encounter_instance
+				ReferralFormPost.save()
+
+
+	
+	returnVal['condition_list'] = condition.objects.all()
+	returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
+	returnVal['patientDetailed'] = patient_instance
+	returnVal['history_present_illness_list'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	return render(request, 'consultation_edit.html', returnVal)
+
+@login_required(login_url='login')
+def CreateHOPI(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	encounter_id = request.POST['encounter_id']
+	HOPI_NUM = request.POST['HOPI_NUM']
+	HOPI_DETAILS = request.POST['HOPI_DETAILS']
+	HOPI_TIME = request.POST['HOPI_TIME']
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	new_history_present_illness = history_present_illness();
+	new_history_present_illness.number = HOPI_NUM
+	new_history_present_illness.calendrical = HOPI_TIME
+	new_history_present_illness.details = HOPI_DETAILS
+	new_history_present_illness.encounter = encounter_instance
+	try:
+		new_history_present_illness.save();
+		returnVal['status_code'] = 1
+		returnVal['HOPI_ID'] = new_history_present_illness.pk
+	except:
+		returnVal['error_msg'] = "Error on saving History of present illness"
+	return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='login')
+def DeleteHOPI(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	HOPI_id = request.POST['HOPI_ID']
+	try:
+		HOPI_instance = history_present_illness.objects.get(pk=HOPI_id)
+	except:
+		returnVal['error_msg'] = "History of present illness Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	HOPI_instance.is_delete = 1
+	HOPI_instance.status = 0
+	try:
+		HOPI_instance.save()
+		returnVal['status_code'] = 1
+	except:
+		returnVal['error_msg'] = "Error on deleting History of present illness!"
+		return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='login')
+def CreateDiagnosis(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	encounter_id = request.POST['encounter_id']
+	condition_name = request.POST['condition_name']
+	condition_details = request.POST['condition_details']
+
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	try:
+		condition_instance = condition.objects.get(name=condition_name)
+	except:
+		new_condition = condition()
+		new_condition.name = condition_name
+		try:
+			new_condition.save()
+			condition_instance = new_condition
+		except:
+			returnVal['error_msg'] = "Error on Creating new condition"
+			return JsonResponse(returnVal, safe=False)
+
+	new_diagnosis = diagnosis()
+	new_diagnosis.condition = condition_instance
+	new_diagnosis.condition_details = condition_details
+	new_diagnosis.encounter = encounter_instance
+	try:
+		new_diagnosis.save()
+		returnVal['status_code'] = 1
+		returnVal['diagnosis_id'] = new_diagnosis.pk
+	except:
+		returnVal['error_msg'] = "Error on saving Diagnosis!"
+		return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='login')
+def DeleteDiagnosis(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	diagnosis_id = request.POST['diagnosis_id']
+	try:
+		diagnosis_instance = diagnosis.objects.get(pk=diagnosis_id)
+	except:
+		returnVal['error_msg'] = "Diagnosis Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	diagnosis_instance.is_delete = 1
+	diagnosis_instance.status = 0
+	try:
+		diagnosis_instance.save()
+		returnVal['status_code'] = 1
+	except:
+		returnVal['error_msg'] = "Error on deleting Diagnosis!"
+		return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='login')
+def CreateTreatment(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	encounter_id = request.POST['encounter_id']
+	drug = request.POST['drug']
+	strength = request.POST['strength']
+	dose = request.POST['dose']
+	Route = request.POST['Route']
+	frequency = request.POST['frequency']
+	no = request.POST['no']
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
+	try:
+		medicine_instance = medicine.objects.get(name=drug)
+	except:
+		new_medicine = medicine()
+		new_medicine.name = drug
+		try:
+			new_medicine.save()
+			medicine_instance = new_medicine
+		except:
+			returnVal['error_msg'] = "Error on saving medicine"
+			return JsonResponse(returnVal, safe=False)
+
+	new_treatment = treatment()
+	new_treatment.drugs = medicine_instance
+	new_treatment.strength = strength
+	new_treatment.dose = dose
+	new_treatment.route = Route
+	new_treatment.frequency = frequency
+	new_treatment.drug_no = no
+	new_treatment.encounter = encounter_instance
+	try:
+		new_treatment.save()
+		returnVal['status_code'] = 1
+		returnVal['treatment_id'] = new_treatment.pk
+	except:
+		returnVal['error_msg'] = "Error on saving treatment"
+		return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='login')
+def DeleteTreatment(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	drug_id = request.POST['drug_id']
+	try:
+		treatment_instance = treatment.objects.get(pk=drug_id)
+	except:
+		returnVal['error_msg'] = "treatment Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	treatment_instance.is_delete = 1
+	treatment_instance.status = 0
+	try:
+		treatment_instance.save()
+		returnVal['status_code'] = 1
+	except:
+		returnVal['error_msg'] = "Error on deleting treatment!"
+		return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
+
+
+
+
 
 # Create your views here.

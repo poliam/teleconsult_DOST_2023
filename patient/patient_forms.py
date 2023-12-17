@@ -12,6 +12,22 @@ YES_NO_CHOICES = [
 	(1, "Yes")
 ]
 
+YES_NO_TEXT_CHOICES = [
+	("No", "No"), 
+	("Yes", "Yes")
+]
+
+WORKPLACE_CHOICES = [
+	("Riyadh", "Riyadh"), 
+	("Jeddah", "Jeddah")
+]
+
+EMPLOYMENT_STATUS_CHOICES = [
+	("Currently Employed", "Currently Employed"), 
+	("Previously Employed", "Previously Employed"),
+	("Unemployed", "Unemployed")
+]
+
 MARITAL_CHOICES = (
 	("0", "- - Select Status - -"),
 	("Single", "Single"),
@@ -92,8 +108,11 @@ class AddPatientForm(forms.ModelForm):
 	high_education = forms.CharField(required=False, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
 	citizenship = forms.CharField(required=False, label="Citizenship", widget=forms.TextInput(attrs={'placeholder': 'Citizenship'}))
 	nationality = forms.CharField(required=False, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
-	workplace = forms.CharField(required=False, label="Workplace", widget=forms.TextInput(attrs={'placeholder': 'Workplace'}))
+	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
+	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
+	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
+	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)
 
 	def __init__(self, *args, **kwargs):
 		super(AddPatientForm, self).__init__(*args, **kwargs)
@@ -135,6 +154,9 @@ class AddPatientForm(forms.ModelForm):
 		new_patient.nationality = self.cleaned_data['nationality']
 		new_patient.workplace = self.cleaned_data['workplace']
 		new_patient.occupation = self.cleaned_data['occupation']
+		new_patient.employment_status = self.cleaned_data['employment_status']
+		new_patient.mental_health_history = self.cleaned_data['mental_health_history']
+		new_patient.access_to_mental_health = self.cleaned_data['access_to_mental_health']
 		try:
 			new_patient.save()
 		except:
@@ -143,7 +165,7 @@ class AddPatientForm(forms.ModelForm):
 
 	class Meta:
 		model = details
-		fields = ['profile_picture','first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation']
+		fields = ['profile_picture','first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
 
 class EditPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
@@ -162,8 +184,11 @@ class EditPatientForm(forms.ModelForm):
 	high_education = forms.CharField(required=False, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
 	citizenship = forms.CharField(required=False, label="Citizenship", widget=forms.TextInput(attrs={'placeholder': 'Citizenship'}))
 	nationality = forms.CharField(required=False, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
-	workplace = forms.CharField(required=False, label="Workplace", widget=forms.TextInput(attrs={'placeholder': 'Workplace'}))
+	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
+	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
+	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
+	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)
 
 	def __init__(self, *args, **kwargs):
 		super(EditPatientForm, self).__init__(*args, **kwargs)
@@ -176,7 +201,7 @@ class EditPatientForm(forms.ModelForm):
 
 	class Meta:
 		model = details
-		fields = ['profile_picture', 'first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation']
+		fields = ['profile_picture', 'first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
 
 class AddPatientAddressForm(forms.ModelForm):
 	current_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))

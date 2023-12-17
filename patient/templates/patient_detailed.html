@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{% load static %}
 {% block title %} Patient Detail {% endblock title %}
 
 {% block style %}
@@ -20,8 +21,9 @@
 		float: left;
 		color: white;
 	}
-	.patient_family_details button{
+	.patient_family_details a{
 		float: right;
+		color: white;
 	}
 
 	.relative_table th {
@@ -31,16 +33,18 @@
 	.patient_allergies{
 		color: white;
 	}
-	.patient_allergies button {
+	.patient_allergies a {
 		float: right;
+		color: white;
 	}
 
 	.consultation_detail{
 		color: white;
 	}
 
-	.consultation_detail button{
+	.consultation_detail a{
 		float: right;
+		color: white;
 	}
 
 	.patient_allergies_table th {
@@ -53,13 +57,15 @@
 	.patient_detiel_label{
 		color: #6417A1;
 		font-weight: 700;
+		text-align: left;
 	}
 
 	.patient_GPS{
 		color: white;
 	}
-	.patient_GPS button {
+	.patient_GPS a {
 		float: right;
+		color: white;
 	}
 
 	.patient_GPS_table th {
@@ -73,6 +79,9 @@
 	}
 	.remove-margin-bottom{
 		margin-bottom:0px !important;
+	}
+	.form-control{
+		font-size: 0.8rem;
 	}
 </style>
 {% endblock style %}
@@ -88,36 +97,36 @@
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="card">
-  				<h5 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i class="fa-solid fa-pen-to-square"></i></a></h5>
+  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i class="fa-solid fa-pen-to-square"></i></a></h6>
   				<div class="card-body" style="text-align:center;">
-					{% if patientDetailed.profile_picture|length > 0 %}
-            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-40 h-40 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
-                    {% endif %}
-  				</div>
-  				<div class="card-body">
-    				<div class="row">
-    					<div class="col-sm-6">
-    						 <div class="mb-6 row">
-    							<label for="Patient_age" class="col-sm-4 col-form-label patient_detiel_label">Age</label>
+  					<div class="row">
+  						<div class="col-sm-4">
+  							{% if patientDetailed.profile_picture|length > 0 %}
+		            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" style="width:8rem; height: 8rem;" >
+		            		{% else %}
+		            			<img src="{% static 'images/user_picture_default.png' %}" style="width:8rem; height: 8rem;" >
+		                    {% endif %}
+		  						</div>
+  						<div class="col-sm-8">
+  							<div class="mb-6 row">
+    							<label for="Patient_age" class="col-sm-4 col-form-label patient_detiel_label ">Age:</label>
     							<div class="col-sm-8">
-      								<input type="text" readonly class="form-control-plaintext" id="Patient_age" value="{{ age }}">
+      								<input type="text" readonly class="form-control-plaintext current-page-text-font" id="Patient_age" value="{{ age }}">
     							</div>
   							</div>
   							<div class="mb-6 row">
-    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Gender</label>
+    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Gender:</label>
     							<div class="col-sm-8">
       								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.gender }}">
     							</div>
   							</div>
   							<div class="mb-6 row">
-    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Marital Status</label>
+    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Marital Status:</label>
     							<div class="col-sm-8">
       								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.marital_status }}">
     							</div>
   							</div>
-    					</div>
-    					<div class="col-sm-6">
-    						<div class="mb-6 row">
+  							<div class="mb-6 row">
     							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Birth Place</label>
     							<div class="col-sm-8">
       								<input type="text" readonly class="form-control-plaintext" id="Patient_birth_place" value="{{ patientDetailed.birth_place }}">
@@ -129,19 +138,18 @@
       								<input type="text" readonly class="form-control-plaintext" id="Patient_date_of_birth" value="{{ patientDetailed.BOD }}">
     							</div>
   							</div>
-    					</div>
-    					<div class="col-sm-12">
-    						<span style="display:none;">
-    							<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
-    						</span>
-    						{% if has_survey == 1 %}
-    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i></label>
-    						{% else %}
-    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i></label>
-    						{% endif %}
-    						
-    					</div>
-    				</div>
+  							<div class="mb-6 row">
+  								<span style="display:none;">
+    								<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
+    							</span>
+    							{% if has_survey == 1 %}
+	    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i></label>
+	    						{% else %}
+	    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i></label>
+	    						{% endif %}
+  							</div>
+  						</div>
+  					</div>
   				</div>
 			</div>
 		</div>
@@ -149,11 +157,12 @@
 			<div class="row">
 				<div class="col-sm-8">
 					<div class="card">
-  						<h5 class="card-header patient_family_details card_background_color">Family Relative <a href="{% url 'PatientCreateRelative' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Relative</button></a></h5>
+  						<h6 class="card-header patient_family_details card_background_color">Family Relative <a href="{% url 'PatientCreateRelative' patientDetailed.pk %}" style="text-decoration:none;">
+  							<i class='bx bx-plus-medical'></i></a></h6>
 		  				<div class="card-body">
 		    				<div class="row">
 		    					<div class="col-sm-12">
-		    						<table class="table relative_table">
+		    						<table class="table relative_table" style="font-size: 0.8rem;">
 		    							<thead>
 		    								<tr>
 		      									<th scope="col">Name</th>
@@ -189,7 +198,11 @@
 				</div>	
 				<div class="col-sm-4">
 					<div class="card">
-	  					<h5 class="card-header patient_allergies card_background_color">Medical Allergies <a href="{% url 'PatientCreateAllergy' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Allergies</button></a></h5>
+	  					<h6 class="card-header patient_allergies card_background_color">Medical Allergies
+	  						<a href="{% url 'PatientCreateAllergy' patientDetailed.pk %}" style="text-decoration:none;">
+	  							<i class='bx bx-plus-medical'></i>
+	  						</a>
+	  					</h6>
 		  				<div class="card-body">
 		    				<div class="row">
 		    					<div class="col-sm-12">
@@ -223,7 +236,11 @@
 			</div>
 			<br/>
 			<div class="card">
-  				<h5 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen <a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add GPS</button></a></h5>
+  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
+  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
+  						<i class='bx bx-plus-medical'></i>
+  					</a>
+  				</h6>
   				<div class="card-body">
     				<div class="row">
     					<div class="col-sm-12">
@@ -264,7 +281,11 @@
 			</div>
 			<br/>
 			<div class="card">
-  				<h5 class="card-header patient_GPS card_background_color">Hamilton Depression <a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add HAM-D</button></a></h5>
+  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
+  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
+  						<i class='bx bx-plus-medical'></i>
+  					</a>
+  				</h6>
   				<div class="card-body">
     				<div class="row">
     					<div class="col-sm-12">
@@ -328,7 +349,11 @@
 	<div class="row" style="margin-bottom: 2rem;">
 		<div class="col-sm-4">
 			<div class="card">
-  				<h5 class="card-header patient_allergies card_background_color">Consultations <a href="{% url 'CreateConsultation' patientDetailed.pk %}" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Add Consultation</button></a></h5>
+  				<h6 class="card-header patient_allergies card_background_color">Consultations 
+  					<a href="{% url 'CreateConsultation' patientDetailed.pk %}" style="text-decoration:none;">
+  						<i class='bx bx-plus-medical'></i>
+  					</a>
+  				</h6>
   				<div class="card-body">
     				<div class="row">
     					<div class="col-sm-12">
@@ -364,11 +389,15 @@
 			</div>
 		</div>
 		<div class="col-sm-8">
-			<div class="card">
-  				<h5 class="card-header consultation_detail card_background_color">Consultations Details<a href="#" style="text-decoration:none;"><button type="button" class="btn btn-light" style="font-size: 0.8rem;">Edit Consultation</button></a></h5>
-  				<div class="card-body consultation_detail_wrapper">
+			<div class="card consultation_detail_wrapper" >
+  				<h6 class="card-header consultation_detail card_background_color">Consultations Details
+  					<a href="#" style="text-decoration:none;">
+  						<i class="fa-solid fa-pen-to-square"></i>
+  					</a>
+  				</h6>
+  				<div class="card-body">
     				<div class="row">
-    					<div class="col-sm-12">
+    					<div class="col-sm-12 consultation_loading" >
     						
     					</div>
     				</div>
@@ -501,8 +530,8 @@
 	}
 
 	function SelectEncounter(that){
-		$(".consultation_detail_wrapper").empty();
-		$(".consultation_detail_wrapper").append("loading . . .");
+		$(".consultation_loading").empty();
+		$(".consultation_loading").append("loading . . .");
 		var encounter_id = $(that).attr("attr_id");
 		$.ajax({
 	        type: "GET",
@@ -514,6 +543,7 @@
 	        success: function (data) {
 	        	$(".consultation_detail_wrapper").empty();
 				$(".consultation_detail_wrapper").append(data);
+
 	        },
 	        error: function (e) {
 	           
