@@ -1,0 +1,123 @@
+<div class='row'>
+	<div class="col-sm-12">
+		<div class="form-group">
+			<label><b>Briefly describe the event or experience that currently affects you the most</b></label>
+			<textarea readonly class="form-control-plaintext" rows="2" name="event_description" required="" spellcheck="false">{{ gps_details.event_description }}</textarea>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="form-group">
+			<label><b>This event happened</b>: {{gps_details.event_happened}}</label>
+		</div>
+		<br/>
+		<hr>
+		<h6><b>Briefly describe the event or experience that currently affects you the most</b></h6></b>
+		
+		<div class="form-group">
+			<label><b>Physical violence</b>: {{gps_details.physical_violence}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Sexual violence</b>: {{gps_details.sexual_violence}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Emotional abuse</b>: {{gps_details.emotional_abuse}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Serious injury</b>: {{gps_details.serious_injury}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Life threatening</b>: {{gps_details.life_threatening}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Sudden death of a loved one</b>: {% if gps_details.sudden_death_of_loved_one == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>You causing harm to someone else</b>: {% if gps_details.cause_harm_to_others == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Corona virus (COVID-19)</b>: {% if gps_details.covid == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Was a single event occurring, at age</b>: {{gps_details.single_event_occurring}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>Happened during a longer period / multiple times, between ages</b>: {{gps_details.range_event_occurring_from}} To {{gps_details.range_event_occurring_to}}</label>
+		</div>
+	</div>
+	
+	<div class="col-sm-12">
+		<br/>
+		<hr>
+		<h6><b>Considering the above event, in the past month have you...</b></h6>
+		
+		<div class="form-group">
+			<label><b>1. had nightmares about the past traumatic life event(s) you have experienced or thought about the event(s) when you did not want to?</b>: {% if considering_event_details.considering_event_1 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>2. Tried hard not to think about past traumatic life event(s) or went out of your way to avoid situations that reminded you of the event(s)?</b>: {% if considering_event_details.considering_event_2 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>3. Been constantly on guard, watchful, or easily startled?</b>: {% if considering_event_details.considering_event_3 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>4. Felt numb or detached from people, activities, or your surroundings?</b>: {% if considering_event_details.considering_event_4 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>5. Felt guilty or unable to stop blaming yourself or others for past traumatic life event(s) or any problems the event(s) caused?</b>: {% if considering_event_details.considering_event_5 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>6. Tended to feel worthless?</b>: {% if considering_event_details.considering_event_6 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>7. Experienced angry outbursts that you could not control?</b>: {% if considering_event_details.considering_event_7 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>8. Been feeling nervous, anxious, or on edge?</b>: {% if considering_event_details.considering_event_8 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>9. Been unable to stop or control worrying?</b>: {% if considering_event_details.considering_event_9 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>10. Been feeling down, depressed, or hopeless?</b>: {% if considering_event_details.considering_event_10 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>11. Been experiencing little interest or pleasure in doing things?</b>: {% if considering_event_details.considering_event_11 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>12. Had any problems falling or staying asleep?</b>: {% if considering_event_details.considering_event_12 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>13. Tried to intentionally hurt yourself?</b>: {% if considering_event_details.considering_event_13 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>14. Perceived or experienced the world or other people differently, so that things seem dreamlike, strange or unreal?</b>: {% if considering_event_details.considering_event_14 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>15. Felt detached or separated from your body (for example, feeling like you are looking down on yourself from above, or like you are an outside observer of your own body)?</b>: {% if considering_event_details.considering_event_15 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>16. Had any other physical, emotional or social problems that bothered you?</b>: {% if considering_event_details.considering_event_16 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>17. Experienced other stressful events (such as financial problems, changing jobs, moving to another house, relational crisis in work or private life)?</b>: {% if considering_event_details.considering_event_17 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>18. Tried to reduce tensions by using alcohol, tobacco, drugs or medication?</b>: {% if considering_event_details.considering_event_18 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>19. Missed supportive people near you that you could readily count on for help in times of difficulty (such as emotional support, watch over children or pets, give rides to hospital or store, help when you are sick)?</b>: {% if considering_event_details.considering_event_19 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>20. During your childhood (0-18 years), did you experience any traumatic life events (e.g., a serious accident or fire, physical or sexual assault or abuse, a disaster, seeing someone be killed or seriously injured, or having a loved one die)?</b>: {% if considering_event_details.considering_event_20 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>21. Have you ever received a psychiatric diagnosis or have you ever been treated for psychological problems (for example, depression, anxiety or a personality disorder)?</b>: {% if considering_event_details.considering_event_21 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>22. Do you generally consider yourself to be a resilient person?</b>: {% if considering_event_details.considering_event_22 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+		<div class="form-group">
+			<label><b>23. How would you rate your present functioning (at work/home)?</b>: {% if considering_event_details.considering_event_23 == 1 %} Yes {% else %} No {% endif %}</label>
+		</div>
+	</div>
+</div>

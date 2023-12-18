@@ -12,10 +12,15 @@ urlpatterns = [
    path('patient_edit_relative/<relative_id>', views.PatientEditRelative, name="PatientEditRelative"),
    path('patient_get_relative', views.PatientGetRelative, name="PatientGetRelative"),
    path('patient_create_allergy/<patient_id>', views.PatientCreateAllergy, name="PatientCreateAllergy"),
+
+
    path('patient_create_gps/<patient_id>', views.PatientCreateGPS, name="PatientCreateGPS"),
    path('patient_update_gps/<gps_id>', views.PatientUpdateGPS, name="PatientUpdateGPS"),
+   path('patient_get_gps', views.PatientGetGPS, name="PatientGetGPS"),
+
    path('patient_create_hamd/<patient_id>', views.PatientCreateHamD, name="PatientCreateHamD"),
    path('patient_update_hamd/<hamd_id>', views.PatientUpdateHamD, name="PatientUpdateHamD"),
+   path('patient_get_hamd', views.PatientGetHamd, name="PatientGetHamd"),
 
    path('patient_survey/<patient_id>', views.PatientSurvey, name="PatientSurvey"),
    path('survey_completed', views.PatientSurveyCompleted, name="PatientSurveyCompleted"),

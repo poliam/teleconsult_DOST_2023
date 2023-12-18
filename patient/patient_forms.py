@@ -309,31 +309,6 @@ class AddRelativesForm(forms.ModelForm):
 				visible.field.widget.attrs['class'] = 'form-control'
 		self.fields["is_emergency"].widget.attrs.update({"class": "form-check-input"})
 
-	def save(self, request, patient_instance, *args, **kwargs):
-		new_relatives = relatives()
-		new_relatives.first_name = request.POST['first_name']
-		new_relatives.middle_name = request.POST['middle_name']
-		new_relatives.last_name = request.POST['last_name']
-		new_relatives.gender = request.POST['gender']
-		new_relatives.gender_indentity = request.POST['gender_indentity']
-		new_relatives.DOB = formatDate(request.POST['DOB']) 
-		new_relatives.marital_status = request.POST['marital_status']
-		new_relatives.relationship = request.POST['relationship']
-		new_relatives.high_education = request.POST['high_education']
-		new_relatives.Workplace = request.POST['Workplace']
-		new_relatives.occupation = request.POST['occupation']
-		new_relatives.contact_number = request.POST['contact_number']
-		new_relatives.email = request.POST['email']
-		new_relatives.is_emergency = request.POST['is_emergency']
-		new_relatives.details = patient_instance
-
-		try:
-			new_relatives.save()
-		except:
-			return False
-
-		return new_relatives.pk
-
 
 	class Meta:
 		model = relatives

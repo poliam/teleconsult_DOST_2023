@@ -189,18 +189,57 @@ def CreateConsultation(request, patient_id):
 def EncounterDetails(request):
 	returnVal = {}
 	encounter_id = request.GET['enouter_id']
+
 	returnVal['encounter_details'] = encounter.objects.get(pk=encounter_id)
-	returnVal['vital_sign'] = vitalsign.objects.get(encounter=encounter_id)
-	returnVal['chief_complaints'] = chief_complaints.objects.get(encounter=encounter_id)
-	returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
-	returnVal['mental_general_description'] = mental_general_description.objects.get(encounter=encounter_id)
-	returnVal['mental_emotions'] = mental_emotions.objects.get(encounter=encounter_id)
-	returnVal['mental_cognitive_function'] = mental_cognitive_function.objects.get(encounter=encounter_id)
-	returnVal['mental_thought_perception'] = mental_thought_perception.objects.get(encounter=encounter_id)
-	returnVal['referral_details'] = Referral.objects.get(encounter=encounter_id)
-	returnVal['suicidality'] = suicidality.objects.get(encounter=encounter_id)
-	returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
-	returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	try:
+		returnVal['vital_sign'] = vitalsign.objects.get(encounter=encounter_id)
+	except:
+		returnVal['vital_sign'] = ""
+	try:
+		returnVal['chief_complaints'] = chief_complaints.objects.get(encounter=encounter_id)
+	except:
+		returnVal['chief_complaints'] = ""
+	try:
+		returnVal['history_present_illness'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	except:
+		returnVal['history_present_illness'] = ""
+
+	try:
+		returnVal['mental_general_description'] = mental_general_description.objects.get(encounter=encounter_id)
+	except:
+		returnVal['mental_general_description'] = ""
+
+	try:
+		returnVal['mental_emotions'] =  mental_emotions.objects.get(encounter=encounter_id)
+	except:
+		returnVal['mental_emotions'] = ""
+
+	try:	
+		returnVal['mental_cognitive_function'] = mental_cognitive_function.objects.get(encounter=encounter_id)
+	except:
+		returnVal['mental_cognitive_function'] = ""
+	try:	
+		returnVal['mental_thought_perception'] = mental_thought_perception.objects.get(encounter=encounter_id)
+	except:
+		returnVal['mental_thought_perception'] = ""
+	try:
+		returnVal['referral_details'] = Referral.objects.get(encounter=encounter_id)
+	except:
+		returnVal['referral_details'] = ""
+
+	try:
+		returnVal['suicidality'] = suicidality.objects.get(encounter=encounter_id)
+	except:
+		returnVal['suicidality'] = ""
+	try:
+		returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	except:
+		returnVal['diagnosis_list'] = ""
+
+	try:
+		returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+	except:
+		returnVal['drug_list'] = ""
 	html = render_to_string('consultation_details.html', returnVal)
 	return HttpResponse(html)
 
@@ -210,8 +249,15 @@ def EditConsultation(request, encounter_id):
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "Consultation"
 	returnVal['userDetails'] = profile_details
-	if request.user.groups.filter(name='Doctor').exists():
-		returnVal['user_role'] = "Doctor"
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Admin"
+
 		
 	try:
 		encounter_instance = encounter.objects.get(pk=encounter_id)
@@ -347,11 +393,12 @@ def EditConsultation(request, encounter_id):
 		if vitalSignForm.is_valid() and consultationEncounterForm.is_valid() and ConsultationChiefComplaintForm.is_valid() and MentalGeneralDescriptionForm.is_valid() and MentalEmotionForm.is_valid() and MentalCognitiveForm.is_valid() and MentalThoughtPerceptionForm.is_valid() and MentalSuicidalityForm.is_valid() and ReferralForm.is_valid():
 			EncounterPost = consultationEncounterForm.save(commit=False)
 			EncounterPost.update_by = profile_details
-			if returnVal['user_role'] == "Doctor":
+			if returnVal['group_type'] == "Doctor":
 				EncounterPost.consulted_by = profile_details
 			EncounterPost.save()
 
 			vitalSignPost = vitalSignForm.save(commit=False)
+			vitalSignPost.encounter =  encounter_instance
 			vitalSignPost.save()
 
 			ConsultationChiefComplaintPost = ConsultationChiefComplaintForm.save(commit=False)
@@ -386,7 +433,7 @@ def EditConsultation(request, encounter_id):
 				ReferralFormPost = ReferralForm.save(commit=False)
 				ReferralFormPost.encounter =  encounter_instance
 				ReferralFormPost.save()
-
+			return redirect("PatientDetailed", patient_id=patient_instance.pk)
 
 	
 	returnVal['condition_list'] = condition.objects.all()

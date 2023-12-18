@@ -235,114 +235,126 @@
 				</div>
 			</div>
 			<br/>
-			<div class="card">
-  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
-  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
-  						<i class='bx bx-plus-medical'></i>
-  					</a>
-  				</h6>
-  				<div class="card-body">
-    				<div class="row">
-    					<div class="col-sm-12">
-    						<table class="table patient_GPS_table">
-    							<thead>
-    								<tr>
-      									<th scope="col" width="10%">#</th>
-      									<th scope="col" width="80%">Consultation Date</th>
-      									<th width="10%"></th>
-    								</tr>
-  								</thead>
-  								<tbody>
-  									{% for GPS in list_of_GPS %}
-	  									<tr>
-	  										<td>{{ forloop.counter }}</td>
-	  										<td>
-	  											<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
-	  										</td>
-	  										<td>
-												<!-- <a href="">
-													<i class="fa-solid fa-trash-can"></i>
-												</a> -->
-											</td>
-	  									</tr>
-  									{% empty %}
-  										<tr>
-  											<td colspan="3">
-  												No Global Psychotrauma Screen Created. . .
-  											</td>
-  										</tr>
+			<div class="row">
+				<div class="col-sm-5">
+					<div class="card">
+		  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
+		  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
+		  						<i class='bx bx-plus-medical'></i>
+		  					</a>
+		  				</h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_GPS_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="80%">Consultation Date</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for GPS in list_of_GPS %}
+			  									<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>
+			  											<a onclick="showGPSdetails(this)" attr_id="{{ GPS.pk }}" style="text-decoration:none;font-weight: 700; color:#6417A1;" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
+			  										</td>
+			  										<td>
+		  												<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none; color: #6417A1">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+		  												</a>
+													</td>
+			  									</tr>
+		  									{% empty %}
+		  										<tr>
+		  											<td colspan="3">
+		  												No Global Psychotrauma Screen Created. . .
+		  											</td>
+		  										</tr>
 
-  									{% endfor %}
-  								</tbody>
-    						</table>	
-    					</div>
-    				</div>
-  				</div>
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>
+				</div>
+				<div class="col-sm-7">
+					<div class="card">
+		  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
+		  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
+		  						<i class='bx bx-plus-medical'></i>
+		  					</a>
+		  				</h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_GPS_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="30%">Consultation Date</th>
+		      									<th scope="col" width="30%">Score(1-17)</th>
+		      									<th scope="col" width="20%">Total Score</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for hamd in list_of_hamd %}
+		  										<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>
+			  											<a onclick="showHamddetails(this)" attr_id="{{ hamd.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
+			  										</td>
+			  										<td>
+			  											<b>{{ hamd.score }}</b>
+			  											{% if hamd.score <= 7 %}
+			  												(Normal)
+			  											{% elif hamd.score > 7 and hamd.score <= 13 %}
+			  												(Mild Depression)
+			  											{% elif hamd.score > 13 and hamd.score <= 18 %}
+			  												(Moderate Depression)
+			  											{% elif hamd.score > 18 and hamd.score <= 22 %}
+			  												(Severe Depression)
+			  											{% else %}
+			  												(Very Severe Depression)
+			  											{% endif %}
+			  										</td>
+			  										<td>
+			  											<b>{{ hamd.total_score }}</b>
+			  										</td>
+			  										<td>
+														<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none; color: #6417A1">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+		  												</a>
+													</td>
+			  									</tr>
+		  									{% empty %}
+		  										<tr>
+		  											<td colspan="5">
+		  												No Hamilton Depression Screen Created. . .
+		  											</td>
+		  										</tr>
+		  									{% endfor %}
+		  									
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>
+				</div>
 			</div>
 			<br/>
-			<div class="card">
-  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
-  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
-  						<i class='bx bx-plus-medical'></i>
-  					</a>
-  				</h6>
-  				<div class="card-body">
-    				<div class="row">
-    					<div class="col-sm-12">
-    						<table class="table patient_GPS_table">
-    							<thead>
-    								<tr>
-      									<th scope="col" width="10%">#</th>
-      									<th scope="col" width="30%">Consultation Date</th>
-      									<th scope="col" width="30%">Score(1-17)</th>
-      									<th scope="col" width="20%">Total Score</th>
-      									<th width="10%"></th>
-    								</tr>
-  								</thead>
-  								<tbody>
-  									{% for hamd in list_of_hamd %}
-  										<tr>
-	  										<td>{{ forloop.counter }}</td>
-	  										<td>
-	  											<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
-	  										</td>
-	  										<td>
-	  											<b>{{ hamd.score }}</b>
-	  											{% if hamd.score <= 7 %}
-	  												(Normal)
-	  											{% elif hamd.score > 7 and hamd.score <= 13 %}
-	  												(Mild Depression)
-	  											{% elif hamd.score > 13 and hamd.score <= 18 %}
-	  												(Moderate Depression)
-	  											{% elif hamd.score > 18 and hamd.score <= 22 %}
-	  												(Severe Depression)
-	  											{% else %}
-	  												(Very Severe Depression)
-	  											{% endif %}
-	  										</td>
-	  										<td>
-	  											<b>{{ hamd.total_score }}</b>
-	  										</td>
-	  										<td>
-												<!-- <a href="">
-													<i class="fa-solid fa-trash-can"></i>
-												</a> -->
-											</td>
-	  									</tr>
-  									{% empty %}
-  										<tr>
-  											<td colspan="5">
-  												No Hamilton Depression Screen Created. . .
-  											</td>
-  										</tr>
-  									{% endfor %}
-  									
-  								</tbody>
-    						</table>	
-    					</div>
-    				</div>
-  				</div>
-			</div>
 		</div>
 	</div>
 	<br/>
@@ -511,6 +523,44 @@
   	</div>
 </div>
 
+<div class="modal fade" id="gpsDetailsModal" tabindex="-1" aria-labelledby="gpsDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="gpsDetailsModalLabel" style="color:#6417A1;">Global Psychotrauma Screen</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="gps_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="hamdDetailsModal" tabindex="-1" aria-labelledby="hamdDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="hamdDetailsModalLabel" style="color:#6417A1;">HAMILTON DEPRESSION RATING SCALE (HAM-D)</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="hamd_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
 {% endblock content %}
 
 
@@ -527,6 +577,50 @@
 
   		// Alert the copied text
  		 alert("Copy Link!");
+	}
+
+	function showHamddetails(that){
+		$("#hamd_modal_body").empty();
+		$("#hamd_modal_body").append("Loading Please Wait. . . ");
+		var hamd_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetHamd' %}",
+	        data: {
+	        	"hamd_id":hamd_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#hamd_modal_body").empty();
+				$("#hamd_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showGPSdetails(that){
+		$("#gps_modal_body").empty();
+		$("#gps_modal_body").append("Loading Please Wait. . . ");
+		var gps_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetGPS' %}",
+	        data: {
+	        	"gps_id":gps_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#gps_modal_body").empty();
+				$("#gps_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
 	}
 
 	function SelectEncounter(that){

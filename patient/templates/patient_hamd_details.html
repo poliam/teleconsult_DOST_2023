@@ -1,0 +1,228 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<label><b>1. DEPRESSED MOOD:</b> 
+				{% if hamd_details.depressed_mood  == "0" %}
+					Absent
+				{% elif hamd_details.depressed_mood  == "1" %}
+					Sadness, etc.
+				{% elif hamd_details.depressed_mood  == "2" %}
+					Occasional weeping
+				{% elif hamd_details.depressed_mood  == "3" %}
+					Frequent weeping
+				{% elif hamd_details.depressed_mood  == "4" %}
+					Extreme symptoms
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>2. FEELINGS OF GUILT:</b> 
+				{% if hamd_details.depressed_mood  == "0" %}
+					Absent
+				{% elif hamd_details.feeling_of_guilt  == "1" %}
+					Self-reproach, feels he/she has let people down
+				{% elif hamd_details.feeling_of_guilt  == "2" %}
+					Ideas of guilt
+				{% elif hamd_details.feeling_of_guilt  == "3" %}
+					Present illness is a punishment; delusions of guilt
+				{% elif hamd_details.feeling_of_guilt  == "4" %}
+					Hallucinations of guilt
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>3. SUICIDE:</b>
+				{% if hamd_details.suicide  == "0" %}
+					Absent
+				{% elif hamd_details.suicide  == "1" %}
+					Feels life is not worth living
+				{% elif hamd_details.suicide  == "2" %}
+					Wishes he/she were dead
+				{% elif hamd_details.suicide  == "3" %}
+					Suicidal ideas or gestures
+				{% elif hamd_details.suicide  == "4" %}
+					Attempts at suicide
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>4. INSOMNIA - Initial:</b>
+				{% if hamd_details.insomnia_initial  == 1 %}
+					Absent
+				{% elif hamd_details.insomnia_initial  == 2 %}
+					Occasional
+				{% elif hamd_details.insomnia_initial  == 3 %}
+					Frequent
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>5. INSOMNIA - Middle:</b>
+				{% if hamd_details.insomnia_middle  == 1 %}
+					Absent
+				{% elif hamd_details.insomnia_middle  == 2 %}
+					Occasional
+				{% elif hamd_details.insomnia_middle  == 3 %}
+					Frequent
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>6. INSOMNIA - Delayed:</b>
+				{% if hamd_details.insomnia_delayed  == 1 %}
+					Absent
+				{% elif hamd_details.insomnia_delayed  == 2 %}
+					Occasional
+				{% elif hamd_details.insomnia_delayed  == 3 %}
+					Frequent
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>7. WORK AND INTERESTS:</b>
+				{% if hamd_details.work_and_interests  == 1 %}
+					No difficulty
+				{% elif hamd_details.work_and_interests  == 2 %}
+					Feelings of incapacity, listlessness, indecision and vacillation
+				{% elif hamd_details.work_and_interests  == 3 %}
+					Loss of interest in hobbies, decreased social activities
+				{% elif hamd_details.work_and_interests  == 4 %}
+					Productivity decreased
+				{% elif hamd_details.work_and_interests  == 5 %}
+					Unable to work. Stopped working because of present illness only. (Absence from work after treatment or recovery may rate a lower score)
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>8. RETARDATION - Delayed:</b>
+				{% if hamd_details.retardation_delayed == 1 %}
+					Absent
+				{% elif hamd_details.retardation_delayed == 2 %}
+					Slight retardation at interview
+				{% elif hamd_details.retardation_delayed == 3 %}
+					Obvious retardation at interview
+				{% elif hamd_details.retardation_delayed == 4 %}
+					Interview difficult
+				{% elif hamd_details.retardation_delayed == 5 %}
+					Complete stupor
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>9. AGITATION - Delayed:</b>
+				{% if hamd_details.agitation_delayed  == 1 %}
+					Absent
+				{% elif hamd_details.agitation_delayed  == 2 %}
+					Occasional
+				{% elif hamd_details.agitation_delayed  == 3 %}
+					Frequent
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>10. ANXIETY - PSYCHIC:</b>
+				{% if hamd_details.anxiety_psychic == 1 %}
+					No difficulty
+				{% elif hamd_details.anxiety_psychic == 2 %}
+					ension and irritability
+				{% elif hamd_details.anxiety_psychic == 3 %}
+					Worrying about minor matters
+				{% elif hamd_details.anxiety_psychic == 4 %}
+					Apprehensive attitude
+				{% elif hamd_details.anxiety_psychic == 5 %}
+					Fears
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>11. ANXIETY - SOMATIC:</b>
+				{% if hamd_details.anxiety_somatic == 1 %}
+					Absent
+				{% elif hamd_details.anxiety_somatic == 2 %}
+					Mild
+				{% elif hamd_details.anxiety_somatic == 3 %}
+					Moderate
+				{% elif hamd_details.anxiety_somatic == 4 %}
+					Severe
+				{% elif hamd_details.anxiety_somatic == 5 %}
+					Incapacitating
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>12. SOMATIC SYMPTOMS - GASTROINTESTINAL:</b>
+				{% if hamd_details.somatic_symptoms_gastrointestinal  == 1 %}
+					Absent
+				{% elif hamd_details.somatic_symptoms_gastrointestinal  == 2 %}
+					Mild
+				{% elif hamd_details.somatic_symptoms_gastrointestinal  == 3 %}
+					Severe
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>13. SOMATIC SYMPTOMS - GENERAL:</b>
+				{% if hamd_details.somatic_symptoms_general  == 1 %}
+					Absent
+				{% elif hamd_details.somatic_symptoms_general  == 2 %}
+					Mild
+				{% elif hamd_details.somatic_symptoms_general  == 3 %}
+					Severe
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>14. GENITAL SYMPTOMS:</b>
+				{% if hamd_details.genital_symptoms  == 1 %}
+					Absent
+				{% elif hamd_details.genital_symptoms  == 2 %}
+					Mild
+				{% elif hamd_details.genital_symptoms  == 3 %}
+					Severe
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>15. HYPOCHONDRIASIS:</b>
+				{% if hamd_details.hypochondriasis == 1 %}
+					Not present
+				{% elif hamd_details.hypochondriasis == 2 %}
+					Self-absorption (bodily)
+				{% elif hamd_details.hypochondriasis == 3 %}
+					Preoccupation with health
+				{% elif hamd_details.hypochondriasis == 4 %}
+					Querulous attitude
+				{% elif hamd_details.hypochondriasis == 5 %}
+					Hypochondriacal delusions
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>16. WEIGHT LOSS:</b>
+				{% if hamd_details.weight_loss  == 1 %}
+					No weight loss
+				{% elif hamd_details.weight_loss  == 2 %}
+					Slight
+				{% elif hamd_details.weight_loss  == 3 %}
+					Obvious or severe
+				{% endif %}
+			</label>
+		</div>
+		<div class="form-group">
+			<label><b>17. INSIGHT:</b> {{hamd_details.insight}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>18. DIURNAL VARIATION:</b> {{hamd_details.diurnal_variation}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>19. DEPERSONALIZATION AND DEREALIZATION:</b> {{hamd_details.depersonalization_and_derelization}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>20. PARANOID SYMPTOMS:</b> {{hamd_details.paranoid_symptoms}}</label>
+		</div>
+		<div class="form-group">
+			<label><b>21. OBSESSIONAL SYMPTOMS:</b> {{hamd_details.obsessional_symptoms}}</label>
+		</div>
+
+	</div>
+</div>

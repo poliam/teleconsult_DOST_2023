@@ -3,6 +3,7 @@ from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
@@ -69,8 +70,11 @@ def PatientEdit(request, patient_id):
 	patient_instance = details.objects.get(pk=patient_id)
 	returnVal['patientDetailed'] = patient_instance
 	returnVal['form'] = EditPatientForm(instance=patient_instance)
-	patient_address = address.objects.get(details=patient_instance)
-	returnVal['FormEditPatientAddress'] = EditPatientAddressForm(instance=patient_address)
+	try:
+		patient_address = address.objects.get(details=patient_instance)
+		returnVal['FormEditPatientAddress'] = EditPatientAddressForm(instance=patient_address)
+	except:
+		returnVal['FormEditPatientAddress'] = EditPatientAddressForm()
 	
 	if request.method == 'POST':
 		patientform = EditPatientForm(request.POST, request.FILES, instance=patient_instance)
@@ -127,12 +131,16 @@ def PatientCreateRelative(request, patient_id):
 	form = AddRelativesForm()
 	returnVal['form'] = form
 	if request.method == 'POST':
-		form = AddRelativesForm(request.POST)
-		if form.is_valid():
-			if form.save(request, patient_instance):
+
+		RelativesForm = AddRelativesForm(request.POST)
+		returnVal['form'] = RelativesForm
+		if RelativesForm.is_valid():
+			RelativesPost = RelativesForm.save(commit=False)
+			RelativesPost.details = patient_instance
+			try:
+				RelativesPost.save()
 				return redirect("PatientDetailed", patient_id=patient_instance.pk)
-			else:
-				returnVal['form'] = form
+			except:
 				returnVal['error_msg'] = "Error on Saving a Patient relative!"
 				return render(request, 'patient_create_relative.html', returnVal)
 		else:
@@ -158,6 +166,7 @@ def PatientEditRelative(request, relative_id):
 	returnVal['form'] = form
 	if request.method == 'POST':
 		form = EditRelativesForm(request.POST, instance=relative_details)
+		returnVal['form'] = form
 		if form.is_valid():
 			form.save()
 			return redirect("PatientDetailed", patient_id=relative_details.details.pk)
@@ -548,6 +557,32 @@ def PatientUpdateHamD(request, hamd_id):
 		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 
 	return render(request, 'patient_edit_hamd.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientGetGPS(request):
+	returnVal = {}
+	gps_id = request.GET['gps_id']
+	try:
+		returnVal['gps_details'] = global_psychotrauma_screen.objects.get(pk=gps_id)
+		returnVal['considering_event_details'] = considering_event.objects.get(global_psychotrauma_screen=gps_id)
+	except:
+		return False
+
+	html = render_to_string('patient_gps_details.html', returnVal)
+	return HttpResponse(html)
+
+@login_required(login_url='/login')
+def PatientGetHamd(request):
+	returnVal = {}
+	hamd_id = request.GET['hamd_id']
+	try:
+		returnVal['hamd_details'] = hamd.objects.get(pk=hamd_id)
+	except:
+		return False
+
+	html = render_to_string('patient_hamd_details.html', returnVal)
+	return HttpResponse(html)
+
 
 def PatientSurveyCompleted(request):
 	return render(request, 'patient_survey_complete.html')

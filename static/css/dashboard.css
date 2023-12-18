@@ -124,6 +124,9 @@ a{
 .card_background_color{
   background-color: #6417A180;
 }
+.dashboard_welcome_greeting{
+    color: #6417A180;
+}
 @media screen and (min-width: 768px){
     body{
         margin: calc(var(--header-height) + 1rem) 0 0 0;
