@@ -229,25 +229,6 @@ class AddPatientAddressForm(forms.ModelForm):
 			except:
 				visible.field.widget.attrs['class'] = 'form-control'
 
-	def save(self, patient_instance, *args, **kwargs):
-		new_patient_current_address = address()
-		new_patient_current_address.current_street = self.cleaned_data['current_street']
-		new_patient_current_address.current_apt = self.cleaned_data['current_apt']
-		new_patient_current_address.current_city = self.cleaned_data['current_city']
-		new_patient_current_address.current_country = self.cleaned_data['current_country']
-		new_patient_current_address.current_zip_code = self.cleaned_data['current_zip_code']
-		new_patient_current_address.ph_street = self.cleaned_data['ph_street']
-		new_patient_current_address.ph_barangay = self.cleaned_data['ph_barangay']
-		new_patient_current_address.ph_province = self.cleaned_data['ph_province']
-		new_patient_current_address.ph_city = self.cleaned_data['ph_city']
-		new_patient_current_address.ph_zip_code = self.cleaned_data['ph_zip_code']
-		new_patient_current_address.details = patient_instance
-		try:
-			new_patient_current_address.save()
-		except:
-			return False
-		return new_patient_current_address.pk
-
 	class Meta:
 		model = address
 		fields = ['current_street', 'current_apt', 'current_barangay','current_city', 'current_country', 'current_province', 'current_zip_code', 'ph_street', 'ph_apt', 'ph_barangay', 'ph_city', 'ph_country', 'ph_province', 'ph_zip_code']

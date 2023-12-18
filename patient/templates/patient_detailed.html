@@ -183,7 +183,7 @@
 		  												<a href="{% url 'PatientEditRelative' relative.pk %}" style="text-decoration:none; color: #6417A1">
 		  													<i class="fa-solid fa-pen-to-square"></i>
 		  												</a>
-		  												<a href="">
+		  												<a href="#" attr_id='{{relative.pk}}' onclick="RemoveRelatives(this)">
 		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
 		  												</a>
 		  											</td>
@@ -594,6 +594,24 @@
 	        	$("#hamd_modal_body").empty();
 				$("#hamd_modal_body").append(data);
 
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function RemoveRelatives(that){
+		var relative_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientRemoveRelative' %}",
+	        data: {
+	        	"relative_id":relative_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	window.location.reload();
 	        },
 	        error: function (e) {
 	           

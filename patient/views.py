@@ -46,7 +46,10 @@ def PatientCreate(request):
 			else:
 				patient_instance = patientform.save()
 				if patient_instance:
-					AddressForm.save(patient_instance)
+					AddressFormPost = AddressForm.save(commit=False)
+					AddressFormPost.details = patient_instance
+					AddressFormPost.save()
+
 					return redirect("PatientDetailed", patient_id=patient_instance.pk)
 				else:
 					returnVal['error_msg'] = "error on saving patient!"
@@ -107,7 +110,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['patientDetailed'] = patient_instance
 	returnVal['CURRENT_URL'] = settings.CURRENT_URL
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
-	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id)
+	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id)
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
 	returnVal['list_of_hamd'] = hamd.objects.filter(details=patient_id)
@@ -582,6 +585,26 @@ def PatientGetHamd(request):
 
 	html = render_to_string('patient_hamd_details.html', returnVal)
 	return HttpResponse(html)
+
+@login_required(login_url='/login')
+def PatientRemoveRelative(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	try:
+		relative_details = relatives.objects.get(pk=request.GET['relative_id'])
+	except:
+		returnVal['error_msg'] = "Relative Does not exists!"
+		return JsonResponse(returnVal, safe=False)
+	relative_details.status = 0
+	relative_details.is_delete = 1
+	try:
+		relative_details.save()
+		returnVal['status_code'] = 0
+		return JsonResponse(returnVal, safe=False)
+	except:
+		returnVal['error_msg'] = "Error on saving!"
+		return JsonResponse(returnVal, safe=False)
+
 
 
 def PatientSurveyCompleted(request):

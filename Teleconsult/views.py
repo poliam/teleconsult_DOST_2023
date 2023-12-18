@@ -19,7 +19,7 @@ def dashboard(request):
 		returnVal['group_type'] = "Nurse"
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Triage"
-	elif request.user.groups.filter(name="Triage").exists():
+	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "dashboard"
 	returnVal['userDetails'] = profile_details

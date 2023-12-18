@@ -8,8 +8,12 @@ urlpatterns = [
    path('patient_create', views.PatientCreate, name="PatientCreate"),
    path('patient_detailed/<patient_id>', views.PatientDetailed, name="PatientDetailed"),
    path('patient_edit/<patient_id>', views.PatientEdit, name="PatientEdit"),
+
    path('patient_create_relative/<patient_id>', views.PatientCreateRelative, name="PatientCreateRelative"),
    path('patient_edit_relative/<relative_id>', views.PatientEditRelative, name="PatientEditRelative"),
+   path('patient_remove_relative', views.PatientRemoveRelative, name="PatientRemoveRelative"),
+
+
    path('patient_get_relative', views.PatientGetRelative, name="PatientGetRelative"),
    path('patient_create_allergy/<patient_id>', views.PatientCreateAllergy, name="PatientCreateAllergy"),
 
