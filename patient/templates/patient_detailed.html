@@ -220,7 +220,7 @@
 			  										<td>{{ forloop.counter }}</td>
 			  										<td>{{ allegry.medicine_name.name }}</td>
 			  										<td>
-		  												<a href="">
+		  												<a href="#" attr_id="{{ allegry.id }}" onclick="PatientDeleteAllergy(this)">
 		  													<i class="fa-solid fa-trash-can"></i>
 		  												</a>
 		  											</td>
@@ -608,6 +608,24 @@
 	        url: "{% url 'PatientRemoveRelative' %}",
 	        data: {
 	        	"relative_id":relative_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	window.location.reload();
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function PatientDeleteAllergy(that){
+		var allergy_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientDeleteAllergy' %}",
+	        data: {
+	        	"allergy_id":allergy_id,
 	        },
 	        async:true,
 	        success: function (data) {
