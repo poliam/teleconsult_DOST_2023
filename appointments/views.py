@@ -25,8 +25,9 @@ def AppointmentList(request):
 		returnVal['group_type'] = "Triage"
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Admin"
+	else:
+		returnVal['group_type'] = "Admin"
 
-	print(returnVal['group_type'])
 	returnVal['sidebar'] = "appointment"
 	returnVal['userDetails'] = profile_details
 	current_date = date.today()

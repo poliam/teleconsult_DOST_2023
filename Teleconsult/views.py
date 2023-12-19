@@ -31,6 +31,7 @@ def dashboard(request):
 	returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
 	returnVal['today_consultation'] = encounter.objects.filter(consultation_date=current_date).order_by('consultation_date')
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
+	current_date_split = str(current_date).split("-")
 	return render(request, 'dashboard.html', returnVal)
 
 def login_user(request):

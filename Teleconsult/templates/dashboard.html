@@ -75,9 +75,9 @@
 		    				Upcomming Appointment
 		  				</div>
 		  				<div class="card-body">
-		    				<h5 class="card-title">12</h5>
+		    				<h5 class="card-title">{{ week_consultation.count }}</h5>
 		    				<p class="card-text"></p>
-		    				<a href="#" class="view_more">View More</a>
+		    				<a href="{% url 'AppointmentList' %}" class="view_more">View More</a>
 		  				</div>
 					</div>
 				</div>
