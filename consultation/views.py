@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
-from patient.models import details, relatives, medicine, allergies
+from patient.models import details, relatives, medicine, allergies, global_psychotrauma_screen, hamd
 from consultation.models import *
 from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm
 import random, os
@@ -23,6 +23,18 @@ def CreateConsultation(request, patient_id):
 	except:
 		returnVal['error_msg'] = "Patient Does not exists"
 		return render(request, 'error_page.html', returnVal)
+
+	try:
+		global_psychotrauma_screen_details = global_psychotrauma_screen.objects.get(details=patient_instance.pk)
+		returnVal['global_psychotrauma_screen_details'] = global_psychotrauma_screen_details
+	except:
+		returnVal['global_psychotrauma_screen_details'] = False
+
+	try:
+		hamd_details = hamd.objects.get(details=patient_instance.pk)
+		returnVal['hamd_details'] = hamd_details
+	except:
+		returnVal['hamd_details'] = False
 
 	returnVal['vitalSignForm'] = AddConsultationVitalSignForm()
 	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm()
@@ -330,6 +342,20 @@ def EditConsultation(request, encounter_id):
 	except:
 		returnVal['treatment_list'] = False
 
+	try:
+		global_psychotrauma_screen_details = global_psychotrauma_screen.objects.get(details=patient_instance.pk)
+		returnVal['global_psychotrauma_screen_details'] = global_psychotrauma_screen_details
+	except:
+		returnVal['global_psychotrauma_screen_details'] = False
+
+	try:
+		hamd_details = hamd.objects.get(details=patient_instance.pk)
+		returnVal['hamd_details'] = hamd_details
+	except:
+		returnVal['hamd_details'] = False
+
+
+
 	if request.method == 'POST':
 		try:
 			vitalsign_instance = vitalsign.objects.get(encounter=encounter_id)
@@ -426,10 +452,9 @@ def EditConsultation(request, encounter_id):
 			MentalSuicidalityPost.save()
 
 			referred_to = request.POST.get('referred_to', False)
-			impression = request.POST.get('impression', False)
 			reason_for_referral = request.POST.get('reason_for_referral', False)
 
-			if referred_to != "" and impression !="" and reason_for_referral != "":
+			if referred_to != "" and reason_for_referral != "":
 				ReferralFormPost = ReferralForm.save(commit=False)
 				ReferralFormPost.encounter =  encounter_instance
 				ReferralFormPost.save()

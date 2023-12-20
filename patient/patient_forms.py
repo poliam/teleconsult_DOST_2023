@@ -109,7 +109,7 @@ class AddPatientForm(forms.ModelForm):
 	citizenship = forms.CharField(required=False, label="Citizenship", widget=forms.TextInput(attrs={'placeholder': 'Citizenship'}))
 	nationality = forms.CharField(required=False, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
 	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
-	occupation = forms.CharField(required=False, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
+	occupation = forms.CharField(required=True, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
 	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
 	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
 	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)

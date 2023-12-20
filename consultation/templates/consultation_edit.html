@@ -69,36 +69,45 @@
 		<h5 class="card-header card_background_color">Patient Information</h5>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-8">
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<div class="form-group">
 								<label><b>Patient Name</b></label>
 								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }}">
 							</div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<div class="form-group">
 								<label><b>Gender</b></label>
 								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.gender }}">
 							</div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Global Psychotrauma Screen <i class="fa-solid fa-eye" attr_id="{{ global_psychotrauma_screen_details.pk }}"  onclick="showGPSdetails(this)" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal" style="cursor:pointer;"></i></b></label>
+							</div>
+						</div>
+						<div class="col-sm-4">
 							<div class="form-group">
 								<label><b>Age</b></label>
 								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.age }}">
 							</div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<div class="form-group">
 								<label><b>Marital Status</b></label>
 								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.marital_status }}">
 							</div>
 						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Hamilton Depression <i class="fa-solid fa-eye" onclick="showHamddetails(this)" attr_id="{{ hamd_details.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="cursor:pointer;"></i> </b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ hamd_details.score }} {% if hamd_details.score <= 7 %} hamd_details.score (Normal) {% elif hamd_details.score > 7 and hamd_details.score <= 13 %} (Mild Depression) {% elif hamd_details.score > 13 and hamd_details.score <= 18 %} (Moderate Depression) {% elif hamd_details.score > 18 and hamd_details.score <= 22 %} (Severe Depression) {% else %} (Very Severe Depression) {% endif %}">
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="col-sm-4">
-					
 				</div>
 				<div class="col-sm-4">
 					<div class="row">
@@ -733,6 +742,44 @@
 </div>
 </form>
 
+<div class="modal fade" id="gpsDetailsModal" tabindex="-1" aria-labelledby="gpsDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="gpsDetailsModalLabel" style="color:#6417A1;">Global Psychotrauma Screen</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="gps_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="hamdDetailsModal" tabindex="-1" aria-labelledby="hamdDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="hamdDetailsModalLabel" style="color:#6417A1;">HAMILTON DEPRESSION RATING SCALE (HAM-D)</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="hamd_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
 <form id="list_of_condition" style="display:none;">
 	{% for condition in condition_list %}
 		<input type="hidden" name="{{ condition.name }}" value="{{ condition.name }}">
@@ -1019,7 +1066,50 @@
 	           
 	        }
 	    })
-		
+	}
+
+	function showGPSdetails(that){
+		$("#gps_modal_body").empty();
+		$("#gps_modal_body").append("Loading Please Wait. . . ");
+		var gps_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetGPS' %}",
+	        data: {
+	        	"gps_id":gps_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#gps_modal_body").empty();
+				$("#gps_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showHamddetails(that){
+		$("#hamd_modal_body").empty();
+		$("#hamd_modal_body").append("Loading Please Wait. . . ");
+		var hamd_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetHamd' %}",
+	        data: {
+	        	"hamd_id":hamd_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#hamd_modal_body").empty();
+				$("#hamd_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
 	}
 	
 </script>

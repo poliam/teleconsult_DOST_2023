@@ -206,8 +206,6 @@ class AddMentalSuicidalityForm(forms.ModelForm):
 class AddReferralForm(forms.ModelForm):
 	referred_to = forms.CharField(required=False, label="Referred To", widget=forms.TextInput(attrs={'placeholder': 'Referred To'}))
 	referred_from = forms.CharField(required=False, label="Referred From", widget=forms.TextInput(attrs={'placeholder': 'Referred From'}))
-	brief_summary = forms.CharField(required=False, label="Brief Summary", widget=forms.Textarea(attrs={'rows':3}))
-	impression = forms.CharField(required=False, label="Impression", widget=forms.Textarea(attrs={'rows':3}))
 	reason_for_referral = forms.CharField(required=False, label="Reason For Referral", widget=forms.Textarea(attrs={'rows':3}))
 
 
@@ -223,5 +221,5 @@ class AddReferralForm(forms.ModelForm):
 
 	class Meta:
 		model = Referral
-		fields = ['referred_to', 'referred_from', 'brief_summary', 'impression', 'reason_for_referral']
+		fields = ['referred_to', 'referred_from', 'reason_for_referral']
 
