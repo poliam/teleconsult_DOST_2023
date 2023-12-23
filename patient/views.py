@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
-from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm
+from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm, patientFilesForm
 from consultation.models import encounter
 import random, os
 from datetime import date, datetime
@@ -99,11 +99,21 @@ def PatientDetailed(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
 	patient_instance = details.objects.get(pk=patient_id)
+	returnVal['patientFilesForm'] = patientFilesForm()
+
 	try:
 		patient_survey.objects.get(details = patient_instance.pk)
 		returnVal['has_survey'] = 1
 	except:
-		returnVal['has_survey'] = 0 
+		returnVal['has_survey'] = 0
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	else:
+		returnVal['group_type'] = "Admin"
 
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
@@ -114,7 +124,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
 	returnVal['list_of_hamd'] = hamd.objects.filter(details=patient_id)
-	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id)
+	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id).order_by('-consultation_date')
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')
@@ -623,6 +633,30 @@ def PatientDeleteAllergy(request):
 	except:
 		returnVal['error_msg'] = "Error on saving!"
 		return JsonResponse(returnVal, safe=False)
+
+@login_required(login_url='/login')
+def PatientFileUpload(request):
+	returnVal = {}
+	if request.method == "POST":
+		form = patientFilesForm(request.POST, request.FILES)
+		if form.is_valid():
+			print("here")
+			try:
+				patient_instance = details.objects.get(pk=request.POST['patient_id'])
+			except:
+				returnVal['error_msg'] = "Encounter Does not exists"
+				return render(request, 'error_page.html', returnVal)
+
+			formPost = form.save(commit=False)
+			formPost.details = patient_instance
+			formPost.save()
+
+			return redirect("PatientDetailed", patient_id=request.POST['patient_id'])
+		else:
+			return redirect("PatientDetailed", patient_id=request.POST['patient_id'])
+	else:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return render(request, 'error_page.html', returnVal)
 
 
 def PatientSurveyCompleted(request):

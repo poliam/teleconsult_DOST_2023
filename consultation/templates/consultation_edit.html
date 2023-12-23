@@ -69,7 +69,7 @@
 		<h5 class="card-header card_background_color">Patient Information</h5>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-sm-8">
+				<div class="col-sm-6">
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="form-group">
@@ -123,6 +123,16 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-sm-2">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label><b>{{ consultationEncounterForm.for_follow_up.label }}{% if consultationEncounterForm.for_follow_up.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.for_follow_up }}
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -165,20 +175,20 @@
 				<li class="nav-item" role="presentation">
     				<button class="nav-link active consultation_link" id="chief_complaints-tab" data-bs-toggle="tab" data-bs-target="#chief_complaints" type="button" role="tab" aria-controls="chief_complaints" aria-selected="false">Chief Complaints</button>
   				</li>
-  				<li class="nav-item" role="presentation">
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
     				<button class="nav-link consultation_link" id="HOPI-tab" data-bs-toggle="tab" data-bs-target="#HOPI" type="button" role="tab" aria-controls="HOPI" aria-selected="true">History of Present Illness</button>
   				</li>
   				
-  				<li class="nav-item" role="presentation">
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
     				<button class="nav-link consultation_link" id="MentalStatus-tab" data-bs-toggle="tab" data-bs-target="#MentalStatus" type="button" role="tab" aria-controls="MentalStatus" aria-selected="false">Mental Status</button>
   				</li>
-  				<li class="nav-item" role="presentation">
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
     				<button class="nav-link consultation_link" id="Diagnosis-tab" data-bs-toggle="tab" data-bs-target="#Diagnosis" type="button" role="tab" aria-controls="Diagnosis" aria-selected="false">Diagnosis</button>
   				</li>
-  				<li class="nav-item" role="presentation">
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
     				<button class="nav-link consultation_link" id="Treatment-tab" data-bs-toggle="tab" data-bs-target="#Treatment" type="button" role="tab" aria-controls="Treatment" aria-selected="false">Treatment</button>
   				</li>
-  				<li class="nav-item" role="presentation">
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
     				<button class="nav-link consultation_link" id="referral-tab" data-bs-toggle="tab" data-bs-target="#referral" type="button" role="tab" aria-controls="referral" aria-selected="false">Referral Form</button>
   				</li>
   				<li class="nav-item" role="presentation">

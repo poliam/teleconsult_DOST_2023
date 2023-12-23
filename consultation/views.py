@@ -1,16 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.staticfiles import finders
 from django.core.files.storage import FileSystemStorage
+from io import BytesIO
 from patient.models import details, relatives, medicine, allergies, global_psychotrauma_screen, hamd
 from consultation.models import *
 from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm
 import random, os
 from datetime import date, datetime
+from xhtml2pdf import pisa
+
 
 @login_required(login_url='/login')
 def CreateConsultation(request, patient_id):
@@ -35,6 +39,15 @@ def CreateConsultation(request, patient_id):
 		returnVal['hamd_details'] = hamd_details
 	except:
 		returnVal['hamd_details'] = False
+
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	else:
+		returnVal['group_type'] = "Admin"
 
 	returnVal['vitalSignForm'] = AddConsultationVitalSignForm()
 	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm()
@@ -269,6 +282,8 @@ def EditConsultation(request, encounter_id):
 		returnVal['group_type'] = "Triage"
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Admin"
+	else:
+		returnVal['group_type'] = "Triage"
 
 		
 	try:
@@ -643,7 +658,42 @@ def DeleteTreatment(request):
 	return JsonResponse(returnVal, safe=False)
 
 
+@login_required(login_url='login')
+def PrintReferral(request, encounter_id):
+	returnVal = {}
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+		returnVal['encounter_details'] = encounter_instance
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return render(request, 'error_page.html', returnVal)
+
+	try:
+		Referral_instance = Referral.objects.get(encounter=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return render(request, 'error_page.html', returnVal)
 
 
+
+	template = get_template("consultation_referral.html")
+	html = template.render({"referral_details":Referral_instance})
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if pdf.err:
+		return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
+	return HttpResponse(result.getvalue(), content_type='application/pdf')
+
+	# template_path = 'consultation_referral.html'
+	# context = {'myvar': 'this is your template context'}
+	# # Create a Django response object, and specify content_type as pdf
+	# response = HttpResponse(content_type='application/pdf')
+	# response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+	# template = get_template(template_path)
+	# html = template.render(context)
+	# pisa_status = pisa.CreatePDF(html, dest=response)
+	# if pisa_status.err:
+	# 	return HttpResponse("we have some errors")
+	# return response
 
 # Create your views here.

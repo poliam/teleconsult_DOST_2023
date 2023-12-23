@@ -97,7 +97,7 @@
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="card">
-  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i class="fa-solid fa-pen-to-square"></i></a></h6>
+  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }}  <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i style="padding-left: 1rem;" class="fa-solid fa-pen-to-square"></i></a> <a data-bs-toggle="modal" data-bs-target="#PatientFileUploadModal" ><i class="fa-solid fa-cloud-arrow-up"></i></a></h6>
   				<div class="card-body" style="text-align:center;">
   					<div class="row">
   						<div class="col-sm-4">
@@ -235,7 +235,7 @@
 				</div>
 			</div>
 			<br/>
-			<div class="row">
+			<div class="row" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
 				<div class="col-sm-5">
 					<div class="card">
 		  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
@@ -561,6 +561,39 @@
   	</div>
 </div>
 
+<div class="modal fade" id="PatientFileUploadModal" tabindex="-1" aria-labelledby="PatientFileUploadModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="PatientFileUploadModalLabel" style="color:#6417A1;">Patients Files Upload</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<form method="POST" action="{% url 'PatientFileUpload' %}" enctype="multipart/form-data">
+      				{% csrf_token %}
+      				<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-3">
+								{{ patientFilesForm.file_name.label }}
+                        		{{ patientFilesForm.file_name }}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-3">
+								{{ patientFilesForm.file.label }}
+                        		{{ patientFilesForm.file }}
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="patient_id" value="{{ patientDetailed.pk }}">
+					<button type="submit" class="btn btn-outline-success">Upload</button>
+      			</form>
+        	</div>
+    	</div>
+  	</div>
+</div>
 {% endblock content %}
 
 

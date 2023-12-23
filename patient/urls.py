@@ -28,6 +28,8 @@ urlpatterns = [
 
    path('patient_survey/<patient_id>', views.PatientSurvey, name="PatientSurvey"),
    path('survey_completed', views.PatientSurveyCompleted, name="PatientSurveyCompleted"),
+
+   path('patient_file_upload', views.PatientFileUpload, name="PatientFileUpload")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

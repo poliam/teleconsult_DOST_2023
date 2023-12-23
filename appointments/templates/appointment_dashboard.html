@@ -221,11 +221,42 @@
 	      					</tbody>
 	      				</table>
       				</div>
-      				
+      				<div class="row consultation_type_wrapper">
+      						<div class="col-sm-12">
+      							<div class="form-group">
+									<label><b>Consultation Type:</b></label>
+									<select class="form-control" name="consultation_type" id="consultation_type" onchange="UpdateAppointmentForm(this)">
+										<option value="0">- - Type of Consultation - -</option>
+										<option value="consultation">Consultation</option>
+										<option value="evaluate">Psychiatric Evaluation</option>
+									</select>
+								</div>
+      						</div>
+      					</div>
       				<!-- create a form for the consultation date and consultation type -->
-      				<form method="POST">
+      				<form method="POST" class="evaluate_form">
       					{% csrf_token %}
-      					<div class="row consultation_form">
+      					<div class="row evaluate_form" style="display:none;">
+      						<div class="col-sm-12" style="padding-bottom: 0.5rem;">
+      							<label><b>{{ PsychiatricEvaluateForm.consultation_date.label }}{% if PsychiatricEvaluateForm.consultation_date.field.required %}*{% endif %}</b></label>
+									{{ PsychiatricEvaluateForm.consultation_date }}
+      						</div>
+      						<input type="hidden" name="patient_id" id="patient_id_evaluate" value="">
+							<input type="hidden" name="consultation_type" value="evaluate">
+      						<hr>
+      						<div class="col-sm-12">
+		  						<div class="d-grid gap-2">
+		  							<button type="submit" class="btn btn-outline-primary">Create Appointment</button>
+		  						</div>
+		  					</div>
+      					</div>
+
+      					
+      				</form>
+
+      				<form method="POST" class="consultation_form">
+      					{% csrf_token %}
+      					<div class="row " style="display:none;">
 	        				<div class="col-sm-12" style="padding-bottom: 0.5rem;">
 								<div class="form-group">
 									<label><b>{{ consultationEncounterForm.consultation_date.label }}{% if consultationEncounterForm.consultation_date.field.required %}*{% endif %}</b></label>
@@ -237,6 +268,7 @@
 								</div>
 							</div>
 							<input type="hidden" name="patient_id" id="patient_id" value="">
+							<input type="hidden" name="consultation_type" value="consultation">
 							<hr>
 		  					<div class="col-sm-12">
 		  						<div class="d-grid gap-2">
@@ -268,14 +300,31 @@
 	function resetModal(){
 		$(".PatientTableWrapper").show();
 		$(".consultation_form").hide();
+		$(".consultation_type_wrapper").hide();
+		$(".evaluate_form").hide();
+		$(".consultation_form").hide();
+		$("#consultation_type").val(0);
+	}
+
+	function UpdateAppointmentForm(that){
+		var consultation_type = $(that).val();
+		if(consultation_type == "consultation"){
+			$(".consultation_type_wrapper").hide();
+			$(".consultation_form").show();
+		}else{
+			$(".consultation_type_wrapper").hide();
+			$(".evaluate_form").show();
+		}
 	}
 
 	function selectpatient(that){
 		var patient_details_id = $(that).attr("attr_id");
 		$("#patient_id").val(patient_details_id);
+		$("#patient_id_evaluate").val(patient_details_id);
 		$(".PatientTableWrapper").hide();
-		$(".consultation_form").show();
-
+		$(".consultation_type_wrapper").show();
 	}
+
+	
 </script>
 {% endblock script %}

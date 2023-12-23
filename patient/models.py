@@ -34,6 +34,17 @@ class details(models.Model):
 	def age(self):
 		return int((datetime.now().date() - self.BOD).days / 365.25)
 
+
+class details_files(models.Model):
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	file_name = models.CharField(max_length=250, null=True, blank=True)
+	file = models.FileField(upload_to='files/', null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
 class address(models.Model):
 	current_street = models.CharField(max_length=250, null=True, blank=True, default="")
 	current_apt = models.CharField(max_length=250, null=True, blank=True, default="")

@@ -544,7 +544,7 @@
 
 	<div class="card" style="margin-top:0.3rem;">
 		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
-			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseReferral" aria-expanded="false" aria-controls="collapseReferral">Referral</h6>
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseReferral" aria-expanded="false" aria-controls="collapseReferral">Referral <a href="{% url 'PrintReferral' encounter_details.pk %}" target="_blank"><i class="fa-solid fa-file-pdf"></i></a></h6>
 		</div>
 		<div class="collapse" id="collapseReferral">
 			<div class="card card-body">
@@ -559,18 +559,6 @@
 						<div class="mb-3">
 	  						<label class="form-label">Referred From</label>
 	  						<input type="text" class="form-control" readonly value="{{ referral_details.referred_from }}">
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<div class="mb-3">
-	  						<label class="form-label">Brief Summary</label>
-	  						<textarea class="form-control" readonly rows="3">{{ referral_details.brief_summary }}</textarea>
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<div class="mb-3">
-	  						<label class="form-label">Impression</label>
-	  						<textarea class="form-control" readonly rows="3">{{ referral_details.impression }}</textarea>
 						</div>
 					</div>
 					<div class="col-sm-12">
