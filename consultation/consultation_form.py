@@ -243,3 +243,18 @@ class AddPsychiatricEvaluateForm(forms.ModelForm):
 		model = psychiatric_evaluate
 		fields = ['evaluation_consultation_date']
 
+class patientNurseNotesForm(forms.ModelForm):
+	comment = forms.CharField(required=False, label="Nurse Notes", widget=forms.Textarea(attrs={'rows':4}))
+
+	def __init__(self, *args, **kwargs):
+		super(patientNurseNotesForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	class Meta:
+		model = nurse_notes
+		fields = ['comment']
+

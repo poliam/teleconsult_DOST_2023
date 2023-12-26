@@ -42,6 +42,14 @@
 	.row{
 		color: black;
 	}
+	.dot {
+	  height: 7px;
+	  width: 7px;
+	  background-color: #bbb;
+	  border-radius: 50%;
+	  display: inline-block;
+	  margin: 2px 0.6rem 0 0.6rem;
+	}
 </style>
 {% endblock style %}
 
@@ -193,6 +201,10 @@
   				</li>
   				<li class="nav-item" role="presentation">
     				<button class="nav-link consultation_link" id="Notes-tab" data-bs-toggle="tab" data-bs-target="#Notes" type="button" role="tab" aria-controls="Notes" aria-selected="false">Notes</button>
+  				</li>
+
+  				<li class="nav-item" role="presentation">
+    				<button class="nav-link consultation_link" id="NurseNotes-tab" data-bs-toggle="tab" data-bs-target="#NurseNotes" type="button" role="tab" aria-controls="NurseNotes" aria-selected="false">Nurse Notes</button>
   				</li>
 			</ul>
 			<div class="tab-content" id="myTabContent" style="border: 1px solid rgba(0,0,0,.125); padding: 1rem;">
@@ -701,7 +713,48 @@
 							</div>
 						</div>
   					</div>
-  					
+  				</div>
+
+  				<div class="tab-pane fade" id="NurseNotes" role="tabpanel" aria-labelledby="NurseNotes-tab">
+  					<div class="row">
+  						<div class="col-sm-6">
+  							<div class="row justify-content-md-center">
+		  						<div class="col-sm-10">
+									<div class="form-group">
+										{{ patientNurseNotesForm.comment.label }}
+										{{ patientNurseNotesForm.comment }}
+									</div>
+								</div>
+		  					</div>
+		  					<div class="row justify-content-md-center">
+		  						<div class="col-sm-10">
+		  							<button type="button" class="btn btn-outline-success" onclick="CreateNurseComments(this);">Submit Notes</button>
+		  						</div>
+		  					</div>
+  						</div>
+  						<div class="col-sm-6 nurse_notes_list">
+  							{% for nurse_notes in list_of_nurse_notes %}
+  								<ul class="list-group ">
+  									<li class="list-group-item">
+  										 <div class="commented-section mt-2">
+                							<div class="d-flex flex-row align-items-center commented-user">
+                    							<h5 class="mr-2"><b>{{ nurse_notes.create_by.first_name }} {{ nurse_notes.create_by.last_name }}</b></h5>
+                								<span class="dot mb-1"></span>
+                								<span class="mb-1 ml-2"> {{ nurse_notes.create_date | timesince }} ago</span>
+                    						</div>
+                							<div class="comment-text-sm">
+                								<span>{{ nurse_notes.comment }}</span>
+                							</div>
+            							</div>
+  									</li>
+  								</ul>
+  							{% empty %}
+  								<ul>
+  									<li>No notes have been created. . . </li>
+  								</ul>
+  							{% endfor %}
+  						</div>
+  					</div>
   				</div>
 
   				<div class="tab-pane fade" id="referral" role="tabpanel" aria-labelledby="referral-tab">
@@ -746,6 +799,7 @@
 						</div>
   					</div>
   				</div>
+
 			</div>
 		</div>
 	</div>
@@ -813,6 +867,53 @@
 		LoadAutocompleteDrug()
 		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'});
 	})
+
+	
+	function CreateNurseComments(that){
+		$(that).empty();
+		$(that).append("Processing . . .");
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateNurseNotes' %}",
+	        data: {
+	        	"comment": $("#id_comment").val(),
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+					$(that).empty();
+					$(that).append("Submit Notes");
+					nurse_notes_list()
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function nurse_notes_list(){
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'getNurseList' %}",
+	        data: {
+	        	"enouter_id":"{{ encounter_details.pk }}",
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$(".nurse_notes_list").empty();
+				$(".nurse_notes_list").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
 
 	function AddTreatment(that){
 		$(that).empty();

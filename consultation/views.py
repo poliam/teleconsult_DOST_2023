@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from patient.models import details, relatives, medicine, allergies, global_psychotrauma_screen, hamd
 from consultation.models import *
-from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm
+from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm, patientNurseNotesForm
 import random, os
 from datetime import date, datetime
 
@@ -202,6 +202,7 @@ def EncounterDetails(request):
 	returnVal = {}
 	encounter_id = request.GET['enouter_id']
 
+
 	returnVal['encounter_details'] = encounter.objects.get(pk=encounter_id)
 	try:
 		returnVal['vital_sign'] = vitalsign.objects.get(encounter=encounter_id)
@@ -252,6 +253,10 @@ def EncounterDetails(request):
 		returnVal['drug_list'] = treatment.objects.filter(encounter=encounter_id, is_delete=0, status=1)
 	except:
 		returnVal['drug_list'] = ""
+
+	returnVal['list_of_nurse_notes'] = nurse_notes.objects.filter(encounter=encounter_id)
+
+	
 	html = render_to_string('consultation_details.html', returnVal)
 	return HttpResponse(html)
 
@@ -353,6 +358,9 @@ def EditConsultation(request, encounter_id):
 		returnVal['hamd_details'] = hamd_details
 	except:
 		returnVal['hamd_details'] = False
+	returnVal['patientNurseNotesForm'] = patientNurseNotesForm()
+
+	returnVal['list_of_nurse_notes'] = nurse_notes.objects.filter(encounter=encounter_id)
 
 
 
@@ -643,7 +651,43 @@ def DeleteTreatment(request):
 	return JsonResponse(returnVal, safe=False)
 
 
+@login_required(login_url='login')
+def CreateNurseNotes(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	try:
+		encounter_instance = encounter.objects.get(pk=request.POST['encounter_id'])
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
 
+	new_nurse_comment = nurse_notes()
+	new_nurse_comment.comment = request.POST['comment']
+	new_nurse_comment.create_by = request.user
+	new_nurse_comment.encounter = encounter_instance
 
+	try:
+		new_nurse_comment.save()
+		returnVal['status_code'] = 1
+	except:
+		returnVal['error_msg'] = "Error on creating comment"
+		return JsonResponse(returnVal, safe=False)
+
+	return JsonResponse(returnVal, safe=False)
+	
+
+@login_required(login_url='login')
+def getNurseList(request):
+	returnVal = {}
+	encounter_id = request.GET['enouter_id']
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
+
+	returnVal['list_of_nurse_notes'] = nurse_notes.objects.filter(encounter=encounter_id)
+	html = render_to_string('consultation_nurse_notes.html', returnVal)
+	return HttpResponse(html)
 
 # Create your views here.

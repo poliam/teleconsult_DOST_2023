@@ -329,3 +329,10 @@ class Referral(models.Model):
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
 	
+class nurse_notes(models.Model):
+	encounter = models.ForeignKey(encounter, null=True, blank=True, on_delete=models.SET_NULL)
+	comment = models.TextField(null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	create_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
