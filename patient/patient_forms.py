@@ -1,5 +1,5 @@
 from django import forms
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
 
 SEX_CHOICES = (
 	(0, "- - Select Sex - -"),
@@ -378,6 +378,23 @@ class patientSurveyForm(forms.ModelForm):
 		model = patient_survey
 		fields = ['social_phobia', 'generalized_anxiety_disorder', 'major_depressive_disorder', 'disorder_personality_disorder', 'dysthymia', 'agoraphobia', 'bipolar_disorder', 'drug_dependence', 'mas_babae', 'mas_lalake', 'kalidad_pagtulog', 'iwasan_aktibidad', 'cognitive_behavior_therapy', 'kumpidensyal', 'hindi_nagbabanta', 'hahanapin_impormasyon_sakit_isip', 'humingi_impormasyon_sakit_isip', 'pagpapatingin_sa_doktor', 'mapagkukunan_impormasyon_sakit_isip', 'bumalik_tamang_kaisipan', 'personal_kahinaan', 'sakit_medikal', 'mapanganib', 'umiwas_taong_sakit_isip', 'hindi_sasabihin_kahit_kanino', 'question_26', 'question_27', 'hindi_magiging_epektibo', 'lumipat_ng_bahay', 'pakikisalamuha_isang_taong', 'question_31', 'question_32', 'question_33', 'question_34', 'question_35']
 
+
+class patientFilesForm(forms.ModelForm):
+	file_name = forms.CharField(required=True, label="File Name", widget=forms.TextInput(attrs={'placeholder': 'File Name'}))
+	file = forms.FileField(required=True, label='Choose your File')
+
+	def __init__(self, *args, **kwargs):
+		super(patientFilesForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+
+	class Meta:
+		model = details_files
+		fields = ['file_name', 'file']
 
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")
