@@ -162,7 +162,7 @@ class encounter(models.Model):
 
 class psychiatric_evaluate(models.Model):
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
-	consultation_date = models.DateField(null=True, blank=True)
+	evaluation_consultation_date = models.DateField(null=True, blank=True)
 	create_date = models.DateTimeField(auto_now_add=True)
 	update_date = models.DateTimeField(auto_now_add=True)
 	update_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='psychiatric_evaluate_update_by')

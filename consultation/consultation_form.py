@@ -241,5 +241,5 @@ class AddPsychiatricEvaluateForm(forms.ModelForm):
 
 	class Meta:
 		model = psychiatric_evaluate
-		fields = ['consultation_date']
+		fields = ['evaluation_consultation_date']
 
