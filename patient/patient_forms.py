@@ -378,6 +378,7 @@ class patientSurveyForm(forms.ModelForm):
 		model = patient_survey
 		fields = ['social_phobia', 'generalized_anxiety_disorder', 'major_depressive_disorder', 'disorder_personality_disorder', 'dysthymia', 'agoraphobia', 'bipolar_disorder', 'drug_dependence', 'mas_babae', 'mas_lalake', 'kalidad_pagtulog', 'iwasan_aktibidad', 'cognitive_behavior_therapy', 'kumpidensyal', 'hindi_nagbabanta', 'hahanapin_impormasyon_sakit_isip', 'humingi_impormasyon_sakit_isip', 'pagpapatingin_sa_doktor', 'mapagkukunan_impormasyon_sakit_isip', 'bumalik_tamang_kaisipan', 'personal_kahinaan', 'sakit_medikal', 'mapanganib', 'umiwas_taong_sakit_isip', 'hindi_sasabihin_kahit_kanino', 'question_26', 'question_27', 'hindi_magiging_epektibo', 'lumipat_ng_bahay', 'pakikisalamuha_isang_taong', 'question_31', 'question_32', 'question_33', 'question_34', 'question_35']
 
+
 def formatDate(dateValue):
 	current_date_split = dateValue.split("/")
 	if len(current_date_split) == 3:

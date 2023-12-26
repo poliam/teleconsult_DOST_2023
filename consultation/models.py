@@ -155,6 +155,18 @@ class encounter(models.Model):
 	update_date = models.DateTimeField(auto_now_add=True)
 	update_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='update_by')
 	consulted_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+	for_follow_up = models.BooleanField(default=0)
+	history = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
+class psychiatric_evaluate(models.Model):
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	consultation_date = models.DateField(null=True, blank=True)
+	create_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now_add=True)
+	update_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='psychiatric_evaluate_update_by')
+	create_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='psychiatric_evaluate_create_by')
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)

@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from patient.models import details, relatives, medicine, allergies
 from consultation.models import *
-from consultation.consultation_form import AddConsultationEncounterForm
+from consultation.consultation_form import AddConsultationEncounterForm, AddPsychiatricEvaluateForm
 import random, os
 from datetime import date, datetime, timedelta
 
@@ -40,10 +40,13 @@ def AppointmentList(request):
 	returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=past_dates).order_by('consultation_date')
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm()
+	returnVal['PsychiatricEvaluateForm'] = AddPsychiatricEvaluateForm()
 
 	if request.method == 'POST':
 		consultationEncounterForm = AddConsultationEncounterForm(request.POST)
 		returnVal['consultationEncounterForm'] = consultationEncounterForm
+		PsychiatricEvaluateForm = AddPsychiatricEvaluateForm(request.POST)
+		returnVal['PsychiatricEvaluateForm'] = PsychiatricEvaluateForm
 		patient_id = request.POST['patient_id']
 		try:
 			patient_instance = details.objects.get(pk=patient_id)
@@ -51,10 +54,18 @@ def AppointmentList(request):
 			returnVal['error_msg'] = "Patient Does not exists"
 			return render(request, "appointment_dashboard.html", returnVal)
 
-		if consultationEncounterForm.is_valid():
-			EncounterPost = consultationEncounterForm.save(commit=False)
-			EncounterPost.details = patient_instance
-			EncounterPost.save()
+		if request.POST['consultation_type'] == "consultation":
+			if consultationEncounterForm.is_valid():
+				EncounterPost = consultationEncounterForm.save(commit=False)
+				EncounterPost.details = patient_instance
+				EncounterPost.save()
+		else:
+			if PsychiatricEvaluateForm.is_valid():
+				PsychiatricEvaluatePost = PsychiatricEvaluateForm.save(commit=False)
+				PsychiatricEvaluatePost.details = patient_instance
+				PsychiatricEvaluatePost.create_by = request.user
+				PsychiatricEvaluatePost.save()
+		return redirect("CreateAppointment")
 
 	return render(request, "appointment_dashboard.html", returnVal)
 

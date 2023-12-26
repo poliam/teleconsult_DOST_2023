@@ -29,7 +29,22 @@ def dashboard(request):
 	current_date = date.today()
 	future_date = current_date + timedelta(days=7)
 	returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
-	returnVal['today_consultation'] = encounter.objects.filter(consultation_date=current_date).order_by('consultation_date')
+	today_consultation = encounter.objects.filter(consultation_date=current_date).order_by('consultation_date')
+	today_consultation_list = []
+	for consultation in today_consultation:
+		print(consultation)
+		hamd_details = hamd.objects.get(details=consultation.details.pk)
+		patient_name = consultation.details.last_name.capitalize()+", "+consultation.details.first_name.capitalize()+" "+consultation.details.middle_name.capitalize()
+		if consultation.consulted_by is None:
+			consulted_by = False
+		else:
+			consulted_by = True
+		today_consultation_list.append({"consultation_id": consultation.pk, "consultation_type": consultation.reason_for_interaction, "patient_name": patient_name, "hamd_score": int(hamd_details.score), "consult_by": consulted_by})
+	returnVal['doctor_today_consultation'] = today_consultation_list
+	returnVal['today_consultation'] = today_consultation
+
+
+	returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(consultation_date=current_date)
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 	current_date_split = str(current_date).split("-")
 	return render(request, 'dashboard.html', returnVal)

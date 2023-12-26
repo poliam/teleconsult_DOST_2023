@@ -28,12 +28,16 @@ RELATIONSHIP_CHOICES = (
 	("Friend", "Friend"),
 	("Guardian", "Guardian"),
 )
-
+YES_NO_CHOICES = [
+	(0, "No"), 
+	(1, "Yes")
+]
 class AddConsultationEncounterForm(forms.ModelForm):
 	reason_for_interaction = forms.TypedChoiceField(required=True, label="Reason For Interaction", choices=REASON_FOR_INTERACTION)
 	consultation_date = forms.DateField(required=True, label="Consultation(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
 	encounter_notes = forms.CharField(required=False, label="Notes", widget=forms.Textarea(attrs={'rows':4}))
 	treatment_recommendations = forms.CharField(required=False, label="Treatment Recommendations", widget=forms.Textarea(attrs={'rows':4}))
+	for_follow_up = forms.TypedChoiceField(required=False, label="For Followup", choices=YES_NO_CHOICES)
 
 	def __init__(self, *args, **kwargs):
 		super(AddConsultationEncounterForm, self).__init__(*args, **kwargs)
@@ -46,7 +50,7 @@ class AddConsultationEncounterForm(forms.ModelForm):
 
 	class Meta:
 		model = encounter
-		fields = ['reason_for_interaction', 'consultation_date', 'encounter_notes', 'treatment_recommendations']
+		fields = ['reason_for_interaction', 'consultation_date', 'encounter_notes', 'treatment_recommendations', 'for_follow_up']
 
 class AddConsultationVitalSignForm(forms.ModelForm):
 	height = forms.CharField(required=False, label="Height(cm)", widget=forms.TextInput(attrs={'placeholder': 'Height'}))
@@ -222,4 +226,20 @@ class AddReferralForm(forms.ModelForm):
 	class Meta:
 		model = Referral
 		fields = ['referred_to', 'referred_from', 'reason_for_referral']
+
+class AddPsychiatricEvaluateForm(forms.ModelForm):
+	evaluation_consultation_date = forms.DateField(required=True, label="Consultation(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
+
+	def __init__(self, *args, **kwargs):
+		super(AddPsychiatricEvaluateForm, self).__init__(*args, **kwargs)
+
+		for visible in self.visible_fields():
+			try:
+				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
+			except:
+				visible.field.widget.attrs['class'] = 'form-control'
+
+	class Meta:
+		model = psychiatric_evaluate
+		fields = ['consultation_date']
 
