@@ -41,6 +41,26 @@
     					<h4>Global Psychotrauma Screen</h4>
   					</div>
   					<div class="card-body">
+  						<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_name">Name</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_name" placeholder="{{ patientDetail.last_name }}, {{ patientDetail.first_name }} {{ patientDetail.middle_name }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_marital_status">Marital Status</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_marital_status" placeholder="{{ patientDetail.marital_status }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
+    								<input type="text" readonly class="form-control-plaintext" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)" value='{{ global_psychotrauma_screen_instance.consultation_date|date:"m/d/Y"}}'>
+  								</div>	
+    						</div>
+    					</div>
     					<div class="row">
     						<div class="col-sm-4">
     							<div class="form-group">
@@ -54,12 +74,7 @@
     								<input type="text" readonly class="form-control-plaintext" id="plain_age" placeholder="{{ patientDetail.age }}">
   								</div>	
     						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
-    								<input type="text" readonly class="form-control-plaintext" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)" value='{{ global_psychotrauma_screen_instance.consultation_date|date:"m/d/Y"}}'>
-  								</div>	
-    						</div>
+    						
     					</div>
     					<hr>
     					<h6 class="card-header">Sometimes things happen to people that are unusually or especially frightening, horrible, or traumatic. </h6>
@@ -73,7 +88,12 @@
     						<div class="col-sm-4">
     							<label><b>This event happened</b></label>
     							<div class="form-check">
-
+  									<input class="form-check-input" type="radio" name="event_happened" value="last week" {% if  global_psychotrauma_screen_instance.event_happened ==  "last week" %} checked {% endif %}  required>
+  									<label class="form-check-label">
+    									last week
+  									</label>
+								</div>
+    							<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="last month" {% if  global_psychotrauma_screen_instance.event_happened ==  "last month" %} checked {% endif %} required>
   									<label class="form-check-label">
     									last month
@@ -107,11 +127,11 @@
     								<label class="col-sm-3 col-form-label">Physical violence</label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="physical_violence" value="to yourself"  {% if  global_psychotrauma_screen_instance.physical_violence ==  "to yourself" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="physical_violence" value="to yourself"  {% if  global_psychotrauma_screen_instance.physical_violence ==  "to yourself" %} checked {% endif %} >
   											<label class="form-check-label">to yourself</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="physical_violence"  value="happened to someone else"  {% if  global_psychotrauma_screen_instance.physical_violence ==  "happened to someone else" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="physical_violence"  value="happened to someone else"  {% if  global_psychotrauma_screen_instance.physical_violence ==  "happened to someone else" %} checked {% endif %}>
   											<label class="form-check-label">happened to someone else</label>
 										</div>
     								</div>
@@ -120,11 +140,11 @@
     								<label class="col-sm-3 col-form-label">Sexual violence</label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="sexual_violence" value="to yourself"  {% if  global_psychotrauma_screen_instance.sexual_violence ==  "to yourself" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="sexual_violence" value="to yourself"  {% if  global_psychotrauma_screen_instance.sexual_violence ==  "to yourself" %} checked {% endif %}>
   											<label class="form-check-label">to yourself</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="sexual_violence" value="happened to someone else"  {% if  global_psychotrauma_screen_instance.sexual_violence ==  "happened to someone else" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="sexual_violence" value="happened to someone else"  {% if  global_psychotrauma_screen_instance.sexual_violence ==  "happened to someone else" %} checked {% endif %}>
   											<label class="form-check-label">happened to someone else</label>
 										</div>
     								</div>
@@ -133,11 +153,11 @@
     								<label class="col-sm-3 col-form-label">Emotional abuse</label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="emotional_abuse" value="to yourself" {% if  global_psychotrauma_screen_instance.emotional_abuse ==  "to yourself" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="emotional_abuse" value="to yourself" {% if  global_psychotrauma_screen_instance.emotional_abuse ==  "to yourself" %} checked {% endif %}>
   											<label class="form-check-label">to yourself</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="emotional_abuse" value="happened to someone else" {% if  global_psychotrauma_screen_instance.emotional_abuse ==  "happened to someone else" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="emotional_abuse" value="happened to someone else" {% if  global_psychotrauma_screen_instance.emotional_abuse ==  "happened to someone else" %} checked {% endif %}>
   											<label class="form-check-label">happened to someone else</label>
 										</div>
     								</div>
@@ -146,11 +166,11 @@
     								<label class="col-sm-3 col-form-label">Serious injury</label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="serious_injury" value="to yourself" {% if  global_psychotrauma_screen_instance.serious_injury ==  "to yourself" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="serious_injury" value="to yourself" {% if  global_psychotrauma_screen_instance.serious_injury ==  "to yourself" %} checked {% endif %}>
   											<label class="form-check-label">to yourself</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="serious_injury" value="happened to someone else" {% if  global_psychotrauma_screen_instance.serious_injury ==  "happened to someone else" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="serious_injury" value="happened to someone else" {% if  global_psychotrauma_screen_instance.serious_injury ==  "happened to someone else" %} checked {% endif %}>
   											<label class="form-check-label">happened to someone else</label>
 										</div>
     								</div>
@@ -159,11 +179,11 @@
     								<label class="col-sm-3 col-form-label">Life threatening</label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="life_threatening" value="to yourself" {% if  global_psychotrauma_screen_instance.life_threatening ==  "to yourself" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="life_threatening" value="to yourself" {% if  global_psychotrauma_screen_instance.life_threatening ==  "to yourself" %} checked {% endif %}>
   											<label class="form-check-label">to yourself</label>
 										</div>
 										<div class="form-check form-check-inline">
-  											<input class="form-check-input" type="radio" name="life_threatening" value="happened to someone else" {% if  global_psychotrauma_screen_instance.life_threatening ==  "happened to someone else" %} checked {% endif %} required>
+  											<input class="form-check-input" type="radio" name="life_threatening" value="happened to someone else" {% if  global_psychotrauma_screen_instance.life_threatening ==  "happened to someone else" %} checked {% endif %}>
   											<label class="form-check-label">happened to someone else</label>
 										</div>
     								</div>

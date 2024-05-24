@@ -281,11 +281,11 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 	new_global_psychotrauma_screen.event_description = request.POST['event_description']
 	new_global_psychotrauma_screen.event_happened = request.POST['event_happened']
 
-	new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', '')
-	new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', '')
-	new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', '')
-	new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', '')
-	new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', '')
+	new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', False)
+	new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', False)
+	new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', False)
+	new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', False)
+	new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', False)
 	
 	new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
 	new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
@@ -362,11 +362,14 @@ def PatientUpdateGPS(request, gps_id):
 	if request.method == "POST":
 		global_psychotrauma_screen_instance.event_description = request.POST['event_description']
 		global_psychotrauma_screen_instance.event_happened = request.POST['event_happened']
-		global_psychotrauma_screen_instance.physical_violence = request.POST['physical_violence']
-		global_psychotrauma_screen_instance.sexual_violence = request.POST['sexual_violence']
-		global_psychotrauma_screen_instance.emotional_abuse = request.POST['emotional_abuse']
-		global_psychotrauma_screen_instance.serious_injury = request.POST['serious_injury']
-		global_psychotrauma_screen_instance.life_threatening = request.POST['life_threatening']
+
+		global_psychotrauma_screen_instance.physical_violence = request.POST.get('physical_violence', False)
+		global_psychotrauma_screen_instance.sexual_violence = request.POST.get('sexual_violence', False)
+		global_psychotrauma_screen_instance.emotional_abuse = request.POST.get('emotional_abuse', False)
+		global_psychotrauma_screen_instance.serious_injury = request.POST.get('serious_injury', False)
+		global_psychotrauma_screen_instance.life_threatening = request.POST.get('life_threatening', False)
+
+
 		global_psychotrauma_screen_instance.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
 		global_psychotrauma_screen_instance.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
 		global_psychotrauma_screen_instance.covid =  request.POST.get('covid', False)

@@ -40,6 +40,26 @@
     					<h4>Global Psychotrauma Screen</h4>
   					</div>
   					<div class="card-body">
+  						<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_name">Name</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_name" placeholder="{{ patientDetail.last_name }}, {{ patientDetail.first_name }} {{ patientDetail.middle_name }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_marital_status">Marital Status</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_marital_status" placeholder="{{ patientDetail.marital_status }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
+    								<input type="text" class="form-control" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)">
+  								</div>	
+    						</div>
+    					</div>
     					<div class="row">
     						<div class="col-sm-4">
     							<div class="form-group">
@@ -51,12 +71,6 @@
     							<div class="form-group">
     								<label for="plain_age">Age</label>
     								<input type="text" readonly class="form-control-plaintext" id="plain_age" placeholder="{{ patientDetail.age }}">
-  								</div>	
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
-    								<input type="text" class="form-control" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)">
   								</div>	
     						</div>
     					</div>

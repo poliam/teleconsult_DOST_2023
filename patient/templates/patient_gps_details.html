@@ -14,19 +14,19 @@
 		<h6><b>Briefly describe the event or experience that currently affects you the most</b></h6></b>
 		
 		<div class="form-group">
-			<label><b>Physical violence</b>: {{gps_details.physical_violence}}</label>
+			<label><b>Physical violence</b>: {% if gps_details.physical_violence != "False" %} {{gps_details.physical_violence}} {% endif %}</label>
 		</div>
 		<div class="form-group">
-			<label><b>Sexual violence</b>: {{gps_details.sexual_violence}}</label>
+			<label><b>Sexual violence</b>: {% if gps_details.sexual_violence != "False" %} {{gps_details.sexual_violence}} {% endif %} </label>
 		</div>
 		<div class="form-group">
-			<label><b>Emotional abuse</b>: {{gps_details.emotional_abuse}}</label>
+			<label><b>Emotional abuse</b>: {% if gps_details.emotional_abuse != "False" %} {{gps_details.emotional_abuse}} {% endif %} </label>
 		</div>
 		<div class="form-group">
-			<label><b>Serious injury</b>: {{gps_details.serious_injury}}</label>
+			<label><b>Serious injury</b>: {% if gps_details.serious_injury != "False" %} {{gps_details.serious_injury}} {% endif %}</label>
 		</div>
 		<div class="form-group">
-			<label><b>Life threatening</b>: {{gps_details.life_threatening}}</label>
+			<label><b>Life threatening</b>: {% if gps_details.life_threatening != "False" %} {{gps_details.life_threatening}} {% endif %}</label>
 		</div>
 		<div class="form-group">
 			<label><b>Sudden death of a loved one</b>: {% if gps_details.sudden_death_of_loved_one == 1 %} Yes {% else %} No {% endif %}</label>
