@@ -10,6 +10,7 @@ urlpatterns = [
 
    path('create_HOPI', views.CreateHOPI, name="CreateHOPI"),
    path('delete_HOPI', views.DeleteHOPI, name="DeleteHOPI"),
+   path('auto_create_HOPI', views.AutoCreateHOPI, name="AutoCreateHOPI"),
 
    path('create_diagnosis', views.CreateDiagnosis, name="CreateDiagnosis"),
    path('delete_diagnosis', views.DeleteDiagnosis, name="DeleteDiagnosis"),
