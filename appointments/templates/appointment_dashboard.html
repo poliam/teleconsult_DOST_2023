@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Appointment Dashbaord {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style type="text/css">
+	.card-header{
+		font-weight: 700;
+	}
+	.action_btn{
+		color: white;
+	}
+	.action_btn:hover{
+		background-color: white;
+		color: #6417A180;
+		border: 1px solid #6417A180;
+	}
+	.consultations_name_list b{
+		color: #6417A180;
+		font-size: 0.9rem;
+	}
+	.appointment_cards{
+		height: 300px;
+		max-height: 300px;
+	}
+	.appointment_card_body{
+		overflow-y: auto;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+	<br/>
+	<div class="row">
+		<div class="col-sm-8">
+			<h2 class="dashboard_welcome_greeting"><b>Appointments</b></h2>
+		</div>
+	</div>
+	<div class="row justify-content-end">
+	    <div class="col-4" style="text-align:right;">
+	      <button type="button" class="btn card_background_color action_btn" data-bs-toggle="modal" data-bs-target="#CreateAppointment" onclick='resetModal();'>Create Appointments</button>
+	    </div>
+	    
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="card appointment_cards">
+  				<div class="card-header card_background_color">
+    				Upcoming Appointments
+  				</div>
+  				<div class="card-body appointment_card_body">
+    				<ul class="list-group list-group-flush">
+    					{% for consultation in week_consultation %}
+    						<li class="list-group-item consultations_name_list">
+    							{% if group_type == "Doctor" or  group_type == "Nurse" %}
+    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% else %}
+    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% endif %}
+    								<b>{{ forloop.counter  }}. {{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+    							
+    							</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
+    						</li>
+    					{% empty %}
+    						No Appointment for the comming 7 days. . . 
+    					{% endfor %}
+			 			
+			  				
+					</ul>
+  				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="card appointment_cards">
+  				<div class="card-header card_background_color">
+    				This Month Appointments
+  				</div>
+  				<div class="card-body appointment_card_body">
+  					<ul class="list-group list-group-flush">
+	    				{% for consultation in month_consultation %}
+							<li class="list-group-item consultations_name_list">
+
+								{% if group_type == "Doctor" or group_type == "Nurse" %}
+    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% else %}
+    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% endif %}
+									<b>{{ forloop.counter  }}. {{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+								</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
+							</li>
+						{% empty %}
+							No Appointment for this Month. . .
+						{% endfor %}
+					</ul>
+  				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="card appointment_cards">
+  				<div class="card-header card_background_color">
+    				Past Appointments
+  				</div>
+  				<div class="card-body appointment_card_body">
+    				<ul class="list-group list-group-flush">
+	    				{% for consultation in past_consultation %}
+							<li class="list-group-item consultations_name_list">
+								{% if group_type == "Doctor" or group_type == "Nurse" %}
+    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% else %}
+    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+    							{% endif %}
+									<b>{{ forloop.counter  }}. {{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+								</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
+							</li>
+						{% empty %}
+							No Past Appointment. . .
+						{% endfor %}
+					</ul>
+  				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<form style="border: 1px solid rgba(0,0,0,.125); padding: 0.5rem;">
+		<h5>Custom Filter (Still in progress)</h5>
+		<hr>
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="mb-3">
+	  				<label class="form-label"><b>Consultation Type</b></label>
+	  				<select class="form-control">
+	  					<option value="0">All</option>
+	  					<option value="1">Outpatient - Checkup</option>
+	  					<option value="2">Followup - Checkup</option>
+	  				</select>
+	  				
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="mb-3">
+	  				<label class="form-label"><b>Consultation Date</b></label>
+	  				<select class="form-control">
+	  					<option value="0">All</option>
+	  					<option value="1">Today</option>
+	  					<option value="2">Week</option>
+	  					<option value="3">Month</option>
+	  					<option value="4">Year</option>
+	  				</select>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="mb-3">
+	  				<label class="form-label"><b>Consultation Range Date</b></label>
+	  				<div class="row">
+	  					<div class="col-sm-6">
+	  						<input type="text" class="form-control" name="" placeholder="Date From">
+	  					</div>
+	  					<div class="col-sm-6">
+	  						<input type="text" class="form-control" name="" placeholder="Date To">
+	  					</div>
+	  				</div>
+	  				
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="mb-3">
+	  				<label class="form-label"><b>Sex</b></label>
+	  				<select class="form-control">
+	  					<option value="0">All</option>
+	  					<option value="1">Male</option>
+	  					<option value="2">Female</option>
+	  				</select>
+				</div>
+			</div>
+			<div class="col-sm-1"></div>
+			<div class="col-sm-1">
+				<div class="mb-3" style="padding-top: 1.65rem;">
+	  				<button type="button" class="btn btn-outline-success">Search</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="modal fade" id="CreateAppointment" tabindex="-1" aria-labelledby="CreateAppointmentLabel" aria-hidden="true">
+  		<div class="modal-dialog">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<h5 class="modal-title" id="CreateAppointmentLabel">Select Patient</h5>
+      			</div>
+      			<div class="modal-body">
+      				<div class="PatientTableWrapper">
+      					<table class="table patient_table">
+	      					<thead>
+	      						<tr>
+	      							<th>#</th>
+	      							<th>Name</th>
+	      							<th>Sex</th>
+	      							<th>Age</th>
+	      							<th></th>
+	      						</tr>
+	      					</thead>
+	      					<tbody>
+	      						{% for patients in list_of_patients %}
+	      							<tr>
+	      								<td>{{ forloop.counter }}</td>
+	      								<td>{{patients.last_name|capfirst }}, {{ patients.first_name|capfirst }} {{ patients.middle|capfirst }}</td>
+	      								<td>{{ patients.gender }}</td>
+	      								
+	      								<td>{{ patients.age }}</td>
+	      								<td><button type="button" class="btn btn-outline-info" style="font-size:0.8rem;" attr_id='{{patients.pk}}' onclick="selectpatient(this)">Select</button></td>
+	      							</tr>
+	        					{% empty %}
+
+	        					{% endfor %}
+	      					</tbody>
+	      				</table>
+      				</div>
+      				<div class="row consultation_type_wrapper">
+  						<div class="col-sm-12">
+  							<div class="form-group">
+								<label><b>Consultation Type:</b></label>
+								<select class="form-control" name="consultation_type" id="consultation_type" onchange="UpdateAppointmentForm(this)">
+									<option value="0">- - Type of Consultation - -</option>
+									<option value="consultation">Consultation</option>
+									<option value="evaluate">Psychiatric Evaluation</option>
+								</select>
+							</div>
+  						</div>
+  					</div>
+      				
+      				<!-- create a form for the consultation date and consultation type -->
+      				<form method="POST" class="evaluate_form">
+      					{% csrf_token %}
+      					<div class="row evaluate_form" style="display:none;">
+      						<div class="col-sm-12" style="padding-bottom: 0.5rem;">
+      							<label><b>{{ PsychiatricEvaluateForm.evaluation_consultation_date.label }}{% if PsychiatricEvaluateForm.evaluation_consultation_date.field.required %}*{% endif %}</b></label>
+									{{ PsychiatricEvaluateForm.evaluation_consultation_date }}
+      						</div>
+      						<input type="hidden" name="patient_id" id="patient_id_evaluate" value="">
+							<input type="hidden" name="consultation_type" value="evaluate">
+      						<hr>
+      						<div class="col-sm-12">
+		  						<div class="d-grid gap-2">
+		  							<button type="submit" class="btn btn-outline-primary">Create Appointment</button>
+		  						</div>
+		  					</div>
+      					</div>
+
+      					
+      				</form>
+      				<form method="POST" class="consultation_form" style="display:none;">
+      					{% csrf_token %}
+      					<div class="row" >
+	        				<div class="col-sm-12" style="padding-bottom: 0.5rem;">
+								<div class="form-group">
+									<label><b>{{ consultationEncounterForm.consultation_date.label }}{% if consultationEncounterForm.consultation_date.field.required %}*{% endif %}</b></label>
+									{{ consultationEncounterForm.consultation_date }}
+								</div>
+								<div class="form-group">
+									<label><b>{{ consultationEncounterForm.reason_for_interaction.label }}{% if consultationEncounterForm.reason_for_interaction.field.required %}*{% endif %}</b></label>
+									{{ consultationEncounterForm.reason_for_interaction }}
+								</div>
+							</div>
+							<input type="hidden" name="patient_id" id="patient_id" value="">
+							<input type="hidden" name="consultation_type" value="consultation">
+							<hr>
+		  					<div class="col-sm-12">
+		  						<div class="d-grid gap-2">
+		  							<button type="submit" class="btn btn-outline-primary">Create Appointment</button>
+		  						</div>
+		  					</div>
+	        			</div>
+      				</form>
+        			
+      			</div>
+    		</div>
+  		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		let table = new DataTable('.patient_table');
+		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
+		$("#id_evaluation_consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
+	})
+
+	function resetModal(){
+		$(".PatientTableWrapper").show();
+		$(".consultation_form").hide();
+		$(".consultation_type_wrapper").hide();
+		$(".evaluate_form").hide();
+		$(".consultation_form").hide();
+		$("#consultation_type").val(0);
+	}
+
+	function UpdateAppointmentForm(that){
+		var consultation_type = $(that).val();
+		if(consultation_type == "consultation"){
+			$(".consultation_type_wrapper").hide();
+			$(".consultation_form").show();
+		}else{
+			$(".consultation_type_wrapper").hide();
+			$(".evaluate_form").show();
+		}
+	}
+
+	function selectpatient(that){
+		var patient_details_id = $(that).attr("attr_id");
+		$("#patient_id").val(patient_details_id);
+		$("#patient_id_evaluate").val(patient_details_id);
+		$(".PatientTableWrapper").hide();
+		$(".consultation_type_wrapper").show();
+
+	}
+</script>
+{% endblock script %}

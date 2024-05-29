@@ -1,0 +1,1227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Create Consultation {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.add_patient_btn{
+		border: 1px solid;
+		border-color: #6417A180;
+	}
+	.add_patient_btn{
+		color: #6417A180;
+	}
+	#patient_list thead{
+		background-color: #6417A180;
+	}
+	.patient_list_name a{
+		color: #6417A180;
+		font-weight: 700;
+	}
+	#patient_list{
+		padding-top: 1rem;
+	}
+	#consultation_tab{
+		background-color: #6417A180;
+	}
+	.consultation_link{
+		color: black;
+	}
+	.consultation_link:hover {
+		color: white;
+	}
+	.form-group{
+		color: black;
+	}
+	.row{
+		color: black;
+	}
+	.dot {
+	  height: 7px;
+	  width: 7px;
+	  background-color: #bbb;
+	  border-radius: 50%;
+	  display: inline-block;
+	  margin: 2px 0.6rem 0 0.6rem;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<form method="POST">
+	{% csrf_token %}	
+	<nav class="navbar navbar-light bg-light justify-content-between sticky-top">
+		<a href="{% url 'PatientDetailed' patientDetailed.pk %}" class="btn btn-outline-secondary my-2 my-sm-0" style="text-decoration:none;">
+			Back
+		</a>
+    	<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Update</button>
+	</nav>
+<div class="container-fluid">
+	
+	<div class="row">
+		<div class="col-sm-12">
+			{% if error_msg %}
+				<div class="alert alert-warning" role="alert">
+				  {{ error_msg }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="card">
+		<h5 class="card-header card_background_color">Patient Information</h5>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Patient Name</b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }}">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Gender</b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.gender }}">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Global Psychotrauma Screen <i class="fa-solid fa-eye" attr_id="{{ global_psychotrauma_screen_details.pk }}"  onclick="showGPSdetails(this)" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal" style="cursor:pointer;"></i></b></label>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Age</b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.age }}">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Marital Status</b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.marital_status }}">
+							</div>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label><b>Hamilton Depression <i class="fa-solid fa-eye" onclick="showHamddetails(this)" attr_id="{{ hamd_details.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="cursor:pointer;"></i> </b></label>
+								<input type="text" readonly class="form-control-plaintext" value="{{ hamd_details.score }} {% if hamd_details.score <= 7 %} hamd_details.score (Normal) {% elif hamd_details.score > 7 and hamd_details.score <= 13 %} (Mild Depression) {% elif hamd_details.score > 13 and hamd_details.score <= 18 %} (Moderate Depression) {% elif hamd_details.score > 18 and hamd_details.score <= 22 %} (Severe Depression) {% else %} (Very Severe Depression) {% endif %}">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label><b>{{ consultationEncounterForm.consultation_date.label }}{% if consultationEncounterForm.consultation_date.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.consultation_date }}
+							</div>
+							<div class="form-group">
+								<label><b>{{ consultationEncounterForm.reason_for_interaction.label }}{% if consultationEncounterForm.reason_for_interaction.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.reason_for_interaction }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label><b>{{ consultationEncounterForm.for_follow_up.label }}{% if consultationEncounterForm.for_follow_up.field.required %}*{% endif %}</b></label>
+								{{ consultationEncounterForm.for_follow_up }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="card">
+		<h5 class="card-header card_background_color">Vital Signs</h5>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						{{ vitalSignForm.height.label }}{% if vitalSignForm.height.field.required %}*{% endif %}
+						{{ vitalSignForm.height }}
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						{{ vitalSignForm.weight.label }}{% if vitalSignForm.weight.field.required %}*{% endif %}
+						{{ vitalSignForm.weight }}
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						{{ vitalSignForm.blood_pressure.label }}{% if vitalSignForm.blood_pressure.field.required %}*{% endif %}
+						{{ vitalSignForm.blood_pressure }}
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						{{ vitalSignForm.temperature.label }}{% if vitalSignForm.temperature.field.required %}*{% endif %}
+						{{ vitalSignForm.temperature }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-12">
+			<ul class="nav nav-tabs" id="consultation_tab" role="tablist">
+				<li class="nav-item" role="presentation">
+    				<button class="nav-link active consultation_link" id="chief_complaints-tab" data-bs-toggle="tab" data-bs-target="#chief_complaints" type="button" role="tab" aria-controls="chief_complaints" aria-selected="false">Chief Complaints</button>
+  				</li>
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+    				<button class="nav-link consultation_link" id="HOPI-tab" data-bs-toggle="tab" data-bs-target="#HOPI" type="button" role="tab" aria-controls="HOPI" aria-selected="true">History of Present Illness</button>
+  				</li>
+  				
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+    				<button class="nav-link consultation_link" id="MentalStatus-tab" data-bs-toggle="tab" data-bs-target="#MentalStatus" type="button" role="tab" aria-controls="MentalStatus" aria-selected="false">Mental Status</button>
+  				</li>
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+    				<button class="nav-link consultation_link" id="Diagnosis-tab" data-bs-toggle="tab" data-bs-target="#Diagnosis" type="button" role="tab" aria-controls="Diagnosis" aria-selected="false">Diagnosis</button>
+  				</li>
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+    				<button class="nav-link consultation_link" id="Treatment-tab" data-bs-toggle="tab" data-bs-target="#Treatment" type="button" role="tab" aria-controls="Treatment" aria-selected="false">Treatment</button>
+  				</li>
+  				<li class="nav-item" role="presentation" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+    				<button class="nav-link consultation_link" id="referral-tab" data-bs-toggle="tab" data-bs-target="#referral" type="button" role="tab" aria-controls="referral" aria-selected="false">Referral Form</button>
+  				</li>
+  				<li class="nav-item" role="presentation">
+    				<button class="nav-link consultation_link" id="Notes-tab" data-bs-toggle="tab" data-bs-target="#Notes" type="button" role="tab" aria-controls="Notes" aria-selected="false">Notes</button>
+  				</li>
+
+  				<li class="nav-item" role="presentation">
+    				<button class="nav-link consultation_link" id="NurseNotes-tab" data-bs-toggle="tab" data-bs-target="#NurseNotes" type="button" role="tab" aria-controls="NurseNotes" aria-selected="false">Nurse Notes</button>
+  				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent" style="border: 1px solid rgba(0,0,0,.125); padding: 1rem;">
+				<div class="tab-pane fade show active" id="chief_complaints" role="tabpanel" aria-labelledby="chief_complaints-tab">
+					<br/>
+					<div class="row justify-content-md-center">
+						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ConsultationChiefComplaintForm.patient_complaints.label }}{% if ConsultationChiefComplaintForm.patient_complaints.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.patient_complaints }}
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ConsultationChiefComplaintForm.informant_complaints.label }}{% if ConsultationChiefComplaintForm.informant_complaints.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.informant_complaints }}
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ConsultationChiefComplaintForm.informatmant_relationship.label }}{% if ConsultationChiefComplaintForm.informatmant_relationship.field.required %}*{% endif %}
+								{{ ConsultationChiefComplaintForm.informatmant_relationship }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+  				<div class="tab-pane fade" id="HOPI" role="tabpanel" aria-labelledby="HOPI-tab">
+  					<div class="row">
+  						<div class="col-sm-4">
+  							<div class="row">
+  								<div class="col-sm-12">
+  									<div class="mb-3">
+    									<label class="form-label">Number*</label>
+    									<input type="number" class="form-control" id="HOPI_NUM" name="HOPI_NUM" placeholder="Number">
+    									<div class="invalid-feedback number_invalid">
+        									Number field should not be empty!
+      									</div>
+  									</div>
+  								</div>
+  								<div class="col-sm-12">
+  									<div class="mb-3">
+    									<label class="form-label">Min/Hr/Days/Month/Year*</label>
+    									<select id="HOPI_TIME" name="HOPI_TIME" class="form-control">
+			  								<option value="">- - Select Option - -</option>
+			  								<option value="Minutes">Minutes</option>
+			  								<option value="Hours">Hours</option>
+			  								<option value="Days">Days</option>
+			  								<option value="Months">Months</option>
+			  								<option value="Years">Years</option>
+			  							</select>
+			  							<div class="invalid-feedback hopi_time_invalid">
+        									Time field should not be empty!
+      									</div>
+  									</div>
+  								</div>
+  								<div class="col-sm-12">
+  									<div class="mb-3">
+    									<label class="form-label">Details*</label>
+    									<textarea class="form-control" id="HOPI_DETAILS" name="HOPI_DETAILS" rows="3"></textarea>
+    									<div class="invalid-feedback hopi_details_invalid">
+        									Time field should not be empty!
+      									</div>
+  									</div>
+  								</div>
+  								<div class="col-sm-12">
+  									<button type="button" class="btn btn-outline-info form-control" onclick="AddHOPI(this);">Add History</button>
+  								</div>
+  							</div>
+  						</div>
+  						<div class="col-sm-8">
+  							<table class="table">
+  								<thead>
+  									<tr>
+								    	<th scope="col" width="10%">Number</th>
+								    	<th scope="col" width="20%">Min/Hr/Days/Month/Year</th>
+								    	<th scope="col" width="60%">Details</th>
+								    	<th scope="col" width="10%"></th>
+								    </tr>
+  								</thead>
+  								<tbody class="HOPI_table_body">
+  									{% for HOPI in history_present_illness_list %}
+  										<tr>
+											<td>
+												<input type='text' readonly='' class='form-control-plaintext' name='HOPI_NUM[]' value='{{ HOPI.number }}'>
+											</td>
+											<td>
+												<input type='text' readonly='' class='form-control-plaintext' name='HOPI_TIME[]' value='{{ HOPI.calendrical }}'>
+											</td>
+											<td>
+												<textarea readonly='' class='form-control-plaintext' name='HOPI_DETAILS[]' rows='3'>{{ HOPI.details }}</textarea>
+											</td>
+											<td>
+												<button type='button' class='btn btn-outline-danger' attr_id="{{ HOPI.pk }}" onclick='RemoveHOPIRow(this);'>Remove</button>
+											</td>
+										</tr>
+  									{% empty %}
+
+  									{% endfor %}
+
+  								</tbody>
+  							</table>
+  						</div>
+  					</div>
+  				</div>
+  				
+  				<div class="tab-pane fade" id="MentalStatus" role="tabpanel" aria-labelledby="MentalStatus-tab">
+  					<br/>
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>General Description</b></h3></div>
+  						<hr>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.dress_grooming.label }}
+								{{ MentalGeneralDescriptionForm.dress_grooming }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.physical_characteristics.label }}
+								{{ MentalGeneralDescriptionForm.physical_characteristics }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.posture_gait.label }}
+								{{ MentalGeneralDescriptionForm.posture_gait }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.attitude.label }}
+								{{ MentalGeneralDescriptionForm.attitude }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.facial_expression.label }}
+								{{ MentalGeneralDescriptionForm.facial_expression }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.motor_active.label }}
+								{{ MentalGeneralDescriptionForm.motor_active }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.movement.label }}
+								{{ MentalGeneralDescriptionForm.movement }}
+							</div>
+  						</div>
+  						<div class="col-sm-12">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.behavior_remarks.label }}
+								{{ MentalGeneralDescriptionForm.behavior_remarks }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.speech.label }}
+								{{ MentalGeneralDescriptionForm.speech }}
+							</div>
+  						</div>
+  						<div class="col-sm-3">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.aphasia.label }}
+								{{ MentalGeneralDescriptionForm.aphasia }}
+							</div>
+  						</div>
+  						<div class="col-sm-6">
+  							<div class="form-group">
+								{{ MentalGeneralDescriptionForm.remarks.label }}
+								{{ MentalGeneralDescriptionForm.remarks }}
+							</div>
+  						</div>
+  					</div>  <!-- General Description -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>Emotions</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalEmotionForm.mood.label }}
+								{{ MentalEmotionForm.mood }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalEmotionForm.affect.label }}
+								{{ MentalEmotionForm.affect }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalEmotionForm.sign_depression.label }}
+								{{ MentalEmotionForm.sign_depression }}
+							</div>
+  						</div>
+  						<div class="col-sm-12">
+  							<div class="form-group">
+								{{ MentalEmotionForm.emotion_remarks.label }}
+								{{ MentalEmotionForm.emotion_remarks }}
+							</div>
+  						</div>
+  					</div>	<!-- emotional end -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>Cognitive Function</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalCognitiveForm.consciousness.label }}
+								{{ MentalCognitiveForm.consciousness }}
+							</div>
+  						</div>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalCognitiveForm.memory.label }}
+								{{ MentalCognitiveForm.memory }}
+							</div>
+  						</div>
+  						<div class="col-sm-2">
+  							<div class="form-check">
+								{{ MentalCognitiveForm.attention }}
+								{{ MentalCognitiveForm.attention.label }}
+							</div>
+							<div class="form-check">
+  								{{ MentalCognitiveForm.concentrate }}
+								{{ MentalCognitiveForm.concentrate.label }}
+							</div>
+  						</div>
+  						<div class="col-sm-6">
+  							<div class="form-group">
+								{{ MentalCognitiveForm.memory_remarks.label }}
+								{{ MentalCognitiveForm.memory_remarks }}
+							</div>
+  						</div>
+  						<div class="col-sm-6">
+  							<div class="form-group">
+								{{ MentalCognitiveForm.abstractability_remarks.label }}
+								{{ MentalCognitiveForm.abstractability_remarks }}
+							</div>
+  						</div>
+  					</div> <!-- cognitive functions -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>Thought and Perception</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalThoughtPerceptionForm.disordered_perception.label }}
+								{{ MentalThoughtPerceptionForm.disordered_perception }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalThoughtPerceptionForm.thought_content.label }}
+								{{ MentalThoughtPerceptionForm.thought_content }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalThoughtPerceptionForm.delusion_content.label }}
+								{{ MentalThoughtPerceptionForm.delusion_content }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalThoughtPerceptionForm.thought_form.label }}
+								{{ MentalThoughtPerceptionForm.thought_form }}
+							</div>
+  						</div>
+  						<div class="col-sm-4">
+  							<div class="form-group">
+								{{ MentalThoughtPerceptionForm.preoccupations.label }}
+								{{ MentalThoughtPerceptionForm.preoccupations }}
+							</div>
+  						</div>
+  					</div><!-- Thought and Perception -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>Suicidality, Homocidality and Impulse Control</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-1">
+  							<div class="form-check">
+								{{ MentalSuicidalityForm.is_suicidal }}
+								{{ MentalSuicidalityForm.is_suicidal.label }}
+							</div>
+  						</div>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.suicidality_remarks.label }}
+								{{ MentalSuicidalityForm.suicidality_remarks }}
+							</div>
+  						</div>
+  						<div class="col-sm-1">
+  							<div class="form-check">
+  								{{ MentalSuicidalityForm.is_homicidal }}
+								{{ MentalSuicidalityForm.is_homicidal.label }}
+							</div>
+  						</div>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.impulse_remarks.label }}
+								{{ MentalSuicidalityForm.impulse_remarks }}
+							</div>
+  						</div>
+  					</div><!-- Suicidality, Homocidality and Impulse Control -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>Reliability</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-6">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.reliability.label }}
+								{{ MentalSuicidalityForm.reliability }}
+							</div>
+  						</div>
+  						<div class="col-sm-6">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.reliability_impression.label }}
+								{{ MentalSuicidalityForm.reliability_impression }}
+							</div>
+  						</div>
+  					</div><!-- Reliability -->
+
+  					<div class="row">
+  						<div class="col-sm-12"><h3><b>The Environment</b></h3></div><br/>
+  						<hr>
+  						<div class="col-sm-2">
+  							  <div class="form-check">
+  								{{ MentalSuicidalityForm.surroundings_inappropriate }}
+								{{ MentalSuicidalityForm.surroundings_inappropriate.label }}
+							</div>
+  						</div>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.environment.label }}
+								{{ MentalSuicidalityForm.environment }}
+							</div>
+  						</div>
+  						<div class="col-sm-5">
+  							<div class="form-group">
+								{{ MentalSuicidalityForm.environment_remarks.label }}
+								{{ MentalSuicidalityForm.environment_remarks }}
+							</div>
+  						</div>
+  					</div><!-- The Environment -->
+  					<br/>
+  				</div>
+
+  				<div class="tab-pane fade" id="Diagnosis" role="tabpanel" aria-labelledby="Diagnosis-tab">
+  					<div class="row">
+  						<div class="col-sm-4">
+  							<div class="row">
+  								<div class="col-sm-12">
+									<div class="mb-3">
+									<label class="form-label">Condition*</label>
+									<input type="text" class="form-control" id="Condition" placeholder="Condition">
+									<div class="invalid-feedback condition_invalid">
+										Condition field should not be empty!
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12">
+  									<div class="mb-3">
+    									<label class="form-label">Details*</label>
+    									<textarea class="form-control" id="condition_details" rows="3"></textarea>
+    									<div class="invalid-feedback condition_details_invalid">
+        									Condition field should not be empty!
+      									</div>
+  									</div>
+  								</div>
+  								<div class="col-sm-12">
+  									<button type="button" class="btn btn-outline-info form-control" onclick="AddCondition(this)">Add Diagnosis</button>
+  								</div>
+  							</div>
+  							
+  						</div>
+  						<div class="col-sm-8">
+  							<table class="table">
+  								<thead>
+  									<tr>
+								    	<th scope="col" width="30%">Condition</th>
+								    	<th scope="col" width="60%">Details</th>
+								    	<th scope="col" width="10%"></th>
+								    </tr>
+  								</thead>
+  								<tbody class="condition_table_body">
+  									{% for conditionForm in diagnosis_list %}
+  										<tr>
+  											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ conditionForm.condition.name }}'></td>
+  											<td><textarea readonly='' class='form-control-plaintext' rows='3'>{{ conditionForm.condition_details}}</textarea></td>
+  											<td><button type='button' class='btn btn-outline-danger' attr_id='{{ conditionForm.pk }}' onclick='RemoveConditionRow(this);'>Remove</button></td>
+  										</tr>
+  									{% empty %}
+
+  									{% endfor %}
+  								</tbody>
+  							</table>
+  						</div>
+  					</div>
+  				</div>
+
+  				<div class="tab-pane fade" id="Treatment" role="tabpanel" aria-labelledby="Treatment-tab">
+  					<div class="row">
+  						<div class="col-sm-4">
+  							<div class="row">
+  								<div class="col-sm-12">
+  									<div class="form-group">
+										<label>Drug*</label>
+										<input type="text" name="drug" id="drug" placeholder="Drugs" class="form-control">
+										<div class="invalid-feedback drug_invalid">
+        									Drug field should not be empty!
+      									</div>
+									</div>
+  								</div>
+  								<div class="col-sm-6">
+  									<div class="form-group">
+										<label>Presentation/Strength</label>
+										<input type="text" class="form-control" id="drug_strength" placeholder="Strength">
+									</div>
+  								</div>
+  								<div class="col-sm-6">
+  									<div class="form-group">
+										<label>Dose</label>
+										<input type="text" class="form-control" id="drug_dose" placeholder="Dose">
+									</div>
+  								</div>
+  								<div class="col-sm-4">
+  									<div class="form-group">
+										<label>Route</label>
+										<input type="text" class="form-control" id="drug_Route" placeholder="Route">
+									</div>
+  								</div>
+  								<div class="col-sm-4">
+  									<div class="form-group">
+										<label>Frequency</label>
+										<input type="text" class="form-control" id="drug_Frequency" placeholder="Frequency">
+									</div>
+  								</div>
+  								<div class="col-sm-4">
+  									<div class="form-group">
+										<label>No of drugs</label>
+										<input type="text" class="form-control" id="drug_no" placeholder="Frequency">
+									</div>
+  								</div>
+  							</div>
+  							<br/>
+  							<div class="row">
+  								<div class="col-sm-12">
+  									<button type="button" class="btn btn-outline-info form-control" onclick="AddTreatment(this)">Add Treatment</button>
+  								</div>
+  							</div>
+  						</div>
+  						<div class="col-sm-8">
+  							<table class="table">
+  								<thead>
+  									<tr>
+								    	<th scope="col">Drug</th>
+								    	<th scope="col">Presentation/Strength</th>
+								    	<th scope="col">Dose</th>
+								    	<th scope="col">Route</th>
+								    	<th scope="col">Frequency</th>
+								    	<th scope="col">No of drugs</th>
+								    	<th scope="col"></th>
+								    </tr>
+  								</thead>
+  								<tbody class="drug_treatment_wrapper">
+  									{% for treatment in treatment_list %}
+  										<tr>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.drugs.name }}'></td>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.strength }}'></td>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.dose }}'></td>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.route }}'></td>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.frequency }}'></td>
+											<td><input type='text' readonly='' class='form-control-plaintext' value='{{ treatment.drug_no }}'></td>
+											<td><button type='button' class='btn btn-outline-danger' attr_id='{{ treatment.pk }}' onclick='RemoveDrugs(this);'>Remove</button></td>
+										</tr>
+  									{% empty %}
+
+  									{% endfor %}
+  									
+  								</tbody>
+  							</table>
+  						</div>	
+  					</div>
+  				</div>
+
+  				<div class="tab-pane fade" id="Notes" role="tabpanel" aria-labelledby="Notes-tab">
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ consultationEncounterForm.treatment_recommendations.label }}
+								{{ consultationEncounterForm.treatment_recommendations }}
+							</div>
+						</div>
+  					</div>
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ consultationEncounterForm.encounter_notes.label }}
+								{{ consultationEncounterForm.encounter_notes }}
+							</div>
+						</div>
+  					</div>
+  				</div>
+
+  				<div class="tab-pane fade" id="NurseNotes" role="tabpanel" aria-labelledby="NurseNotes-tab">
+  					<div class="row">
+  						<div class="col-sm-6">
+  							<div class="row justify-content-md-center">
+		  						<div class="col-sm-10">
+									<div class="form-group">
+										{{ patientNurseNotesForm.comment.label }}
+										{{ patientNurseNotesForm.comment }}
+									</div>
+								</div>
+		  					</div>
+		  					<div class="row justify-content-md-center">
+		  						<div class="col-sm-10">
+		  							<button type="button" class="btn btn-outline-success" onclick="CreateNurseComments(this);">Submit Notes</button>
+		  						</div>
+		  					</div>
+  						</div>
+  						<div class="col-sm-6 nurse_notes_list">
+  							{% for nurse_notes in list_of_nurse_notes %}
+  								<ul class="list-group ">
+  									<li class="list-group-item">
+  										 <div class="commented-section mt-2">
+                							<div class="d-flex flex-row align-items-center commented-user">
+                    							<h5 class="mr-2"><b>{{ nurse_notes.create_by.first_name }} {{ nurse_notes.create_by.last_name }}</b></h5>
+                								<span class="dot mb-1"></span>
+                								<span class="mb-1 ml-2"> {{ nurse_notes.create_date | timesince }} ago</span>
+                    						</div>
+                							<div class="comment-text-sm">
+                								<span>{{ nurse_notes.comment }}</span>
+                							</div>
+            							</div>
+  									</li>
+  								</ul>
+  							{% empty %}
+  								<ul>
+  									<li>No notes have been created. . . </li>
+  								</ul>
+  							{% endfor %}
+  						</div>
+  					</div>
+  				</div>
+
+  				<div class="tab-pane fade" id="referral" role="tabpanel" aria-labelledby="referral-tab">
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ReferralForm.referred_to.label }}
+								{{ ReferralForm.referred_to }}
+							</div>
+						</div>
+  					</div>
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ReferralForm.referred_from.label }}
+								{{ ReferralForm.referred_from }}
+							</div>
+						</div>
+  					</div>
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ReferralForm.brief_summary.label }}
+								{{ ReferralForm.brief_summary }}
+							</div>
+						</div>
+  					</div>
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ReferralForm.impression.label }}
+								{{ ReferralForm.impression }}
+							</div>
+						</div>
+  					</div>
+  					<div class="row justify-content-md-center">
+  						<div class="col-sm-10">
+							<div class="form-group">
+								{{ ReferralForm.reason_for_referral.label }}
+								{{ ReferralForm.reason_for_referral }}
+							</div>
+						</div>
+  					</div>
+  				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
+<div class="modal fade" id="gpsDetailsModal" tabindex="-1" aria-labelledby="gpsDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="gpsDetailsModalLabel" style="color:#6417A1;">Global Psychotrauma Screen</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="gps_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="hamdDetailsModal" tabindex="-1" aria-labelledby="hamdDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="hamdDetailsModalLabel" style="color:#6417A1;">HAMILTON DEPRESSION RATING SCALE (HAM-D)</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="hamd_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<form id="list_of_condition" style="display:none;">
+	{% for condition in condition_list %}
+		<input type="hidden" name="{{ condition.name }}" value="{{ condition.name }}">
+	{% endfor%}
+</form>
+<form id="list_of_medicine" style="display:none;">
+	{% for med in medicine %}
+		<input type="hidden" name="{{ med.name }}" value="{{ med.name }}">
+	{% endfor%}
+</form>
+{% endblock content %}
+
+
+{% block script %}
+<script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		LoadAutocomplete()
+		LoadAutocompleteDrug()
+		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'});
+	})
+
+	
+	function CreateNurseComments(that){
+		$(that).empty();
+		$(that).append("Processing . . .");
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateNurseNotes' %}",
+	        data: {
+	        	"comment": $("#id_comment").val(),
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+					$(that).empty();
+					$(that).append("Submit Notes");
+					nurse_notes_list()
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function nurse_notes_list(){
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'getNurseList' %}",
+	        data: {
+	        	"enouter_id":"{{ encounter_details.pk }}",
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$(".nurse_notes_list").empty();
+				$(".nurse_notes_list").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function AddTreatment(that){
+		$(that).empty();
+		$(that).append("Processing . . .");
+		var drug = $("#drug").val();
+		var strength = $("#drug_strength").val();
+		var dose = $("#drug_dose").val();
+		var Route = $("#drug_Route").val();
+		var frequency = $("#drug_Frequency").val();
+		var no = $("#drug_no").val();
+		$(".drug_invalid").hide();
+		if(drug == ""){
+			$(".drug_invalid").show();
+			return false;
+		}
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateTreatment' %}",
+	        data: {
+	        	"drug":drug,
+	        	"strength": strength,
+	        	"dose":dose,
+	        	"Route": Route,
+	        	"frequency":frequency,
+	        	"no": no,
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		var drug_html = "";
+					drug_html += "<tr>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+drug+"'></td>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+strength+"'></td>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+dose+"'></td>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+Route+"'></td>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+frequency+"'></td>";
+					drug_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+no+"'></td>";
+					drug_html += "<td><button type='button' class='btn btn-outline-danger' attr_id='"+data.treatment_id+"' onclick='RemoveDrugs(this);'>Remove</button></td>";
+					drug_html += "</tr>";
+					$(".drug_treatment_wrapper").append(drug_html);
+					$("#drug").val("");
+					$("#drug_strength").val("");
+					$("#drug_dose").val("");
+					$("#drug_Route").val("");
+					$("#drug_Frequency").val("");
+					$("#drug_no").val("");
+					$(that).empty();
+					$(that).append("Add Treatment");
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+		
+	}
+
+	function RemoveDrugs(that){
+		$(that).empty();
+		$(that).append("Deleting . . .");
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'DeleteTreatment' %}",
+	        data: {
+	        	"drug_id":$(that).attr("attr_id"),
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		$(that).parent().parent('tr').remove();
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function RemoveHOPIRow(that){
+		$(that).empty();
+		$(that).append("Deleting . . .");
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'DeleteHOPI' %}",
+	        data: {
+	        	"HOPI_ID":$(that).attr("attr_id"),
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		$(that).parent().parent('tr').remove();
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+		
+	}
+
+	function RemoveConditionRow(that){
+		$(that).empty();
+		$(that).append("Deleting . . .");
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'DeleteDiagnosis' %}",
+	        data: {
+	        	"diagnosis_id":$(that).attr("attr_id"),
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		$(that).parent().parent('tr').remove();
+	        	}else{
+	        		alert(data.error_msg);
+	        		$(that).empty();
+					$(that).append("Remove");
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+		
+	}
+
+	function LoadAutocompleteDrug(){
+		var availableTags = [];
+		var medicine_array = $("#list_of_medicine").serializeArray();
+		$.each(medicine_array, function(index, value){
+			availableTags.push(value.name);
+		})
+		$( "#drug" ).autocomplete({
+      		source: availableTags
+    	});
+	}
+
+	function LoadAutocomplete(){
+		var availableTags = [];
+		var condition_array = $("#list_of_condition").serializeArray();
+		$.each(condition_array, function(index, value){
+			availableTags.push(value.name);
+		})
+		$("#Condition").autocomplete({
+      		source: availableTags
+    	});
+	}
+
+	function AddCondition(that){
+		$(that).empty();
+		$(that).append("Processing . . .");
+		var Condition = $("#Condition").val();
+		var condition_details = $("#condition_details").val();
+		$(".condition_invalid").hide();
+		$(".condition_details_invalid").hide();
+		if(Condition == ""){
+			$(".condition_invalid").show();
+		}
+		if(condition_details == ""){
+			$(".condition_details_invalid").show();
+		}
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateDiagnosis' %}",
+	        data: {
+	        	"condition_name":Condition,
+	        	"condition_details": condition_details,
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		var condition_html = "";
+					condition_html += "<tr>";
+					condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+Condition+"'></td>";
+					condition_html += "<td><textarea readonly='' class='form-control-plaintext' name='condition_detail[]' rows='3'>"+condition_details+"</textarea></td>";
+					condition_html += "<td><button type='button' class='btn btn-outline-danger' attr_id='"+data.diagnosis_id+"' onclick='RemoveConditionRow(this);'>Remove</button></td>";
+					condition_html += "</tr>";
+					$(".condition_table_body").append(condition_html);
+					$("#Condition").val("");
+					$("#condition_details").val("");
+					$(that).empty();
+					$(that).append("Add Diagnosis");
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+		
+
+	}
+
+	function AddHOPI(that){
+		$(that).empty();
+		$(that).append("Processing . . .");
+		var HOPI_NUM = $("#HOPI_NUM").val();
+		var HOPI_TIME = $("#HOPI_TIME").val();
+		var HOPI_DETAILS = $("#HOPI_DETAILS").val();
+		$(".number_invalid").hide();
+		$(".hopi_time_invalid").hide();
+		$(".hopi_details_invalid").hide();
+		if (HOPI_NUM == ""){
+			$(".number_invalid").show();
+			return false;
+		}
+		if (HOPI_TIME == ""){
+			$(".hopi_time_invalid").show();
+			return false;
+		}
+		if (HOPI_DETAILS == ""){
+			$(".hopi_details_invalid").show();
+			return false;
+		}
+
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateHOPI' %}",
+	        data: {
+	        	"HOPI_NUM":HOPI_NUM,
+	        	"HOPI_TIME": HOPI_TIME,
+	        	"HOPI_DETAILS":HOPI_DETAILS,
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		var hopi_html = "";
+					hopi_html += "<tr>";
+					hopi_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='HOPI_NUM[]' value='"+HOPI_NUM+"'></td>";
+					hopi_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='HOPI_TIME[]' value='"+HOPI_TIME+"'></td>";
+					hopi_html += "<td><textarea readonly='' class='form-control-plaintext' name='HOPI_DETAILS[]' rows='3'>"+HOPI_DETAILS+"</textarea></td>";
+					hopi_html += "<td><button type='button' class='btn btn-outline-danger' attr_id='"+data.HOPI_ID+"' onclick='RemoveHOPIRow(this);'>Remove</button></td>";
+					hopi_html += "</tr>";
+					$(".HOPI_table_body").append(hopi_html);
+					$("#HOPI_NUM").val("");
+					$("#HOPI_TIME").val("");
+					$("#HOPI_DETAILS").val("");
+					$(that).empty();
+					$(that).append("Add History");
+	        	}else{
+	        		alert(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showGPSdetails(that){
+		$("#gps_modal_body").empty();
+		$("#gps_modal_body").append("Loading Please Wait. . . ");
+		var gps_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetGPS' %}",
+	        data: {
+	        	"gps_id":gps_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#gps_modal_body").empty();
+				$("#gps_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showHamddetails(that){
+		$("#hamd_modal_body").empty();
+		$("#hamd_modal_body").append("Loading Please Wait. . . ");
+		var hamd_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetHamd' %}",
+	        data: {
+	        	"hamd_id":hamd_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#hamd_modal_body").empty();
+				$("#hamd_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+	
+</script>
+{% endblock script %}

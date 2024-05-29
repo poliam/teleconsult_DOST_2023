@@ -1,0 +1,20 @@
+{% for nurse_notes in list_of_nurse_notes %}
+	<ul class="list-group">
+		<li class="list-group-item">
+			<div class="commented-section mt-2">
+				<div class="d-flex flex-row align-items-center commented-user">
+					<h5 class="mr-2"><b>{{ nurse_notes.create_by.first_name }} {{ nurse_notes.create_by.last_name }}</b></h5>
+					<span class="dot mb-1"></span>
+					<span class="mb-1 ml-2"> {{ nurse_notes.create_date | timesince }} ago</span>
+				</div>
+				<div class="comment-text-sm">
+					<span>{{ nurse_notes.comment }}</span>
+				</div>
+			</div>
+		</li>
+	</ul>
+{% empty %}
+	<ul class="list-group">
+		<li>No notes have been created. . . </li>
+	</ul>
+{% endfor %}

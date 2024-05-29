@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Create Patients {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.add_patient_btn{
+		color: #6417A180;
+		border-color: #6417A180;
+	}
+	.card-header{
+		background-color:#6417A180;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="dashboard_welcome_greeting">Create Patient Relatives</h2>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			{% if error_msg %}
+				<div class="alert alert-warning" role="alert">
+				  {{ error_msg }}
+				</div>
+			{% endif %}
+			<form id="patient_create_allergies" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}	
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Personal Allergy</h4>
+  					</div>
+  					<div class="card-body">
+    					<div class="row justify-content-md-center">
+    						<div class="col-sm-6">
+    							<div class="form-group">
+    								<label for="medicine_name">Medicine</label>
+   		 							<input type="text" class="form-control" id='medicine_name' name="medicine_name" value="{{ medicine_name }}" placeholder="Medicine">
+  								</div>
+    						</div>
+    					</div>	
+    				</div>
+				</div>
+				<br/>
+				<div class="row justify-content-md-center">
+				    <div class="col-md-auto">
+				      <button type="submit" class="btn btn-outline-success">Add Allergy</button>
+				      {% if patientDetailed %}
+				      	<a href="{% url 'PatientDetailed' patientDetailed.pk %}" style="text-decoration:none;">
+				      {% else %}
+				      	<a href="{{request.META.HTTP_REFERER}}" style="text-decoration:none;">
+				      {% endif %}
+				      <button type="button" class="btn btn-outline-secondary">Cancel</button>
+				      </a>
+				    </div>
+  				</div>
+				<br/><br/>
+			</form>
+		</div>
+		<div class="col-sm-1"></div>
+	</div>
+</div>
+
+<form id="list_of_medicine" style="display:none;">
+	{% for med in medicine %}
+		<input type="hidden" name="{{ med.name }}" value="{{ med.name }}">
+	{% endfor%}
+</form>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/jquery-3.6.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var availableTags = [];
+		var medicine_array = $("#list_of_medicine").serializeArray();
+		$.each(medicine_array, function(index, value){
+			availableTags.push(value.name);
+		})
+		$( "#medicine_name" ).autocomplete({
+      		source: availableTags
+    	});
+	})
+</script>
+{% endblock script %}

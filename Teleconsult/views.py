@@ -2,16 +2,51 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
+from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
+from datetime import date, datetime, timedelta
 
 
 @login_required(login_url='/login')
 def dashboard(request):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "dashboard"
 	returnVal['userDetails'] = profile_details
+	returnVal['number_of_patients'] = details.objects.filter(status=1).count()
+	returnVal['number_of_consultations'] = encounter.objects.filter(status=1).count()
+
+	current_date = date.today()
+	future_date = current_date + timedelta(days=7)
+	returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
+	today_consultation = encounter.objects.filter(consultation_date=current_date).order_by('consultation_date')
+	today_consultation_list = []
+	for consultation in today_consultation:
+		print(consultation)
+		hamd_details = hamd.objects.get(details=consultation.details.pk)
+		patient_name = consultation.details.last_name.capitalize()+", "+consultation.details.first_name.capitalize()+" "+consultation.details.middle_name.capitalize()
+		if consultation.consulted_by is None:
+			consulted_by = False
+		else:
+			consulted_by = True
+		today_consultation_list.append({"consultation_id": consultation.pk, "consultation_type": consultation.reason_for_interaction, "patient_name": patient_name, "hamd_score": int(hamd_details.score), "consult_by": consulted_by})
+	returnVal['doctor_today_consultation'] = today_consultation_list
+	returnVal['today_consultation'] = today_consultation
+
+
+	returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date)
+	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
+	current_date_split = str(current_date).split("-")
 	return render(request, 'dashboard.html', returnVal)
 
 def login_user(request):
@@ -39,6 +74,8 @@ def signup(request):
 			CheckUserByEmail = User.objects.filter(email=request.POST['email'])
 			if len(CheckUserByEmail) == 0:
 				newUser = User.objects.create_user(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'], first_name=request.POST['first_name'], last_name=request.POST['last_name'])
+				group = Group.objects.get(pk=request.POST['usergroup'])
+				newUser.groups.add(group)
 				success = 1
 				successmsg = "Create Account Success!"
 			else:
@@ -46,3 +83,7 @@ def signup(request):
 		else:
 			errormsg = "Username Already Taken!"
 	return render(request, "signup.html", {"error_msg":errormsg, "success": success, "successmsg": successmsg})
+
+def Logout(request):
+	logout(request)
+	return redirect('login_user')

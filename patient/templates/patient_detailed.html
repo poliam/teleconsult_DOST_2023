@@ -1,6 +1,7 @@
-{% extends 'base.html' %}
 
-{% block title %} Patient List {% endblock title %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Patient Detail {% endblock title %}
 
 {% block style %}
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -16,6 +17,39 @@
 		float: right;
 		cursor: pointer;
 	}
+	.patient_family_details{
+		float: left;
+		color: white;
+	}
+	.patient_family_details a{
+		float: right;
+		color: white;
+	}
+
+	.relative_table th {
+		color: #6417A1;
+	}
+
+	.patient_allergies{
+		color: white;
+	}
+	.patient_allergies a {
+		float: right;
+		color: white;
+	}
+
+	.consultation_detail{
+		color: white;
+	}
+
+	.consultation_detail a{
+		float: right;
+		color: white;
+	}
+
+	.patient_allergies_table th {
+		color: #6417A1;
+	}
 	.patient_detail_name a {
 		text-decoration: none;
 		color: white;
@@ -23,8 +57,32 @@
 	.patient_detiel_label{
 		color: #6417A1;
 		font-weight: 700;
+		text-align: left;
 	}
-	
+
+	.patient_GPS{
+		color: white;
+	}
+	.patient_GPS a {
+		float: right;
+		color: white;
+	}
+
+	.patient_GPS_table th {
+		color: #6417A1;
+	}
+	.relative_emergency_yes{
+		color: green;
+	}
+	.relative_remove_icon{
+		color: red;
+	}
+	.remove-margin-bottom{
+		margin-bottom:0px !important;
+	}
+	.form-control{
+		font-size: 0.8rem;
+	}
 </style>
 {% endblock style %}
 
@@ -32,70 +90,695 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12">
-			<h2 class="dashboard_welcome_greeting">Patient Detailed</h2>
+			<h2 class="dashboard_welcome_greeting">Patient Information</h2>
 		</div>
 	</div>
 	<br/>
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="card">
-  				<h5 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i class="fa-solid fa-pen-to-square"></i></a></h5>
+  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i style="padding-left: 1rem;" class="fa-solid fa-pen-to-square"></i></a> <a data-bs-toggle="modal" data-bs-target="#PatientFileUploadModal" ><i class="fa-solid fa-cloud-arrow-up"></i></a></h6>
   				<div class="card-body" style="text-align:center;">
-					{% if patientDetailed.profile_picture|length > 0 %}
-            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-60 h-60 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
-                    {% endif %}
-  				</div>
-  				<div class="card-body">
-    				<div class="row">
-    					<div class="col-sm-6">
-    						 <div class="mb-6 row">
-    							<label for="Patient_age" class="col-sm-4 col-form-label patient_detiel_label">Age</label>
-    							<div class="col-sm-8">
-      								<input type="text" readonly class="form-control-plaintext" id="Patient_age" value="{{ age }}">
+  					<div class="row justify-content-md-center">
+  						<div class="col-4">
+  							{% if patientDetailed.profile_picture|length > 0 %}
+		            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" style="max-width:8rem; max-height: 8rem;" >
+		            		{% else %}
+		            			<img src="{% static 'images/user_picture_default.png' %}" style="max-width:8rem; max-height: 8rem;" >
+		                    {% endif %}
+		  				</div>
+		  			</div>
+		  			<div class="row">
+		  				<div class="col-6" style="text-align:left;">
+		  					<div class="row">
+		  						<div class="col-5 patient_detiel_label">
+		  							<label>Age:</label>
+		  						</div>
+		  						<div class="col-7">
+      								<input type="text" readonly class="form-control-plaintext current-page-text-font" id="Patient_age" value="{{ age }}">
     							</div>
-  							</div>
-  							<div class="mb-6 row">
-    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Gender</label>
-    							<div class="col-sm-8">
-      								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.gender }}">
-    							</div>
-  							</div>
-  							<div class="mb-6 row">
-    							<label for="Patient_gender" class="col-sm-4 col-form-label patient_detiel_label">Marital Status</label>
-    							<div class="col-sm-8">
-      								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.marital_status }}">
-    							</div>
-  							</div>
-    					</div>
-    					<div class="col-sm-6">
-    						<div class="mb-6 row">
-    							<label for="Patient_birth_place" class="col-sm-4 col-form-label patient_detiel_label">Birth Place</label>
-    							<div class="col-sm-8">
+		  					</div>
+		  					<div class="row">
+    							<div class="col-5 patient_detiel_label">
+		  							<label>Birth Place:</label>
+		  						</div>
+		  						<div class="col-7">
       								<input type="text" readonly class="form-control-plaintext" id="Patient_birth_place" value="{{ patientDetailed.birth_place }}">
     							</div>
   							</div>
-  							<div class="mb-6 row">
-    							<label for="Patient_date_of_birth" class="col-sm-4 col-form-label patient_detiel_label">Date of Birth</label>
-    							<div class="col-sm-8">
+  							<div class="row">
+  								<div class="col-5 patient_detiel_label">
+		  							<label>Date of Birth:</label>
+		  						</div>
+    							<div class="col-7">
       								<input type="text" readonly class="form-control-plaintext" id="Patient_date_of_birth" value="{{ patientDetailed.BOD }}">
     							</div>
   							</div>
+		  				</div>
+		  				<div class="col-6">
+		  					<div class="row">
+		  						<div class="col-5 patient_detiel_label">
+		  							<label>Gender:</label>
+		  						</div>
+    							<div class="col-7">
+      								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.gender }}">
+    							</div>
+  							</div>
+  							<div class=" row">
+  								<div class="col-5 patient_detiel_label">
+		  							<label>Marital Status:</label>
+		  						</div>
+    							<div class="col-7">
+      								<input type="text" readonly class="form-control-plaintext" id="Patient_gender" value="{{ patientDetailed.marital_status }}">
+    							</div>
+  							</div>
+  							<div class="row">
+  								<span style="display:none;">
+    								<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
+    							</span>
+    							{% if has_survey == 1 %}
+	    							<label for="Patient_birth_place" class="col-sm-12 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i></label>
+	    						{% else %}
+	    							<label for="Patient_birth_place" class="col-sm-12 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i> <a  href="{% url 'PatientSurvey' patientDetailed.pk %}" target="_blank"><i class="fa-solid fa-pen-to-square"></i></a></label>
+	    						{% endif %}
+  							</div>
+		  				</div>
+		  			</div>
+		  				
+  					
+  				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="card">
+  						<h6 class="card-header patient_family_details card_background_color">Family Relative <a href="{% url 'PatientCreateRelative' patientDetailed.pk %}" style="text-decoration:none;">
+  							<i class='bx bx-plus-medical'></i></a></h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table relative_table" style="font-size: 0.8rem;">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col">Name</th>
+		      									<th scope="col">Relation</th>
+		      									<th scope="col">Contact Number</th>
+		      									<th scope="col">Is Emergency</th>
+		      									<th scope="col"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for relative in list_of_relatives %}
+		  										<tr>
+		  											<td style="cursor:pointer;" attr_id='{{ relative.pk }}' onclick="showRelativeDetails(this);" data-bs-toggle="modal" data-bs-target="#relativeDetailsModal"><b style="color:#6417A1;">{{ relative.last_name }}, {{ relative.first_name }} {{ relative.middle_name }}</b></td>
+		  											<td>{{ relative.relationship }}</td>
+		  											<td>{{ relative.contact_number }}</td>
+		  											<td style="text-align: center;">{% if relative.is_emergency %} <i class="fa-solid fa-circle-check relative_emergency_yes"></i> {% else %} <i class="fa-solid fa-circle-minus"></i> {% endif %} </td>
+		  											<td>
+		  												<a href="{% url 'PatientEditRelative' relative.pk %}" style="text-decoration:none; color: #6417A1">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="#" attr_id='{{relative.pk}}' onclick="RemoveRelatives(this)">
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+		  												</a>
+		  											</td>
+		  										</tr>
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>		
+				</div>	
+				<div class="col-sm-4">
+					<div class="card">
+	  					<h6 class="card-header patient_allergies card_background_color">Medical Allergies
+	  						<a href="{% url 'PatientCreateAllergy' patientDetailed.pk %}" style="text-decoration:none;">
+	  							<i class='bx bx-plus-medical'></i>
+	  						</a>
+	  					</h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_allergies_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="80%">Medicine</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for allegry in list_of_allergies %}
+			  									<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>{{ allegry.medicine_name.name }}</td>
+			  										<td>
+		  												<a href="#" attr_id="{{ allegry.id }}" onclick="PatientDeleteAllergy(this)">
+		  													<i class="fa-solid fa-trash-can"></i>
+		  												</a>
+		  											</td>
+			  									</tr>
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>	
+				</div>
+			</div>
+			<br/>
+			<div class="row" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
+				<div class="col-sm-5">
+					<div class="card">
+		  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
+		  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
+		  						<i class='bx bx-plus-medical'></i>
+		  					</a>
+		  				</h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_GPS_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="80%">Consultation Date</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for GPS in list_of_GPS %}
+			  									<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>
+			  											<a onclick="showGPSdetails(this)" attr_id="{{ GPS.pk }}" style="text-decoration:none;font-weight: 700; color:#6417A1;" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
+			  										</td>
+			  										<td>
+		  												<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none; color: #6417A1">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+		  												</a>
+													</td>
+			  									</tr>
+		  									{% empty %}
+		  										<tr>
+		  											<td colspan="3">
+		  												No Global Psychotrauma Screen Created. . .
+		  											</td>
+		  										</tr>
+
+		  									{% endfor %}
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>
+				</div>
+				<div class="col-sm-7">
+					<div class="card">
+		  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
+		  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
+		  						<i class='bx bx-plus-medical'></i>
+		  					</a>
+		  				</h6>
+		  				<div class="card-body">
+		    				<div class="row">
+		    					<div class="col-sm-12">
+		    						<table class="table patient_GPS_table">
+		    							<thead>
+		    								<tr>
+		      									<th scope="col" width="10%">#</th>
+		      									<th scope="col" width="30%">Consultation Date</th>
+		      									<th scope="col" width="30%">Score(1-17)</th>
+		      									<th scope="col" width="20%">Total Score</th>
+		      									<th width="10%"></th>
+		    								</tr>
+		  								</thead>
+		  								<tbody>
+		  									{% for hamd in list_of_hamd %}
+		  										<tr>
+			  										<td>{{ forloop.counter }}</td>
+			  										<td>
+			  											<a onclick="showHamddetails(this)" attr_id="{{ hamd.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
+			  										</td>
+			  										<td>
+			  											<b>{{ hamd.score }}</b>
+			  											{% if hamd.score <= 7 %}
+			  												(Normal)
+			  											{% elif hamd.score > 7 and hamd.score <= 13 %}
+			  												(Mild Depression)
+			  											{% elif hamd.score > 13 and hamd.score <= 18 %}
+			  												(Moderate Depression)
+			  											{% elif hamd.score > 18 and hamd.score <= 22 %}
+			  												(Severe Depression)
+			  											{% else %}
+			  												(Very Severe Depression)
+			  											{% endif %}
+			  										</td>
+			  										<td>
+			  											<b>{{ hamd.total_score }}</b>
+			  										</td>
+			  										<td>
+														<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none; color: #6417A1">
+		  													<i class="fa-solid fa-pen-to-square"></i>
+		  												</a>
+		  												<a href="">
+		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+		  												</a>
+													</td>
+			  									</tr>
+		  									{% empty %}
+		  										<tr>
+		  											<td colspan="5">
+		  												No Hamilton Depression Screen Created. . .
+		  											</td>
+		  										</tr>
+		  									{% endfor %}
+		  									
+		  								</tbody>
+		    						</table>	
+		    					</div>
+		    				</div>
+		  				</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+		</div>
+	</div>
+	<br/>
+	<div class="row" style="margin-bottom: 2rem;">
+		<div class="col-sm-4">
+			<div class="card">
+  				<h6 class="card-header patient_allergies card_background_color">Consultations 
+  					<a href="{% url 'CreateConsultation' patientDetailed.pk %}" style="text-decoration:none;">
+  						<i class='bx bx-plus-medical'></i>
+  					</a>
+  				</h6>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12">
+    						<table class="table patient_allergies_table">
+    							<thead>
+    								<tr>
+      									<th scope="col" width="10%">#</th>
+      									<th scope="col">Consultation Date</th>
+      									<th scope="col">Consultation Type</th>
+    								</tr>
+  								</thead>
+  								<tbody>
+  									{% for encounter in list_of_encounter %}
+  										<tr>
+  											<td>{{ forloop.counter }}</td>
+  											<td style="cursor:pointer; color: #6417A1; font-weight: 700;" attr_id="{{encounter.pk}}" onclick="SelectEncounter(this)">{{ encounter.consultation_date|date:"F d, Y (D)" }}</td>
+  											<td style="color: #6417A1; font-weight: 700;">{{ encounter.reason_for_interaction }}</td>
+  										</tr>
+  									{% empty %}
+  										<tr>
+  											<td colspan="5">
+  												No consultation have been entered. . .
+  											</td>
+  										</tr>
+  									{% endfor %}
+  									
+  								</tbody>
+  									
+    						</table>	
     					</div>
     				</div>
   				</div>
 			</div>
 		</div>
 		<div class="col-sm-8">
-			
+			<div class="card consultation_detail_wrapper" >
+  				<h6 class="card-header consultation_detail card_background_color">Consultations Details
+  					<a href="#" style="text-decoration:none;">
+  						<i class="fa-solid fa-pen-to-square"></i>
+  					</a>
+  				</h6>
+  				<div class="card-body">
+    				<div class="row">
+    					<div class="col-sm-12 consultation_loading" >
+    						
+    					</div>
+    				</div>
+  				</div>
+			</div>
 		</div>
 	</div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="relativeDetailsModal" tabindex="-1" aria-labelledby="relativeDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="relativeDetailsModalLabel" style="color:#6417A1;">Relative Details</h5>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="relative_modal_body">
+      				
+      			</div>
+        		<div class="row justify-content-md-center" id="relative_form" style="display:none;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Name:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_name" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Gender:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_gender" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Gender Identity:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_gender_indentity" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Age:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_age" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Marital Status:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_marital_status" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Relationship:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_relationship" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Highest Educational Attainment:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_high_education" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Occupation:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_occupation" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Workplace:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_Workplace" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Contact Number:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_contact_number" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+  					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Email:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_Email" value=''>
+    					</div>
+  					</div>
+  					<hr style="margin:0px;">
+					<div class="row mb-3 remove-margin-bottom">
+    					<label class="col-sm-5 col-form-label"><b>Is Emergeny:</b></label>
+    					<div class="col-sm-7">
+      						<input type="text" readonly class="form-control-plaintext" id="relative_view_is_emergency" value=''>
+    					</div>
+  					</div>
+				</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="gpsDetailsModal" tabindex="-1" aria-labelledby="gpsDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="gpsDetailsModalLabel" style="color:#6417A1;">Global Psychotrauma Screen</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="gps_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="hamdDetailsModal" tabindex="-1" aria-labelledby="hamdDetailsModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="hamdDetailsModalLabel" style="color:#6417A1;">HAMILTON DEPRESSION RATING SCALE (HAM-D)</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<div id="hamd_modal_body">
+      				
+      			</div>
+        	</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="PatientFileUploadModal" tabindex="-1" aria-labelledby="PatientFileUploadModal" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h6 class="modal-title" id="PatientFileUploadModalLabel" style="color:#6417A1;">Patients Files Upload</h6>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+      			<form method="POST" action="{% url 'PatientFileUpload' %}" enctype="multipart/form-data">
+      				{% csrf_token %}
+      				<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-3">
+								{{ patientFilesForm.file_name.label }}
+                        		{{ patientFilesForm.file_name }}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-3">
+								{{ patientFilesForm.file.label }}
+                        		{{ patientFilesForm.file }}
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="patient_id" value="{{ patientDetailed.pk }}">
+					<button type="submit" class="btn btn-outline-success">Upload</button>
+      			</form>
+        	</div>
+    	</div>
+  	</div>
+</div>
+
 {% endblock content %}
 
 
 {% block script %}
 <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+	function copySurveyText(){
+		  var copyText = document.getElementById("patientSurvayLink");
+		 // Select the text field
+  		copyText.select();
+  		copyText.setSelectionRange(0, 99999); // For mobile devices
+  		// Copy the text inside the text field
+  		navigator.clipboard.writeText(copyText.value);
 
+  		// Alert the copied text
+ 		 alert("Copy Link!");
+	}
+
+	function showHamddetails(that){
+		$("#hamd_modal_body").empty();
+		$("#hamd_modal_body").append("Loading Please Wait. . . ");
+		var hamd_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetHamd' %}",
+	        data: {
+	        	"hamd_id":hamd_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#hamd_modal_body").empty();
+				$("#hamd_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function RemoveRelatives(that){
+		var relative_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientRemoveRelative' %}",
+	        data: {
+	        	"relative_id":relative_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	window.location.reload();
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function PatientDeleteAllergy(that){
+		var allergy_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientDeleteAllergy' %}",
+	        data: {
+	        	"allergy_id":allergy_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	window.location.reload();
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showGPSdetails(that){
+		$("#gps_modal_body").empty();
+		$("#gps_modal_body").append("Loading Please Wait. . . ");
+		var gps_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetGPS' %}",
+	        data: {
+	        	"gps_id":gps_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$("#gps_modal_body").empty();
+				$("#gps_modal_body").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function SelectEncounter(that){
+		$(".consultation_loading").empty();
+		$(".consultation_loading").append("loading . . .");
+		var encounter_id = $(that).attr("attr_id");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'EncounterDetails' %}",
+	        data: {
+	        	"enouter_id":encounter_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	$(".consultation_detail_wrapper").empty();
+				$(".consultation_detail_wrapper").append(data);
+
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function showRelativeDetails(that) {
+		var relative_id = $(that).attr("attr_id");
+		$("#relative_modal_body").show();
+		$("#relative_form").hide();
+		$("#relative_modal_body").empty();
+	    $("#relative_modal_body").append("Retrieving Data . . . ");
+		$.ajax({
+	        type: "GET",
+	        url: "{% url 'PatientGetRelative' %}",
+	        data: {
+	        	"relative_id":relative_id,
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		createRelativeForm(data)
+	        	}else{
+	        		$("#relative_modal_body").empty();
+	        		$("#relative_modal_body").append(data.error_msg);
+	        	}
+	        },
+	        error: function (e) {
+	           
+	        }
+	    })
+	}
+
+	function createRelativeForm(object){
+		$("#relative_modal_body").hide();
+		$("#relative_form").show();
+		$("#relative_view_name").val(object.relative_name);
+		$("#relative_view_gender").val(object.relative_gender);
+		$("#relative_view_gender_indentity").val(object.relative_gender_indentity);
+		$("#relative_view_age").val(object.relative_age);
+		$("#relative_view_marital_status").val(object.relative_marital_status);
+		$("#relative_view_relationship").val(object.relative_relationship);
+		$("#relative_view_high_education").val(object.relative_high_education);
+		$("#relative_view_occupation").val(object.relative_occupation);
+		$("#relative_view_Workplace").val(object.relative_Workplace);
+		$("#relative_view_contact_number").val(object.relative_contact_number);
+		$("#relative_view_Email").val(object.relative_email);
+		if(object.relative_is_emergency){
+			$("#relative_view_is_emergency").val('YES');
+		}else{
+			$("#relative_view_is_emergency").val('NO');
+		}
+		
+		
+	}
 </script>
 {% endblock script %}

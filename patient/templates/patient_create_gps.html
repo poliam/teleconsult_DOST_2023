@@ -1,0 +1,597 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Create Global Psychotrauma Screen {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.add_patient_btn{
+		color: #6417A180;
+		border-color: #6417A180;
+	}
+	.card-header{
+		background-color:#6417A180;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="dashboard_welcome_greeting">Global Psychotrauma Screen</h2>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			{% if error_msg %}
+				<div class="alert alert-warning" role="alert">
+				  {{ error_msg }}
+				</div>
+			{% endif %}
+			<form id="patient_create_gps" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}	
+				<div class="card">
+  					<div class="card-header">
+    					<h4>Global Psychotrauma Screen</h4>
+  					</div>
+  					<div class="card-body">
+  						<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_name">Name</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_name" placeholder="{{ patientDetail.last_name }}, {{ patientDetail.first_name }} {{ patientDetail.middle_name }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_marital_status">Marital Status</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_marital_status" placeholder="{{ patientDetail.marital_status }}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="cosnultation_date">Consultation Date(mm/dd/yyyy)</label>
+    								<input type="text" class="form-control" id="cosnultation_date" name="consultation_date" placeholder="(mm/dd/yyy)">
+  								</div>	
+    						</div>
+    					</div>
+    					<div class="row">
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_gender">Sex</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_gender" placeholder="{{ patientDetail.gender}}">
+  								</div>	
+    						</div>
+    						<div class="col-sm-4">
+    							<div class="form-group">
+    								<label for="plain_age">Age</label>
+    								<input type="text" readonly class="form-control-plaintext" id="plain_age" placeholder="{{ patientDetail.age }}">
+  								</div>	
+    						</div>
+    					</div>
+    					<hr>
+    					<h6 class="card-header">Sometimes things happen to people that are unusually or especially frightening, horrible, or traumatic. </h6>
+    					<div class="row">
+    						<div class="col-sm-8">
+    							<div class="form-group">
+									<label><b>Briefly describe the event or experience that currently affects you the most</b></label>
+									<textarea class="form-control" rows="4" name="event_description" required></textarea>
+								</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<label><b>This event happened</b></label>
+    							<div class="form-check">
+  									<input class="form-check-input" type="radio" name="event_happened" value="last week" required>
+  									<label class="form-check-label">
+    									last week
+  									</label>
+								</div>
+    							<div class="form-check">
+  									<input class="form-check-input" type="radio" name="event_happened" value="last month" required>
+  									<label class="form-check-label">
+    									last month
+  									</label>
+								</div>
+								<div class="form-check">
+  									<input class="form-check-input" type="radio" name="event_happened" value="last half year" required>
+  									<label class="form-check-label">
+    									last half year
+  									</label>
+								</div>
+								<div class="form-check">
+  									<input class="form-check-input" type="radio" name="event_happened" value="last year" required>
+  									<label class="form-check-label">
+    									last year
+  									</label>
+								</div>
+								<div class="form-check">
+  									<input class="form-check-input" type="radio" name="event_happened" value="longer ago" required>
+  									<label class="form-check-label">
+    									longer ago
+  									</label>
+								</div>
+    						</div>
+    					</div>
+    					<br/>
+    					<div class="row">
+    						<div class="col-sm-6">
+    							<label><b>Which of the below characterize the event (more answers possible)</b></label>
+    							<div class="form-group row">
+    								<label class="col-sm-3 col-form-label">Physical violence</label>
+    								<div class="col-sm-8" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="physical_violence" value="to yourself" >
+  											<label class="form-check-label">to yourself</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="physical_violence"  value="happened to someone else">
+  											<label class="form-check-label">happened to someone else</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-3 col-form-label">Sexual violence</label>
+    								<div class="col-sm-8" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="sexual_violence" value="to yourself" >
+  											<label class="form-check-label">to yourself</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="sexual_violence" value="happened to someone else" >
+  											<label class="form-check-label">happened to someone else</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-3 col-form-label">Emotional abuse</label>
+    								<div class="col-sm-8" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="emotional_abuse" value="to yourself" >
+  											<label class="form-check-label">to yourself</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="emotional_abuse" value="happened to someone else" >
+  											<label class="form-check-label">happened to someone else</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-3 col-form-label">Serious injury</label>
+    								<div class="col-sm-8" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="serious_injury" value="to yourself" >
+  											<label class="form-check-label">to yourself</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="serious_injury" value="happened to someone else" >
+  											<label class="form-check-label">happened to someone else</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-3 col-form-label">Life threatening</label>
+    								<div class="col-sm-8" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="life_threatening" value="to yourself" >
+  											<label class="form-check-label">to yourself</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="life_threatening" value="happened to someone else" >
+  											<label class="form-check-label">happened to someone else</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+  									<div class="form-check">
+  										<input class="form-check-input" type="checkbox" value="1" name="sudden_death_of_loved_one">
+  										<label class="form-check-label">Sudden death of a loved one</label>
+									</div>
+									<div class="form-check">
+  										<input class="form-check-input" type="checkbox" value="1" name="cause_harm_to_others">
+  										<label class="form-check-label">You causing harm to someone else</label>
+									</div>
+									<div class="form-check">
+  										<input class="form-check-input" type="checkbox" value="1" name="covid">
+  										<label class="form-check-label">Corona virus (COVID-19)</label>
+									</div>
+  								</div>
+    						</div>
+    						<div class="col-sm-6">
+    							<div class="form-group">
+    								<label><b>Was a single event occurring, at age</b></label>
+    								<input type="text" class="form-control" name="single_event_occurring" placeholder="Age" >
+  								</div>
+  								<div class="form-group">
+    								<label><b>Happened during a longer period / multiple times, between ages</b></label>
+    								<div class="row">
+    									<div class="col-sm-5">
+    										<input type="text" class="form-control" name="range_event_occurring_from" placeholder="Age">
+    									</div>
+    									<div class="col-sm-2" style="text-align:center;">To</div>
+    									<div class="col-sm-5">
+    										<input type="text" class="form-control" name="range_event_occurring_to" placeholder="Age">
+    									</div>
+    								</div>
+  								</div>
+    						</div>
+    						
+    					</div>
+    					<hr>
+    					<h6 class="card-header">Considering the above event, in the past month have you... </h6>
+    					<div class="row justify-content-md-center">
+    						<div class="col-sm-11">
+    							<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">1. Had nightmares about the past traumatic life event(s) you have experienced or thought about the event(s) when you did not want to?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_1" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_1" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">2. Tried hard not to think about past traumatic life event(s) or went out of your way to avoid situations that reminded you of the event(s)?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_2" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_2" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">3. Been constantly on guard, watchful, or easily startled?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_3" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_3" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">4. Felt numb or detached from people, activities, or your surroundings?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_4" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_4" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">5. Felt guilty or unable to stop blaming yourself or others for past traumatic life event(s) or any problems the event(s) caused?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_5" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_5" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">6. Tended to feel worthless?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_6" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_6" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">7. Experienced angry outbursts that you could not control?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_7" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_7" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">8. Been feeling nervous, anxious, or on edge?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_8"  value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_8" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">9. Been unable to stop or control worrying? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_9" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_9" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">10. Been feeling down, depressed, or hopeless? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_10" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_10" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">11. Been experiencing little interest or pleasure in doing things? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_11" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_11" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">12. Had any problems falling or staying asleep? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_12" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_12" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">13. Tried to intentionally hurt yourself? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_13" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_13" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">14. Perceived or experienced the world or other people differently, so that things seem dreamlike, strange or unreal? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_14" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_14" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">15. Felt detached or separated from your body (for example, feeling like you are looking down on yourself from above, or like you are an outside observer of your own body)? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_15" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_15" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">16. Had any other physical, emotional or social problems that bothered you? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_16" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_16" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">17. Experienced other stressful events (such as financial problems, changing jobs, moving to another house, relational crisis in work or private life)? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_17" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_17" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">18. Tried to reduce tensions by using alcohol, tobacco, drugs or medication?  </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_18" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_18" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">19. Missed supportive people near you that you could readily count on for help in times of difficulty (such as emotional support, watch over children or pets, give rides to hospital or store, help when you are sick)? </label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_19" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_19" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">20. During your childhood (0-18 years), did you experience any traumatic life events (e.g., a serious accident or fire, physical or sexual assault or abuse, a disaster, seeing someone be killed or seriously injured, or having a loved one die)?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_20" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_20" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">21. Have you ever received a psychiatric diagnosis or have you ever been treated for psychological problems (for example, depression, anxiety or a personality disorder)?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_21" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_21" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-10 col-form-label">22. Do you generally consider yourself to be a resilient person?</label>
+    								<div class="col-sm-2" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_22" value="0" required>
+  											<label class="form-check-label">No</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_22" value="1" required>
+  											<label class="form-check-label">Yes</label>
+										</div>
+    								</div>
+  								</div>
+  								<div class="form-group row">
+    								<label class="col-sm-6 col-form-label">23. How would you rate your present functioning (at work/home)?</label>
+    								<div class="col-sm-6" style="padding: 0.4rem">
+      									<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="1" required>
+  											<label class="form-check-label">1</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="2" required>
+  											<label class="form-check-label">2</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="3" required>
+  											<label class="form-check-label">3</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="4" required>
+  											<label class="form-check-label">4</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="5" required>
+  											<label class="form-check-label">5</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="6" required>
+  											<label class="form-check-label">6</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="7" required>
+  											<label class="form-check-label">7</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="8" required>
+  											<label class="form-check-label">8</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="9" required>
+  											<label class="form-check-label">9</label>
+										</div>
+										<div class="form-check form-check-inline">
+  											<input class="form-check-input" type="radio" name="considering_event_23" value="10" required>
+  											<label class="form-check-label">10</label>
+										</div>
+    								</div>
+  								</div>
+    						</div>
+    					</div>
+    				</div>
+				</div>
+				<br/>
+				<div class="row justify-content-md-center">
+				    <div class="col-md-auto">
+				      <button type="submit" class="btn btn-outline-success">Save</button>
+				      {% if patientDetailed %}
+				      	<a href="{% url 'PatientDetailed' patientDetailed.pk %}" style="text-decoration:none;">
+				      {% else %}
+				      	<a href="{{request.META.HTTP_REFERER}}" style="text-decoration:none;">
+				      {% endif %}
+				      <button type="button" class="btn btn-outline-secondary">Cancel</button>
+				      </a>
+				    </div>
+  				</div>
+				<br/><br/>
+			</form>
+		</div>
+		<div class="col-sm-1"></div>
+	</div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var date = new Date();
+    	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		$( "#cosnultation_date" ).datepicker();
+		$('#cosnultation_date').datepicker('setDate', today);
+	})
+</script>
+{% endblock script %}

@@ -1,0 +1,610 @@
+<h6 class="card-header consultation_detail card_background_color">Consultations Details
+	<a href="{% url 'EditConsultation' encounter_details.pk %}" style="text-decoration:none;">
+		<i class="fa-solid fa-pen-to-square"></i>
+	</a>
+</h6>
+<div class="card-body consultation_loading">
+	<div class="row">
+		<div class="col-sm-8">
+			<h6>Vital Signs</h6>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="mb-12 row">
+			    		<label class="col-sm-6 col-form-label">Height(cm)</label>
+						<div class="col-sm-6">
+			  				<input type="text" readonly class="form-control-plaintext" value="{{vital_sign.height}}">
+						</div>
+			  		</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="mb-12 row">
+			    		<label class="col-sm-6 col-form-label">Weight(kg)</label>
+						<div class="col-sm-6">
+			  				<input type="text" readonly class="form-control-plaintext" value="{{vital_sign.weight}}">
+						</div>
+			  		</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="mb-12 row">
+			    		<label class="col-sm-6 col-form-label">Blood Pressure</label>
+						<div class="col-sm-6">
+			  				<input type="text" readonly class="form-control-plaintext" value="{{vital_sign.blood_pressure}}">
+						</div>
+			  		</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="mb-12 row">
+			    		<label class="col-sm-6 col-form-label">Temperature(c)</label>
+						<div class="col-sm-6">
+			  				<input type="text" readonly class="form-control-plaintext" value="{{vital_sign.temperature}}">
+						</div>
+			  		</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="mb-3 row">
+	    		<label class="col-sm-6 col-form-label">Consultation Type:</label>
+				<div class="col-sm-6">
+	  				<input type="text" readonly class="form-control-plaintext" value="{{encounter_details.reason_for_interaction}}">
+				</div>
+	  		</div>
+		</div>
+	</div>
+	<hr>
+
+	<div class="card">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseChiefComplaints" aria-expanded="false" aria-controls="collapseChiefComplaints">Chief Complaints</h6>
+		</div>
+		<div class="collapse" id="collapseChiefComplaints">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<label class="col-sm-6 col-form-label">Patient Complaints:</label>
+					</div>
+					<div class="col-sm-12">
+						<textarea class="form-control"  row="6" readonly>{{ chief_complaints.patient_complaints}}</textarea>
+					</div>
+					<div class="col-sm-12">
+						<label class="col-sm-6 col-form-label">Informant Complaints:</label>
+					</div>
+					<div class="col-sm-12">
+						<textarea class="form-control" row="6" readonly>{{ chief_complaints.informant_complaints}}</textarea>
+					</div>
+					<div class="col-sm-12">
+						<label class="col-sm-6 col-form-label">Informant Relationshop:</label>
+					</div>
+					<div class="col-sm-12">
+						<input type="text" class="form-control"  value="{{ chief_complaints.informatmant_relationship}}" readonly>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseHistoryofPresentIllness" aria-expanded="false" aria-controls="collapseHistoryofPresentIllness">History of Present Illness</h6>
+		</div>
+		<div class="collapse" id="collapseHistoryofPresentIllness">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table ">
+							<thead class="patient_detail_name">
+	    						<tr>
+	      							<th scope="col" width="10%">Number of</th>
+	      							<th scope="col" width="15%">calendrical</th>
+	      							<th scope="col" width="85%">Details</th>
+	    						</tr>
+	  						</thead>
+	  						<tbody>
+	  							{% for history in history_present_illness %}
+	  								<tr>
+	  									<td>{{ history.number }}</td>
+	  									<td>{{ history.calendrical }}</td>
+	  									<td>{{ history.details }}</td>
+	  								</tr>
+	  							{% empty %}
+	  								<tr>
+	  									<td colspan="3">No record of present illness. . .</td>
+	  								</tr>
+	  							{% endfor %}
+	  						</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMentalStatus" aria-expanded="false" aria-controls="collapseMentalStatus">Mental Status</h6>
+		</div>
+		<div class="collapse" id="collapseMentalStatus">
+			<div class="card card-body">
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSGeneralDescription" aria-expanded="false" aria-controls="collapseMSGeneralDescription">General Description</h6>
+					</div>
+					<div class="collapse" id="collapseMSGeneralDescription">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Dress Grooming</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.dress_grooming.name }}">
+									</div>
+								</div>
+								<div class='col-sm-4'>
+									<div class="mb-3">
+				  						<label for="exampleFormControlTextarea1" class="form-label">Physical Characteristics</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.physical_characteristics }}</textarea>
+									</div>
+								</div>
+								<div class='col-sm-4'>
+									<div class="mb-3">
+				  						<label for="exampleFormControlTextarea1" class="form-label">Posture Gait</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.posture_gait }}</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Attitude</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.attitude.name }}">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Facial Expression</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.facial_expression.name }}">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Motor Active</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.motor_active.name }}">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Movement</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.movement.name }}">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col-sm-12'>
+									<div class="mb-3">
+				  						<label for="exampleFormControlTextarea1" class="form-label">Behavior Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.behavior_remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Speech</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.speech.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Aphasia</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_general_description.aphasia.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_general_description.remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSemotions" aria-expanded="false" aria-controls="collapseMSemotions">Emotions</h6>
+					</div>
+					<div class="collapse" id="collapseMSemotions">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Mood</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_emotions.mood.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Affect</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_emotions.affect.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Sign of Depression</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_emotions.sign_depression.name }}">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_emotions.emotion_remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSCognitiveFunction" aria-expanded="false" aria-controls="collapseMSCognitiveFunction">Cognitive Function</h6>
+					</div>
+					<div class="collapse" id="collapseMSCognitiveFunction">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Consciousness</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_cognitive_function.consciousness.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Memory</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_cognitive_function.memory.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-check">
+				  						<input class="form-check-input" type="checkbox" disabled {% if mental_cognitive_function.attention %} checked {% endif %}>
+				  						<label class="form-check-label">Is able to pay attention</label>
+									</div>
+									<div class="form-check">
+				  						<input class="form-check-input" type="checkbox" disabled {% if mental_cognitive_function.concentrate %} checked {% endif %}>
+				  						<label class="form-check-label">Is able to concentrate</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Memory Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_cognitive_function.memory_remarks }}</textarea>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Abstractability Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ mental_cognitive_function.abstractability_remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSThoughtPerception" aria-expanded="false" aria-controls="collapseMSThoughtPerception">Thought and Perception</h6>
+					</div>
+					<div class="collapse" id="collapseMSThoughtPerception">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Disordered Perceptions</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_thought_perception.disordered_perception.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Thought Content</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_thought_perception.thought_content.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Delusion Content</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_thought_perception.delusion_content.name }}">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Thought Form</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_thought_perception.thought_form.name }}">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Preoccupations</label>
+				  						<input type="text" class="form-control" readonly value="{{ mental_thought_perception.preoccupations.name }}">
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+				
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSHomocidalityImpuse" aria-expanded="false" aria-controls="collapseMSHomocidalityImpuse">Suicidality, Homocidality and Impulse Control</h6>
+					</div>
+					<div class="collapse" id="collapseMSHomocidalityImpuse">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-check">
+				  						<input class="form-check-input" type="checkbox" disabled {% if suicidality.is_suicidal %} checked {% endif %}>
+				  						<label class="form-check-label">Is patient suicidal?</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-check">
+				  						<input class="form-check-input" type="checkbox" disabled {% if suicidality.is_homicidal %} checked {% endif %}>
+				  						<label class="form-check-label">Is patient homicidal?</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Suicidality homicidality Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.suicidality_remarks }}</textarea>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Impulse Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.impulse_remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+				</div>
+
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSReliability" aria-expanded="false" aria-controls="collapseMSReliability">Reliability</h6>
+					</div>
+					<div class="collapse" id="collapseMSReliability">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Reliability</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.reliability }}</textarea>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Reliability Impression</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.reliability_impression }}</textarea>
+									</div>
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+				</div>
+
+				<div class="card" style="margin-top:0.3rem;">
+					<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+						<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseMSEnvironment" aria-expanded="false" aria-controls="collapseMSEnvironment">Environment</h6>
+					</div>
+					<div class="collapse" id="collapseMSEnvironment">
+						<div class="card card-body">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-check">
+				  						<input class="form-check-input" type="checkbox" disabled {% if suicidality.surroundings_inappropriate %} checked {% endif %}>
+				  						<label class="form-check-label">Is surroundings inappropriate?</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Environment</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.environment }}</textarea>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="mb-3">
+				  						<label for="exampleFormControlInput1" class="form-label">Remarks</label>
+				  						<textarea class="form-control" readonly rows="3">{{ suicidality.environment_remarks }}</textarea>
+									</div>
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseDiagnosis" aria-expanded="false" aria-controls="collapseDiagnosis">Diagnosis</h6>
+		</div>
+		<div class="collapse" id="collapseDiagnosis">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table ">
+							<thead class="patient_detail_name">
+	    						<tr>
+	      							<th scope="col" width="15%">Condition</th>
+	      							<th scope="col" width="85%">Details</th>
+	    						</tr>
+	  						</thead>
+	  						<tbody>
+	  							{% for diagnosis in diagnosis_list %}
+	  								<tr>
+	  									<td>{{ diagnosis.condition.name }}</td>
+	  									<td>{{ diagnosis.condition_details }}</td>
+	  								</tr>
+	  							{% empty %}
+	  								<tr>
+	  									<td colspan="2">No record of Diagnosis. . .</td>
+	  								</tr>
+	  							{% endfor %}
+	  						</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseTreatment" aria-expanded="false" aria-controls="collapseTreatment">Treatment</h6>
+		</div>
+		<div class="collapse" id="collapseTreatment">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table ">
+							<thead class="patient_detail_name">
+	    						<tr>
+	      							<th scope="col" width="25%">Drug</th>
+	      							<th scope="col" width="15%">Presentation/Strength</th>
+	      							<th scope="col" width="15%">Dose</th>
+	      							<th scope="col" width="15%">Route</th>
+	      							<th scope="col" width="20%">Frequency</th>
+	      							<th scope="col" width="10%">No of drugs	</th>
+	    						</tr>
+	  						</thead>
+	  						<tbody>
+	  							{% for drug in drug_list %}
+	  								<tr>
+	  									<td>{{ drug.drugs.name }}</td>
+	  									<td>{{ drug.strength }}</td>
+	  									<td>{{ drug.dose }}</td>
+	  									<td>{{ drug.route }}</td>
+	  									<td>{{ drug.frequency }}</td>
+	  									<td>{{ drug.drug_no }}</td>
+	  								</tr>
+	  							{% empty %}
+	  								<tr>
+	  									<td colspan="6">No record of treatment. . .</td>
+	  								</tr>
+	  							{% endfor %}
+	  						</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">Notes</h6>
+		</div>
+		<div class="collapse" id="collapseNotes">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="mb-3">
+	  						<label for="exampleFormControlInput1" class="form-label">Treatment Recommendations</label>
+	  						<textarea class="form-control" readonly rows="3">{{ encounter_details.treatment_recommendations }}</textarea>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="mb-3">
+	  						<label for="exampleFormControlInput1" class="form-label">Notes</label>
+	  						<textarea class="form-control" readonly rows="3">{{ encounter_details.encounter_notes }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseReferral" aria-expanded="false" aria-controls="collapseReferral">Referral</h6>
+		</div>
+		<div class="collapse" id="collapseReferral">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="mb-3">
+	  						<label class="form-label">Referred To</label>
+	  						<input type="text" class="form-control" readonly value="{{ referral_details.referred_to }}">
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="mb-3">
+	  						<label class="form-label">Referred From</label>
+	  						<input type="text" class="form-control" readonly value="{{ referral_details.referred_from }}">
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="mb-3">
+	  						<label class="form-label">Reason For Referral</label>
+	  						<textarea class="form-control" readonly rows="3">{{ referral_details.reason_for_referral }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card" style="margin-top:0.3rem;">
+		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseNurseNotes" aria-expanded="false" aria-controls="collapseNurseNotes">Nurse Notes</h6>
+		</div>
+		<div class="collapse" id="collapseNurseNotes">
+			<div class="card card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						{% for nurse_notes in list_of_nurse_notes %}
+							<ul class="list-group">
+								<li class="list-group-item">
+									 <div class="commented-section mt-2">
+        							<div class="d-flex flex-row align-items-center commented-user">
+            							<h5 class="mr-2"><b>{{ nurse_notes.create_by.first_name }} {{ nurse_notes.create_by.last_name }}</b></h5>
+        								<span class="dot mb-1"></span>
+        								<span class="mb-1 ml-2"> {{ nurse_notes.create_date | timesince }} ago</span>
+            						</div>
+        							<div class="comment-text-sm">
+        								<span>{{ nurse_notes.comment }}</span>
+        							</div>
+    							</div>
+								</li>
+							</ul>
+						{% empty %}
+							<ul class="list-group">
+								<li>No notes have been created. . . </li>
+							</ul>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
