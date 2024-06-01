@@ -8,3 +8,4 @@
 /Teleconsult/settings.py
 /consultation/migrations/*
 /patient/migrations/*
+/media/*
