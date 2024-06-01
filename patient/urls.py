@@ -21,6 +21,7 @@ urlpatterns = [
    path('patient_create_gps/<patient_id>', views.PatientCreateGPS, name="PatientCreateGPS"),
    path('patient_update_gps/<gps_id>', views.PatientUpdateGPS, name="PatientUpdateGPS"),
    path('patient_get_gps', views.PatientGetGPS, name="PatientGetGPS"),
+   path('patient_autosave_gps', views.PatientAutoSaveGPS, name="PatientAutoSaveGPS"),
 
    path('patient_create_hamd/<patient_id>', views.PatientCreateHamD, name="PatientCreateHamD"),
    path('patient_update_hamd/<hamd_id>', views.PatientUpdateHamD, name="PatientUpdateHamD"),

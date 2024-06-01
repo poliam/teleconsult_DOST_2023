@@ -32,14 +32,17 @@ def dashboard(request):
 	today_consultation = encounter.objects.filter(consultation_date=current_date).order_by('consultation_date')
 	today_consultation_list = []
 	for consultation in today_consultation:
-		print(consultation)
-		hamd_details = hamd.objects.get(details=consultation.details.pk)
+		try:
+			hamd_details = hamd.objects.get(details=consultation.details.pk)
+			score = hamd_details.score
+		except:
+			score = 0
 		patient_name = consultation.details.last_name.capitalize()+", "+consultation.details.first_name.capitalize()+" "+consultation.details.middle_name.capitalize()
 		if consultation.consulted_by is None:
 			consulted_by = False
 		else:
 			consulted_by = True
-		today_consultation_list.append({"consultation_id": consultation.pk, "consultation_type": consultation.reason_for_interaction, "patient_name": patient_name, "hamd_score": int(hamd_details.score), "consult_by": consulted_by})
+		today_consultation_list.append({"consultation_id": consultation.pk, "consultation_type": consultation.reason_for_interaction, "patient_name": patient_name, "hamd_score": int(score), "consult_by": consulted_by})
 	returnVal['doctor_today_consultation'] = today_consultation_list
 	returnVal['today_consultation'] = today_consultation
 

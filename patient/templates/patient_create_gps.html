@@ -574,6 +574,8 @@
 				    </div>
   				</div>
 				<br/><br/>
+				<input type="hidden" name="current_id" value=0>
+				<input type="hidden" name="patient_id" value="{{ patientId }}">
 			</form>
 		</div>
 		<div class="col-sm-1"></div>
@@ -592,6 +594,31 @@
     	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		$( "#cosnultation_date" ).datepicker();
 		$('#cosnultation_date').datepicker('setDate', today);
+		// setInterval(autoSave, 10000);
 	})
+
+	function autoSave(){
+		var event_description = $("textarea[name=event_description]").val();
+		var event_happened = $("input[name=event_happened]:checked").val();
+		
+		if(event_description.length > 0 && event_happened !== undefined){
+			var gps_form = $("#patient_create_gps").serializeArray();
+			$.ajax({
+		        type: "POST",
+		        url: "{% url 'PatientAutoSaveGPS' %}",
+		        data: gps_form,
+		        async:true,
+		        success: function (data) {
+		        	$("input[name=current_id]").val(data.current_id);
+		        },
+		        error: function (e) {       
+		        }
+		    })
+		}else{
+			return false;
+		}
+		
+
+	}
 </script>
 {% endblock script %}
