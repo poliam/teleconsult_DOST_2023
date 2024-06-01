@@ -258,6 +258,7 @@ def PatientCreateGPS(request, patient_id):
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
+	returnVal['patientId'] = patient_id
 	try:
 		patient_instance = details.objects.get(pk=patient_id)
 		returnVal['patientDetail'] = patient_instance
@@ -329,6 +330,157 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 		new_global_psychotrauma_screen.delete()
 		return False
 
+@login_required(login_url="/login")
+def PatientAutoSaveGPS(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	patient_id = request.POST['patient_id']
+	current_id = request.POST['current_id']
+	print(current_id)
+	if current_id != "0":
+		try:
+			gps_details = global_psychotrauma_screen.objects.get(pk=current_id)
+		except:
+			returnVal['error_msg'] = "id does not exists"
+			return JsonResponse(returnVal, safe=False)
+		
+		gps_details.consultation_date = formatDate(request.POST['consultation_date'])
+		gps_details.event_description = request.POST['event_description']
+		gps_details.event_happened = request.POST['event_happened']
+
+		gps_details.physical_violence = request.POST.get('physical_violence', False)
+		gps_details.sexual_violence = request.POST.get('sexual_violence', False)
+		gps_details.emotional_abuse = request.POST.get('emotional_abuse', False)
+		gps_details.serious_injury = request.POST.get('serious_injury', False)
+		gps_details.life_threatening = request.POST.get('life_threatening', False)
+		
+		gps_details.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
+		gps_details.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
+		gps_details.covid =  request.POST.get('covid', False)
+		gps_details.single_event_occurring = request.POST['single_event_occurring']
+		gps_details.range_event_occurring_from = request.POST['range_event_occurring_from']
+		gps_details.range_event_occurring_to = request.POST['range_event_occurring_to']
+		try:
+			gps_details.save()
+		except:
+			returnVal['error_msg'] = "Error on saving gps"
+			return JsonResponse(returnVal, safe=False)
+
+		considering_event_details = considering_event.objects.get(global_psychotrauma_screen=gps_details.pk)
+		considering_event_details.considering_event_1 = request.POST.get('considering_event_1', False)
+		considering_event_details.considering_event_2 = request.POST.get('considering_event_2', False)
+		considering_event_details.considering_event_3 = request.POST.get('considering_event_3', False)
+		considering_event_details.considering_event_4 = request.POST.get('considering_event_4', False)
+		considering_event_details.considering_event_5 = request.POST.get('considering_event_5', False)
+		considering_event_details.considering_event_6 = request.POST.get('considering_event_6', False)
+		considering_event_details.considering_event_7 = request.POST.get('considering_event_7', False)
+		considering_event_details.considering_event_8 = request.POST.get('considering_event_8', False)
+		considering_event_details.considering_event_9 = request.POST.get('considering_event_9', False)
+		considering_event_details.considering_event_10 = request.POST.get('considering_event_10', False)
+		considering_event_details.considering_event_11 = request.POST.get('considering_event_11', False)
+		considering_event_details.considering_event_12 = request.POST.get('considering_event_12', False)
+		considering_event_details.considering_event_13 = request.POST.get('considering_event_13', False)
+		considering_event_details.considering_event_14 = request.POST.get('considering_event_14', False)
+		considering_event_details.considering_event_15 = request.POST.get('considering_event_15', False)
+		considering_event_details.considering_event_16 = request.POST.get('considering_event_16', False)
+		considering_event_details.considering_event_17 = request.POST.get('considering_event_17', False)
+		considering_event_details.considering_event_18 = request.POST.get('considering_event_18', False)
+		considering_event_details.considering_event_19 = request.POST.get('considering_event_19', False)
+		considering_event_details.considering_event_20 = request.POST.get('considering_event_20', False)
+		considering_event_details.considering_event_21 = request.POST.get('considering_event_21', False)
+		considering_event_details.considering_event_22 = request.POST.get('considering_event_22', False)
+		considering_event_details.considering_event_23 = request.POST.get('considering_event_23', False)
+		try:
+			considering_event_details.save()
+		except:
+			new_global_psychotrauma_screen.delete()
+			returnVal['error_msg'] = "Error on saving gps screen"
+			return JsonResponse(returnVal, safe=False)
+
+		returnVal['current_id'] = current_id
+		return JsonResponse(returnVal, safe=False)
+
+	else:
+		try:
+			patient_instance = details.objects.get(pk=patient_id)
+		except:
+			returnVal['error_msg'] = "patient_id does not exists"
+			return JsonResponse(returnVal, safe=False)
+
+		new_global_psychotrauma_screen = global_psychotrauma_screen()
+		new_global_psychotrauma_screen.details = patient_instance
+		new_global_psychotrauma_screen.consultation_date = formatDate(request.POST['consultation_date'])
+		new_global_psychotrauma_screen.event_description = request.POST['event_description']
+		new_global_psychotrauma_screen.event_happened = request.POST['event_happened']
+
+		new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', False)
+		new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', False)
+		new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', False)
+		new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', False)
+		new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', False)
+		
+		new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
+		new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
+		new_global_psychotrauma_screen.covid =  request.POST.get('covid', False)
+		new_global_psychotrauma_screen.single_event_occurring = request.POST['single_event_occurring']
+		new_global_psychotrauma_screen.range_event_occurring_from = request.POST['range_event_occurring_from']
+		new_global_psychotrauma_screen.range_event_occurring_to = request.POST['range_event_occurring_to']
+		try:
+			new_global_psychotrauma_screen.save()
+			returnVal['current_id'] = new_global_psychotrauma_screen.pk
+		except:
+			returnVal['error_msg'] = "Error on saving gps"
+			return JsonResponse(returnVal, safe=False)
+
+		new_considering_event = considering_event()
+		new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
+		considering_event_1 = request.POST.get('considering_event_1', False)
+		if considering_event_1 != False:
+			new_considering_event.considering_event_1 = considering_event_1
+		considering_event_2 = request.POST.get('considering_event_2', False)
+		if considering_event_2 != False:
+			new_considering_event.considering_event_2 = considering_event_2
+		considering_event_3 = request.POST.get('considering_event_3', False)
+		if considering_event_3 != False:
+			new_considering_event.considering_event_3 = considering_event_3
+		considering_event_4 = request.POST.get('considering_event_4', False)
+		if considering_event_4 != False:
+			new_considering_event.considering_event_4 = considering_event_4
+		considering_event_5 = request.POST.get('considering_event_5', False)
+		if considering_event_5 != False:
+			new_considering_event.considering_event_5 = considering_event_5
+		considering_event_6 = request.POST.get('considering_event_6', False)
+		if considering_event_6 != False:
+			new_considering_event.considering_event_6 = considering_event_6
+		considering_event_7 = request.POST.get('considering_event_7', False)
+		if considering_event_7 != False:
+			new_considering_event.considering_event_7 = considering_event_7
+		considering_event_8 = request.POST.get('considering_event_8', False)
+		if considering_event_8 != False:
+			new_considering_event.considering_event_8 = considering_event_8
+		new_considering_event.considering_event_8 = request.POST.get('considering_event_8', False)
+		new_considering_event.considering_event_9 = request.POST.get('considering_event_9', False)
+		new_considering_event.considering_event_10 = request.POST.get('considering_event_10', False)
+		new_considering_event.considering_event_11 = request.POST.get('considering_event_11', False)
+		new_considering_event.considering_event_12 = request.POST.get('considering_event_12', False)
+		new_considering_event.considering_event_13 = request.POST.get('considering_event_13', False)
+		new_considering_event.considering_event_14 = request.POST.get('considering_event_14', False)
+		new_considering_event.considering_event_15 = request.POST.get('considering_event_15', False)
+		new_considering_event.considering_event_16 = request.POST.get('considering_event_16', False)
+		new_considering_event.considering_event_17 = request.POST.get('considering_event_17', False)
+		new_considering_event.considering_event_18 = request.POST.get('considering_event_18', False)
+		new_considering_event.considering_event_19 = request.POST.get('considering_event_19', False)
+		new_considering_event.considering_event_20 = request.POST.get('considering_event_20', False)
+		new_considering_event.considering_event_21 = request.POST.get('considering_event_21', False)
+		new_considering_event.considering_event_22 = request.POST.get('considering_event_22', False)
+		new_considering_event.considering_event_23 = request.POST.get('considering_event_23', False)
+		try:
+			new_considering_event.save()
+		except:
+			new_global_psychotrauma_screen.delete()
+			returnVal['error_msg'] = "Error on saving gps screen"
+			return JsonResponse(returnVal, safe=False)
+	return JsonResponse(returnVal, safe=False)
 
 @login_required(login_url='/login')
 def PatientUpdateGPS(request, gps_id):
