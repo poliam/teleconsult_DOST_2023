@@ -525,6 +525,52 @@ def DeleteHOPI(request):
 	return JsonResponse(returnVal, safe=False)
 
 @login_required(login_url='login')
+def AutoCreateHOPI(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	HOPI_ID = request.POST['HOPI_current_id']
+	encounter_id = request.POST['HOPI_encounter_id']
+	HOPI_NUM = request.POST['HOPI_NUM']
+	HOPI_DETAILS = request.POST['HOPI_DETAILS']
+	HOPI_TIME = request.POST['HOPI_TIME']
+	try:
+		encounter_instance = encounter.objects.get(pk=encounter_id)
+	except:
+		returnVal['error_msg'] = "Encounter Does not exists"
+		return JsonResponse(returnVal, safe=False)
+	if(HOPI_ID != "0"):
+		try:
+			current_history_present_illness = history_present_illness.objects.get(pk=HOPI_ID)
+		except:
+			returnVal['error_msg'] = "Error on getting present illness details"
+			return JsonResponse(returnVal, safe=False)
+
+		current_history_present_illness.number = HOPI_NUM
+		current_history_present_illness.calendrical = HOPI_TIME
+		current_history_present_illness.details = HOPI_DETAILS
+		try:
+			current_history_present_illness.save();
+			returnVal['status_code'] = 1
+			returnVal['HOPI_ID'] = HOPI_ID
+		except:
+			returnVal['error_msg'] = "Error on updating History of present illness"
+	else:
+		new_history_present_illness = history_present_illness();
+		new_history_present_illness.number = HOPI_NUM
+		new_history_present_illness.calendrical = HOPI_TIME
+		new_history_present_illness.details = HOPI_DETAILS
+		new_history_present_illness.encounter = encounter_instance
+		try:
+			new_history_present_illness.save();
+			returnVal['status_code'] = 1
+			returnVal['HOPI_ID'] = new_history_present_illness.pk
+		except:
+			returnVal['error_msg'] = "Error on saving History of present illness"
+
+	return JsonResponse(returnVal, safe=False)
+
+
+@login_required(login_url='login')
 def CreateDiagnosis(request):
 	returnVal = {}
 	returnVal['status_code'] = 0

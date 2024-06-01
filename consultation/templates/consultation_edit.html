@@ -233,8 +233,10 @@
 				</div>
 
   				<div class="tab-pane fade" id="HOPI" role="tabpanel" aria-labelledby="HOPI-tab">
+  					<form id="HOPI_form" method="POST">
+  						{% csrf_token %} 
   					<div class="row">
-  						<div class="col-sm-4">
+  						<div class="col-sm-12">
   							<div class="row">
   								<div class="col-sm-12">
   									<div class="mb-3">
@@ -253,6 +255,7 @@
 			  								<option value="Minutes">Minutes</option>
 			  								<option value="Hours">Hours</option>
 			  								<option value="Days">Days</option>
+			  								<option value="Weeks">Weeks</option>
 			  								<option value="Months">Months</option>
 			  								<option value="Years">Years</option>
 			  							</select>
@@ -270,12 +273,19 @@
       									</div>
   									</div>
   								</div>
+  								<input type="hidden" name="HOPI_current_id" id="HOPI_current_id" value="0">
+  								<input type="hidden" name="HOPI_encounter_id" id="HOPI_encounter_id" value="{{ encounter_details.pk }}">
   								<div class="col-sm-12">
   									<button type="button" class="btn btn-outline-info form-control" onclick="AddHOPI(this);">Add History</button>
   								</div>
   							</div>
   						</div>
-  						<div class="col-sm-8">
+  					</div>
+  					</form>
+  					<br/>
+  					<hr>
+  					<div class="row">
+  						<div class="col-sm-12">
   							<table class="table">
   								<thead>
   									<tr>
@@ -866,8 +876,40 @@
 		LoadAutocomplete()
 		LoadAutocompleteDrug()
 		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'});
+		setInterval(AutoSaveHOPI, 30000);
 	})
 
+
+	function AutoSaveHOPI(){
+		var HOPI_NUM = $("#HOPI_NUM").val();
+		if(HOPI_NUM == "0" || HOPI_NUM.length == 0 || HOPI_NUM == 0){	
+			return false;
+		}else{
+			var HOPI_form = $("HOPI_form").serializeArray();
+			$.ajax({
+		        type: "POST",
+		        url: "{% url 'AutoCreateHOPI' %}",
+		        data: {
+		        	"HOPI_encounter_id": "{{ encounter_details.pk }}",
+		        	"HOPI_current_id": $("#HOPI_current_id").val(),
+		        	"HOPI_NUM": $("#HOPI_NUM").val(),
+		        	"HOPI_DETAILS": $("#HOPI_DETAILS").val(),
+		        	"HOPI_TIME":$("#HOPI_TIME").val(),
+		        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+		        },
+		        async:true,
+		        success: function (data) {
+		        	if(data.status_code == 1){
+						$("#HOPI_current_id").val(data.HOPI_ID);
+		        	}else{
+		        		alert(data.error_msg);
+		        	}
+		        },
+		        error: function (e) {       
+		        }
+		    })
+		}
+	}
 	
 	function CreateNurseComments(that){
 		$(that).empty();
