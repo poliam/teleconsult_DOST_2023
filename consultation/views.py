@@ -16,6 +16,14 @@ from datetime import date, datetime
 def CreateConsultation(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "Consultation"
 	returnVal['userDetails'] = profile_details
 	try:

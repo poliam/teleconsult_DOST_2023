@@ -47,11 +47,12 @@
                 		<i class='bx bxl-zoom nav_icon'></i>
                 		<span class="nav_name">Zoom Link</span>
                 	</a>
-                	
+                	{% if group_type == "Admin" %}
                 	<a href="#" class="nav_link">
                 		<i class='bx bx-bar-chart-alt-2 nav_icon'></i>
                 		<span class="nav_name">Reports</span>
                 	</a>
+                	{% endif %}
                 	<a href="#" class="nav_link">
                 		<i class='bx bx-cog nav_icon' ></i>
                 		<span class="nav_name">Settings</span>

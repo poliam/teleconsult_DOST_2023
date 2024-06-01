@@ -18,6 +18,14 @@ from datetime import date, datetime
 def PatientLists(request):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	list_of_patients = details.objects.filter(is_delete=0)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
@@ -28,6 +36,14 @@ def PatientLists(request):
 def PatientCreate(request):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['error_msg'] = ""
@@ -68,6 +84,14 @@ def PatientCreate(request):
 def PatientEdit(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	patient_instance = details.objects.get(pk=patient_id)
@@ -130,7 +154,15 @@ def PatientDetailed(request, patient_id):
 def PatientCreateRelative(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
-	
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
+
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patient_id'] = patient_id
@@ -166,6 +198,14 @@ def PatientCreateRelative(request, patient_id):
 def PatientEditRelative(request, relative_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	
@@ -218,6 +258,14 @@ def PatientGetRelative(request):
 def PatientCreateAllergy(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
@@ -256,6 +304,14 @@ def PatientCreateAllergy(request, patient_id):
 def PatientCreateGPS(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patientId'] = patient_id
@@ -435,6 +491,7 @@ def PatientAutoSaveGPS(request):
 		new_considering_event = considering_event()
 		new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
 		considering_event_1 = request.POST.get('considering_event_1', False)
+		print(considering_event_1)
 		if considering_event_1 != False:
 			new_considering_event.considering_event_1 = considering_event_1
 		considering_event_2 = request.POST.get('considering_event_2', False)
@@ -569,6 +626,14 @@ def PatientUpdateGPS(request, gps_id):
 def PatientCreateHamD(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	try:
