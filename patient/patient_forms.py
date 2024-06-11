@@ -35,6 +35,7 @@ MARITAL_CHOICES = (
 	("Widowed", "Widowed"),
 	("Divorced", "Divorced"),
 	("Separated", "Separated"),
+	("Cohabiting", "Cohabiting"),
 	("Registered Partnership", "Registered Partnership"),
 )
 
