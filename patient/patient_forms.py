@@ -75,19 +75,19 @@ SECTION_II_CHOICES = (
 )
 
 SECTION_IV_CHOICES = (
-	("Lubos na Sumasang-ayon", "Lubos na Sumasang-ayon"),
-	("Sumasang-ayon", "Sumasang-ayon"),
-	("Sinuma'y hindi sang-ayon o hindi sang-ayon", "Sinuma'y hindi sang-ayon o hindi sang-ayon"),
-	("Hindi Sumasang-ayon", "Hindi Sumasang-ayon"),
-	("Lubos na Hindi Sumasang-ayon", "Lubos na Hindi Sumasang-ayon"),
+	("Strongly Agree", "Strongly Agree"),
+	("Agree", "Agree"),
+	("Neither Agree nor Disagree", "Neither Agree nor Disagree"),
+	("Disagree", "Disagree"),
+	("Strongly Disagree", "Strongly Disagree"),
 )
 
 SECTION_V_CHOICES = (
-	("Siguradong papayag", "Siguradong papayag"),
-	("Malamang papayag", "Malamang papayag"),
-	("Sinuma'y papayag o hindi papayag", "Sinuma'y papayag o hindi papayag"),
-	("Malamang hindi papayag", "Malamang hindi papayag"),
-	("Talagang hindi papayag", "Talagang hindi papayag"),
+	("Definitely Willing", "Definitely Willing"),
+	("Probably Willing", "Probably Willing"),
+	("Neither Willing nor Unwilling", "Neither Willing nor Unwilling"),
+	("Probably Unwilling", "Probably Unwilling"),
+	("Definitely Unwilling", "Definitely Unwilling"),
 )
 
 
