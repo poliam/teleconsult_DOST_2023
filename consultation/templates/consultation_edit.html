@@ -112,7 +112,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label><b>Hamilton Depression <i class="fa-solid fa-eye" onclick="showHamddetails(this)" attr_id="{{ hamd_details.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="cursor:pointer;"></i> </b></label>
-								<input type="text" readonly class="form-control-plaintext" value="{{ hamd_details.score }} {% if hamd_details.score <= 7 %} hamd_details.score (Normal) {% elif hamd_details.score > 7 and hamd_details.score <= 13 %} (Mild Depression) {% elif hamd_details.score > 13 and hamd_details.score <= 18 %} (Moderate Depression) {% elif hamd_details.score > 18 and hamd_details.score <= 22 %} (Severe Depression) {% else %} (Very Severe Depression) {% endif %}">
+								<input type="text" readonly class="form-control-plaintext" id="hamd_score" value="{{ hamd_details.score }}">
 							</div>
 						</div>
 					</div>
@@ -877,6 +877,19 @@
 		LoadAutocompleteDrug()
 		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'});
 		setInterval(AutoSaveHOPI, 30000);
+
+		var hamd_score = $("#hamd_score").val();
+		if(hamd_score <= 7){
+			$("#hamd_score").val(hamd_score + " (Normal)");
+		}else if (hamd_score > 7 && hamd_score <= 13){
+			$("#hamd_score").val(hamd_score + " (Mild Depression)");
+		}else if (hamd_score > 13 && hamd_score <= 18){
+			$("#hamd_score").val(hamd_score + " (Moderate Depression)");
+		}else if (hamd_score > 18 && hamd_score <= 22){
+			$("#hamd_score").val(hamd_score + " (Severe Depression)");
+		}else{
+			$("#hamd_score").val(hamd_score + " (Very Severe Depression)");
+		}
 	})
 
 

@@ -490,31 +490,13 @@ def PatientAutoSaveGPS(request):
 
 		new_considering_event = considering_event()
 		new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
-		considering_event_1 = request.POST.get('considering_event_1', False)
-		print(considering_event_1)
-		if considering_event_1 != False:
-			new_considering_event.considering_event_1 = considering_event_1
-		considering_event_2 = request.POST.get('considering_event_2', False)
-		if considering_event_2 != False:
-			new_considering_event.considering_event_2 = considering_event_2
-		considering_event_3 = request.POST.get('considering_event_3', False)
-		if considering_event_3 != False:
-			new_considering_event.considering_event_3 = considering_event_3
-		considering_event_4 = request.POST.get('considering_event_4', False)
-		if considering_event_4 != False:
-			new_considering_event.considering_event_4 = considering_event_4
-		considering_event_5 = request.POST.get('considering_event_5', False)
-		if considering_event_5 != False:
-			new_considering_event.considering_event_5 = considering_event_5
-		considering_event_6 = request.POST.get('considering_event_6', False)
-		if considering_event_6 != False:
-			new_considering_event.considering_event_6 = considering_event_6
-		considering_event_7 = request.POST.get('considering_event_7', False)
-		if considering_event_7 != False:
-			new_considering_event.considering_event_7 = considering_event_7
-		considering_event_8 = request.POST.get('considering_event_8', False)
-		if considering_event_8 != False:
-			new_considering_event.considering_event_8 = considering_event_8
+		new_considering_event.considering_event_1 = request.POST.get('considering_event_1', False)
+		new_considering_event.considering_event_2 = request.POST.get('considering_event_2', False)
+		new_considering_event.considering_event_3 = request.POST.get('considering_event_3', False)
+		new_considering_event.considering_event_4 = request.POST.get('considering_event_4', False)
+		new_considering_event.considering_event_5 = request.POST.get('considering_event_5', False)
+		new_considering_event.considering_event_6 = request.POST.get('considering_event_6', False)
+		new_considering_event.considering_event_7 = request.POST.get('considering_event_7', False)
 		new_considering_event.considering_event_8 = request.POST.get('considering_event_8', False)
 		new_considering_event.considering_event_9 = request.POST.get('considering_event_9', False)
 		new_considering_event.considering_event_10 = request.POST.get('considering_event_10', False)
@@ -539,12 +521,239 @@ def PatientAutoSaveGPS(request):
 			return JsonResponse(returnVal, safe=False)
 	return JsonResponse(returnVal, safe=False)
 
+
+@login_required(login_url="/login")
+def PatientAutoSaveHamd(request):
+	returnVal = {}
+	returnVal['status_code'] = 0
+	patient_id = request.POST['patient_id']
+	current_id = request.POST['current_id']
+
+	if current_id != "0":
+		score = 0
+		total_score = 0
+		new_hamd = hamd.objects.get(pk=current_id)
+		new_hamd.depressed_mood = request.POST.get('depressed_mood', False)
+		if new_hamd.depressed_mood != False:
+			score = score + int(new_hamd.depressed_mood)
+
+		new_hamd.feeling_of_guilt = request.POST.get('feeling_of_guilt', False)
+		if new_hamd.feeling_of_guilt != False: 
+			score = score + int(new_hamd.feeling_of_guilt)
+
+		new_hamd.suicide = request.POST.get('suicide', False)
+		if new_hamd.suicide != False: 
+			score = score + int(new_hamd.suicide)
+
+		new_hamd.insomnia_initial = request.POST.get('insomnia_initial', False)
+		if new_hamd.insomnia_initial != False: 
+			score = score + int(new_hamd.insomnia_initial)
+
+
+		new_hamd.insomnia_middle = request.POST.get('insomnia_middle', False)
+		if new_hamd.insomnia_middle != False: 
+			score = score + int(new_hamd.insomnia_middle)
+
+		new_hamd.insomnia_delayed = request.POST.get('insomnia_delayed', False)
+		if new_hamd.insomnia_delayed != False: 
+			score = score + int(new_hamd.insomnia_delayed)
+
+		new_hamd.work_and_interests = request.POST.get('work_and_interests', False)
+		if new_hamd.work_and_interests != False: 
+			score = score + int(new_hamd.work_and_interests)
+
+		new_hamd.retardation_delayed = request.POST.get('retardation_delayed', False)
+		if new_hamd.retardation_delayed != False: 
+			score = score + int(new_hamd.retardation_delayed)
+
+		new_hamd.agitation_delayed = request.POST.get('agitation_delayed', False)
+		if new_hamd.agitation_delayed != False: 
+			score = score + int(new_hamd.agitation_delayed)
+
+		new_hamd.anxiety_psychic = request.POST.get('anxiety_psychic', False)
+		if new_hamd.anxiety_psychic != False: 
+			score = score + int(new_hamd.anxiety_psychic)
+
+		new_hamd.anxiety_somatic = request.POST.get('anxiety_somatic', False)
+		if new_hamd.anxiety_somatic != False: 
+			score = score + int(new_hamd.anxiety_somatic)
+
+		new_hamd.somatic_symptoms_gastrointestinal = request.POST.get('somatic_symptoms_gastrointestinal', False)
+		if new_hamd.somatic_symptoms_gastrointestinal != False: 
+			score = score + int(new_hamd.somatic_symptoms_gastrointestinal)
+
+		new_hamd.somatic_symptoms_general = request.POST.get('somatic_symptoms_general', False)
+		if new_hamd.somatic_symptoms_general != False: 
+			score = score + int(new_hamd.somatic_symptoms_general)
+
+		new_hamd.genital_symptoms = request.POST.get('genital_symptoms', False)
+		if new_hamd.genital_symptoms != False: 
+			score = score + int(new_hamd.genital_symptoms)
+
+		new_hamd.hypochondriasis = request.POST.get('hypochondriasis', False)
+		if new_hamd.hypochondriasis != False: 
+			score = score + int(new_hamd.hypochondriasis)
+
+		new_hamd.weight_loss = request.POST.get('weight_loss', False)
+		if new_hamd.weight_loss != False: 
+			score = score + int(new_hamd.weight_loss)
+
+		new_hamd.insight = request.POST.get('insight', False)
+		if new_hamd.insight != False: 
+			score = score + int(new_hamd.insight)
+
+		new_hamd.diurnal_variation = request.POST.get('diurnal_variation', False)
+		if new_hamd.diurnal_variation != False: 
+			score = score + int(new_hamd.diurnal_variation)
+
+		new_hamd.score = score
+		total_score = score
+
+		new_hamd.diurnal_variation_mild_am = request.POST.get('diurnal_variation_mild_am', False)
+		new_hamd.diurnal_variation_mild_pm = request.POST.get('diurnal_variation_mild_pm', False)
+		new_hamd.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
+		new_hamd.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
+
+		new_hamd.depersonalization_and_derelization = request.POST.get('depersonalization_and_derelization', False)
+		if new_hamd.depersonalization_and_derelization != False: 
+			total_score = total_score + int(new_hamd.depersonalization_and_derelization)
+
+		new_hamd.paranoid_symptoms = request.POST.get('paranoid_symptoms', False)
+		if new_hamd.paranoid_symptoms != False: 
+			total_score = total_score + int(new_hamd.paranoid_symptoms)
+
+		new_hamd.obsessional_symptoms = request.POST.get('obsessional_symptoms', False)
+		if new_hamd.obsessional_symptoms != False: 
+			total_score = total_score + int(new_hamd.obsessional_symptoms)
+		new_hamd.total_score = total_score
+		try:
+			new_hamd.save()
+			returnVal['current_id'] = current_id
+		except:
+			returnVal['error_msg'] = "Error on saving hamd Data"
+			return JsonResponse(returnVal, safe=False)
+	else:
+		score = 0
+		total_score = 0
+		new_hamd = hamd()
+		new_hamd.consultation_date = formatDate(request.POST['consultation_date'])
+		try:
+			patient_instance = details.objects.get(pk=patient_id)
+		except:
+			returnVal['error_msg'] = "patient_id does not exists"
+			return JsonResponse(returnVal, safe=False)
+		new_hamd.details = patient_instance
+
+		new_hamd.depressed_mood = request.POST.get('depressed_mood', False)
+		if new_hamd.depressed_mood != False:
+			score = score + int(new_hamd.depressed_mood)
+
+		new_hamd.feeling_of_guilt = request.POST.get('feeling_of_guilt', False)
+		if new_hamd.feeling_of_guilt != False: 
+			score = score + int(new_hamd.feeling_of_guilt)
+
+		new_hamd.suicide = request.POST.get('suicide', False)
+		if new_hamd.suicide != False: 
+			score = score + int(new_hamd.suicide)
+
+		new_hamd.insomnia_initial = request.POST.get('insomnia_initial', False)
+		if new_hamd.insomnia_initial != False: 
+			score = score + int(new_hamd.insomnia_initial)
+
+
+		new_hamd.insomnia_middle = request.POST.get('insomnia_middle', False)
+		if new_hamd.insomnia_middle != False: 
+			score = score + int(new_hamd.insomnia_middle)
+
+		new_hamd.insomnia_delayed = request.POST.get('insomnia_delayed', False)
+		if new_hamd.insomnia_delayed != False: 
+			score = score + int(new_hamd.insomnia_delayed)
+
+		new_hamd.work_and_interests = request.POST.get('work_and_interests', False)
+		if new_hamd.work_and_interests != False: 
+			score = score + int(new_hamd.work_and_interests)
+
+		new_hamd.retardation_delayed = request.POST.get('retardation_delayed', False)
+		if new_hamd.retardation_delayed != False: 
+			score = score + int(new_hamd.retardation_delayed)
+
+		new_hamd.agitation_delayed = request.POST.get('agitation_delayed', False)
+		if new_hamd.agitation_delayed != False: 
+			score = score + int(new_hamd.agitation_delayed)
+
+		new_hamd.anxiety_psychic = request.POST.get('anxiety_psychic', False)
+		if new_hamd.anxiety_psychic != False: 
+			score = score + int(new_hamd.anxiety_psychic)
+
+		new_hamd.anxiety_somatic = request.POST.get('anxiety_somatic', False)
+		if new_hamd.anxiety_somatic != False: 
+			score = score + int(new_hamd.anxiety_somatic)
+
+		new_hamd.somatic_symptoms_gastrointestinal = request.POST.get('somatic_symptoms_gastrointestinal', False)
+		if new_hamd.somatic_symptoms_gastrointestinal != False: 
+			score = score + int(new_hamd.somatic_symptoms_gastrointestinal)
+
+		new_hamd.somatic_symptoms_general = request.POST.get('somatic_symptoms_general', False)
+		if new_hamd.somatic_symptoms_general != False: 
+			score = score + int(new_hamd.somatic_symptoms_general)
+
+		new_hamd.genital_symptoms = request.POST.get('genital_symptoms', False)
+		if new_hamd.genital_symptoms != False: 
+			score = score + int(new_hamd.genital_symptoms)
+
+		new_hamd.hypochondriasis = request.POST.get('hypochondriasis', False)
+		if new_hamd.hypochondriasis != False: 
+			score = score + int(new_hamd.hypochondriasis)
+
+		new_hamd.weight_loss = request.POST.get('weight_loss', False)
+		if new_hamd.weight_loss != False: 
+			score = score + int(new_hamd.weight_loss)
+
+		new_hamd.insight = request.POST.get('insight', False)
+		if new_hamd.insight != False: 
+			score = score + int(new_hamd.insight)
+
+		new_hamd.diurnal_variation = request.POST.get('diurnal_variation', False)
+		if new_hamd.diurnal_variation != False: 
+			score = score + int(new_hamd.diurnal_variation)
+
+		new_hamd.score = score
+		total_score = score
+
+		new_hamd.diurnal_variation_mild_am = request.POST.get('diurnal_variation_mild_am', False)
+		new_hamd.diurnal_variation_mild_pm = request.POST.get('diurnal_variation_mild_pm', False)
+		new_hamd.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
+		new_hamd.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
+
+		new_hamd.depersonalization_and_derelization = request.POST.get('depersonalization_and_derelization', False)
+		if new_hamd.depersonalization_and_derelization != False: 
+			total_score = total_score + int(new_hamd.depersonalization_and_derelization)
+
+		new_hamd.paranoid_symptoms = request.POST.get('paranoid_symptoms', False)
+		if new_hamd.paranoid_symptoms != False: 
+			total_score = total_score + int(new_hamd.paranoid_symptoms)
+
+		new_hamd.obsessional_symptoms = request.POST.get('obsessional_symptoms', False)
+		if new_hamd.obsessional_symptoms != False: 
+			total_score = total_score + int(new_hamd.obsessional_symptoms)
+		new_hamd.total_score = total_score
+		try:
+			new_hamd.save()
+			returnVal['current_id'] = new_hamd.pk
+		except:
+			returnVal['error_msg'] = "Error on saving hamd Data"
+			return JsonResponse(returnVal, safe=False)
+
+	return JsonResponse(returnVal, safe=False)
+
+
 @login_required(login_url='/login')
 def PatientUpdateGPS(request, gps_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
+	returnVal['current_id'] = gps_id
 	global_psychotrauma_screen_instance = global_psychotrauma_screen.objects.get(pk=gps_id)
 	
 	try:
@@ -636,6 +845,7 @@ def PatientCreateHamD(request, patient_id):
 		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
+	returnVal['patientId'] = patient_id
 	try:
 		patient_instance = details.objects.get(pk=patient_id)
 		returnVal['patientDetail'] = patient_instance
@@ -715,6 +925,7 @@ def PatientUpdateHamD(request, hamd_id):
 	profile_details = User.objects.get(pk=request.user.id)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
+	returnVal['current_id'] = hamd_id
 	try:
 		hamd_details = hamd.objects.get(pk=hamd_id)
 	except:
