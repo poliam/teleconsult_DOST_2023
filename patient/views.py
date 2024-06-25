@@ -332,7 +332,12 @@ def PatientCreateGPS(request, patient_id):
 
 @login_required(login_url='/login')
 def Create_global_psychotrauma_screen(request, patient_instance):
-	new_global_psychotrauma_screen = global_psychotrauma_screen()
+	current_id = request.POST['current_id']
+	try:
+		new_global_psychotrauma_screen = global_psychotrauma_screen.objects.get(pk=current_id)
+	except:
+		new_global_psychotrauma_screen = global_psychotrauma_screen()
+
 	new_global_psychotrauma_screen.details = patient_instance
 	new_global_psychotrauma_screen.consultation_date = formatDate(request.POST['consultation_date'])
 	new_global_psychotrauma_screen.event_description = request.POST['event_description']
@@ -355,7 +360,11 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 	except:
 		return False
 
-	new_considering_event = considering_event()
+	
+	try:
+		new_considering_event = considering_event.objects.get(global_psychotrauma_screen=new_global_psychotrauma_screen.pk)
+	except:
+		new_considering_event = considering_event()
 	new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
 	new_considering_event.considering_event_1 = request.POST['considering_event_1']
 	new_considering_event.considering_event_2 = request.POST['considering_event_2']
@@ -846,6 +855,7 @@ def PatientCreateHamD(request, patient_id):
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patientId'] = patient_id
+	current_id = request.POST['current_id']
 	try:
 		patient_instance = details.objects.get(pk=patient_id)
 		returnVal['patientDetail'] = patient_instance
@@ -856,7 +866,11 @@ def PatientCreateHamD(request, patient_id):
 	if request.method == "POST":
 		score = 0
 		total_score = 0
-		new_hamd = hamd()
+		try:
+			new_hamd = hamd.objects.get(pk=current_id)
+		except:
+			new_hamd = hamd()
+			
 		new_hamd.consultation_date = formatDate(request.POST['consultation_date'])
 		new_hamd.details = patient_instance
 		new_hamd.depressed_mood = request.POST['depressed_mood']
