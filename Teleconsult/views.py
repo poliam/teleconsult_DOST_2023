@@ -100,29 +100,29 @@ def change_password(request):
 		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "settings"
 	returnVal['userDetails'] = profile_details
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        old_password = request.POST.get('old_password')
-        new_password = request.POST.get('new_password')
 
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return render(request, 'errorPage.html', {'error_message': 'User does not exist.'})
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		old_password = request.POST.get('old_password')
+		new_password = request.POST.get('new_password')
 
-        if not user.check_password(old_password):
-            return render(request, 'errorPage.html', {'error_message': 'Old password is incorrect.'})
-        
-        # Set new password
-        user.set_password(new_password)
-        user.save()
+		try:
+			user = User.objects.get(username=username)
+		except User.DoesNotExist:
+			return render(request, 'errorPage.html', {'error_message': 'User does not exist.'})
+		if not user.check_password(old_password):
+			return render(request, 'errorPage.html', {'error_message': 'Old password is incorrect.'})
 
-        # Logout the user
-        logout(request)
-        
-        return redirect('login_user')
-    else:
-    	return render(request, 'changePassword.html')
+		# Set new password
+		user.set_password(new_password)
+		user.save()
+
+		# Logout the user
+		logout(request)
+
+		return redirect('login_user')
+	else:
+		return render(request, 'changePassword.html', returnVal)
 
 def Logout(request):
 	logout(request)
