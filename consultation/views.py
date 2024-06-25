@@ -41,6 +41,7 @@ def CreateConsultation(request, patient_id):
 	try:
 		hamd_details = hamd.objects.get(details=patient_instance.pk)
 		returnVal['hamd_details'] = hamd_details
+
 	except:
 		returnVal['hamd_details'] = False
 
@@ -280,7 +281,7 @@ def EditConsultation(request, encounter_id):
 		returnVal['group_type'] = "Nurse"
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Triage"
-	elif request.user.groups.filter(name="Triage").exists():
+	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
 
 		
@@ -363,6 +364,7 @@ def EditConsultation(request, encounter_id):
 
 	try:
 		hamd_details = hamd.objects.get(details=patient_instance.pk)
+
 		returnVal['hamd_details'] = hamd_details
 	except:
 		returnVal['hamd_details'] = False
@@ -474,7 +476,35 @@ def EditConsultation(request, encounter_id):
 				ReferralFormPost = ReferralForm.save(commit=False)
 				ReferralFormPost.encounter =  encounter_instance
 				ReferralFormPost.save()
-			return redirect("PatientDetailed", patient_id=patient_instance.pk)
+				# Check which button was clicked
+				if 'action' in request.POST:
+					if request.POST.get('action') == 'update':
+						# Process the data but stay on the same page
+						returnVal['condition_list'] = condition.objects.all()
+						returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
+						returnVal['patientDetailed'] = patient_instance
+						returnVal['history_present_illness_list'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+						returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+						return render(request, 'consultation_edit.html', returnVal)
+					elif request.POST.get('action') == 'save_exit':
+						# Process the data and redirect
+						# Example: Save the data and then redirect
+						return redirect("PatientDetailed", patient_id=patient_instance.pk)
+			else:
+				if 'action' in request.POST:
+					if request.POST.get('action') == 'update':
+						# Process the data but stay on the same page
+						returnVal['condition_list'] = condition.objects.all()
+						returnVal['medicine'] = medicine.objects.filter(is_delete=0, status=1)
+						returnVal['patientDetailed'] = patient_instance
+						returnVal['history_present_illness_list'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+						returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
+						return render(request, 'consultation_edit.html', returnVal)
+					elif request.POST.get('action') == 'save_exit':
+						# Process the data and redirect
+						# Example: Save the data and then redirect
+						return redirect("PatientDetailed", patient_id=patient_instance.pk)
+
 
 	
 	returnVal['condition_list'] = condition.objects.all()

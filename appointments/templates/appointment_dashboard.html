@@ -235,7 +235,7 @@
   					</div>
       				
       				<!-- create a form for the consultation date and consultation type -->
-      				<form method="POST" class="evaluate_form">
+      				<form method="POST" class="evaluate_form" id="evaluate_form">
       					{% csrf_token %}
       					<div class="row evaluate_form" style="display:none;">
       						<div class="col-sm-12" style="padding-bottom: 0.5rem;">
@@ -247,7 +247,7 @@
       						<hr>
       						<div class="col-sm-12">
 		  						<div class="d-grid gap-2">
-		  							<button type="submit" class="btn btn-outline-primary">Create Appointment</button>
+		  							<button type="submit"  class="btn btn-outline-primary">Create Appointment</button>
 		  						</div>
 		  					</div>
       					</div>
@@ -324,7 +324,21 @@
 		$("#patient_id_evaluate").val(patient_details_id);
 		$(".PatientTableWrapper").hide();
 		$(".consultation_type_wrapper").show();
+	}
 
+	function submitEvaluationForm(){
+		var form = $("#evaluate_form").serializeArray();
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateAppointment' %}",
+	        data: form,
+	        async:true,
+	        success: function (data) {
+	        	$("input[name=current_id]").val(data.current_id);
+	        },
+	        error: function (e) {       
+	        }
+	    })
 	}
 </script>
 {% endblock script %}

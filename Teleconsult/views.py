@@ -87,6 +87,48 @@ def signup(request):
 			errormsg = "Username Already Taken!"
 	return render(request, "signup.html", {"error_msg":errormsg, "success": success, "successmsg": successmsg})
 
+def change_password(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render(request, 'errorPage.html', {'error_message': 'User does not exist.'})
+
+        if not user.check_password(old_password):
+            return render(request, 'errorPage.html', {'error_message': 'Old password is incorrect.'})
+        
+        # Set new password
+        user.set_password(new_password)
+        user.save()
+
+        # Logout the user
+        logout(request)
+        
+        return redirect('login_user')
+    else:
+    	return render(request, 'changePassword.html')
+
 def Logout(request):
 	logout(request)
 	return redirect('login_user')
+
+def reportPage(request):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
+	print(returnVal)
+	returnVal['sidebar'] = "reports"
+	returnVal['userDetails'] = profile_details
+	return render(request, 'report_page.html', returnVal)
+

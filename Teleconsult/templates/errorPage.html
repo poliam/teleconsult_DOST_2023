@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block style %}
+<style type="text/css">
+    .dashboard_welcome_greeting{
+        color: #6417A1;
+    }
+    .card-header{
+        text-align: center;
+        background-color: #6417A180;
+        color: white;
+    }
+    .card-title{
+        text-align:center; 
+        font-size: 2rem;
+    }
+    .view_more{
+        text-align:center;
+        text-decoration:none;
+        color: #5967F2;
+        font-weight: 500;
+    }
+    .card-body{
+        text-align: center;
+    }
+    .dashboard_btn{
+        border: 1px solid;
+        border-color: #6417A180;
+    }
+    .dashboard_btn_text{
+        color: #6417A180;
+    }
+
+    .error-container {
+            width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffdddd;
+            border: 1px solid #ffcccc;
+            color: #a94442;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+</style>
+{% endblock style %}
+
+{% block content %}
+ <div class="error-container">
+        <h2>An Error Occurred</h2>
+        <p>{{ error_message }}</p>
+        <a href="{% url 'change-password' %}" class="button">Try Again</a>
+    </div>
+
+{% endblock content %}
+
+
+{% block script %}
+
+{% endblock script %}
