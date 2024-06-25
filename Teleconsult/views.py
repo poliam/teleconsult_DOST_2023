@@ -88,6 +88,18 @@ def signup(request):
 	return render(request, "signup.html", {"error_msg":errormsg, "success": success, "successmsg": successmsg})
 
 def change_password(request):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
+	returnVal['sidebar'] = "settings"
+	returnVal['userDetails'] = profile_details
     if request.method == 'POST':
         username = request.POST.get('username')
         old_password = request.POST.get('old_password')
@@ -127,7 +139,6 @@ def reportPage(request):
 		returnVal['group_type'] = "Triage"
 	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
-	print(returnVal)
 	returnVal['sidebar'] = "reports"
 	returnVal['userDetails'] = profile_details
 	return render(request, 'report_page.html', returnVal)
