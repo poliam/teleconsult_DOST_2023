@@ -54,7 +54,7 @@
                 		<span class="nav_name">Reports</span>
                 	</a>
                 	{% endif %}
-                	<a href="{% url 'change-password' %}" class="nav_link">
+                	<a href="{% url 'change-password' %}" class="nav_link {% if sidebar == 'settings' %} active {% endif %} ">
                 		<i class='bx bx-cog nav_icon' ></i>
                 		<span class="nav_name">Settings</span>
                 	</a>
