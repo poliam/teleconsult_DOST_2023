@@ -855,7 +855,7 @@ def PatientCreateHamD(request, patient_id):
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['patientId'] = patient_id
-	current_id = request.POST['current_id']
+	
 	try:
 		patient_instance = details.objects.get(pk=patient_id)
 		returnVal['patientDetail'] = patient_instance
@@ -864,6 +864,7 @@ def PatientCreateHamD(request, patient_id):
 		return render(request, 'patient_create_hamd.html', returnVal)
 
 	if request.method == "POST":
+		current_id = request.POST['current_id']
 		score = 0
 		total_score = 0
 		try:
