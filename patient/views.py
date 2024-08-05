@@ -12,8 +12,6 @@ from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatien
 from consultation.models import encounter
 import random, os
 
-from django.template.loader import render_to_string
-from xhtml2pdf import pisa
 
 from datetime import date, datetime
 
@@ -1112,23 +1110,23 @@ def PatientFileUpload(request):
 
 @login_required(login_url='/login')
 def referralFormPdf(request, referral_id):
-	# Define the data to be passed to the template
-	context = {
-		'title': 'Sample PDF Document',
-		'content': 'This is a sample content in the PDF document.'
-	}
-	# Render the HTML template with context data
-	html = render_to_string('referral_form.html', context)
-	# Create a response object for the PDF
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; filename="output.pdf"'
-	# Generate the PD
-	pisa_status = pisa.CreatePDF(html, dest=response)
-	# If an error occurs, show it
-	if pisa_status.err:
-		return HttpResponse('We had some errors <pre>' + html + '</pre>')
+	# # Define the data to be passed to the template
+	# context = {
+	# 	'title': 'Sample PDF Document',
+	# 	'content': 'This is a sample content in the PDF document.'
+	# }
+	# # Render the HTML template with context data
+	# html = render_to_string('referral_form.html', context)
+	# # Create a response object for the PDF
+	# response = HttpResponse(content_type='application/pdf')
+	# response['Content-Disposition'] = 'inline; filename="output.pdf"'
+	# # Generate the PD
+	# pisa_status = pisa.CreatePDF(html, dest=response)
+	# # If an error occurs, show it
+	# if pisa_status.err:
+	# 	return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
-	return response
+	return false
 
 def PatientSurveyCompleted(request):
 	return render(request, 'patient_survey_complete.html')
