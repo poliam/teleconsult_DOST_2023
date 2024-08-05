@@ -544,7 +544,8 @@
 
 	<div class="card" style="margin-top:0.3rem;">
 		<div class="card-header patient_detail_name" id="headingOne" style="cursor:pointer;">
-			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseReferral" aria-expanded="false" aria-controls="collapseReferral">Referral</h6>
+			<h6 class="mb-0" data-bs-toggle="collapse" data-bs-target="#collapseReferral" aria-expanded="false" aria-controls="collapseReferral">Referral {% if referral_details %} <button type="button" class="btn btn-light btn-sm"  onclick="window.open('{% url 'referralFormPdf' referral_id=referral_details.pk %}', '_blank');">Print</button>  {% endif %}</h6>
+
 		</div>
 		<div class="collapse" id="collapseReferral">
 			<div class="card card-body">

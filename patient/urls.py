@@ -31,7 +31,8 @@ urlpatterns = [
    path('patient_survey/<patient_id>', views.PatientSurvey, name="PatientSurvey"),
    path('survey_completed', views.PatientSurveyCompleted, name="PatientSurveyCompleted"),
 
-   path('patient_file_upload', views.PatientFileUpload, name="PatientFileUpload")
+   path('patient_file_upload', views.PatientFileUpload, name="PatientFileUpload"),
+   path('patient_referral_pdf/<int:referral_id>/', views.referralFormPdf, name='referralFormPdf'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
