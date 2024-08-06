@@ -406,7 +406,7 @@
   										<tr>
   											<td>{{ forloop.counter }}</td>
   											<td style="cursor:pointer; color: #6417A1; font-weight: 700;" attr_id="{{encounter.pk}}" onclick="SelectEncounter(this)">{{ encounter.consultation_date|date:"F d, Y (D)" }}</td>
-  											<td style="color: #6417A1; font-weight: 700;">{{ encounter.reason_for_interaction }}</td>
+  											<td style="color: #6417A1; font-weight: 700;">{% if encounter.reason_for_interaction == "Outpatient" %} Checkup {% else %} {{ encounter.reason_for_interaction }} {% endif %} </td>
   										</tr>
   									{% empty %}
   										<tr>
