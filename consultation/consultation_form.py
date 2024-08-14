@@ -74,7 +74,7 @@ class AddConsultationVitalSignForm(forms.ModelForm):
 class AddConsultationChiefComplaintForm(forms.ModelForm):
 	patient_complaints = forms.CharField(required=False, label="Patient Complaints", widget=forms.Textarea(attrs={'rows':4}))
 	informant_complaints = forms.CharField(required=False, label="Informant Complaints", widget=forms.Textarea(attrs={'rows':4}))
-	informatmant_relationship = forms.TypedChoiceField(required=True, label="Informant Relationshop", choices=RELATIONSHIP_CHOICES)
+	informatmant_relationship = forms.TypedChoiceField(required=True, label="Informant Relationship", choices=RELATIONSHIP_CHOICES)
 
 	def __init__(self, *args, **kwargs):
 		super(AddConsultationChiefComplaintForm, self).__init__(*args, **kwargs)
