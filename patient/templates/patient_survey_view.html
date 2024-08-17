@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} SURVEY VIEW {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.1.4/css/dataTables.dataTables.min.css">
+<style type="text/css">
+	.dashboard_welcome_greeting{
+		color: #6417A1;
+	}
+	.add_patient_btn{
+		color: #6417A180;
+		border-color: #6417A180;
+	}
+	.card-header{
+		background-color:#6417A180;
+	}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class='container'>
+	<div class="row justify-content-md-center">
+	<div class="col-10">
+		<table class="table" id="current_table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Question</th>
+					<th>Answer</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>1</td>
+				<td>Kung ang isang tao ay labis na kinabahan o nababalisa sa isa o higit pang mga sitwasyon kasama ng ibang tao (halimbawa, isang party), o mga sitwasyon sa pagganap (halimbawa, pagtatanghal sa isang pulong), kung saan siya ay natatakot na masuri ng iba, hanggang saan sa tingin mo ang posibilidad na mayroon silang Social Phobia (Pagkabalisa sa Pakikisalamuha)?</td>
+				<td>
+					<b>{{ survey_details.social_phobia }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Kung ang isang tao ay nakaranas ng labis na pag-aalala tungkol sa ilang mga kaganapan o aktibidad kung saan ang antas ng pag-aalala na ito ay hindi nararapat, nahihirapang kontrolin ang pag-aalala na ito at nagkaroon ng mga pisikal na sintomas tulad ng pagkakaroon ng tension na mga kalamnan at pakiramdam ng pagkapagod, hanggang saan sa tingin mo ang posibilidad na mayroon sila Generalized Anxiety Disorder (Karamdamang Pangkalahatang Pagkabalisa)?</td>
+				<td>
+					<b>{{ survey_details.generalized_anxiety_disorder }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>
+					Kung ang isang tao ay nakaranas ng mababang mood sa loob ng dalawa o higit pang mga linggo, nawalan ng kasiyahan o interes sa kanilang mga normal na aktibidad at nakaranas ng mga pagbabago sa kanilang gana at pagtulog, hanggang saan sa tingin mo ang posibilidad na mayroon silang Major Depressive Disorder (Matinding Depresyon/Panlulumo)?
+				</td>
+				<td>
+					<b>{{ survey_details.generalized_anxiety_disorder }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Hanggang saan sa tingin mo ang posibilidad na ang Personality Disorder (Diperensya sa Personalidad) ay isang kategorya ng sakit sa isip?</td>
+				<td>
+					<b>{{ survey_details.major_depressive_disorder }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Hanggang saan sa tingin mo ang posibilidad na ang Dysthymia (Paulit-ulit na Karamdamang Depresyon) ay isang medikal na karamdaman?</td>
+				<td>
+					<b>{{ survey_details.disorder_personality_disorder }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Hanggang saan sa tingin mo ang posibilidad na ang diagnosis ng Agoraphobia (Matinding Takot sa Kalawakan) ay kinabibilangan ng pagkabalisa tungkol sa mga sitwasyon kung saan ang pag-labas ng bahay ay maaaring mahirap o nakakahiya?</td>
+				<td>
+					<b>{{ survey_details.agoraphobia }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Hanggang saan sa tingin mo ay kasama sa diagnosis ng Bipolar Disorder (Diperensyang Sabay ang Manya at Depresyon) ang pagdanas ng mga panahon ng mataas na emosyon (i.e., mataas na pakiramdam) at mga panahon ng depresyon (i.e., mababang) mood?</td>
+				<td>
+					<b>{{ survey_details.bipolar_disorder }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td>Hanggang saan sa tingin mo ang diagnosis ng Drug Dependence (Pagdepende sa Droga) ay kinabibilangan ng pisikal at sikolohikal na pagpapaubaya ng gamot (ibig sabihin, nangangailangan ng higit pa sa gamot upang makakuha ng parehong epekto)?</td>
+				<td>
+					<b>{{ survey_details.drug_dependence }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>Hanggang saan sa tingin mo ang posibilidad na sa pangkalahatan sa Pilipinas, ang mga babae ay MAS nakakaranas ng anumang uri ng sakit sa pag-iisip kumpara sa mga lalaki?</td>
+				<td>
+					<b>{{ survey_details.mas_babae }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td>Sa palagay mo, gaano kalaki ang posibilidad na sa pangkalahatan, sa Pilipinas, MAS nakakaranas ng anxiety disorder (pagkabalisa) ang mga lalaki kumpara sa mga babae?</td>
+				<td>
+					<b>{{ survey_details.mas_lalake }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>11</td>
+				<td>Hanggang saan sa tingin mo magiging kapaki-pakinabang para sa isang tao na mapabuti ang kalidad ng kanilang pagtulog kung nahihirapan silang pamahalaan ang kanilang mga emosyon (hal., pagiging lubhang nababalisa o nanlulumo)?</td>
+				<td>
+					<b>{{ survey_details.kalidad_pagtulog }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>12</td>
+				<td>Hanggang saan sa tingin mo makatutulong para sa isang tao na iwasan ang lahat ng mga aktibidad o sitwasyon na nagdulot sa kanila ng pagkabalisa kung nahihirapan silang pamahalaan ang kanilang mga damdamin</td>
+				<td>
+					<b>{{ survey_details.iwasan_aktibidad }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>13</td>
+				<td>Hanggang saan sa tingin mo ang posibilidad na ang Cognitive Behavior Therapy (CBT) ay isang therapy batay sa mga mapaghamong negatibong kaisipan at pagtaas ng mga kapaki-pakinabang na pag-uugali?</td>
+				<td>
+					<b>{{ survey_details.cognitive_behavior_therapy }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>14</td>
+				<td>Kung ikaw ay nasa agarang panganib na makakapinsala sa iyong sarili o sa iba.”</td>
+				<td>
+					<b>{{ survey_details.kumpidensyal }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>15</td>
+				<td>“Kung ang iyong problema ay hindi nagbabanta sa buhay mo, at gusto nilang tulungan ang iba upang mas suportahan ka.”</td>
+				<td>
+					<b>{{ survey_details.hindi_nagbabanta }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>16</td>
+				<td>Nakatitiyak ako na alam ko kung saan hahanapin ang impormasyon tungkol sa kalusugan ng isip.</td>
+				<td>
+					<b>{{ survey_details.hahanapin_impormasyon_sakit_isip }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>17</td>
+				<td>Ako ay may tiwala sa paggamit ng computer o telepono upang humingi ng impormasyon tungkol sa kalusugan ng isip.</td>
+				<td>
+					<b>{{ survey_details.humingi_impormasyon_sakit_isip }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>18</td>
+				<td>Nakatitiyak akong dumalo nang harapang appointment para humingi ng impormasyon tungkol sa kalusugan ng isip (halimbawa, pagpapatingin sa isang doktor).</td>
+				<td>
+					<b>{{ survey_details.mapagkukunan_impormasyon_sakit_isip }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>19</td>
+				<td>Nakatitiyak ako na mayroon akong access sa mga taong mapagkukunan ng impormasyon tungkol sa kalusugan ng isip (halimbawa, doktor, internet, mga kaibigan).</td>
+				<td>
+					<b>{{ survey_details.bumalik_tamang_kaisipan }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>20</td>
+				<td>Ang mga taong may sakit sa pag-iisip ay maaaring bumalik sa tamang kaisipan kailanman gusto nila.</td>
+				<td>
+					<b>{{ survey_details.pagpapatingin_sa_doktor }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>21</td>
+				<td> Ang sakit sa pag-iisip ay tanda ng personal na kahinaan.</td>
+				<td>
+					<b>{{ survey_details.personal_kahinaan }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>22</td>
+				<td>Ang isang sakit sa pag-iisip ay hindi isang tunay na sakit na medikal.</td>
+				<td>
+					<b>{{ survey_details.sakit_medikal }} </b>
+				</td>
+			</tr>
+			<tr>
+				<td>23</td>
+				<td>Ang mga taong may sakit sa pag-iisip ay mapanganib.</td>
+				<td>
+					<b>{{ survey_details.mapanganib }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>24</td>
+				<td>Pinakamabuting umiwas sa mga taong may sakit sa pag-iisip upang hindi ka magkaroon ng ganitong problema.</td>
+				<td>
+					<b>{{ survey_details.umiwas_taong_sakit_isip }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>25</td>
+				<td>Kung ako ay may sakit sa pag-iisip hindi ko sasabihin kahit kanino.</td>
+				<td>
+					<b>{{ survey_details.hindi_sasabihin_kahit_kanino }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>26</td>
+				<td>Ang pagpapatingin sa isang mental health professional ay nangangahulugan na hindi ka sapat na malakas upang pamahalaan ang iyong sariling mga paghihirap.</td>
+				<td>
+					<b>{{ survey_details.question_26 }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>27</td>
+				<td>Kung mayroon akong sakit sa isip, hindi ako hihingi ng tulong sa isang mental health professional.</td>
+				<td>
+					<b>{{ survey_details.question_27 }} </b>
+				</td>
+			</tr>
+			<tr>
+				<td>28</td>
+				<td>Naniniwala ako na ang paggamot para sa isang sakit sa isip, na ibinigay ng isang mental health professional, ay hindi magiging epektibo.</td>
+				<td>
+					<b>{{ survey_details.hindi_magiging_epektibo }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>29</td>
+				<td>Gaano ka kahandang lumipat ng bahay malapit sa isang taong may sakit sa pag-iisip?</td>
+				<td>
+					<b>{{ survey_details.lumipat_ng_bahay }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>30</td>
+				<td>Gaano ka handa na gumugol ng isang gabi sa pakikisalamuha sa isang taong may sakit sa pag-iisip?</td>
+				<td>
+					<b>{{ survey_details.pakikisalamuha_isang_taong }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>31</td>
+				<td>Gaano ka handa na makipagkaibigan sa isang taong may sakit sa pag-iisip?</td>
+				<td>
+					<b>{{ survey_details.question_31 }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>32</td>
+				<td>Gaano ka handa na magkaroon ng isang taong may sakit sa pag-iisip na makasama sa isang trabaho?</td>
+				<td>
+					<b>{{ survey_details.question_32 }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>33</td>
+				<td>Gaano ka papayag na ang isang taong may sakit sa pag-iisip ay magiging parte ng iyong pamilya sa pamamagitan ng kasal?</td>
+				<td>
+					<b>{{ survey_details.question_33 }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>34</td>
+				<td> Gaano ka payag na bumoto para sa isang politiko kung alam mo na sila ay nagdusa ng sakit sa pag-iisip?</td>
+				<td>
+					<b>{{ survey_details.question_34 }}</b>
+				</td>
+			</tr>
+			<tr>
+				<td>35</td>
+				<td>Gaano ka payag na magpatrabaho ng isang tao kung alam mong mayroon silang sakit sa pag-iisip?</td>
+				<td>
+					<b>{{ survey_details.question_35 }}</b>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="//cdn.datatables.net/2.1.4/js/dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript">
+	new DataTable('#current_table', {
+    layout: {
+        topStart: {
+            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+        }
+    },
+    pageLength: 50
+});
+</script>
+
+{% endblock script %}

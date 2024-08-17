@@ -1128,6 +1128,15 @@ def referralFormPdf(request, referral_id):
 
 	return false
 
+@login_required(login_url='/login')
+def PatientViewSurvey(request, patient_id):
+	returnVal = {}
+	try:
+		returnVal['survey_details'] = patient_survey.objects.get(details=patient_id);
+	except:
+		returnVal['error_msg'] = "Error on saving hamd Data"
+	return render(request, 'patient_survey_view.html', returnVal)
+
 def PatientSurveyCompleted(request):
 	return render(request, 'patient_survey_complete.html')
 
