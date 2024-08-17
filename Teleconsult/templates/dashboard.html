@@ -153,7 +153,7 @@
 				</table>
 			</div>
 		</div>
-		{% elif group_type == "Triage" %}
+	{% elif group_type == "Triage" %}
 		<h5 style="color: #6417A1;">Today Mental Health Screening</h5>
 		<br/>
 		<div class="row justify-content-md-center">
@@ -236,11 +236,9 @@
 			</div>
 		</div>
 	{% else %}
-		<h5 style="color: #6417A1;">Today Consultations</h5>
-		<br/>
-		<div class="row ">
-			<div class="col-sm-1"></div>
-			<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 style="color: #6417A1;">Today Psychiatric Evaluation</h5>
 				<table class="table table-hover">
 				  	<thead style="background-color: #6417A180;">
 				    	<tr>
@@ -250,18 +248,13 @@
 				      		<th scope="col">Status</th>
 				    	</tr>
 				  	</thead>
-					<tbody>
-						{% for consultation in today_consultation %}
+				  	<tbody>
+				  		{% for consultation in today_consultation %}
 							<tr>
 								<td>{{ forloop.counter }}</td>
 								<td>
-									{% if group_type == "Doctor" or group_type == "Nurse" %}
-										<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1; font-weight: 700;">
-	    							{% else %}
-	    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1; font-weight: 700;">
-	    							{% endif %}
-									
-									{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}
+									<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1; font-weight: 700;">
+    							{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}
 									</a>
 								</td>
 								<td>{{ consultation.reason_for_interaction }} - Checkup</td>
@@ -278,10 +271,36 @@
 								<td colspan="4">No consultation for today. . .</td>
 							</tr>
 						{% endfor %}
-		  			</tbody>
+				  	</tbody>
 				</table>
 			</div>
-			<div class="col-sm-1"></div>
+			<div class="col-sm-6">
+				<h5 style="color: #6417A1;">Today Mental Health Screening</h5>
+				<table class="table table-hover">
+				  	<thead style="background-color: #6417A180;">
+				    	<tr>
+				      		<th scope="col">#</th>
+				      		<th scope="col">Name</th>
+				    	</tr>
+				  	</thead>
+				  	<tbody>
+				  		{% for evaluation in today_evaluation %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								<td>
+									<a href="{% url 'PatientDetailed' evaluation.details.pk %}" style="text-decoration:none; color:#6417A1; font-weight: 700;">
+									{{ evaluation.details.last_name|capfirst }}, {{ evaluation.details.first_name|capfirst }} {{ evaluation.details.middle_name|capfirst }}
+									</a>
+								</td>
+							</tr>
+						{% empty %}
+							<tr>
+								<td colspan="4">No evaluation for today. . .</td>
+							</tr>
+						{% endfor %}
+				  	</tbody>
+				</table>
+			</div>
 		</div>
 	{% endif %}
 </div>
