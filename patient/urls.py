@@ -29,6 +29,7 @@ urlpatterns = [
    path('patient_autosave_hamd', views.PatientAutoSaveHamd, name="PatientAutoSaveHamd"),
 
    path('patient_survey/<patient_id>', views.PatientSurvey, name="PatientSurvey"),
+   path('patient_view_survey/<patient_id>', views.PatientViewSurvey, name="PatientViewSurvey"),
    path('survey_completed', views.PatientSurveyCompleted, name="PatientSurveyCompleted"),
 
    path('patient_file_upload', views.PatientFileUpload, name="PatientFileUpload"),

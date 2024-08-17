@@ -165,7 +165,7 @@
     								<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
     							</span>
     							{% if has_survey == 1 %}
-	    							<label for="Patient_birth_place" class="col-sm-12 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i></label>
+	    							<label for="Patient_birth_place" class="col-sm-12 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i> &nbsp <a href="{% url 'PatientViewSurvey' patientDetailed.pk %}" target="_blank"><i class="fa-solid fa-eye"></i></a></label>
 	    						{% else %}
 	    							<label for="Patient_birth_place" class="col-sm-12 col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i> <a  href="{% url 'PatientSurvey' patientDetailed.pk %}" target="_blank"><i class="fa-solid fa-pen-to-square"></i></a></label>
 	    						{% endif %}
