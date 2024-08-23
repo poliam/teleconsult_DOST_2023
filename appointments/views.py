@@ -39,6 +39,9 @@ def AppointmentList(request):
 	past_dates = current_date-timedelta(hours=24)
 	returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=past_dates).order_by('consultation_date')
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
+
+	returnVal['list_of_psychiatric_evaluate'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date)).order_by('evaluation_consultation_date')
+
 	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm()
 	returnVal['PsychiatricEvaluateForm'] = AddPsychiatricEvaluateForm()
 
