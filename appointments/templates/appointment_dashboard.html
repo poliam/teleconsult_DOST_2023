@@ -49,87 +49,180 @@
 	</div>
 	<br/>
 	<div class="row">
-		<div class="col-sm-4">
+		<div class="col-6">
 			<div class="card appointment_cards">
   				<div class="card-header card_background_color">
     				Upcoming Appointments
   				</div>
   				<div class="card-body appointment_card_body">
-    				<ul class="list-group list-group-flush">
-    					{% for consultation in week_consultation %}
-    						{% if forloop.last %}
-    							<li class="list-group-item consultations_name_list">
-	    							{% if group_type == "Doctor" or  group_type == "Nurse" %}
-	    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
-	    							{% else %}
-	    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
-	    							{% endif %}
-	    								<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
-	    							
-	    							</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
-	    						</li>
-	    						{% for psychiatric_evaluate in list_of_psychiatric_evaluate %}
-	    							<li class="list-group-item consultations_name_list">
-	    								<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
-	    									<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>&nbsp;&nbsp;{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }} - Mental Health Screening
-	    								</a>
-	    							</li>
-    							{% endfor %}
-    						{% else %}
-   								<li class="list-group-item consultations_name_list">
-	    							{% if group_type == "Doctor" or  group_type == "Nurse" %}
-	    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
-	    							{% else %}
-	    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
-	    							{% endif %}
-	    								<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
-	    							
-	    							</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
-	    						</li>
-							{% endif %}
-    					{% empty %}
-    						{% for psychiatric_evaluate in list_of_psychiatric_evaluate %}
-    							<li class="list-group-item consultations_name_list">
-    								<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
-    									<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>&nbsp;&nbsp;{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }} - Mental Health Screening
-    								</a>
-    							</li>
-    						{% empty %}
-    							No Appointment for the comming 7 days. . . 
-    						{% endfor %}
-    					{% endfor %}
-			 			
-			  				
-					</ul>
+  					<table class="table" id="upcomingAppointment">
+  						<thead>
+  							<th>Name</th>
+  							<th>Consultation Date</th>
+  							<th>Consultation Type</th>
+  						</thead>
+  						<tbody>
+  							{% for consultation in week_consultation %}
+  								
+  								{% if forloop.last %}
+	  								<tr>
+	  									<td>
+	  									{% if group_type == "Doctor" or  group_type == "Nurse" %}
+		    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+		    							{% else %}
+		    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+		    							{% endif %}
+		    								<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+		    								</a>
+		    							</td>	
+		    							<td>{{ consultation.consultation_date|date:"F d, Y" }}</td>  
+		    							<td>{{consultation.reason_for_interaction}} - Checkup </td>
+		    						</tr>
+		    						{% for psychiatric_evaluate in list_of_psychiatric_evaluate %}
+		    							<tr>
+		    								<td>
+		    									<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
+			    									<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>
+			    								</a>
+		    								</td>
+		    								<td>
+		    									{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }}
+		    								</td>
+		    								<td>
+		    									Mental Health Screening
+		    								</td>
+		    							</tr>
+    								{% endfor %}
+  								{% else %}
+  									<tr>
+	  									<td>
+	  									{% if group_type == "Doctor" or  group_type == "Nurse" %}
+		    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+		    							{% else %}
+		    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+		    							{% endif %}
+		    								<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+		    								</a>
+		    							</td>	
+		    							<td>{{ consultation.consultation_date|date:"F d, Y" }}</td>  
+		    							<td>{{consultation.reason_for_interaction}} - Checkup </td>
+		    						</tr>
+  								{% endif %}
+  							{% empty %}
+  								{% for psychiatric_evaluate in list_of_psychiatric_evaluate %}
+  									<tr>
+	    								<td>
+	    									<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
+		    									<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>
+		    								</a>
+	    								</td>
+	    								<td>
+	    									{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }}
+	    								</td>
+	    								<td>
+	    									Mental Health Screening
+	    								</td>
+	    							</tr>
+		    					{% empty %}
+		    						No Appointment for the comming 7 days. . . 
+		    					{% endfor %}
+  							{% endfor %}
+  						</tbody>
+  					</table>
   				</div>
 			</div>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-6">
 			<div class="card appointment_cards">
   				<div class="card-header card_background_color">
     				This Month Appointments
   				</div>
   				<div class="card-body appointment_card_body">
-  					<ul class="list-group list-group-flush">
-	    				{% for consultation in month_consultation %}
-							<li class="list-group-item consultations_name_list">
-
-								{% if group_type == "Doctor" or group_type == "Nurse" %}
-    								<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
-    							{% else %}
-    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
-    							{% endif %}
-									<b>{{ forloop.counter  }}. {{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
-								</a>&nbsp;&nbsp;{{ consultation.consultation_date|date:"F d, Y" }} ( {{consultation.reason_for_interaction}} - Checkup )
-							</li>
-						{% empty %}
-							No Appointment for this Month. . .
-						{% endfor %}
-					</ul>
+  					<table class="table" id="monthlyAppointment">
+  						<thead>
+  							<th>Name</th>
+  							<th>Consultation Date</th>
+  							<th>Consultation Type</th>
+  						</thead>
+  						<tbody>
+  							{% for consultation in month_consultation %}
+  								{% if forloop.last %}
+  									<tr>
+  										<td>
+  											{% if group_type == "Doctor" or group_type == "Nurse" %}
+	    										<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+			    							{% else %}
+			    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+			    							{% endif %}
+			    							<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+			    							</a>
+  										</td>
+  										<td>
+  											{{ consultation.consultation_date|date:"F d, Y" }}
+  										</td>
+  										<td>
+  											{{consultation.reason_for_interaction}} - Checkup
+  										</td>
+  									</tr>
+  									{% for psychiatric_evaluate in list_of_psychiatric_evaluate_month %}
+  										<tr>
+  											<td>
+  												<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
+  													<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>
+  												</a>
+  											</td>
+  											<td>
+  												{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }}
+  											</td>
+  											<td>
+  												Mental Health Screening
+  											</td>
+  										</tr>
+  									{% endfor %}
+  								{% else %}
+  									<tr>
+  										<td>
+  											{% if group_type == "Doctor" or group_type == "Nurse" %}
+	    										<a href="{% url 'EditConsultation' consultation.pk %}" style="text-decoration:none; color:#6417A1;">
+			    							{% else %}
+			    								<a href="{% url 'PatientDetailed' consultation.details.pk %}" style="text-decoration:none; color:#6417A1;">
+			    							{% endif %}
+			    							<b>{{ consultation.details.last_name|capfirst }}, {{ consultation.details.first_name|capfirst }} {{ consultation.details.middle_name|capfirst }}</b>
+			    							</a>
+  										</td>
+  										<td>
+  											{{ consultation.consultation_date|date:"F d, Y" }}
+  										</td>
+  										<td>
+  											{{consultation.reason_for_interaction}} - Checkup
+  										</td>
+  									</tr>
+  								{% endif %} 
+  							{% empty %}
+  								{% for psychiatric_evaluate in list_of_psychiatric_evaluate_month %}
+  									<tr>
+										<td>
+											<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="text-decoration:none; color:#6417A1;">
+												<b>{{ psychiatric_evaluate.details.last_name|capfirst }}, {{ psychiatric_evaluate.details.first_name|capfirst }} {{ psychiatric_evaluate.details.middle_name|capfirst }}</b>
+											</a>
+										</td>
+										<td>
+											{{ psychiatric_evaluate.evaluation_consultation_date|date:"F d, Y" }}
+										</td>
+										<td>
+											Mental Health Screening
+										</td>
+									</tr>
+  								{% empty %}
+  									No Appointment for this Month. . .
+  								{% endfor %}
+  							{% endfor %}
+  						</tbody>
+  					</table>
   				</div>
 			</div>
 		</div>
-		<div class="col-sm-4">
+		<div style="display:none;">
 			<div class="card appointment_cards">
   				<div class="card-header card_background_color">
     				Past Appointments
@@ -324,6 +417,25 @@
 		let table = new DataTable('.patient_table');
 		$("#id_consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
 		$("#id_evaluation_consultation_date").datepicker({format:'mm/dd/yyyy'}).datepicker("setDate",'now');
+
+		let table2 = new DataTable('#upcomingAppointment', {
+			pageLength: 100,
+			order: [[1, 'desc']]
+		});
+		$("#upcomingAppointment_length").hide();
+		$("#upcomingAppointment_filter").hide();
+		$("#upcomingAppointment_info").hide();
+		$("#upcomingAppointment_paginate").hide();
+
+		let table3 = new DataTable('#monthlyAppointment', {
+			pageLength: 100,
+			order: [[1, 'desc']]
+		});
+		$("#monthlyAppointment_length").hide();
+		$("#monthlyAppointment_filter").hide();
+		$("#monthlyAppointment_info").hide();
+		$("#monthlyAppointment_paginate").hide();
+		
 	})
 
 	function resetModal(){

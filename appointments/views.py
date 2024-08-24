@@ -41,6 +41,7 @@ def AppointmentList(request):
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 
 	returnVal['list_of_psychiatric_evaluate'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date)).order_by('evaluation_consultation_date')
+	returnVal['list_of_psychiatric_evaluate_month'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__month=this_month).order_by('evaluation_consultation_date')
 
 	returnVal['consultationEncounterForm'] = AddConsultationEncounterForm()
 	returnVal['PsychiatricEvaluateForm'] = AddPsychiatricEvaluateForm()
