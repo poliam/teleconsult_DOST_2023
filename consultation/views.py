@@ -373,7 +373,6 @@ def EditConsultation(request, encounter_id):
 	returnVal['list_of_nurse_notes'] = nurse_notes.objects.filter(encounter=encounter_id)
 
 
-
 	if request.method == 'POST':
 		try:
 			vitalsign_instance = vitalsign.objects.get(encounter=encounter_id)
@@ -485,7 +484,7 @@ def EditConsultation(request, encounter_id):
 						returnVal['patientDetailed'] = patient_instance
 						returnVal['history_present_illness_list'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
 						returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
-						return render(request, 'consultation_edit.html', returnVal)
+						return redirect("EditConsultation", encounter_id=encounter_instance.pk)
 					elif request.POST.get('action') == 'save_exit':
 						# Process the data and redirect
 						# Example: Save the data and then redirect
@@ -499,7 +498,7 @@ def EditConsultation(request, encounter_id):
 						returnVal['patientDetailed'] = patient_instance
 						returnVal['history_present_illness_list'] = history_present_illness.objects.filter(encounter=encounter_id, is_delete=0, status=1)
 						returnVal['diagnosis_list'] = diagnosis.objects.filter(encounter=encounter_id, is_delete=0, status=1)
-						return render(request, 'consultation_edit.html', returnVal)
+						return redirect("EditConsultation", encounter_id=encounter_instance.pk)
 					elif request.POST.get('action') == 'save_exit':
 						# Process the data and redirect
 						# Example: Save the data and then redirect

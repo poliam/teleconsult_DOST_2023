@@ -95,7 +95,7 @@
 	</div>
 	<br/>
 	<div class="row">
-		<div class="col-sm-4">
+		<div class="col-4">
 			<div class="card">
   				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i style="padding-left: 1rem;" class="fa-solid fa-pen-to-square"></i></a> <a data-bs-toggle="modal" data-bs-target="#PatientFileUploadModal" ><i class="fa-solid fa-cloud-arrow-up"></i></a></h6>
   				<div class="card-body" style="text-align:center;">
@@ -172,14 +172,12 @@
   							</div>
 		  				</div>
 		  			</div>
-		  				
-  					
   				</div>
 			</div>
 		</div>
-		<div class="col-sm-8">
+		<div class="col-8">
 			<div class="row">
-				<div class="col-sm-8">
+				<div class="col-8">
 					<div class="card">
   						<h6 class="card-header patient_family_details card_background_color">Family Relative <a href="{% url 'PatientCreateRelative' patientDetailed.pk %}" style="text-decoration:none;">
   							<i class='bx bx-plus-medical'></i></a></h6>
@@ -220,7 +218,7 @@
 		  				</div>
 					</div>		
 				</div>	
-				<div class="col-sm-4">
+				<div class="col-4">
 					<div class="card">
 	  					<h6 class="card-header patient_allergies card_background_color">Medical Allergies
 	  						<a href="{% url 'PatientCreateAllergy' patientDetailed.pk %}" style="text-decoration:none;">
@@ -260,7 +258,7 @@
 			</div>
 			<br/>
 			<div class="row" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
-				<div class="col-sm-5">
+				<div class="col-5">
 					<div class="card">
 		  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
 		  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
@@ -309,7 +307,7 @@
 		  				</div>
 					</div>
 				</div>
-				<div class="col-sm-7">
+				<div class="col-7">
 					<div class="card">
 		  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
 		  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
@@ -318,7 +316,7 @@
 		  				</h6>
 		  				<div class="card-body">
 		    				<div class="row">
-		    					<div class="col-sm-12">
+		    					<div class="col-12">
 		    						<table class="table patient_GPS_table">
 		    							<thead>
 		    								<tr>
@@ -338,13 +336,13 @@
 			  										</td>
 			  										<td>
 			  											<b>{{ hamd.score }}</b>
-			  											{% if hamd.score <= 7 %}
+			  											{% if hamd.score == 7  or hamd.score < 7 %}
 			  												(Normal)
-			  											{% elif hamd.score > 7 and hamd.score <= 13 %}
+			  											{% elif hamd.score  > 7 and hamd.score  < 14 %}
 			  												(Mild Depression)
-			  											{% elif hamd.score > 13 and hamd.score <= 18 %}
+			  											{% elif hamd.score  > 13 and hamd.score < 19 %}
 			  												(Moderate Depression)
-			  											{% elif hamd.score > 18 and hamd.score <= 22 %}
+			  											{% elif hamd.score > 18 and hamd.score < 23 %}
 			  												(Severe Depression)
 			  											{% else %}
 			  												(Very Severe Depression)
