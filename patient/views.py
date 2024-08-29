@@ -147,7 +147,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
-	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id)
+	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id, is_delete=0)
 	list_of_hamd = hamd.objects.filter(details=patient_id)
 
 	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.score), "total_score": hamd.total_score} for hamd in list_of_hamd]
