@@ -2,7 +2,7 @@ from django import forms
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
 
 SEX_CHOICES = (
-	(0, "- - Select Sex - -"),
+	("", "- - Select Sex - -"),
     ("Male", "Male"),
     ("Female", "Female")
 )
