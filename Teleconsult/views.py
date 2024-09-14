@@ -3,10 +3,12 @@ from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
+from django.conf import settings
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
 from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
 from datetime import date, datetime, timedelta
+import os
 
 
 @login_required(login_url='/login')
@@ -143,5 +145,24 @@ def reportPage(request):
 		returnVal['group_type'] = "Admin"
 	returnVal['sidebar'] = "reports"
 	returnVal['userDetails'] = profile_details
+
+	files = details_files.objects.filter(is_delete=0)
+	returnVal['list_of_files'] = files
 	return render(request, 'report_page.html', returnVal)
+
+def download_file(request, file_id):
+	filesDetails = get_object_or_404(details_files, id=file_id)
+	file_field = filesDetails.file  # This is a FieldFile object
+
+	# Use .path to get the file path
+	file_path = file_field.path
+
+	# Now you can use os.stat or other functions that require a file path
+	file_stat = os.stat(file_path)
+	# file_path = os.path.join(settings.MEDIA_ROOT, filename)
+	if os.path.exists(file_path):
+		response = FileResponse(open(file_path, 'rb'))
+		return response
+	else:
+		raise Http404("File does not exist")
 

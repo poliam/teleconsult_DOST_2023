@@ -48,72 +48,118 @@
 {% endblock style %}
 
 {% block content %}
- <h1>Annual Sales Report</h1>
- <div class="row">
-     <div class="col-sm-4">
-        <canvas id="lineChart"></canvas>
-     </div>
-     <div class="col-sm-4">
-         <canvas id="barChart"></canvas>
-     </div>
-     <div class="col-sm-4">
-         <canvas id="pieChart"></canvas>
-     </div>
- </div>
- <div class="row">
-     <div class="col-sm-8">
-         <table class="table">
-            <caption>Monthly Sales Data</caption>
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Sales</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>January</td>
-                    <td>$10,000</td>
-                </tr>
-                <tr>
-                    <td>February</td>
-                    <td>$15,000</td>
-                </tr>
-                <tr>
-                    <td>March</td>
-                    <td>$12,000</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-     </div>
-     <div class="col-sm-4">
-         <table class="table">
-            <caption>Monthly Sales Data</caption>
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Sales</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>January</td>
-                    <td>$10,000</td>
-                </tr>
-                <tr>
-                    <td>February</td>
-                    <td>$15,000</td>
-                </tr>
-                <tr>
-                    <td>March</td>
-                    <td>$12,000</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-     </div>
- </div>
+<br/><br/><br/>
+<h1>Report</h1>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-files-tab" data-bs-toggle="tab" data-bs-target="#nav-files" type="button" role="tab" aria-controls="nav-files" aria-selected="true">File Uploads</button>
+        <button class="nav-link" id="nav-reports-tab" data-bs-toggle="tab" data-bs-target="#nav-reports" type="button" role="tab" aria-controls="nav-reports" aria-selected="false">Reports</button>
+        <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button> -->
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">File Name</th>
+                            <th scope="col">Upload Date</th>
+                            <th scope="col">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in list_of_files %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ file.file_name }}</td>
+                                <td>{{ file.create_date|date:"M d, Y" }}</td>
+                                <td><a href="{% url 'download_file' file.pk %}">Download</a></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">No files available. . . </td>
+                            </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
+        <div class="row">
+            <div class="col-sm-4">
+                <canvas id="lineChart"></canvas>
+            </div>
+            <div class="col-sm-4">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="col-sm-4">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <table class="table">
+                    <caption>Monthly Sales Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>January</td>
+                            <td>$10,000</td>
+                        </tr>
+                        <tr>
+                            <td>February</td>
+                            <td>$15,000</td>
+                        </tr>
+                        <tr>
+                            <td>March</td>
+                            <td>$12,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+             <div class="col-sm-4">
+                <table class="table">
+                    <caption>Monthly Sales Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>January</td>
+                            <td>$10,000</td>
+                        </tr>
+                        <tr>
+                            <td>February</td>
+                            <td>$15,000</td>
+                        </tr>
+                        <tr>
+                            <td>March</td>
+                            <td>$12,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+        </div>
+    </div>
+    <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> -->
+</div>
+
+
+ 
+ 
     
     
     
