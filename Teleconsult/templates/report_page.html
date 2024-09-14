@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Dashboard {% endblock title %}
  
 {% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style type="text/css">
     .dashboard_welcome_greeting{
         color: #6417A1;
@@ -44,9 +47,20 @@
         width: 90%;
         max-width: 600px;
     }
+    #file_uploads_length{
+        color: black;
+    }
+    #file_uploads_filter{
+        color: black;
+    }
+    #file_uploads_info{
+        color: black;
+    }
+    #file_uploads_paginate{
+        color: black;
+    }
 </style>
 {% endblock style %}
-
 {% block content %}
 <br/><br/><br/>
 <h1>Report</h1>
@@ -61,7 +75,8 @@
     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
         <div class="row justify-content-md-center">
             <div class="col-8">
-                <table class="table">
+                <br/><br/>
+                <table class="table" id="file_uploads" style="color:black;">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -168,65 +183,71 @@
 
 
 {% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+
+    let table = new DataTable('#file_uploads');
+
     // Line Chart
-        const ctxLine = document.getElementById('lineChart').getContext('2d');
-        const lineChart = new Chart(ctxLine, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                    label: 'Monthly Sales',
-                    data: [10000, 15000, 12000, 17000, 16000],
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            }
-        });
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Monthly Sales',
+                data: [10000, 15000, 12000, 17000, 16000],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        }
+    });
 
-        // Bar Chart
-        const ctxBar = document.getElementById('barChart').getContext('2d');
-        const barChart = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['Product A', 'Product B', 'Product C', 'Product D'],
-                datasets: [{
-                    label: 'Sales per Product',
-                    data: [25000, 19000, 30000, 23000],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            }
-        });
+    // Bar Chart
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+            datasets: [{
+                label: 'Sales per Product',
+                data: [25000, 19000, 30000, 23000],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
 
-        // Pie Chart
-        const ctxPie = document.getElementById('pieChart').getContext('2d');
-        const pieChart = new Chart(ctxPie, {
-            type: 'pie',
-            data: {
-                labels: ['North Region', 'South Region', 'East Region', 'West Region'],
-                datasets: [{
-                    label: 'Sales by Region',
-                    data: [12000, 19000, 30000, 15000],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)'
-                    ]
-                }]
-            }
-        });
+    // Pie Chart
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['North Region', 'South Region', 'East Region', 'West Region'],
+            datasets: [{
+                label: 'Sales by Region',
+                data: [12000, 19000, 30000, 15000],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ]
+            }]
+        }
+    });
 </script>
 {% endblock script %}
