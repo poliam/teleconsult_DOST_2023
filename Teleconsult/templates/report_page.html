@@ -76,7 +76,7 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ file.file_name }}</td>
                                 <td>{{ file.create_date|date:"M d, Y" }}</td>
-                                <td><a href="{% url 'download_file' file.pk %}">Download</a></td>
+                                <td><a target="_blank" href="{% url 'download_file' file.pk %}">Download</a></td>
                             </tr>
                         {% empty %}
                             <tr>
