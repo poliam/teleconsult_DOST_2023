@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.core.mail import BadHeaderError, send_mail
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.conf import settings
