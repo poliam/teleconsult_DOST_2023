@@ -153,7 +153,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.score), "total_score": hamd.total_score} for hamd in list_of_hamd]
 
 
-	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id).order_by('-consultation_date')
+	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id, is_delete=0).order_by('-consultation_date')
 	return render(request, 'patient_detailed.html', returnVal)
 
 @login_required(login_url='/login')

@@ -32,12 +32,12 @@ def AppointmentList(request):
 	returnVal['userDetails'] = profile_details
 	current_date = date.today()
 	future_date = current_date + timedelta(days=7)
-	returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
+	returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date), is_delete=0).order_by('consultation_date')
 	current_date_split = str(current_date).split("-")
 	this_month = current_date_split[1]
-	returnVal['month_consultation'] = encounter.objects.filter(consultation_date__month=this_month).order_by('consultation_date')
+	returnVal['month_consultation'] = encounter.objects.filter(consultation_date__month=this_month, is_delete=0).order_by('consultation_date')
 	past_dates = current_date-timedelta(hours=24)
-	returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=past_dates).order_by('consultation_date')
+	returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=past_dates, is_delete=0).order_by('consultation_date')
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 
 	returnVal['list_of_psychiatric_evaluate'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date)).order_by('evaluation_consultation_date')
