@@ -9,7 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
 from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm, patientFilesForm
-from consultation.models import encounter
+from consultation.models import encounter, Referral
 import random, os
 
 
@@ -1129,8 +1129,10 @@ def referralFormPdf(request, referral_id):
 	# # If an error occurs, show it
 	# if pisa_status.err:
 	# 	return HttpResponse('We had some errors <pre>' + html + '</pre>')
+	returnVal = {}
+	returnVal['referral_details'] = Referral.objects.get(pk=referral_id)
+	return render(request, 'referral_form.html', returnVal)
 
-	return false
 
 @login_required(login_url='/login')
 def PatientViewSurvey(request, patient_id):
