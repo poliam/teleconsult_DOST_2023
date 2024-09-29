@@ -1,92 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referral Letter</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} SURVEY VIEW {% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.1.4/css/dataTables.dataTables.min.css">
+<style type="text/css">
+    .dashboard_welcome_greeting{
+        color: #6417A1;
+    }
+    .add_patient_btn{
+        color: #6417A180;
+        border-color: #6417A180;
+    }
+    .card-header{
+        background-color:#6417A180;
+    }
+</style>
+<style type="text/css">
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .letter-container {
+            width: 60%;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin:auto;
+        }
+        h1 {
+            text-align: center;
             margin-bottom: 20px;
         }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
+        p {
+            font-size: 18px;
+            line-height: 1.6;
         }
-        th {
-            text-align: left;
-            background-color: #f4f4f4;
-        }
-        .header-table td {
+        button {
+            padding: 10px 20px;
+            color: white;
             border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            margin:auto;
         }
-        .content-table {
-            border: none;
+
+        button:hover {
+            background-color: #45a049;
         }
-        .content-table th, .content-table td {
-            border: none;
-        }
+
     </style>
-</head>
-<body>
+</style>
+{% endblock style %}
 
-<h2>Referral Letter</h2>
+{% block content %}
+<div class="container-fluid">
+    <div class="letter-container" id="letter">
+        <h1>Referral Letter</h1>
+        <p><strong>Referral Date:</strong> {{ referral_details.create_date | date:"F j, Y"}} </p>
+        <p><strong>Patient Name:</strong> {{ referral_details.encounter.details.first_name }} {{ referral_details.encounter.details.middle_name }} {{ referral_details.encounter.details.last_name }}</p>
+        <p><strong>Age:</strong> {{ referral_details.encounter.details.age }}</p>
+        <p><strong>Gender:</strong> {{ referral_details.encounter.details.gender }}</p>
+        
+        <p><strong>Referral To:</strong> {{ referral_details.referred_to}}</p>
+        <br/>
+        <p><strong>Brief Summary:</strong></p>
+        <p>{{ referral_details.brief_summary}}</p>
 
-<table class="header-table">
-    <tr>
-        <td><strong>Date:</strong> [Date]</td>
-        <td style="text-align:right;"><strong>Referring Doctor:</strong> Dr. [Doctor's Name]</td>
-    </tr>
-    <tr>
-        <td><strong>Patient's Name:</strong> [Patient's Name]</td>
-        <td style="text-align:right;"><strong>Patient's Contact:</strong> [Patient's Contact Information]</td>
-    </tr>
-    <tr>
-        <td colspan="2"><strong>Address:</strong> [Patient's Address]</td>
-    </tr>
-</table>
+        <br/>
+        <p><strong>Impression:</strong></p>
+        <p>{{ referral_details.impression}}</p>
+        
+        <br/>
+        <p><strong>Reason for Referral:</strong></p>
+        <p>{{ referral_details.reason_for_referral}}</p>
+        
+        <br/>
+        <p>Referred From,</p>
+        <p><strong>{{ referral_details.referred_from}}</strong></p>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-4">
+            <button id="download-pdf">Download as PDF</button>
+        </div>
+    </div>
+    
+</div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function() {
+    var letterContent = document.getElementById('letter');
 
-<p>Dear [Recipient's Name],</p>
+    html2canvas(letterContent, {
+        backgroundColor: '#FFFFFF' // Ensures the background is pure white
+    }).then(function(canvas) {
+        var imgData = canvas.toDataURL('image/png');
+        var pdf = new jspdf.jsPDF();
 
-<table class="content-table">
-    <tr>
-        <td colspan="2">
-            <p>I am writing to refer [Patient's Name], a [age]-year-old [gender], who has been under my care for the treatment of [specific medical condition or issue]. [He/She] has presented with symptoms including [brief description of symptoms].</p>
-            <p>The purpose of this referral is to seek your expert opinion and management for the above-mentioned condition. The patient has undergone the following investigations and treatments:</p>
-        </td>
-    </tr>
-    <tr>
-        <th>Investigations</th>
-        <th>Treatments</th>
-    </tr>
-    <tr>
-        <td>
-            <ul>
-                <li>Investigation 1</li>
-                <li>Investigation 2</li>
-                <li>Investigation 3</li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li>Treatment 1</li>
-                <li>Treatment 2</li>
-                <li>Treatment 3</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <p>Enclosed are copies of relevant reports and the patient's medical history. Please feel free to contact me if you require any further information. I appreciate your assistance and look forward to your recommendations for the next steps in [Patient's Name]'s treatment.</p>
-            <p>Thank you for your attention to this matter.</p>
-            <p>Sincerely,</p>
-            <p>Dr. [Referring Doctor's Name]</p>
-            <p>[Referring Doctor's Contact Information]</p>
-        </td>
-    </tr>
-</table>
+        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); // Adjust the dimensions for proper fitting
 
-</body>
-</html>
+        pdf.save('referral-letter.pdf');
+    });
+});
+
+
+
+    </script>
+
+{% endblock content %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="//cdn.datatables.net/2.1.4/js/dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
+
+
+{% endblock script %}
