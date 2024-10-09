@@ -57,6 +57,9 @@
         button:hover {
             background-color: #45a049;
         }
+        table, th, td {
+  border: 1px solid black;
+}
 
     </style>
 </style>
@@ -65,7 +68,86 @@
 {% block content %}
 <div class="container-fluid">
     <div class="letter-container" id="letter">
-        <h1>Referral Letter</h1>
+        <center><h3>SOUTHERN PHILIPPINES MEDICAL CENTER TELEPSYCHIATRY SERVICE FOR OVERSEAS FILIPINO WORKERS</h3></center>
+        <center><h5>Patient Information and Referral Form</h5></center>
+        <table width="100%">
+            <thead style="background-color: grey;">
+                <th colspan="4">
+                    <h6>Patient Information</h6>
+                </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>First Name</td>
+                    <td>{{ referral_details.encounter.details.first_name }} {{ referral_details.encounter.details.middle_name }}</td>
+                    <td>Last Name</td>
+                    <td>{{ referral_details.encounter.details.last_name }}</td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td>{{ referral_details.encounter.details.age }}</td>
+                    <td>Sex</td>
+                    <td>{{ referral_details.encounter.details.gender }}</td>
+                </tr>
+                <tr>
+                    <td>Diagnosis</td>
+                    <td colspan="3">
+                        {% for diagnosis in referral_diagnosis %}
+                        <ul>
+                            <li>{{ diagnosis.condition_details }}</li>
+                        </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Recommended Medications</td>
+                    <td colspan="3">
+                        {% for treatment in referral_treatment %}
+                        <ul>
+                            <li>{{ treatment.strength }} {{ treatment.dose }} {{ treatment.route }} {{ treatment.frequency }} # {{ treatment.drug_no }}</li>
+                        </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="background-color:gray">
+                        <h6>REFERRAL FORM</h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Medical History</td>
+                    <td colspan="3">
+                        {% for history_present_illness in referral_history_present_illness %}
+                        <ul>
+                            <li>{{ history_present_illness.details }} </li>
+                        </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Referred To</td>
+                    <td colspan="3">{{ referral_details.referred_to}}</td>
+                </tr>
+                <tr>
+                    <td>Referred From</td>
+                    <td colspan="3">{{ referral_details.referred_from}}</td>
+                </tr>
+                <tr>
+                    <td>Reason For Referral</td>
+                    <td colspan="3">{{ referral_details.reason_for_referral}}</td>
+                </tr>
+                <tr>
+                    <td>Referred by</td>
+                    <td colspan="3">Ismael L. Cordero, Jr. MD, DPCAM</td>
+                </tr>
+                <tr>
+                    <td>Signature</td>
+                    <td colspan="3"></td>
+                </tr>
+
+            </tbody>
+        </table>
+       <!--  <h1>Referral Letter</h1>
         <p><strong>Referral Date:</strong> {{ referral_details.create_date | date:"F j, Y"}} </p>
         <p><strong>Patient Name:</strong> {{ referral_details.encounter.details.first_name }} {{ referral_details.encounter.details.middle_name }} {{ referral_details.encounter.details.last_name }}</p>
         <p><strong>Age:</strong> {{ referral_details.encounter.details.age }}</p>
@@ -86,7 +168,7 @@
         
         <br/>
         <p>Referred From,</p>
-        <p><strong>{{ referral_details.referred_from}}</strong></p>
+        <p><strong>{{ referral_details.referred_from}}</strong></p> -->
     </div>
     <div class="row justify-content-md-center">
         <div class="col-4">
