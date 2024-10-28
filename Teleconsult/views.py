@@ -31,7 +31,7 @@ def dashboard(request):
 	current_date = date.today()
 	future_date = current_date + timedelta(days=7)
 	week_consultation = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
-	list_of_psychiatric_evaluate = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date)).order_by('evaluation_consultation_date')
+	list_of_psychiatric_evaluate = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0).order_by('evaluation_consultation_date')
 	returnVal['upcomming_appointment'] = week_consultation.count() + list_of_psychiatric_evaluate.count()
 	today_consultation = encounter.objects.filter(consultation_date=current_date, is_delete=0).order_by('consultation_date')
 	today_consultation_list = []
