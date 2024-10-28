@@ -51,7 +51,7 @@ def dashboard(request):
 	returnVal['today_consultation'] = today_consultation
 
 
-	returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date)
+	returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date, is_delete=0)
 	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 	current_date_split = str(current_date).split("-")
 	return render(request, 'dashboard.html', returnVal)
