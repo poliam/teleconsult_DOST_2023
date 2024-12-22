@@ -1,7 +1,6 @@
 
 {% extends 'base.html' %}
 {% load static %}
-{% load tz %}
 {% block title %} Patient Detail {% endblock title %}
 
 {% block style %}
@@ -13,6 +12,7 @@
 	.patient_detail_name{
 		background-color: #6417A180;
 		color: white;
+		min-height: 2rem;
 	}
 	.patient_detail_name i {
 		float: right;
@@ -58,7 +58,6 @@
 	.patient_detiel_label{
 		color: #6417A1;
 		font-weight: 700;
-		text-align: left;
 	}
 
 	.patient_GPS{
@@ -89,6 +88,85 @@
 
 {% block content %}
 <div class="container-fluid">
+	<br/>
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="dashboard_welcome_greeting">Patient Information</h2>
+		</div>
+	</div>
+
+	<br/>
+	<div class="row">
+		<div class="col-5">
+			<div class="card">
+				<div class="card-header patient_detail_name"></div>
+				<br/>
+				<div class="row justify-content-md-center">
+					{% if patientDetailed.profile_picture|length > 0 %}
+            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" style="max-width:8rem; max-height: 8rem;" >
+            		{% else %}
+            			<img src="{% static 'images/user_picture_default.png' %}" style="max-width:8rem; max-height: 8rem;" >
+                    {% endif %}
+				</div>
+				<div class="row" style="text-align:center;">
+					<div class="col-12" >
+						<h5 class="patient_detiel_label">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }}</h5>
+					</div>
+					<div class="col-12">
+						<label class="patient_detiel_label">Age: {{ age }}</label>
+					</div>
+					<div class="col-12">
+						<label class="patient_detiel_label">Gender: {{ patientDetailed.gender }}</label>
+					</div>
+					<div class="col-12">
+  						<span style="display:none;">
+    						<input type="text" id="patientSurvayLink" value="{{ CURRENT_URL }}{% url 'PatientSurvey' patientDetailed.pk %}">
+    					</span>
+    					{% if has_survey == 1 %}
+	    					<label for="Patient_birth_place" class="col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-circle-check" style="color:green;"></i> &nbsp <a href="{% url 'PatientViewSurvey' patientDetailed.pk %}" target="_blank"><i class="fa-solid fa-eye"></i></a></label>
+	    				{% else %}
+	    					<label for="Patient_birth_place" class=" col-form-label patient_detiel_label">Survey: <i class="fa-solid fa-copy" style="cursor:pointer;" onclick='copySurveyText()'></i> <a  href="{% url 'PatientSurvey' patientDetailed.pk %}" target="_blank"><i class="fa-solid fa-pen-to-square"></i></a></label>
+	    				{% endif %}
+  						
+					</div>
+				</div>
+				<div class="row" style="text-align:center;">
+					<div class="col-12">
+						<button type="button" class="btn btn-outline-primary">Upload</button>	
+						<button type="button" class="btn btn-outline-secondary">History</button>
+						<button type="button" class="btn btn-outline-info">Edit</button>
+					</div>
+				</div>
+				<br/>	
+			</div>
+		</div>
+		<div class="col-7">
+			<div class="card">
+				<div class="card-header patient_detail_name"></div>
+				<br/>
+				<div class="card-body">
+					<div class="mb-3 row">
+				    	<label class="col-sm-3 col-form-label patient_detiel_label">Birth Place:</label>
+				    	<div class="col-sm-9">
+				      		<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.birth_place }}">
+				    	</div>
+				    	<div class="mb-3 row">
+				    	<label class="col-sm-3 col-form-label patient_detiel_label">Birth Place:</label>
+				    	<div class="col-sm-9">
+				      		<input type="text" readonly class="form-control-plaintext" value="{{ patientDetailed.birth_place }}">
+				    	</div>
+				  	</div>	
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
 	<div class="row">
 		<div class="col-sm-12">
 			<h2 class="dashboard_welcome_greeting">Patient Information</h2>
@@ -98,24 +176,17 @@
 	<div class="row">
 		<div class="col-4">
 			<div class="card">
-  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }}
-
-  					<a href="{% url 'PatientEdit' patientDetailed.pk %}"><i style="padding-left: 1rem;" class="fa-solid fa-pen-to-square"></i></a> 
-  					<a data-bs-toggle="modal" data-bs-target="#PatientFileUploadModal" ><i class="fa-solid fa-cloud-arrow-up"></i></a>
-  					{% if group_type == "Admin" %}
-  						<a data-bs-toggle="modal" data-bs-target="#PatientHistoryModal" ><i style="padding-right: 1.3rem;" class="fa-solid fa-clock-rotate-left"></i></a>
-  					{% endif %}
-  				</h6>
-  					<div class="card-body" style="text-align:center;">
-  						<div class="row justify-content-md-center">
-  							<div class="col-4">
-  								{% if patientDetailed.profile_picture|length > 0 %}
-		            				<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" style="max-width:8rem; max-height: 8rem;" >
-		            			{% else %}
-		            				<img src="{% static 'images/user_picture_default.png' %}" style="max-width:8rem; max-height: 8rem;" >
-		                    	{% endif %}
-		  					</div>
+  				<h6 class="card-header patient_detail_name">{{ patientDetailed.last_name }}, {{ patientDetailed.first_name }} {{ patientDetailed.middle_name }} <a href="{% url 'PatientEdit' patientDetailed.pk %}"><i style="padding-left: 1rem;" class="fa-solid fa-pen-to-square"></i></a> <a data-bs-toggle="modal" data-bs-target="#PatientFileUploadModal" ><i class="fa-solid fa-cloud-arrow-up"></i></a></h6>
+  				<div class="card-body" style="text-align:center;">
+  					<div class="row justify-content-md-center">
+  						<div class="col-4">
+  							{% if patientDetailed.profile_picture|length > 0 %}
+		            			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" style="max-width:8rem; max-height: 8rem;" >
+		            		{% else %}
+		            			<img src="{% static 'images/user_picture_default.png' %}" style="max-width:8rem; max-height: 8rem;" >
+		                    {% endif %}
 		  				</div>
+		  			</div>
 		  			<div class="row">
 		  				<div class="col-6" style="text-align:left;">
 		  					<div class="row">
@@ -620,50 +691,6 @@
 					<input type="hidden" name="patient_id" value="{{ patientDetailed.pk }}">
 					<button type="submit" class="btn btn-outline-success">Upload</button>
       			</form>
-        	</div>
-    	</div>
-  	</div>
-</div>
-
-<div class="modal fade" id="PatientHistoryModal" tabindex="-1" aria-labelledby="PatientHistoryModal" aria-hidden="true">
-  	<div class="modal-dialog modal-lg">
-    	<div class="modal-content">
-      		<div class="modal-header">
-        		<h6 class="modal-title" id="PatientHistoryModalLabel" style="color:#6417A1;">Patients History</h6>
-        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      		</div>
-      		<div class="modal-body">
-      			<table class="table">
-      				<thead>
-      					<tr>
-      						<td width="25%">Date and Time</td>
-      						<td width="15%">Update By</td>
-      						<td width="60%">Details</td>
-      					</tr>
-      				</thead>
-      				<tbody>
-      					{% for history in patientHistory %}
-      						<tr>
-      							<td>{% timezone "Asia/Manila" %}{{ history.create_date|date:"M d, Y h:i A" }}{% endtimezone %}</td>
-      							<td>{{ history.user.username }}</td>
-      							<td>
-      								 <ul>
-				                        {% for key, value in history.updated_fields.items %}
-				                            <li>
-				                                <strong>{{ key|capfirst }}</strong>: 
-				                                Old Value - {{ value.old_value }}, New Value - {{ value.new_value }}
-				                            </li>
-				                        {% endfor %}
-				                    </ul>
-      							</td>
-      						</tr>
-      					{% empty %}
-      						<tr>
-      							<td colspan="2">History is empty. . .</td>
-      						</tr>
-      					{% endfor %}
-      				</tbody>
-      			</table>
         	</div>
     	</div>
   	</div>

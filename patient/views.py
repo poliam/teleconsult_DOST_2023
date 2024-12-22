@@ -7,10 +7,12 @@ from django.template.loader import render_to_string
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey
+from datetime import date, datetime
+from django.utils.timezone import now 
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_audit
 from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm, patientFilesForm
 from consultation.models import encounter, Referral, diagnosis, treatment, history_present_illness
-import random, os
+import random, os, json, ast
 
 
 from datetime import date, datetime
@@ -106,6 +108,7 @@ def PatientEdit(request, patient_id):
 		returnVal['FormEditPatientAddress'] = EditPatientAddressForm()
 	
 	if request.method == 'POST':
+		PatientAuditTrail(request ,patient_instance, request.POST)
 		patientform = EditPatientForm(request.POST, request.FILES, instance=patient_instance)
 		addressForm = EditPatientAddressForm(request.POST, instance=patient_address)
 		returnVal['form'] = patientform
@@ -117,8 +120,51 @@ def PatientEdit(request, patient_id):
 		else:
 			returnVal['error_msg'] = patientform.errors
 			return render(request, 'patient_create.html', returnVal)
-
 	return render(request, 'patient_edit.html', returnVal)
+
+def PatientAuditTrail(request, patient_old_details, formDetails):
+	# Create an empty dictionary to store the audit trail
+	profile_details = User.objects.get(pk=request.user.id)
+	updated_fields = {}
+	# Iterate over the fields in formDetails
+	for field, new_value in formDetails.items():
+		if hasattr(patient_old_details, field):
+			old_value = getattr(patient_old_details, field)
+			if isinstance(old_value, date):
+				try:
+					new_date_value = datetime.strptime(new_value, '%m/%d/%Y').date()
+					if old_value != new_date_value:
+						updated_fields[field] = {
+							'old_value': old_value,
+							'new_value': new_date_value
+						}
+				except ValueError:
+					continue
+
+			else:
+				if str(old_value) != str(new_value):  # formDetails values are lists
+					updated_fields[field] = {
+						'old_value': old_value,
+						'new_value': new_value
+					}
+	if updated_fields:
+		new_audit_entry = details_audit()
+		new_audit_entry.user = request.user
+		new_audit_entry.url = "patient_edit"
+		new_audit_entry.details = patient_old_details
+		new_audit_entry.updated_fields=updated_fields
+		new_audit_entry.create_date=now()
+		new_audit_entry.status=True
+		new_audit_entry.is_delete=False
+		new_audit_entry.save()
+	return False
+
+
+
+
+
+
+	return False
 
 @login_required(login_url='/login')
 def PatientDetailed(request, patient_id):
@@ -148,6 +194,14 @@ def PatientDetailed(request, patient_id):
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id, is_delete=0)
+	patientHistory = details_audit.objects.filter(details=patient_id, is_delete=0)
+
+	for history in patientHistory:
+		if isinstance(history.updated_fields, str):
+			history.updated_fields = json.loads(history.updated_fields.replace("'", '"'))
+
+	returnVal['patientHistory'] = patientHistory
+
 	list_of_hamd = hamd.objects.filter(details=patient_id)
 
 	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.score), "total_score": hamd.total_score} for hamd in list_of_hamd]

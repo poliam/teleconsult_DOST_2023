@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
 
 # Create your models here.
 class details(models.Model):
@@ -235,3 +236,35 @@ class details_files(models.Model):
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
+
+
+class details_audit(models.Model):
+	user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='user_edited')
+	url = models.CharField(max_length=250, blank=True, null=True)
+	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
+	create_date = models.DateTimeField(auto_now_add=True)
+	updated_fields = models.TextField(null=True, blank=True)
+	status = models.BooleanField(default=1)
+	is_delete = models.BooleanField(default=0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
