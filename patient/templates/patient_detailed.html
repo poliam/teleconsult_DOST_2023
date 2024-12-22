@@ -280,7 +280,8 @@
 		    							<thead>
 		    								<tr>
 		      									<th scope="col" width="10%">#</th>
-		      									<th scope="col" width="80%">Consultation Date</th>
+		      									<th scope="col" width="60%">Consultation Date</th>
+		      									<th scope="col" width="20%">Score</th>
 		      									<th width="10%"></th>
 		    								</tr>
 		  								</thead>
@@ -290,6 +291,9 @@
 			  										<td>{{ forloop.counter }}</td>
 			  										<td>
 			  											<a onclick="showGPSdetails(this)" attr_id="{{ GPS.pk }}" style="text-decoration:none;font-weight: 700; color:#6417A1;" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
+			  										</td>
+			  										<td>
+			  											{{ GPS_CE_score }} 
 			  										</td>
 			  										<td>
 		  												<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none; color: #6417A1">

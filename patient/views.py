@@ -193,6 +193,14 @@ def PatientDetailed(request, patient_id):
 	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
+	try:
+		GPS = global_psychotrauma_screen.objects.get(details=patient_id, is_delete=0)
+		GPS_CE = considering_event.objects.get(global_psychotrauma_screen=GPS.pk)
+		returnVal['GPS_CE_score'] = GPS_CE.score_1_16
+
+	except:
+		returnVal['GPS_CE_score'] = 0
+
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id, is_delete=0)
 	patientHistory = details_audit.objects.filter(details=patient_id, is_delete=0)
 
@@ -449,6 +457,10 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 	new_considering_event.considering_event_21 = request.POST['considering_event_21']
 	new_considering_event.considering_event_22 = request.POST['considering_event_22']
 	new_considering_event.considering_event_23 = request.POST['considering_event_23']
+
+	new_considering_event.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+	new_considering_event.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
+
 	try:
 		new_considering_event.save()
 	except:
@@ -515,6 +527,10 @@ def PatientAutoSaveGPS(request):
 		considering_event_details.considering_event_21 = request.POST.get('considering_event_21', False)
 		considering_event_details.considering_event_22 = request.POST.get('considering_event_22', False)
 		considering_event_details.considering_event_23 = request.POST.get('considering_event_23', False)
+
+		considering_event_details.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		considering_event_details.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		
 		try:
 			considering_event_details.save()
 		except:
@@ -582,6 +598,10 @@ def PatientAutoSaveGPS(request):
 		new_considering_event.considering_event_21 = request.POST.get('considering_event_21', False)
 		new_considering_event.considering_event_22 = request.POST.get('considering_event_22', False)
 		new_considering_event.considering_event_23 = request.POST.get('considering_event_23', False)
+
+		new_considering_event.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		new_considering_event.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
+
 		try:
 			new_considering_event.save()
 		except:
@@ -892,6 +912,10 @@ def PatientUpdateGPS(request, gps_id):
 		considering_event_instance.considering_event_21 = request.POST['considering_event_21']
 		considering_event_instance.considering_event_22 = request.POST['considering_event_22']
 		considering_event_instance.considering_event_23 = request.POST['considering_event_23']
+
+		considering_event_instance.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		considering_event_instance.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
+
 		try:
 			considering_event_instance.save()
 		except:
