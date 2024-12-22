@@ -139,6 +139,8 @@ class considering_event(models.Model):
 	considering_event_21 = models.CharField(max_length=250, blank=True, null=True)
 	considering_event_22 = models.CharField(max_length=250, blank=True, null=True)
 	considering_event_23 = models.CharField(max_length=250, null=True, blank=True)
+	score_1_16 = models.CharField(max_length=250, blank=True, null=True, default=0)
+	total_score = models.CharField(max_length=250, blank=True, null=True, default=0)
 	create_date = models.DateTimeField(auto_now_add=True)
 	update_date = models.DateTimeField(auto_now_add=True)
 	history = models.TextField(null=True, blank=True)
