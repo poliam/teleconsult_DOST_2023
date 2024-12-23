@@ -76,3 +76,20 @@ def AppointmentList(request):
 @login_required(login_url='/login')
 def CreateAppointment(request):
 	return redirect("AppointmentList")
+
+@login_required(login_url='/login')
+def RemoveAppointment(request):
+	if request.method == 'POST':
+		if request.POST.get('dataType') == "PsychiatryEvaluation":
+			data_id = request.POST.get('dataTypeID')
+
+			instanceDetails = get_object_or_404(psychiatric_evaluate, id=data_id)
+			instanceDetails.is_delete = 1
+			instanceDetails.save()
+		elif request.POST.get('dataType') == "Consultation":
+			data_id = request.POST.get('dataTypeID')
+			instanceDetails = get_object_or_404(encounter, id=data_id)
+			instanceDetails.is_delete = 1
+			instanceDetails.save()
+
+	return redirect("AppointmentList")
