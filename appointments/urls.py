@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
    path('', views.AppointmentList, name="AppointmentList"),
    path('create_appointment', views.CreateAppointment, name="CreateAppointment"),
+   path('remove_appointment', views.RemoveAppointment, name="RemoveAppointment"),
   
 ]
 if settings.DEBUG:
