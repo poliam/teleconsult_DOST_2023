@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+ 
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style type="text/css">
+    .dashboard_welcome_greeting{
+        color: #6417A1;
+    }
+    .card-header{
+        text-align: center;
+        background-color: #6417A180;
+        color: white;
+    }
+    .card-title{
+        text-align:center; 
+        font-size: 2rem;
+    }
+    .view_more{
+        text-align:center;
+        text-decoration:none;
+        color: #5967F2;
+        font-weight: 500;
+    }
+    .card-body{
+        text-align: center;
+    }
+    .dashboard_btn{
+        border: 1px solid;
+        border-color: #6417A180;
+    }
+    .dashboard_btn_text{
+        color: #6417A180;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    canvas {
+        margin-top: 0;
+        width: 90%;
+        max-width: 800px;
+        max-height: 600px;
+    }
+
+    .report-section {
+        display: none;
+        margin-top: 20px;
+    }
+    #file_uploads_length{
+        color: black;
+    }
+    #file_uploads_filter{
+        color: black;
+    }
+    #file_uploads_info{
+        color: black;
+    }
+    #file_uploads_paginate{
+        color: black;
+    }
+    .report-section{
+        color: black;
+        border: 1px solid black;
+        padding: 2rem;
+        border-radius: 2rem;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+<br/><br/><br/>
+<h1>Report Charts</h1>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link"  href="{% url 'reports' %}">File Uploads</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'reportCharts' %}">Report Charts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'reportTables' %}">Report Tables</a>
+    </li>
+</ul>
+<div class="container">
+        <h1>Occupation Report</h1>
+        
+        <div class="mb-4">
+            <label for="reportDropdown">Select Report:</label>
+            <select id="reportDropdown" class="form-select">
+                <option value="">-- Select a Report --</option>
+                <option value="occupationReport">Occupation Report</option>
+                <option value="religionReport">Religion Report</option>
+            </select>
+        </div>
+
+        <div id="occupationReport" class="report-section">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Occupation</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for occupation in occupation_list %}
+                    <tr>
+                        <td>{{ occupation.occupation }}</td>
+                        <td>{{ occupation.count }}</td>
+                        <td>{{ occupation.percentage }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="religionReport" class="report-section">
+            <h2>Religion Report</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Religion</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for religion in religion_list %}
+                    <tr>
+                        <td>{{ religion.religion }}</td>
+                        <td>{{ religion.count }}</td>
+                        <td>{{ religion.percentage }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="futureReport2" class="report-section">
+            <h2>Future Report 2</h2>
+            <p>Details coming soon...</p>
+        </div>
+    </div>
+
+   
+    
+
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#reportDropdown').on('change', function() {
+            $('.report-section').hide();
+            var selectedReport = $(this).val();
+            if (selectedReport) {
+                $('#' + selectedReport).show();
+            }
+        });
+    });
+</script>
+{% endblock script %}
+
+
+

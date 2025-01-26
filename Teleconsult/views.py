@@ -4,11 +4,13 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileRe
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.conf import settings
+from django.db.models import Count
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
 from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
 from datetime import date, datetime, timedelta
 import os
+
 
 
 @login_required(login_url='/login')
@@ -148,6 +150,8 @@ def reportPage(request):
 
 	files = details_files.objects.filter(is_delete=0)
 	returnVal['list_of_files'] = files
+	
+
 	return render(request, 'report_page.html', returnVal)
 
 def download_file(request, file_id):
@@ -166,3 +170,121 @@ def download_file(request, file_id):
 	else:
 		raise Http404("File does not exist")
 
+
+
+def reportCharts(request):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
+	returnVal['sidebar'] = "reports"
+	returnVal['userDetails'] = profile_details
+
+	# Get year and month from query parameters with defaults
+	selected_year = request.GET.get('year', datetime.now().year)
+	selected_month = request.GET.get('month', '')
+
+	# Build query filter dynamically
+	filters = {}
+	if selected_year:
+		filters['create_date__year'] = selected_year
+	if selected_month:
+		filters['create_date__month'] = selected_month
+
+	# Query the filtered data
+	gender_data = details.objects.filter(**filters).values('gender').annotate(count=Count('gender'))
+
+	# Prepare data for the chart
+	gender_counts = {entry['gender']: entry['count'] for entry in gender_data}
+	male_count = gender_counts.get('Male', 0)
+	female_count = gender_counts.get('Female', 0)
+
+	# Educational Attainment Report Data
+	education_data = details.objects.values('high_education').annotate(count=Count('high_education'))
+	education_labels = [entry['high_education'] for entry in education_data]
+	education_counts = [entry['count'] for entry in education_data]
+
+	# Marital Status Report Data
+	marital_data = details.objects.values('marital_status').annotate(count=Count('marital_status'))
+	marital_counts = {entry['marital_status']: entry['count'] for entry in marital_data}
+	single_count = marital_counts.get('Single', 0)
+	married_count = marital_counts.get('Married', 0)
+	widowed_count = marital_counts.get('Widowed', 0)
+	divorced_count = marital_counts.get('Divorced', 0)
+	separated_count = marital_counts.get('Separated', 0)
+	cohabiting_count = marital_counts.get('Cohabiting', 0)
+
+	# Get distinct years from the database for the year dropdown
+	available_years = details.objects.dates('create_date', 'year').distinct().values_list('create_date__year', flat=True)
+
+
+
+	returnVal['male_count'] = male_count
+	returnVal['female_count'] = female_count
+	returnVal['selected_month'] = selected_month
+	returnVal['selected_year'] = int(selected_year)
+	returnVal['available_years'] = available_years
+
+	returnVal['single_count'] = single_count
+	returnVal['married_count'] = married_count
+	returnVal['widowed_count'] = widowed_count
+	returnVal['divorced_count'] = divorced_count
+	returnVal['separated_count'] = separated_count
+	returnVal['cohabiting_count'] = cohabiting_count
+
+	returnVal['education_labels'] = education_labels
+	returnVal['education_counts'] = education_counts
+
+	return render(request, 'genderReportSections.html', returnVal)
+
+def reportTables(request):
+	returnVal = {}
+	profile_details = User.objects.get(pk=request.user.id)
+	if request.user.groups.filter(name="Doctor").exists():
+		returnVal['group_type'] = "Doctor"
+	elif request.user.groups.filter(name="Nurse").exists():
+		returnVal['group_type'] = "Nurse"
+	elif request.user.groups.filter(name="Triage").exists():
+		returnVal['group_type'] = "Triage"
+	elif request.user.groups.filter(name="Admin").exists():
+		returnVal['group_type'] = "Admin"
+	returnVal['sidebar'] = "reports"
+	returnVal['userDetails'] = profile_details
+
+	# Retrieve occupation counts
+	occupation_data = details.objects.values('occupation').annotate(count=Count('occupation'))
+	total_count = sum(entry['count'] for entry in occupation_data)
+
+	# Prepare data for template
+	occupation_list = []
+	for entry in occupation_data:
+		percentage = (entry['count'] / total_count) * 100 if total_count > 0 else 0
+		occupation_list.append({
+			'occupation': entry['occupation'] or 'Unknown',
+			'count': entry['count'],
+			'percentage': f'{percentage:.2f}%'
+		})
+
+	# Fetch religion data
+	religion_data = details.objects.values('religion').annotate(count=Count('religion'))
+	total_religion = sum(entry['count'] for entry in religion_data)
+	religion_list = [
+		{
+			'religion': entry['religion'] or 'Unknown',
+			'count': entry['count'],
+			'percentage': f"{(entry['count'] / total_religion * 100):.2f}%" if total_religion > 0 else "0%"
+		}
+		for entry in religion_data
+	]
+
+
+	returnVal['occupation_list'] = occupation_list
+	returnVal['religion_list'] = religion_list
+
+	return render(request, 'reportTables.html', returnVal)
