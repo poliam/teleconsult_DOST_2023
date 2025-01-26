@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+ 
+{% block style %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style type="text/css">
+    .dashboard_welcome_greeting{
+        color: #6417A1;
+    }
+    .card-header{
+        text-align: center;
+        background-color: #6417A180;
+        color: white;
+    }
+    .card-title{
+        text-align:center; 
+        font-size: 2rem;
+    }
+    .view_more{
+        text-align:center;
+        text-decoration:none;
+        color: #5967F2;
+        font-weight: 500;
+    }
+    .card-body{
+        text-align: center;
+    }
+    .dashboard_btn{
+        border: 1px solid;
+        border-color: #6417A180;
+    }
+    .dashboard_btn_text{
+        color: #6417A180;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    canvas {
+        margin-top: 0;
+        width: 90%;
+        max-width: 800px;
+        max-height: 600px;
+    }
+
+    .report-section {
+        display: none;
+        margin-top: 20px;
+    }
+    #file_uploads_length{
+        color: black;
+    }
+    #file_uploads_filter{
+        color: black;
+    }
+    #file_uploads_info{
+        color: black;
+    }
+    #file_uploads_paginate{
+        color: black;
+    }
+    .report-section{
+        color: black;
+        border: 1px solid black;
+        padding: 2rem;
+        border-radius: 2rem;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+<br/><br/><br/>
+<h1>Report Charts</h1>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link"  href="{% url 'reports' %}">File Uploads</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'reportCharts' %}">Report Charts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'reportTables' %}">Report Tables</a>
+    </li>
+</ul>
+<div class="container">
+	<br/>
+    <h3 class="dashboard_welcome_greeting" >Select a Report</h3>
+    <div class="row align-self-start">
+        <div class="col-4">
+            <select class="form-control" id="reportDropdown" onchange="showReport()">
+                <option value="">-- Select a Report --</option>
+                <option value="genderReport">Gender Report</option>
+                <option value="maritalStatusReport">Marital Status Report</option>
+                <option value="educationReport">Educational Attainment Report</option>
+            </select>
+        </div>
+        
+    </div>
+    <div id="genderReport" class="report-section">
+        <h2>Gender Report</h2>
+		<hr>
+		<div class="row align-self-start">
+	        <div class="col-4">
+	            <label for="yearFilter">Select Year:</label>
+	            <select class="form-control" id="yearFilter" onchange="filterReport();">
+	                <option value="">-- Select Year --</option>
+	                {% for year in available_years %}
+	                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+	                {% endfor %}
+	            </select>
+	        </div>
+	        <div class="col-4">
+	            <label for="monthFilter">Select Month:</label>
+	            <select class="form-control" id="monthFilter" onchange="filterReport()">
+	                <option value="">-- Select Month --</option>
+	                <option value="1" {% if selected_month == "1" %}selected{% endif %}>January</option>
+	                <option value="2" {% if selected_month == "2" %}selected{% endif %}>February</option>
+	                <option value="3" {% if selected_month == "3" %}selected{% endif %}>March</option>
+	                <option value="4" {% if selected_month == "4" %}selected{% endif %}>April</option>
+	                <option value="5" {% if selected_month == "5" %}selected{% endif %}>May</option>
+	                <option value="6" {% if selected_month == "6" %}selected{% endif %}>June</option>
+	                <option value="7" {% if selected_month == "7" %}selected{% endif %}>July</option>
+	                <option value="8" {% if selected_month == "8" %}selected{% endif %}>August</option>
+	                <option value="9" {% if selected_month == "9" %}selected{% endif %}>September</option>
+	                <option value="10" {% if selected_month == "10" %}selected{% endif %}>October</option>
+	                <option value="11" {% if selected_month == "11" %}selected{% endif %}>November</option>
+	                <option value="12" {% if selected_month == "12" %}selected{% endif %}>December</option>
+	            </select>
+	        </div>
+	    </div>
+		<p>Total Number of Males: <strong>{{ male_count }}</strong></p>
+		<p>Total Number of Females: <strong>{{ female_count }}</strong></p>
+		<canvas id="genderChart"></canvas>
+    </div>
+    <div id="maritalStatusReport" class="report-section">
+        <h2>Marital Status Report</h2>
+        <hr>
+        <canvas id="maritalStatusChart"></canvas>
+    </div>
+    <div id="educationReport" class="report-section">
+    	<h2>Educational Attainment Report</h2>
+    	<canvas id="educationChart"></canvas>
+    </div>
+</div>
+    
+
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+
+	function filterReport() {
+	    let selectedYear = document.getElementById('yearFilter').value;
+	    let selectedMonth = document.getElementById('monthFilter').value;
+	    let queryParams = [];
+
+	    if (selectedYear) {
+	        queryParams.push(`year=${selectedYear}`);
+	    }
+	    if (selectedMonth) {
+	        queryParams.push(`month=${selectedMonth}`);
+	    }
+
+	    let queryString = queryParams.length ? '?' + queryParams.join('&') : '';
+	    window.location.href = queryString;
+	}
+
+
+    function showReport() {
+        var selectedReport = document.getElementById('reportDropdown').value;
+        var reports = document.getElementsByClassName('report-section');
+        for (var i = 0; i < reports.length; i++) {
+            reports[i].style.display = 'none';
+        }
+        if (selectedReport) {
+            document.getElementById(selectedReport).style.display = 'block';
+        }
+    }
+    const ctx = document.getElementById('genderChart').getContext('2d');
+    const genderChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Male', 'Female'],
+            datasets: [{
+                data: [{{ male_count }}, {{ female_count }}],  // Django context variables
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                hoverBackgroundColor: ['#2980B9', '#C0392B']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                let value = tooltipItem.raw;
+                                let total = genderChart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = ((value / total) * 100).toFixed(2) + '%';
+                                return tooltipItem.label + ': ' + percentage;
+                            }
+                        }
+                    }
+            }
+        }
+    });
+
+
+    // Initialize Marital Status Bar Chart
+	const maritalCtx = document.getElementById('maritalStatusChart').getContext('2d');
+	const maritalStatusChart = new Chart(maritalCtx, {
+	    type: 'bar',
+	    data: {
+	        labels: ['Single', 'Married', 'Widowed', 'Divorced', 'Separated', 'Cohabiting'],
+	        datasets: [{
+	            label: 'Number of People',
+	            data: [{{ single_count }}, {{ married_count }}, {{ widowed_count }}, {{ divorced_count }}, {{ separated_count }}, {{ cohabiting_count }}],
+	            backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#C0392B', '#2980B9'],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	        scales: {
+	            y: {
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+
+	const educationCtx = document.getElementById('educationChart').getContext('2d');
+    const educationChart = new Chart(educationCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ education_labels|safe }},
+            datasets: [{
+                label: 'Number of People',
+                data: {{ education_counts|safe }},
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F4C724', '#9C27B0'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    function showReport() {
+	    var selectedReport = document.getElementById('reportDropdown').value;
+	    localStorage.setItem('selectedReport', selectedReport);  // Save selection in localStorage
+	    var reports = document.getElementsByClassName('report-section');
+
+	    for (var i = 0; i < reports.length; i++) {
+	        reports[i].style.display = 'none';
+	    }
+	    if (selectedReport) {
+	        document.getElementById(selectedReport).style.display = 'block';
+	    }
+	}
+
+	// Ensure the selected report is shown on page load
+	document.addEventListener("DOMContentLoaded", function() {
+	    var savedReport = localStorage.getItem('selectedReport');
+	    if (savedReport) {
+	        document.getElementById('reportDropdown').value = savedReport;
+	        showReport();
+	    }
+	});
+
+</script>
+{% endblock script %}
+
+
+

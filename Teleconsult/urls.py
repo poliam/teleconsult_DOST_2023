@@ -29,6 +29,8 @@ urlpatterns = [
     path('singup', TeleconsultView.signup, name="signup"),
     path('change-password/', TeleconsultView.change_password, name='change-password'),
     path('reports/', TeleconsultView.reportPage, name='reports'),
+    path('reports/charts', TeleconsultView.reportCharts, name='reportCharts'),
+    path('reports/tables', TeleconsultView.reportTables, name="reportTables"),
     path('download/<file_id>/', TeleconsultView.download_file, name='download_file'),
     path('patient/', include('patient.urls')),
     path('consultation', include('consultation.urls')),
