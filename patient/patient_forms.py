@@ -209,7 +209,7 @@ class AddPatientAddressForm(forms.ModelForm):
 	current_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
 	current_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
 	current_country = forms.CharField(required=False, label="Country", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
-	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Provinces'}))
 	current_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
 
 	ph_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
@@ -239,7 +239,7 @@ class EditPatientAddressForm(forms.ModelForm):
 	current_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
 	current_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
 	current_country = forms.CharField(required=False, label="Country", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
-	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	current_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Provinces'}))
 	current_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
 
 	ph_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
@@ -247,7 +247,7 @@ class EditPatientAddressForm(forms.ModelForm):
 	ph_barangay = forms.CharField(required=False, label="Barangay", widget=forms.TextInput(attrs={'placeholder': 'Barangay'}))
 	ph_city = forms.CharField(required=False, label="City", widget=forms.TextInput(attrs={'placeholder': 'City'}))
 	ph_country = forms.CharField(required=False, label="Country", widget=forms.HiddenInput(), initial='Philippines')
-	ph_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Country'}))
+	ph_province = forms.CharField(required=False, label="Provinces", widget=forms.TextInput(attrs={'placeholder': 'Provinces'}))
 	ph_zip_code = forms.CharField(required=False, label="Zip Code", widget=forms.TextInput(attrs={'placeholder': 'Zip Code'}))
 
 	def __init__(self, *args, **kwargs):
