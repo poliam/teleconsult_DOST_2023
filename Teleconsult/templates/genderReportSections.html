@@ -98,6 +98,9 @@
                 <option value="genderReport">Gender Report</option>
                 <option value="maritalStatusReport">Marital Status Report</option>
                 <option value="educationReport">Educational Attainment Report</option>
+                <option value="diagnosisReport">Diagnosis Report</option>
+                <option value="hamdReport">Hamd Report</option>
+                <option value="pgsReport">PGS Report</option>
             </select>
         </div>
         
@@ -146,6 +149,21 @@
     <div id="educationReport" class="report-section">
     	<h2>Educational Attainment Report</h2>
     	<canvas id="educationChart"></canvas>
+    </div>
+
+    <div id="diagnosisReport" class="report-section">
+        <h2>Diagnosis Report</h2>
+        <canvas id="diagnosisChart"></canvas>
+    </div>
+
+    <div id="hamdReport" class="report-section">
+        <h2>HAMD Depression Score Report</h2>
+        <canvas id="hamdChart"></canvas>
+    </div>
+
+    <div id="pgsReport" class="report-section">
+        <h2>Considering PGS Condition</h2>
+        <canvas id="pgsChart"></canvas>
     </div>
 </div>
     
@@ -283,6 +301,69 @@
 	    }
 	});
 
+</script>
+<script>
+    const diagnosisCtx = document.getElementById('diagnosisChart').getContext('2d');
+    const diagnosisChart = new Chart(diagnosisCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ condition_labels|safe }},
+            datasets: [{
+                label: 'Number of Cases',
+                data: {{ condition_counts|safe }},
+                backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#C0392B', '#2980B9'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const hamdCtx = document.getElementById('hamdChart').getContext('2d');
+    const hamdChart = new Chart(hamdCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ hamd_labels|safe }},
+            datasets: [{
+                label: 'Number of People',
+                data: {{ hamd_counts|safe }},
+                backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#C0392B'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+<script>
+    const eventCtx = document.getElementById('pgsChart').getContext('2d');
+    const eventChart = new Chart(eventCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ pgs_labels|safe }},
+            datasets: [{
+                label: 'Number of People',
+                data: {{ pgs_counts|safe }},
+                backgroundColor: ['#4CAF50', '#FFC107', '#E91E63'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
 </script>
 {% endblock script %}
 

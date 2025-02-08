@@ -4,14 +4,38 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileRe
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.conf import settings
-from django.db.models import Count
+from django.db.models import Count, IntegerField
+from django.db.models.functions import Cast
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
 from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
 from datetime import date, datetime, timedelta
 import os
 
+# Categorizing provinces into Luzon, Visayas, and Mindanao
+LUZON_PROVINCES = [
+    "ABRA", "ALBAY", "APAYAO", "AURORA", "BATANES", "BATANGAS", "BENGUET", "BULACAN",
+    "CAGAYAN", "CAMARINES NORTE", "CAMARINES SUR", "IFUGAO", "ILOCOS NORTE", "ILOCOS SUR",
+    "ISABELA", "KALINGA", "LA UNION", "LAGUNA", "MARINDUQUE", "MASBATE", "METRO MANILA",
+    "MOUNTAIN PROVINCE", "NUEVA ECIJA", "NUEVA VIZCAYA", "OCCIDENTAL MINDORO", "ORIENTAL MINDORO",
+    "PALAWAN", "PAMPANGA", "PANGASINAN", "QUEZON", "QUIRINO", "RIZAL", "ROMBLON", "SORSOGON",
+    "TARLAC", "ZAMBALES"
+]
 
+VISAYAS_PROVINCES = [
+    "AKLAN", "ANTIQUE", "BILIRAN", "BOHOL", "CAPIZ", "CEBU", "EASTERN SAMAR", "GUIMARAS",
+    "ILOILO", "LEYTE", "NEGROS OCCIDENTAL", "NEGROS ORIENTAL", "NORTHERN SAMAR",
+    "SAMAR", "SOUTHERN LEYTE", "SIQUIJOR", "WESTERN SAMAR"
+]
+
+MINDANAO_PROVINCES = [
+    "AGUSAN DEL NORTE", "AGUSAN DEL SUR", "BASILAN", "BUKIDNON", "COMPOSTELA VALLEY",
+    "COTABATO", "DAVAO DEL NORTE", "DAVAO DEL SUR", "DAVAO OCCIDENTAL", "DAVAO ORIENTAL",
+    "DINAGAT ISLANDS", "LANAO DEL NORTE", "LANAO DEL SUR", "MAGUINDANAO", "MISAMIS OCCIDENTAL",
+    "MISAMIS ORIENTAL", "NORTH COTABATO", "SARANGANI", "SOUTH COTABATO", "SULTAN KUDARAT",
+    "SURIGAO DEL NORTE", "SURIGAO DEL SUR", "ZAMBOANGA DEL NORTE", "ZAMBOANGA DEL SUR",
+    "ZAMBOANGA SIBUGAY"
+]
 
 @login_required(login_url='/login')
 def dashboard(request):
@@ -223,7 +247,38 @@ def reportCharts(request):
 	# Get distinct years from the database for the year dropdown
 	available_years = details.objects.dates('create_date', 'year').distinct().values_list('create_date__year', flat=True)
 
+	diagnosis_data = (diagnosis.objects.values('condition__name').annotate(count=Count('condition')).order_by('-count'))
 
+	condition_labels = [entry['condition__name'] for entry in diagnosis_data]
+	condition_counts = [entry['count'] for entry in diagnosis_data]
+
+	# Score categorization logic
+	hamd_data = hamd.objects.annotate(score_int=Cast('score', IntegerField()))
+	hamd_conditions = {
+		"Normal": hamd_data.filter(score_int__lte=7).count(),
+		"Mild Depression": hamd_data.filter(score_int__gt=7, score_int__lt=14).count(),
+		"Moderate Depression": hamd_data.filter(score_int__gt=13, score_int__lt=19).count(),
+		"Severe Depression": hamd_data.filter(score_int__gt=18, score_int__lt=23).count(),
+		"Very Severe Depression": hamd_data.filter(score_int__gte=23).count(),
+	}
+
+	# Considering Event Score Categorization
+	event_data = considering_event.objects.annotate(score_int=Cast('score_1_16', IntegerField()))
+
+	pgs_conditions = {
+		"No Symptoms": event_data.filter(score_int=0).count(),
+		"Mild Symptoms": event_data.filter(score_int__lt=11, score_int__gt=0).count(),
+		"Moderate-Severe Symptoms": event_data.filter(score_int__gte=11).count(),
+	}
+
+	returnVal['pgs_labels'] = list(pgs_conditions.keys())
+	returnVal['pgs_counts'] = list(pgs_conditions.values())
+
+	returnVal['hamd_labels'] = list(hamd_conditions.keys())
+	returnVal['hamd_counts'] = list(hamd_conditions.values())
+
+	returnVal['condition_labels'] = condition_labels
+	returnVal['condition_counts'] = condition_counts
 
 	returnVal['male_count'] = male_count
 	returnVal['female_count'] = female_count
@@ -283,8 +338,30 @@ def reportTables(request):
 		for entry in religion_data
 	]
 
+	province_data = address.objects.values('ph_province').annotate(count=Count('ph_province'))
+	categorized_data = {
+		"Luzon": [],
+		"Visayas": [],
+		"Mindanao": [],
+		"Unknown": []
+	}
+	for item in province_data:
+		region = categorize_province(item["ph_province"])
+		categorized_data[region].append(item)
 
 	returnVal['occupation_list'] = occupation_list
 	returnVal['religion_list'] = religion_list
+	returnVal['province_data'] = categorized_data
 
 	return render(request, 'reportTables.html', returnVal)
+
+
+def categorize_province(province):
+	province = province.upper() if province else "UNKNOWN"
+	if province in LUZON_PROVINCES:
+		return "Luzon"
+	elif province in VISAYAS_PROVINCES:
+		return "Visayas"
+	elif province in MINDANAO_PROVINCES:
+		return "Mindanao"
+	return "Unknown"

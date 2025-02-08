@@ -97,6 +97,7 @@
                 <option value="">-- Select a Report --</option>
                 <option value="occupationReport">Occupation Report</option>
                 <option value="religionReport">Religion Report</option>
+                <option value="provinceReport">Province Report</option>
             </select>
         </div>
 
@@ -149,6 +150,34 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+
+        <div id="provinceReport" class="report-section">
+            <h2>Province Report</h2>
+
+            {% for region, provinces in province_data.items %}
+                <h3>{{ region }}</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Province</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for province in provinces %}
+                        <tr>
+                            <td>{{ province.ph_province }}</td>
+                            <td>{{ province.count }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No data available</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
 
         <div id="futureReport2" class="report-section">
