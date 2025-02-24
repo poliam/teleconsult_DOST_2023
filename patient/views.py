@@ -533,6 +533,7 @@ def PatientAutoSaveGPS(request):
 		
 		try:
 			considering_event_details.save()
+			returnVal['status_code'] = 1
 		except:
 			new_global_psychotrauma_screen.delete()
 			returnVal['error_msg'] = "Error on saving gps screen"
@@ -604,6 +605,7 @@ def PatientAutoSaveGPS(request):
 
 		try:
 			new_considering_event.save()
+			returnVal['status_code'] = 1
 		except:
 			new_global_psychotrauma_screen.delete()
 			returnVal['error_msg'] = "Error on saving gps screen"
@@ -718,6 +720,7 @@ def PatientAutoSaveHamd(request):
 		try:
 			new_hamd.save()
 			returnVal['current_id'] = current_id
+			returnVal['status_code'] = 1
 		except:
 			returnVal['error_msg'] = "Error on saving hamd Data"
 			return JsonResponse(returnVal, safe=False)
@@ -829,6 +832,7 @@ def PatientAutoSaveHamd(request):
 		try:
 			new_hamd.save()
 			returnVal['current_id'] = new_hamd.pk
+			returnVal['status_code'] = 1
 		except:
 			returnVal['error_msg'] = "Error on saving hamd Data"
 			return JsonResponse(returnVal, safe=False)

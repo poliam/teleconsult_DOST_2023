@@ -652,9 +652,15 @@
 	        data: gps_form,
 	        async:true,
 	        success: function (data) {
-	        	$("input[name=current_id]").val(data.current_id);
+	        	if(data.status_code != 1){
+	        		alert("error on saving! please refresh the page or call admin!");
+	        	}else{
+	        		$("input[name=current_id]").val(data.current_id);
+	        	}
+	        	
 	        },
-	        error: function (e) {       
+	        error: function (e) {
+	        	alert("error on saving! please refresh the page or call admin!");
 	        }
 	    })
 	}
