@@ -296,6 +296,27 @@
 		$("#id_ph_province").autocomplete({
         	source: provinces
         });
+        var birth_place = ["NCR", "CAR", " Region I (Ilocos)", "Region II (Cagayan Valley)", "Region III (Central Luzon)", "Region IV-A (Calabarzon)",
+        "Region IV-B (MiMaRoPa)",  "Region V (Bicol)", "Region VI (Western Visayas)", "NIR (Negros Island Region)", "Region VII (Central Visayas)",
+    	"Region VIII (Eastern Visayas)", "Region IX (Zamboanga Peninsula)", "Region X (Northern Mindanao)", "Region XI (Davao Region)", "Region XII (Soccsksargen)",
+    	"Region XIII (Caraga Region)",  "BARMM"];
+    	$("#id_birth_place").autocomplete({
+    		source: birth_place
+    	});
+    	const religions = [ "Catholic", "Protestant", "Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Atheism", "Agnosticism", "Deism", "Pantheism", "No religion"];
+    	$("#id_religion").autocomplete({
+    		source: religions
+    	});
+
+    	const educationLevels = [ "Elementary", "High school", "College", "Vocational", "Post graduate", "ALS"];
+    	$("#id_high_education").autocomplete({
+    		source: educationLevels
+    	});
+
+    	const occupation = [ "household service worker", "skilled worker", "homemaker", "none"];
+    	$("#id_occupation").autocomplete({
+    		source: occupation
+    	});
 	
 </script>
 {% endblock script %}
