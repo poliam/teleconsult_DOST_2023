@@ -33,7 +33,21 @@
 				{% csrf_token %}	
 				<div class="card">
   					<div class="card-header">
-    					<h4>HAMILTON DEPRESSION RATING SCALE (HAM-D)</h4>
+    					<div class="row">
+    						<div class="col-5">
+    							<h4>HAMILTON DEPRESSION RATING SCALE (HAM-D)</h4>
+    						</div>
+    						<div class="col-7 text-end">
+    							<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off" checked>
+									<label class="btn btn-outline-light" for="btnradio1">English</label>
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off">
+									<label class="btn btn-outline-light" for="btnradio2">Tagalog</label>
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off">
+									<label class="btn btn-outline-light" for="btnradio3">Bisaya</label>
+								</div>
+    						</div>
+    					</div> 
   					</div>
   					<div class="card-body">
     					<div class="row">
@@ -60,483 +74,699 @@
     					<div class="row justify-content-md-center">
     						<div class="col-sm-11">
     							<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">1. DEPRESSED MOOD <br/>(Gloomy attitude, pessimism about the future, feeling of sadness, tendency to weep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">1. DEPRESSED MOOD <br/>(Gloomy attitude, pessimism about the future, feeling of sadness, tendency to weep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">1. Nalulumbay na Kalooban (nalulungkot na pag-uugali, pag-iisip ng pahihirap at kabiguan sa hinaharap, kalungkutan, naiiyak)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">1. MAGUL-ANON NGA GIBATI.  (Masulob-on nga kinaiya, pirming negatibong panghuna huna sa kaugmaon, dali lamang mohilak sa kagool).</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depressed_mood" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depressed_mood" value="1" required>
-  											<label class="form-check-label">Sadness, etc.</label>
+  											<label class="form-check-label english_sub">Sadness, etc.</label>
+  											<label class="form-check-label tagalog_sub">Walang kalungkutan, etc</label>
+  											<label class="form-check-label bisaya_sub">Walay hinungdang kaguol, ug uban pa.</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depressed_mood" value="2" required>
-  											<label class="form-check-label">Occasional weeping</label>
+  											<label class="form-check-label english_sub">Occasional weeping</label>
+  											<label class="form-check-label tagalog_sub">Paminsan-minsang pag-iyak</label>
+  											<label class="form-check-label bisaya_sub">Panagsang paghilak</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depressed_mood" value="3" required>
-  											<label class="form-check-label">Frequent weeping</label>
+  											<label class="form-check-label english_sub">Frequent weeping</label>
+  											<label class="form-check-label tagalog_sub">Madalas na pag-iyak</label>
+  											<label class="form-check-label bisaya_sub">Sige ug hilak</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depressed_mood" value="4" required>
-  											<label class="form-check-label">Extreme symptoms</label>
+  											<label class="form-check-label english_sub">Extreme symptoms</label>
+  											<label class="form-check-label tagalog_sub">Malalang simtomas</label>
+  											<label class="form-check-label bisaya_sub">Sobra nga mga simtomas sa kaguol</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">2. FEELINGS OF GUILT</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">2. FEELINGS OF GUILT</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">2. Nakakaramdam ng pagsisisi sa sarili</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">2.  PIRMING GINABASUL ANG KAUGALINGON SA MGA DAUTANG PANGHITABU.</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="feeling_of_guilt"value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="1" required>
-  											<label class="form-check-label">Self-reproach, feels he/she has let people down</label>
+  											<label class="form-check-label english_sub">Self-reproach, feels he/she has let people down</label>
+  											<label class="form-check-label tagalog_sub">Sinisisi ang sarili, dahil pakiramdam mo ay nabibigo mo ang mga tao.</label>
+  											<label class="form-check-label bisaya_sub">Sariling pagmahay, kanunayng ginabati nga iyang napakyas ang tanang tao sa iyang palibut Siya pirmi ang dunay sala </label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="2" required>
-  											<label class="form-check-label" >Ideas of guilt</label>
+  											<label class="form-check-label english_sub" >Ideas of guilt</label>
+  											<label class="form-check-label tagalog_sub" >Pag-iisip ng Kahihiyan</label>
+  											<label class="form-check-label bisaya_sub" >Ang paghuna-huna nga ang iyang mga sakit nga gibati sa karon tungod kay gisilutan sya sa</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="3" required>
-  											<label class="form-check-label"> Present illness is a punishment; delusions of guilt</label>
+  											<label class="form-check-label english_sub"> Present illness is a punishment; delusions of guilt</label>
+  											<label class="form-check-label tagalog_sub"> Tinuturing na isang parusa ang sakit sa kasalukuyan, may delusyon ng pagkakasala</label>
+  											<label class="form-check-label bisaya_sub"> iyang nahimung mga sala; Nagahuna huna pirmi nga siya ang sad-an sa tanang panahon</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="feeling_of_guilt" value="4" required>
-  											<label class="form-check-label">Hallucinations of guilt</label>
+  											<label class="form-check-label english_sub">Hallucinations of guilt</label>
+  											<label class="form-check-label tagalog_sub">Guni-guni ng pagkasala</label>
+  											<label class="form-check-label bisaya_sub">Grabeng gibati nga siya ang sad-sa  tanan</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">3. SUICIDE</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">3. SUICIDE</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">3. PAGPAPAKAMATAY</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">3. PAGPAKAMATAY.</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="suicide" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="suicide" value="1" required>
-  											<label class="form-check-label" >Feels life is not worth living</label>
+  											<label class="form-check-label english_sub" >Feels life is not worth living</label>
+  											<label class="form-check-label tagalog_sub" >May pakiramdam na ang buhay ay walang saysay.</label>
+  											<label class="form-check-label bisaya_sub" >Ang isip nga walay hinungdan nang mabuhi</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="suicide" value="2" required>
-  											<label class="form-check-label">Wishes he/she were dead</label>
+  											<label class="form-check-label english_sub">Wishes he/she were dead</label>
+  											<label class="form-check-label tagalog_sub">Humihiling na mamatay</label>
+  											<label class="form-check-label bisaya_sub">Nagapangandoy nga patay na unta siya</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="suicide" value="3" required>
-  											<label class="form-check-label">Suicidal ideas or gestures</label>
+  											<label class="form-check-label english_sub">Suicidal ideas or gestures</label>
+  											<label class="form-check-label tagalog_sub">May pag-iisip ng pagpapakamatay, o gawain</label>
+  											<label class="form-check-label bisaya_sub">Dunay ginapakita nga mga huna-huna o aksyon nga mas maayo nang mamatay na sya</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="suicide" value="4" required>
-  											<label class="form-check-label"> Attempts at suicide</label>
+  											<label class="form-check-label english_sub">Attempts at suicide</label>
+  											<label class="form-check-label tagalog_sub">May pagtatangka na kitlin ang buhay.</label>
+  											<label class="form-check-label bisaya_sub">Nagsulay na kani nga magpakamatay</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">4. INSOMNIA - Initial<br/>(Difficulty in falling asleep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">4. INSOMNIA - Initial<br/>(Difficulty in falling asleep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">4. HINDI NAKAKATULOG NG MAAYOS - Umpisa (Hirap sa pagtulog)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">4. DILI NA MAKATULOG - Inisyal (Naglisod nang makatulog). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_initial" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_initial" value="1" required>
-  											<label class="form-check-label">Occasional</label>
+  											<label class="form-check-label english_sub">Occasional</label>
+  											<label class="form-check-label tagalog_sub">Paminsan-minsan</label>
+  											<label class="form-check-label bisaya_sub">Panagsa</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_initial" value="2" required>
-  											<label class="form-check-label">Frequent</label>
+  											<label class="form-check-label english_sub">Frequent</label>
+  											<label class="form-check-label tagalog_sub">Malimit</label>
+  											<label class="form-check-label bisaya_sub">Kadaghan na</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">5. INSOMNIA - Middle<br/>(Difficulty in falling asleep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">5. INSOMNIA - Middle<br/>(Difficulty in falling asleep)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">5. HINDI NAKAKATULOG NG MAAYOS - Gitna(Hirap sa pagtulog)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">5.  DILI MAKATULOG - Tunga-tunga (sa kalisod nga makatulog)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_middle" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_middle" value="1" required>
-  											<label class="form-check-label">Occasional</label>
+  											<label class="form-check-label english_sub">Occasional</label>
+  											<label class="form-check-label tagalog_sub">Paminsan-minsan</label>
+  											<label class="form-check-label bisaya_sub">Panagsa</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_middle" value="2" required>
-  											<label class="form-check-label">Frequent</label>
+  											<label class="form-check-label english_sub">Frequent</label>
+  											<label class="form-check-label tagalog_sub">Malimit</label>
+  											<label class="form-check-label bisaya_sub">Kadaghan na</label>
 										</div>
 										
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">6. INSOMNIA - Delayed<br/>(Waking in early hours of the morning and unable to fall asleep again)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">6. INSOMNIA - Delayed<br/>(Waking in early hours of the morning and unable to fall asleep again)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">6. PAGKAPAGOD SA PAGTULOG - Huli(Hirap sa pagtulog)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">6. DILI NA MAKATULOG (Pinakagrabe nga kondisyon). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_delayed" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_delayed" value="1" required>
-  											<label class="form-check-label">Occasional</label>
+  											<label class="form-check-label english_sub">Occasional</label>
+  											<label class="form-check-label tagalog_sub">Paminsan-minsan</label>
+  											<label class="form-check-label bisaya_sub">Panagsa</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insomnia_delayed" value="2" required>
-  											<label class="form-check-label">Frequent</label>
+  											<label class="form-check-label english_sub">Frequent</label>
+  											<label class="form-check-label tagalog_sub">Malimit</label>
+  											<label class="form-check-label bisaya_sub">Kadaghan na</label>
 										</div>
 										
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">7. WORK AND INTERESTS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">7. WORK AND INTERESTS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">7. GINAGAWA AT LIBANGAN</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">7.  MGA BUHAT UG KALINGAWAN </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="work_and_interests" value="0" required>
-  											<label class="form-check-label">No difficulty</label>
+  											<label class="form-check-label english_sub">No difficulty</label>
+  											<label class="form-check-label tagalog_sub">Walang Hirap</label>
+  											<label class="form-check-label bisaya_sub">Walay kalisud</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="work_and_interests" value="1" required>
-  											<label class="form-check-label">Feelings of incapacity, listlessness, indecision and vacillation</label>
+  											<label class="form-check-label english_sub">Feelings of incapacity, listlessness, indecision and vacillation</label>
+  											<label class="form-check-label tagalog_sub">May damdamin ng kawalan ng kakayahan, walang interes, pag-aatubili, pag-aalinlingan</label>
+  											<label class="form-check-label bisaya_sub">Nagatoo pirmi nga dili makaya, dili mahimutang, dili makahimo ug desisyon ug kasiguruan</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="work_and_interests" value="2" required>
-  											<label class="form-check-label">Loss of interest in hobbies, decreased social activities</label>
+  											<label class="form-check-label english_sub">Loss of interest in hobbies, decreased social activities</label>
+  											<label class="form-check-label tagalog_sub">Nawalang gana o interes sa mga libangan, pagbawas ng gawain kasama ang ibang tao</label>
+  											<label class="form-check-label bisaya_sub">Walay interes sa mga paghimu ug mga butang nga makalingaw, dili gusto makihalubilo sa ubang tawu</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="work_and_interests" value="3" required>
-  											<label class="form-check-label">Productivity decreased</label>
+  											<label class="form-check-label english_sub">Productivity decreased</label>
+  											<label class="form-check-label tagalog_sub">Pagbawas ng produktibidad</label>
+  											<label class="form-check-label bisaya_sub">Hinay ang gana nga mohimo ug produktibong kalihukan Dili maka human ug mga trabahoon</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="work_and_interests" value="4" required>
-  											<label class="form-check-label">Unable to work. Stopped working because of present illness only. (Absence from work after treatment or recovery may rate a lower score)</label>
+  											<label class="form-check-label english_sub">Unable to work. Stopped working because of present illness only. (Absence from work after treatment or recovery may rate a lower score)</label>
+  											<label class="form-check-label tagalog_sub">Huminto sa trabaho dahil sa isang karamdaman (Pagliban sa trabaho dahil sa pagpapagaling mula sa sakit sa mabagal na paraan)</label>
+  											<label class="form-check-label bisaya_sub">Niundang sa pag trabaho tungod kay dunay ginabating sakit (Sa naulian na, dili gihapon mopakita sa trabaho, o hinay ang pagbalik sa maayong kalawasan)</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">8. RETARDATION - Delayed<br/>(Slowness of thought, speech, and activity; apathy; stupor.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">8. RETARDATION - Delayed<br/>(Slowness of thought, speech, and activity; apathy; stupor.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">8. PAGKA-ANTALA - PAGPIGIL(Pagbagal ng pag-iisip, pananalita, at gawain, kawalang interes, pagkahilo.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">8.  GRABENG KAHINAY SA PAGLAMBO SA MAAYONG PANLAWAS. (Hinay ang panghuna-huna, hinay makahuman ug sulti, hinay ang paglihok-lihok, hinay motagad sa mga panghitabu, nawala sa maayong pangisip.).</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="retardation_delayed" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="retardation_delayed" value="1" required>
-  											<label class="form-check-label">Slight retardation at interview</label>
+  											<label class="form-check-label english_sub">Slight retardation at interview</label>
+  											<label class="form-check-label tagalog_sub">May bahagyang antala sa interbyu</label>
+  											<label class="form-check-label bisaya_sub">Hinay ang pagpanabot kung motubag sa mga pangutana</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="retardation_delayed" value="2" required>
-  											<label class="form-check-label">Obvious retardation at interview</label>
+  											<label class="form-check-label english_sub">Obvious retardation at interview</label>
+  											<label class="form-check-label tagalog_sub">Halata ang antala sa interbyu</label>
+  											<label class="form-check-label bisaya_sub">Klarong wala sa tarung nga pangisip kung motubag sa mga interbyu</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="retardation_delayed" value="3" required>
-  											<label class="form-check-label">Interview difficult</label>
+  											<label class="form-check-label english_sub">Interview difficult</label>
+  											<label class="form-check-label tagalog_sub">Hirap ang interbyu</label>
+  											<label class="form-check-label bisaya_sub">Maglisud sa interbyu</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="retardation_delayed" value="4" required>
-  											<label class="form-check-label">Complete stupor</label>
+  											<label class="form-check-label english_sub">Complete stupor</label>
+  											<label class="form-check-label tagalog_sub">Kumpletong pagkawala ng ulirat. </label>
+  											<label class="form-check-label bisaya_sub">Kumpletong pagkawala sa sarili</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">9. AGITATION - Delayed<br/>(Restlessness associated with anxiety.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">9. AGITATION - Delayed<br/>(Restlessness associated with anxiety.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">9. PAGKABALISA - PAGPIGIL (Pagkabalisa dahil sa anxiety)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">9.  PAGKALISANG - Grabe (Dili mahimutang tungod sa kahadlok.). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="agitation_delayed" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="agitation_delayed" value="1" required>
-  											<label class="form-check-label">Occasional</label>
+  											<label class="form-check-label english_sub">Occasional</label>
+  											<label class="form-check-label tagalog_sub">Paminsan-minsan</label>
+  											<label class="form-check-label bisaya_sub">Panagsa</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="agitation_delayed" value="2" required>
-  											<label class="form-check-label">Frequent</label>
+  											<label class="form-check-label english_sub">Frequent</label>
+  											<label class="form-check-label tagalog_sub">Malimit</label>
+  											<label class="form-check-label bisaya_sub">Kadaghan na</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">10. ANXIETY - PSYCHIC</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">10. ANXIETY - PSYCHIC</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">10. PAGKABALISA - PSAYKIK</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">10.  PAGKALISANG - nga ANAA LANG SA HUNA HUNA.  </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_psychic" value="0" required>
-  											<label class="form-check-label">No difficulty</label>
+  											<label class="form-check-label english_sub">No difficulty</label>
+  											<label class="form-check-label tagalog_sub">Walang paghihirap</label>
+  											<label class="form-check-label bisaya_sub">Wala naglisud</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_psychic" value="1" required>
-  											<label class="form-check-label">Tension and irritability</label>
+  											<label class="form-check-label english_sub">Tension and irritability</label>
+  											<label class="form-check-label tagalog_sub">Tensyon at irita</label>
+  											<label class="form-check-label bisaya_sub">Tensyon ug dali lamang ma suko</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_psychic" value="2" required>
-  											<label class="form-check-label">Worrying about minor matters</label>
+  											<label class="form-check-label english_sub">Worrying about minor matters</label>
+  											<label class="form-check-label tagalog_sub">Pag-aalala sa mga maliliit na bagay</label>
+  											<label class="form-check-label bisaya_sub">Sige kabalaka sa mga ginagmayng butang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_psychic" value="3" required>
-  											<label class="form-check-label">Apprehensive attitude</label>
+  											<label class="form-check-label english_sub">Apprehensive attitude</label>
+  											<label class="form-check-label tagalog_sub">May pangambang saloobin</label>
+  											<label class="form-check-label bisaya_sub">Pirmi lang naga alanganin nga wala sa lugar</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_psychic" value="4" required>
-  											<label class="form-check-label">Fears</label>
+  											<label class="form-check-label english_sub">Fears</label>
+  											<label class="form-check-label tagalog_sub">Takot</label>
+  											<label class="form-check-label bisaya_sub">Mga Kahadluk</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">11. ANXIETY - SOMATIC <br/> Gastrointestinal, indigestion Cardiovascular, palpitation, Headaches Respiratory, Genito-urinary, etc.</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">11. ANXIETY - SOMATIC <br/> Gastrointestinal, indigestion Cardiovascular, palpitation, Headaches Respiratory, Genito-urinary, etc.</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">11. PAGKABALISA - KATAWAN <br/> (Sistemang panunaw, impatso, Puso-at daluyan nito, kabog ng dibdib, sakit ng ulo, Paghinga, "genito-urinary")</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">11.  KALISUD NGA GINABATI nga makita sa pisikal <br/> (sakit sa tiyan, dili matunawan sa pagkaon, sakit sa kasing kasing, sige ug kabug ang dughan, sakit sa ulo, maglisod ug ginhawa, nagalisod sa pag ihi, ug uban pa.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_somatic" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_somatic" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay ra</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_somatic" value="2" required>
-  											<label class="form-check-label">Moderate</label>
+  											<label class="form-check-label english_sub">Moderate</label>
+  											<label class="form-check-label tagalog_sub">Katamtaman</label>
+  											<label class="form-check-label bisaya_sub">Tunga-tunga</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_somatic" value="3" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe na</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="anxiety_somatic" value="4" required>
-  											<label class="form-check-label">Incapacitating</label>
+  											<label class="form-check-label english_sub">Incapacitating</label>
+  											<label class="form-check-label tagalog_sub">Incapacitating</label>
+  											<label class="form-check-label bisaya_sub">Lisod na kaayo ang paglihuk-lihuk</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">12. SOMATIC SYMPTOMS - GASTROINTESTINAL<br/>(Loss of appetite , heavy feeling in abdomen; constipation)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">12. SOMATIC SYMPTOMS - GASTROINTESTINAL<br/>(Loss of appetite , heavy feeling in abdomen; constipation)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">12. SINTOMAS NG SAKIT SA KATAWAN - SISTEMANG PANUNAW (Pagkawala ng gana sa kain, bigat ng pakiramdam sa tiyan, hirap sa pagbawas)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">12.  MGA SINTOMAS SA SAKIT SA KALAWASAN - SAKIT SA TIYAN  (Walay gana mokaun, dunay bug-at nga ginabati sa kuto-kuto, dili makalibang). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay ra</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_gastrointestinal" value="2" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe na</label>
 										</div>
 										
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">13. SOMATIC SYMPTOMS - GENERAL<br/>(Heaviness in limbs, back or head; diffuse backache; loss of energy and fatiguability)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">13. SOMATIC SYMPTOMS - GENERAL<br/>(Heaviness in limbs, back or head; diffuse backache; loss of energy and fatiguability)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">13. SINTOMAS NG SAKIT SA KATAWAN - PANGKALAHATAN (Pagbigat ng biyas, likod o ulo, pagka-ubos ng enerhiya at pagkapagod)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">13.  SINTOMAS SA KINATIBUK-ANG SAKIT SA KALAWASAN. (Bug-at ang mga tiil ug bukton, likod ug ulo, pagkawala sa kusog ug pagka dali makapoy nga pamati.). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay ra</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="somatic_symptoms_general" value="2" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe na</label>
 										</div>
 										
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">14. GENITAL SYMPTOMS<br/>(Loss of libido, menstrual disturbances)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">14. GENITAL SYMPTOMS<br/>(Loss of libido, menstrual disturbances)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">14. SINTOMAS SA ARI (Pagkawala ng pagnanasa, pagka-antala ng regla)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">14. SINTOMAS SA KINATAWO ( Pagkawala sa gana nga makighilawas, dili maayo nga pag gawas sa regla.). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="genital_symptoms" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="genital_symptoms" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay ra</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="genital_symptoms" value="2" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe na</label>
 										</div>
 										
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">15. HYPOCHONDRIASIS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">15. HYPOCHONDRIASIS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">15. LABIS NA PAG-AALALA SA KALUSUGAN</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">15.  SOBRANG KAGUOL O KABALAKA SA PANGLAWAS.  </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="hypochondriasis" value="0" required>
-  											<label class="form-check-label">Not present</label>
+  											<label class="form-check-label english_sub">Not present</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="hypochondriasis" value="1" required>
-  											<label class="form-check-label">Self-absorption (bodily)</label>
+  											<label class="form-check-label english_sub">Self-absorption (bodily)</label>
+  											<label class="form-check-label tagalog_sub">Maypag-aalala sa katawan</label>
+  											<label class="form-check-label bisaya_sub">May pagkabalaka sa panlawas nga kaayuhan</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="hypochondriasis" value="2" required>
-  											<label class="form-check-label">Preoccupation with health</label>
+  											<label class="form-check-label english_sub">Preoccupation with health</label>
+  											<label class="form-check-label tagalog_sub">Maingay na nakikipagtalo</label>
+  											<label class="form-check-label bisaya_sub">Sobrang kabalaka sa panglawas nga mga butang</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="hypochondriasis" value="3" required>
-  											<label class="form-check-label">Querulous attitude</label>
+  											<label class="form-check-label english_sub">Querulous attitude</label>
+  											<label class="form-check-label tagalog_sub">Palaging nagrereklamo</label>
+  											<label class="form-check-label bisaya_sub">Makipag away na mahitungod sa kabalaka sa maayong panlawas</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="hypochondriasis" value="4" required>
-  											<label class="form-check-label">Hypochondriacal delusions</label>
+  											<label class="form-check-label english_sub">Hypochondriacal delusions</label>
+  											<label class="form-check-label tagalog_sub">Delusyon patungkol sa labis na pag-aalala sa kalusugan.</label>
+  											<label class="form-check-label bisaya_sub">Duna nay delusyon mahitungod sa kabalaka niya sa maayong panlawas</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">16. WEIGHT LOSS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">16. WEIGHT LOSS</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">16. PAGBABA NG TIMBANG </label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">16.  PAG-UBOS SA TIMBANG.</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="weight_loss" value="0" required>
-  											<label class="form-check-label">No weight loss</label>
+  											<label class="form-check-label english_sub">No weight loss</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="weight_loss" value="1" required>
-  											<label class="form-check-label">Slight</label>
+  											<label class="form-check-label english_sub">Slight</label>
+  											<label class="form-check-label tagalog_sub">Bahagya</label>
+  											<label class="form-check-label bisaya_sub">Gamay lamang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="weight_loss" value="2" required>
-  											<label class="form-check-label">Obvious or severe</label>
+  											<label class="form-check-label english_sub">Obvious or severe</label>
+  											<label class="form-check-label tagalog_sub">Matindi</label>
+  											<label class="form-check-label bisaya_sub">Grabeng pag ubos</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">17. INSIGHT <br/>(Insight must be interpreted in terms of patient’s understanding and background.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">17. INSIGHT <br/>(Insight must be interpreted in terms of patient’s understanding and background.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">17. PANANAW <br/>(Binibigyang kahulugan batay sa pag-iintidi ng pasyente)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">17.  PAGLANTAW  <br/>(Ang paglantaw kinahanglan ibase kani sa pagsabut sa pasyente sa iyang nakat-unan ug naagihan mahitungod sa maayong panlawas.)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insight" value="0" required>
-  											<label class="form-check-label">No loss</label>
+  											<label class="form-check-label english_sub">No loss</label>
+  											<label class="form-check-label tagalog_sub">May nawala</label>
+  											<label class="form-check-label bisaya_sub">Walay nawala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insight" value="1" required>
-  											<label class="form-check-label">Partial or doubtfull loss</label>
+  											<label class="form-check-label english_sub">Partial or doubtfull loss</label>
+  											<label class="form-check-label tagalog_sub">May bahagyang pagkawala</label>
+  											<label class="form-check-label bisaya_sub">Dili klaro o gamay lamang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="insight" value="2" required>
-  											<label class="form-check-label"> Loss of insight</label>
+  											<label class="form-check-label english_sub">Loss of insight</label>
+  											<label class="form-check-label tagalog_sub">Pagkawala ng pananaw</label>
+  											<label class="form-check-label bisaya_sub">Wala gyuy nasabtan</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<!-- fix this soon -->
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">18. DIURNAL VARIATION <br/>(Symptoms worse in morning or evening. Note which it is.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">18. DIURNAL VARIATION <br/>(Symptoms worse in morning or evening. Note which it is.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">18. PAGBABAGO NG SINTOMAS (Ang sintomas ay malala sa umaga o sa gabi)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">18. PAGKALAHI-LAHI SA SINTOMAS. (Ayuhon ug tan-aw kanus-a dunay kalainan sa mga sintomas sa Buntag o sa Hapon)  </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check">
   											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_none" value="0" required>
-  											<label class="form-check-label">No variation</label>
+  											<label class="form-check-label english_sub">No variation</label>
+  											<label class="form-check-label tagalog_sub">Walang pagkakaiba</label>
+  											<label class="form-check-label bisaya_sub">Walay kalainan</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_mild" value="1" required>
-  											<label class="form-check-label">Mild variation;</label>
+  											<label class="form-check-label english_sub">Mild variation;</label>
+  											<label class="form-check-label tagalog_sub">May bahagyang pagkakaiba</label>
+  											<label class="form-check-label bisaya_sub">Dunay gamayng kalainan </label>
 										</div>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline">
 											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_am" id="diurnal_variation_mild_am" value="1" disabled>
-  											<label class="form-check-label">AM</label>
+  											<label class="form-check-label english_sub">AM</label>
+  											<label class="form-check-label tagalog_sub">Umaga</label>
+  											<label class="form-check-label bisaya_sub">sa Buntag </label>
 										</div>
 										<div class="form-check form-check-inline">
 											<input class="form-check-input" type="checkbox" name="diurnal_variation_mild_pm" id="diurnal_variation_mild_pm" value="1" disabled>
-  											<label class="form-check-label">PM</label>
+  											<label class="form-check-label english_sub">PM</label>
+  											<label class="form-check-label tagalog_sub">Hapon</label>
+  											<label class="form-check-label bisaya_sub">sa Hapon</label>
 										</div>
 										<div class="form-check">
   											<input class="form-check-input" type="radio" name="diurnal_variation" id="diurnal_variation_severe" value="2" required>
-  											<label class="form-check-label">Severe variation;</label>
+  											<label class="form-check-label english_sub">Severe variation;</label>
+  											<label class="form-check-label tagalog_sub">Matinding Pagkakaiba</label>
+  											<label class="form-check-label bisaya_sub">Dakong kalainan</label>
 										</div>
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline">
 											<input class="form-check-input" type="checkbox" mane="diurnal_variation_severe_am" id="diurnal_variation_severe_am" value="1" disabled>
-  											<label class="form-check-label">AM</label>
+  											<label class="form-check-label english_sub">AM</label>
+  											<label class="form-check-label tagalog_sub">Umaga</label>
+  											<label class="form-check-label bisaya_sub">sa Buntag </label>
 										</div>
 										<div class="form-check form-check-inline">
 											<input class="form-check-input" type="checkbox" name="diurnal_variation_severe_pm" id="diurnal_variation_severe_pm" value="1" disabled>
-  											<label class="form-check-label">PM</label>
+  											<label class="form-check-label english_sub">PM</label>
+  											<label class="form-check-label tagalog_sub">Hapon</label>
+  											<label class="form-check-label bisaya_sub">sa Hapon</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">19. DEPERSONALIZATION AND DEREALIZATION <br/>(feelings of unreality, nihilistic ideas)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">19. DEPERSONALIZATION AND DEREALIZATION <br/>(feelings of unreality, nihilistic ideas)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">19. PAGKAWALA NG PAKIRAMDAM SA SARILI AT PAGKAWALA SA PAKIRAMDAM NG KATOTOHANAN(pakiramdam ng hindi katotohanan, may paniniwalang walang kabuluhan ang lahat)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">19.  PAGKAWALA SA SARILING GIBATI UG PAGKAWALA SA PAGKAMATNGUN SA KATINUURAN SA PALIBUT. (pagbati nga dili tinuod, dunay pagtoo nga walay hinungdan para sa tanan ang ginabati).</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala </label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay lamang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="2" required>
-  											<label class="form-check-label">Moderate</label>
+  											<label class="form-check-label english_sub">Moderate</label>
+  											<label class="form-check-label tagalog_sub">Katamtaman</label>
+  											<label class="form-check-label bisaya_sub">Tama-tama lamang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="3" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="depersonalization_and_derelization" value="4" required>
-  											<label class="form-check-label">Incapacitating</label>
+  											<label class="form-check-label english_sub">Incapacitating</label>
+  											<label class="form-check-label tagalog_sub">Lubhang nagpapahirap</label>
+  											<label class="form-check-label bisaya_sub">Sobrang grabe nga gibati</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">20. PARANOID SYMPTOMS <br/>(Not with a depressive quality)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">20. PARANOID SYMPTOMS <br/>(Not with a depressive quality)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">20. PARANOYD NA SINTOMAS <br/>(Hindi Sintomas ng Depresyon)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">20.  PARANOYD NGA MGA SINTOMAS <br/> (dili sintomas sa Depresyon). </label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="0" required>
-  											<label class="form-check-label">None</label>
+  											<label class="form-check-label english_sub">None</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="1" required>
-  											<label class="form-check-label">Suspicious</label>
+  											<label class="form-check-label english_sub">Suspicious</label>
+  											<label class="form-check-label tagalog_sub">Kahina-hinala</label>
+  											<label class="form-check-label bisaya_sub">Makaduda</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="2" required>
-  											<label class="form-check-label">Ideas of reference</label>
+  											<label class="form-check-label english_sub">Ideas of reference</label>
+  											<label class="form-check-label tagalog_sub">Ideas sa pakisayran</label>
+  											<label class="form-check-label bisaya_sub">Ideya diin gikan</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="3" required>
-  											<label class="form-check-label">Delusions of reference and persecution</label>
+  											<label class="form-check-label english_sub">Delusions of reference and persecution</label>
+  											<label class="form-check-label tagalog_sub">Delusyon, Pag-uusig at Persekyusyon</label>
+  											<label class="form-check-label bisaya_sub">Delusyon sa gigikanan ug persekusyon</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="paranoid_symptoms" value="4" required>
-  											<label class="form-check-label">Hallucinations, persecutory</label>
+  											<label class="form-check-label english_sub">Hallucinations, persecutory</label>
+  											<label class="form-check-label tagalog_sub">Halusinasyon, Persekyutory</label>
+  											<label class="form-check-label bisaya_sub">Halusinasyon, nagatulisok</label>
 										</div>
     								</div>
   								</div>
   								<br/>
   								<div class="form-group row">
-    								<label for="staticEmail" class="col-sm-3 col-form-label">21. OBSESSIONAL SYMPTOMS <br/>(Obsessive thoughts and compulsions against which the patient struggles)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label english_sub">21. OBSESSIONAL SYMPTOMS <br/>(Obsessive thoughts and compulsions against which the patient struggles)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label tagalog_sub">21. PAGKAHUMALING NA SINTOMAS  <br/>(Pagkahumaling na iniisip at pamimilit ng pasyente sa mga nilalabanan niya.)</label>
+    								<label for="staticEmail" class="col-sm-3 col-form-label bisaya_sub">21  SINTOMAS TUNGOD SA OBSESYON <br/> (Obsesyon nga huna huna ug pagpugos sa pasyente nga duna syay ginabati nga mga sakit nga iyang gina sukulan)</label>
     								<div class="col-sm-9" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="0" required>
-  											<label class="form-check-label">Absent</label>
+  											<label class="form-check-label english_sub">Absent</label>
+  											<label class="form-check-label tagalog_sub">Wala</label>
+  											<label class="form-check-label bisaya_sub">Wala</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="1" required>
-  											<label class="form-check-label">Mild</label>
+  											<label class="form-check-label english_sub">Mild</label>
+  											<label class="form-check-label tagalog_sub">Banayad</label>
+  											<label class="form-check-label bisaya_sub">Gamay lamang</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="obsessional_symptoms" value="2" required>
-  											<label class="form-check-label">Severe</label>
+  											<label class="form-check-label english_sub">Severe</label>
+  											<label class="form-check-label tagalog_sub">Malubha</label>
+  											<label class="form-check-label bisaya_sub">Grabe na ang Kondisyon</label>
 										</div>
     								</div>
   								</div>
@@ -610,6 +840,7 @@
 		});
 
 		setInterval(autoSave, 10000);
+		handleRadioChange(); 
 	});
 
 	function autoSave(){
@@ -632,5 +863,24 @@
 	        }
 	    })
 	}
+
+	function handleRadioChange() {
+		$('.tagalog_sub, .bisaya_sub').hide();
+	  	$('input[name="btnradio"]').change(function() {
+		    const selectedValue = $(this).val();
+		    // Hide all option-specific content
+		    $('.english_sub, .tagalog_sub, .bisaya_sub').hide();
+
+		    // Show the one that matches the selected value
+		    console.log(selectedValue);
+		    if (selectedValue === '1') {
+		      	$('.english_sub').show();
+		    } else if (selectedValue === '2') {
+		    	$('.tagalog_sub').show();
+		    } else if(selectedValue === '3'){
+		    	$('.bisaya_sub').show();
+		    }
+		  });
+		}
 </script>
 {% endblock script %}

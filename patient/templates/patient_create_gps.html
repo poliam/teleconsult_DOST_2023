@@ -37,7 +37,22 @@
 				{% csrf_token %}	
 				<div class="card">
   					<div class="card-header">
-    					<h4>Global Psychotrauma Screen</h4>
+    					
+    					<div class="row">
+    						<div class="col-5">
+    							<h4>Global Psychotrauma Screen</h4>
+    						</div>
+    						<div class="col-7 text-end">
+    							<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off" checked>
+									<label class="btn btn-outline-light" for="btnradio1">English</label>
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off">
+									<label class="btn btn-outline-light" for="btnradio2">Tagalog</label>
+									<input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off">
+									<label class="btn btn-outline-light" for="btnradio3">Bisaya</label>
+								</div>
+    						</div>
+    					</div> 
   					</div>
   					<div class="card-body">
   						<div class="row">
@@ -75,125 +90,174 @@
     						</div>
     					</div>
     					<hr>
-    					<h6 class="card-header">Sometimes things happen to people that are unusually or especially frightening, horrible, or traumatic. </h6>
+    					<h6 class="card-header english_sub">Sometimes things happen to people that are unusually or especially frightening, horrible, or traumatic. </h6>
+    					<h6 class="card-header tagalog_sub" style="display:none;">Kung minsan may mga pangyayari sa isang tao na hindi pangkaraniwan, nakakatakot, nakakakilabot o nakakasuklam.</h6>
+    					<h6 class="card-header bisaya_sub" style="display:none;">Usahay adunay mahitabo sa usa ka tawo nga dili maayo, dili normal, talagsaon, ug makalisang.</h6>
     					<div class="row">
     						<div class="col-sm-8">
     							<div class="form-group">
-									<label><b>Briefly describe the event or experience that currently affects you the most</b></label>
+									<label>
+										<b class="english_sub">Briefly describe the event or experience that currently affects you the most</b>
+										<b class="tagalog_sub">Ikwento mo ang mga karanasang lubhang nakaka-apekto sa iyo. </b>
+										<b class="bisaya_sub">Paghatag ug hamubong salaysay sa panghitabo nga naka apektu ug daku kanimo sa karong panahuna.</b>
+									</label>
 									<textarea class="form-control" rows="4" name="event_description" required></textarea>
 								</div>
     						</div>
     						<div class="col-sm-4">
-    							<label><b>This event happened</b></label>
+    							<label>
+    								<b class="english_sub">This event happened</b>
+    								<b class="tagalog_sub">Ito ay nangyari sa:</b>
+    								<b class="bisaya_sub">Ang maong panghitabu: </b>
+    							</label>
     							<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="last week" required>
-  									<label class="form-check-label">
-    									last week
-  									</label>
+  									<label class="form-check-label english_sub">last week</label>
+  									<label class="form-check-label tagalog_sub">Nakalipas na linggo</label>
+  									<label class="form-check-label bisaya_sub">sa niaging semana lamang</label>
 								</div>
     							<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="last month" required>
-  									<label class="form-check-label">
-    									last month
-  									</label>
+  									<label class="form-check-label english_sub">last month</label>
+  									<label class="form-check-label tagalog_sub">Nakalipas na buwan</label>
+  									<label class="form-check-label bisaya_sub">niaging bulan</label>
 								</div>
 								<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="last half year" required>
-  									<label class="form-check-label">
-    									last half year
-  									</label>
+  									<label class="form-check-label english_sub">last half year</label>
+  									<label class="form-check-label tagalog_sub">Nakalipas na kalahating taon</label>
+  									<label class="form-check-label bisaya_sub">niaging katunga sa tuig</label>
 								</div>
 								<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="last year" required>
-  									<label class="form-check-label">
-    									last year
-  									</label>
+  									<label class="form-check-label english_sub">last year</label>
+  									<label class="form-check-label tagalog_sub">Nakalipas na taon</label>
+  									<label class="form-check-label bisaya_sub">niaging tuig</label>
 								</div>
 								<div class="form-check">
   									<input class="form-check-input" type="radio" name="event_happened" value="longer ago" required>
-  									<label class="form-check-label">
-    									longer ago
-  									</label>
+  									<label class="form-check-label english_sub">longer ago</label>
+  									<label class="form-check-label tagalog_sub">Sa matagal ng panahon</label>
+  									<label class="form-check-label bisaya_sub">niaging dugay na nga panahon</label>
 								</div>
     						</div>
     					</div>
     					<br/>
     					<div class="row">
     						<div class="col-sm-6">
-    							<label><b>Which of the below characterize the event (more answers possible)</b></label>
+    							<label>
+    								<b class="english_sub">Which of the below characterize the event (more answers possible)</b>
+    								<b class="tagalog_sub">Alin sa mga ito ang may katangian ng mga pangyayari:</b>
+    								<b class="bisaya_sub">Asa diari sa mga sumusunod ang nagapakita sa panghitabu kanimo.  </b>
+    							</label>
     							<div class="form-group row">
-    								<label class="col-sm-3 col-form-label">Physical violence</label>
+    								<label class="col-sm-3 col-form-label english_sub">Physical violence</label>
+    								<label class="col-sm-3 col-form-label tagalog_sub">Pisikal na karahasan</label>
+    								<label class="col-sm-3 col-form-label bisaya_sub">Pisikal nga pang abuso nga </label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="physical_violence" value="to yourself" >
-  											<label class="form-check-label">to yourself</label>
+  											<label class="form-check-label english_sub">to yourself</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iyong sarili</label>
+  											<label class="form-check-label bisaya_sub">nahitabu kanimo</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="physical_violence"  value="happened to someone else">
-  											<label class="form-check-label">happened to someone else</label>
+  											<label class="form-check-label english_sub">happened to someone else</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iba</label>
+  											<label class="form-check-label bisaya_sub">nahitabu usab sa uban</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-3 col-form-label">Sexual violence</label>
+    								<label class="col-sm-3 col-form-label english_sub">Sexual violence</label>
+    								<label class="col-sm-3 col-form-label tagalog_sub">Sekswal na karasahan</label>
+    								<label class="col-sm-3 col-form-label bisaya_sub">Sekswal nga pang abuso </label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="sexual_violence" value="to yourself" >
-  											<label class="form-check-label">to yourself</label>
+  											<label class="form-check-label english_sub">to yourself</label>
+  											<label class="form-check-label tagalog_sub">nangayari sa iyong sarili</label>
+  											<label class="form-check-label bisaya_sub">nga nahitabu kanimo </label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="sexual_violence" value="happened to someone else" >
-  											<label class="form-check-label">happened to someone else</label>
+  											<label class="form-check-label english_sub">happened to someone else</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iba</label>
+  											<label class="form-check-label bisaya_sub">nahitabu usab sa uban</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-3 col-form-label">Emotional abuse</label>
+    								<label class="col-sm-3 col-form-label english_sub">Emotional abuse</label>
+    								<label class="col-sm-3 col-form-label tagalog_sub">Emosyonal na pang-aabuso</label>
+    								<label class="col-sm-3 col-form-label bisaya_sub">Emosyonal nga pang abuso </label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="emotional_abuse" value="to yourself" >
-  											<label class="form-check-label">to yourself</label>
+  											<label class="form-check-label english_sub">to yourself</label>
+  											<label class="form-check-label tagalog_sub">nangayari sa iyong sarili</label>
+  											<label class="form-check-label bisaya_sub">nga nahitabu kanimo </label>
+
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="emotional_abuse" value="happened to someone else" >
-  											<label class="form-check-label">happened to someone else</label>
+  											<label class="form-check-label english_sub">happened to someone else</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iba</label>
+  											<label class="form-check-label bisaya_sub">nahitabu usab sa uban</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-3 col-form-label">Serious injury</label>
+    								<label class="col-sm-3 col-form-label english_sub">Serious injury</label>
+    								<label class="col-sm-3 col-form-label tagalog_sub">Malubhang pinsala</label>
+    								<label class="col-sm-3 col-form-label bisaya_sub">Sobrang daku nga kadaut </label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="serious_injury" value="to yourself" >
-  											<label class="form-check-label">to yourself</label>
+  											<label class="form-check-label english_sub">to yourself</label>
+  											<label class="form-check-label tagalog_sub">nangayari sa iyong sarili</label>
+  											<label class="form-check-label bisaya_sub">nga nahitabu kanimo </label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="serious_injury" value="happened to someone else" >
-  											<label class="form-check-label">happened to someone else</label>
+  											<label class="form-check-label english_sub">happened to someone else</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iba</label>
+  											<label class="form-check-label bisaya_sub">nahitabu usab sa uban</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-3 col-form-label">Life threatening</label>
+    								<label class="col-sm-3 col-form-label english_sub">Life threatening</label>
+    								<label class="col-sm-3 col-form-label tagalog_sub">Banta sa buhay</label>
+    								<label class="col-sm-3 col-form-label bisaya_sub">Posibling peligro sa kinabuhi </label>
     								<div class="col-sm-8" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="life_threatening" value="to yourself" >
-  											<label class="form-check-label">to yourself</label>
+  											<label class="form-check-label english_sub">to yourself</label>
+  											<label class="form-check-label tagalog_sub">nangayari sa iyong sarili</label>
+  											<label class="form-check-label bisaya_sub">nga nahitabu kanimo </label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="life_threatening" value="happened to someone else" >
-  											<label class="form-check-label">happened to someone else</label>
+  											<label class="form-check-label english_sub">happened to someone else</label>
+  											<label class="form-check-label tagalog_sub">nangyari sa iba</label>
+  											<label class="form-check-label bisaya_sub">nahitabu usab sa uban</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
   									<div class="form-check">
   										<input class="form-check-input" type="checkbox" value="1" name="sudden_death_of_loved_one">
-  										<label class="form-check-label">Sudden death of a loved one</label>
+  										<label class="form-check-label english_sub">Sudden death of a loved one</label>
+  										<label class="form-check-label tagalog_sub">Biglaang pagkamatay ng mahal sa buhay </label>
+  										<label class="form-check-label bisaya_sub">Kalit nga pagkamatay sa mga minahal sa kinabuhi.</label>
 									</div>
 									<div class="form-check">
   										<input class="form-check-input" type="checkbox" value="1" name="cause_harm_to_others">
-  										<label class="form-check-label">You causing harm to someone else</label>
+  										<label class="form-check-label english_sub">You causing harm to someone else</label>
+  										<label class="form-check-label tagalog_sub">Ikaw ay nagdulot ng kapahamakan sa iba</label>
+  										<label class="form-check-label bisaya_sub">Ikaw ang hinungdan sa maong kamatayon? </label>
 									</div>
 									<div class="form-check">
   										<input class="form-check-input" type="checkbox" value="1" name="covid">
@@ -203,11 +267,15 @@
     						</div>
     						<div class="col-sm-6">
     							<div class="form-group">
-    								<label><b>Was a single event occurring, at age</b></label>
+    								<label class="english_sub"><b>Was a single event occurring, at age</b></label>
+    								<label class="tagalog_sub"><b>Ito ba ay isang beses na nangyari? at ilang taon ka nito?</b></label>
+    								<label class="bisaya_sub"><b>Nahitabu ba kani sa usa lamang kahigayun? Ug pila ang imong idad niatong panahona?</b></label>
     								<input type="text" class="form-control" name="single_event_occurring" placeholder="Age" >
   								</div>
   								<div class="form-group">
-    								<label><b>Happened during a longer period / multiple times, between ages</b></label>
+    								<label class="english_sub"><b>Happened during a longer period / multiple times, between ages</b></label>
+    								<label class="tagalog_sub"><b>Ito ba ay matagal ng nangayari/ paulit-ulit ng nangyari sa pagitan ng mga ilang taon?</b></label>
+    								<label class="bisaya_sub"><b>Dugay na ba kani nga panghitabu/kapila na kahigayun kini nahitabu, aduna nay tunga sa tuig ang milabay?</b></label>
     								<div class="row">
     									<div class="col-sm-5">
     										<input type="text" class="form-control" name="range_event_occurring_from" placeholder="Age">
@@ -222,297 +290,433 @@
     						
     					</div>
     					<hr>
-    					<h6 class="card-header">Considering the above event, in the past month have you... </h6>
+    					<h6 class="card-header english_sub">Considering the above event, in the past month have you... </h6>
+    					<h6 class="card-header tagalog_sub">Sa mga pangayayaring nabanggit, sa nakalipas na buwan ikaw ba ay... </h6>
+    					<h6 class="card-header bisaya_sub">Sa maong panghitabu nga gihisgutan sa nilabay nga bulan ikaw ba kay...</h6>
     					<div class="row justify-content-md-center">
     						<div class="col-sm-11">
     							<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">1. Had nightmares about the past traumatic life event(s) you have experienced or thought about the event(s) when you did not want to?</label>
+    								<label class="col-sm-10 col-form-label english_sub">1. Had nightmares about the past traumatic life event(s) you have experienced or thought about the event(s) when you did not want to?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">1. Nagkaroon ng bangungot tungkol sa pinsalang nangyari sa buhay na hindi mo ginusto?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">1.  Naka-damgo ka ba kabahin niatong mga dili maayong panghitabu nga imong nadangatan?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_1" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_1" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">2. Tried hard not to think about past traumatic life event(s) or went out of your way to avoid situations that reminded you of the event(s)?</label>
+    								<label class="col-sm-10 col-form-label english_sub">2. Tried hard not to think about past traumatic life event(s) or went out of your way to avoid situations that reminded you of the event(s)?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">2. Sinubukang huwag mag-isip sa mga pinsalang nangyari sa buhay? naglaan ng pagsisikap para maiwasang maka-alala sa mga nangyari?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">2. Nisulay ba ka nga dili kaayo maghuna huna sa maong dili maayong panghitabo sa imong kinabuhi?  Milikay ka ba sa mga higayon nga mabalik sa huna-huna nimo ang maong panghitabo?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_2" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_2" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">3. Been constantly on guard, watchful, or easily startled?</label>
+    								<label class="col-sm-10 col-form-label english_sub">3. Been constantly on guard, watchful, or easily startled?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">3. Naging alerto, mapagbantay, o magugulatin?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">3. Nahimu ka bang mabinantayon, manigurado kanunay, o kanang dali ra makuratan? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_3" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_3" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">4. Felt numb or detached from people, activities, or your surroundings?</label>
+    								<label class="col-sm-10 col-form-label english_sub">4. Felt numb or detached from people, activities, or your surroundings?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">4. Nakaramdam ng pagka-manhid o nawalan ng pakiramdam sa mga tao, gawain, o sa iyong paligid?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">4. Nawad-an kaba ug gana sa tao, o mopalayo kanila, mopalayo sa mga buluhaton, o sa imong palibut?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_4" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_4" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">5. Felt guilty or unable to stop blaming yourself or others for past traumatic life event(s) or any problems the event(s) caused?</label>
+    								<label class="col-sm-10 col-form-label english_sub">5. Felt guilty or unable to stop blaming yourself or others for past traumatic life event(s) or any problems the event(s) caused?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">5. Nakaramdam ng konsensiya o sinisisi ang sarili at ibang tao sa mga nakalipas na pinsalang nangyari sa buhay? o mga problemang nangyari dahil sa pinsala?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">5. Nakonsensya ka ba o dili ba nimo maundangan ug mahay imong kaugalingon tungod niatong nahitabu nga naghatag ug dakung kadaut sa imong kinabuhi o ang dautang epektu sa maong problema kanimo karong panahuna.</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_5" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_5" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">6. Tended to feel worthless?</label>
+    								<label class="col-sm-10 col-form-label english_sub">6. Tended to feel worthless?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">6. Nakaramdam nang pagkawalang halaga?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">6. Nibati ka ba nga daw sa wala kay hinungdan nga pagkatao? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_6" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_6" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">7. Experienced angry outbursts that you could not control?</label>
+    								<label class="col-sm-10 col-form-label english_sub">7. Experienced angry outbursts that you could not control?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">7. Nakaramdam nang matinding galit na hindi mo kayang kontrolin?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">7. Mokalit ka ba ug batig kalagot nga dili nimo makontrol? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_7" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_7" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">8. Been feeling nervous, anxious, or on edge?</label>
+    								<label class="col-sm-10 col-form-label english_sub">8. Been feeling nervous, anxious, or on edge?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">8. Nakaramdam ng kaba, pag-aalala, o pagkabalisa?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">8. Aduna bay mga panahon nga gibati ka ug kakulba, o kahadlok, o sobrang kabalaka? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_8"  value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_8" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">9. Been unable to stop or control worrying? </label>
+    								<label class="col-sm-10 col-form-label english_sub">9. Been unable to stop or control worrying? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">9. Hindi kayang pigilan o kontrolin ang pag-aalala? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">9. Duna bay mga panahon nga dili nimo maundang o makontrol ang imong kabalaka? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_9" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_9" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">10. Been feeling down, depressed, or hopeless? </label>
+    								<label class="col-sm-10 col-form-label english_sub">10. Been feeling down, depressed, or hopeless? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">10. Nalungkot, lubhang nalumbay, o nawalan ng pag-asa? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">10. Diha bay mga panahon nga gibati ka ug sobrang kaubos, kaluya, o ka walay pag-asa? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_10" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_10" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">11. Been experiencing little interest or pleasure in doing things? </label>
+    								<label class="col-sm-10 col-form-label english_sub">11. Been experiencing little interest or pleasure in doing things? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">11. Nakaramdam ng pagkawala ng interes o saya sa ginagawa? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">11. Nawad-an kaba ug gana o kalipay sa pagbuhat sa mga adlaw-adlawng buluhaton? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_11" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_11" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">12. Had any problems falling or staying asleep? </label>
+    								<label class="col-sm-10 col-form-label english_sub">12. Had any problems falling or staying asleep? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">12. Nagkaroon ng problema sa pagtulog? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">12. Nagalisod ka ba ug tulog? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_12" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_12" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">13. Tried to intentionally hurt yourself? </label>
+    								<label class="col-sm-10 col-form-label english_sub">13. Tried to intentionally hurt yourself? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">13. Sinubukang saktan ang inyong sarili?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">13. Niagi ba ka ug pagsulay nga pasakitan ang imong kaugalingon?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_13" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_13" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">14. Perceived or experienced the world or other people differently, so that things seem dreamlike, strange or unreal? </label>
+    								<label class="col-sm-10 col-form-label english_sub">14. Perceived or experienced the world or other people differently, so that things seem dreamlike, strange or unreal? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">14. Nakaranas ng pag-iba ng mundo, o pag-iba ng mga tao at nang sa ganuon ito ay parang panaginip, kakaiba, o hindi totoo? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">14. Nakabati ka ba ug panahon nga lahi ang imong pagtan-aw sa imong palibut ug sa mga tao, nga ang tanan murag damgo lamang, o lahi sa naandan nimo kay murag dili tinuod?  </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_14" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_14" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">15. Felt detached or separated from your body (for example, feeling like you are looking down on yourself from above, or like you are an outside observer of your own body)? </label>
+    								<label class="col-sm-10 col-form-label english_sub">15. Felt detached or separated from your body (for example, feeling like you are looking down on yourself from above, or like you are an outside observer of your own body)? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">15. Nakaramdam ng paglayo o paghihiwalay ng sarili sa katawan? halimbawa pakiramdam mo ay nakikita mo ang iyong sarili sa malayo o sa taas, o pakiramdam mo ay isa kang dayuhan sa sarili mong katawan?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">15. Nakabati ka ba ug panahon nga mura ka ug nahabulag sa imong lawas ( eksample, kanang mura ka ug anaa sa taas naga tan-aw sa imong lawas nga anaa sa ubos, o kana bang mura ka ug naga obserba sa imong lawas nga anaa ka sa gawas niani)?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_15" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_15" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">16. Had any other physical, emotional or social problems that bothered you? </label>
+    								<label class="col-sm-10 col-form-label english_sub">16. Had any other physical, emotional or social problems that bothered you? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">16. Mayroong ibang problemang nakaka-apekto sa iyo sa pisikal na aspeto? emosyonal? o suliranin sa lipunan?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">16. Aduna ka bay pag alinlangan nga ginabati sa pisikal, emosyonal, o sa pagpakig halubilo sa mga tao? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_16" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_16" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">17. Experienced other stressful events (such as financial problems, changing jobs, moving to another house, relational crisis in work or private life)? </label>
+    								<label class="col-sm-10 col-form-label english_sub">17. Experienced other stressful events (such as financial problems, changing jobs, moving to another house, relational crisis in work or private life)? </label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">17. Nakaranas ng mga "stressful" na pangyayari tulad ng problema sa pera, pagpapalit ng trabaho, lumipat ng ibang tirahan, nagkaroon ng problema o krisis sa trabaho o personal na buhay?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">17. Nakasinati ka ba nga ma estres ka sa mga panghitabu (sama mahitungod sa pangwarta, mag bag-ong trabaho, pagbalhin sa puy-anan, o nagalisod ka makipag kapwa-tao sa trabahuan o sa pribadong kinabuhi)? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_17" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_17" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">18. Tried to reduce tensions by using alcohol, tobacco, drugs or medication?  </label>
+    								<label class="col-sm-10 col-form-label english_sub">18. Tried to reduce tensions by using alcohol, tobacco, drugs or medication?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">18. Sinubukang ibsan ang tensyon sa pamamagitan ng alak, sigarilyo, droga o gamot? </label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">18. Gisulayan ba nimo sa pagsulbad sa tensyon sa mga panghitabu nga dili nimo nagustuhan pinaagi sa alcohol (pag-inum), sigarilyo, druga o pag-inom ug mga tambal? </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_18" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_18" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">19. Missed supportive people near you that you could readily count on for help in times of difficulty (such as emotional support, watch over children or pets, give rides to hospital or store, help when you are sick)? </label>
+    								<label class="col-sm-10 col-form-label english_sub">19. Missed supportive people near you that you could readily count on for help in times of difficulty (such as emotional support, watch over children or pets, give rides to hospital or store, help when you are sick)?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">19. Nangulila sa mga taong sumusuporta na malalapit sa iyo na puwede mong lapitan sa panahong ikaw ay nagdurusa para sa emosyonal na suporta, pag-aalaga sa mga anak o alagang hayop, naghahatid papuntang ospital o pamilihan kapag ikaw may may sakit?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">19. Gibati ka ba ug kamingaw sa mga tao nga maoy madali-dali nimo ug hangyo ug motabang dayon kanimo sa mga panahon nga kinahanglan nimo ug tabang (sama sa emosyonal nga suporta, mobantay sa imong mga anak o mga binuhing hayop, o mupasakay kanimo paadtu sa hospital o sa tindahan, o maoy makatabang kanimo sa panahon nga aduna kay mga sakit)?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_19" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_19" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">20. During your childhood (0-18 years), did you experience any traumatic life events (e.g., a serious accident or fire, physical or sexual assault or abuse, a disaster, seeing someone be killed or seriously injured, or having a loved one die)?</label>
+    								<label class="col-sm-10 col-form-label english_sub">20. During your childhood (0-18 years), did you experience any traumatic life events (e.g., a serious accident or fire, physical or sexual assault or abuse, a disaster, seeing someone be killed or seriously injured, or having a loved one die)?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">20. Sa iyong kabataan nuong ikaw ay dise-otso anyos pababa, nakaranas ka ba ng  kahit na anong "paghihirap sa buhay" tulad ng malubhang akisendente o sunog, pisikal o sekswal na abuso, sakuna, nakakita ng pinatay, sinaktan o may mahal sa buhay na pinatay?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">20. Niadtung panahon sa imong kabataan (0-18 idad), diha bay nasinati nimo nga makahadluk nga panghitabu ( eksample, grabeng aksidente o sunog, pisikal o sekswal nga asunto o abuso, mga dagko nga disaster,  nakakita ka ug gipatay o grabe nga pagka baldado, o nawad-an ka ug usa ka minahal sa kinabuhi)?  </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_20" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_20" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
-										</div>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
+										</div> 
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">21. Have you ever received a psychiatric diagnosis or have you ever been treated for psychological problems (for example, depression, anxiety or a personality disorder)?</label>
+    								<label class="col-sm-10 col-form-label english_sub">21. Have you ever received a psychiatric diagnosis or have you ever been treated for psychological problems (for example, depression, anxiety or a personality disorder)?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">21. Ikaw ba ay nakatanggap ng "Psychiatric Diagnosis" o pinagamot para sa mga sakit sa isipan tulad ng depression, anxiety o personality disorder?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">21. Niagi ka ba ug usa ka psychiatric diagnosis o niagi ka ba ug pag atiman tungod kay aduna kay problema sa panghuna-huna (eksample, depresyon, sobrang kaguol o dili masabtan nga kinaiyahan)?</label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_21" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_21" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-10 col-form-label">22. Do you generally consider yourself to be a resilient person?</label>
+    								<label class="col-sm-10 col-form-label english_sub">22. Do you generally consider yourself to be a resilient person?</label>
+    								<label class="col-sm-10 col-form-label tagalog_sub">22. Tinuturing mo bang matatag na tao ang iyong sarili?</label>
+    								<label class="col-sm-10 col-form-label bisaya_sub">22. Matawag ba nimo imong kaugalingon nga usa ka tao nga baskug ug kusgang moatubang ug makalahutay sa lain laing problema?  </label>
     								<div class="col-sm-2" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_22" value="No" required>
-  											<label class="form-check-label">No</label>
+  											<label class="form-check-label english_sub">No</label>
+  											<label class="form-check-label tagalog_sub">Hindi</label>
+  											<label class="form-check-label bisaya_sub">Dili</label>
 										</div>
 										<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_22" value="Yes" required>
-  											<label class="form-check-label">Yes</label>
+  											<label class="form-check-label english_sub">Yes</label>
+  											<label class="form-check-label tagalog_sub">Oo</label>
+  											<label class="form-check-label bisaya_sub">Oo</label>
 										</div>
     								</div>
   								</div>
   								<div class="form-group row">
-    								<label class="col-sm-6 col-form-label">23. How would you rate your present functioning (at work/home)?</label>
+    								<label class="col-sm-6 col-form-label english_sub">23. How would you rate your present functioning (at work/home)?</label>
+    								<label class="col-sm-6 col-form-label tagalog_sub">23. Paano mo bibigyan ng score ang sarili mo kung gaano ka ka-okay sa iyong pang-araw-araw na gawain diyan sa shelter? anong score ang ibibigay mo mula isa hanggang sampu?</label>
+    								<label class="col-sm-6 col-form-label bisaya_sub">23. Unsay imong ihatag nga gradu sa imong kahibawu sa pagdala sa imong sarili nga muatubang sa lain laing problema sa kinabuhi (sa trabaho/ sa panimalay)?  </label>
     								<div class="col-sm-6" style="padding: 0.4rem">
       									<div class="form-check form-check-inline">
   											<input class="form-check-input" type="radio" name="considering_event_23" value="1" required>
@@ -595,6 +799,7 @@
 		$( "#cosnultation_date" ).datepicker();
 		$('#cosnultation_date').datepicker('setDate', today);
 		setInterval(autoSave, 10000);
+ 		handleRadioChange();
 	})
 
 	function autoSave(){
@@ -623,8 +828,25 @@
 		}else{
 			return false;
 		}
-		
-
 	}
+
+	function handleRadioChange() {
+		$('.tagalog_sub, .bisaya_sub').hide();
+	  	$('input[name="btnradio"]').change(function() {
+		    const selectedValue = $(this).val();
+		    // Hide all option-specific content
+		    $('.english_sub, .tagalog_sub, .bisaya_sub').hide();
+
+		    // Show the one that matches the selected value
+		    console.log(selectedValue);
+		    if (selectedValue === '1') {
+		      	$('.english_sub').show();
+		    } else if (selectedValue === '2') {
+		    	$('.tagalog_sub').show();
+		    } else if(selectedValue === '3'){
+		    	$('.bisaya_sub').show();
+		    }
+		  });
+		}
 </script>
 {% endblock script %}
