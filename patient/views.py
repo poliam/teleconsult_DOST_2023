@@ -24,13 +24,26 @@ def PatientLists(request):
 	profile_details = User.objects.get(pk=request.user.id)
 	if request.user.groups.filter(name="Doctor").exists():
 		returnVal['group_type'] = "Doctor"
-	elif request.user.groups.filter(name="Nurse").exists():
+	elif request.user.groups.filter(name="Nurse-R").exists():
 		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Riyadh'
+	elif request.user.groups.filter(name="Nurse-J").exists():
+		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Jeddah'
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Triage"
 	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
-	list_of_patients = details.objects.filter(is_delete=0)
+	if workplace_choice:  # Filter by workplace if it's not None
+		list_of_patients = details.objects.filter(
+			is_delete=0,
+			workplace=workplace_choice  # Filter by the workplace field in related 'details'
+		)
+	else:
+		# If no specific workplace is set (e.g., for "Doctor", "Triage", or "Admin"), skip the workplace filter
+		list_of_patients = details.objects.filter(
+			is_delete=0
+		)
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['list_of_patients'] = list_of_patients
