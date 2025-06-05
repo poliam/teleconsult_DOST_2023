@@ -39,48 +39,97 @@ MINDANAO_PROVINCES = [
 
 @login_required(login_url='/login')
 def dashboard(request):
-	returnVal = {}
-	profile_details = User.objects.get(pk=request.user.id)
-	if request.user.groups.filter(name="Doctor").exists():
-		returnVal['group_type'] = "Doctor"
-	elif request.user.groups.filter(name="Nurse").exists():
-		returnVal['group_type'] = "Nurse"
-	elif request.user.groups.filter(name="Triage").exists():
-		returnVal['group_type'] = "Triage"
-	elif request.user.groups.filter(name="Admin").exists():
-		returnVal['group_type'] = "Admin"
-	returnVal['sidebar'] = "dashboard"
-	returnVal['userDetails'] = profile_details
-	returnVal['number_of_patients'] = details.objects.filter(status=1).count()
-	returnVal['number_of_consultations'] = encounter.objects.filter(status=1).count()
+    returnVal = {}
+    profile_details = User.objects.get(pk=request.user.id)
+    # Determine the group of the logged-in user and set the workplace accordingly
+    if request.user.groups.filter(name="Doctor").exists():
+        returnVal['group_type'] = "Doctor"
+        workplace_choice = None  # No specific workplace for Doctor
+    elif request.user.groups.filter(name="Nurse-R").exists():
+        returnVal['group_type'] = "Nurse"
+        workplace_choice = 'Riyadh'
+    elif request.user.groups.filter(name="Nurse-J").exists():
+        returnVal['group_type'] = "Nurse"
+        workplace_choice = 'Jeddah'
+    elif request.user.groups.filter(name="Triage").exists():
+        returnVal['group_type'] = "Triage"
+        workplace_choice = None  # No specific workplace for Triage
+    elif request.user.groups.filter(name="Admin").exists():
+        returnVal['group_type'] = "Admin"
+        workplace_choice = None  # Admin can access all workplaces
 
-	current_date = date.today()
-	future_date = current_date + timedelta(days=7)
-	week_consultation = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
-	list_of_psychiatric_evaluate = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0).order_by('evaluation_consultation_date')
-	returnVal['upcomming_appointment'] = week_consultation.count() + list_of_psychiatric_evaluate.count()
-	today_consultation = encounter.objects.filter(consultation_date=current_date, is_delete=0).order_by('consultation_date')
-	today_consultation_list = []
-	for consultation in today_consultation:
-		try:
-			hamd_details = hamd.objects.get(details=consultation.details.pk)
-			score = hamd_details.score
-		except:
-			score = 0
-		patient_name = consultation.details.last_name.capitalize()+", "+consultation.details.first_name.capitalize()+" "+consultation.details.middle_name.capitalize()
-		if consultation.consulted_by is None:
-			consulted_by = False
-		else:
-			consulted_by = True
-		today_consultation_list.append({"consultation_id": consultation.pk, "consultation_type": consultation.reason_for_interaction, "patient_name": patient_name, "hamd_score": int(score), "consult_by": consulted_by})
-	returnVal['doctor_today_consultation'] = today_consultation_list
-	returnVal['today_consultation'] = today_consultation
+    # Default value for workplace_choice if it's not defined above
+    if 'workplace_choice' not in locals():
+        workplace_choice = None
 
+    # Sidebar and user details
+    returnVal['sidebar'] = "dashboard"
+    returnVal['userDetails'] = profile_details
 
-	returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date, is_delete=0)
-	returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
-	current_date_split = str(current_date).split("-")
-	return render(request, 'dashboard.html', returnVal)
+    # Filter the number of patients based on workplace choice
+    if workplace_choice:
+        returnVal['number_of_patients'] = details.objects.filter(status=1, workplace=workplace_choice).count()
+        returnVal['number_of_consultations'] = encounter.objects.filter(status=1, details__workplace=workplace_choice).count()
+    else:
+        returnVal['number_of_patients'] = details.objects.filter(status=1).count()
+        returnVal['number_of_consultations'] = encounter.objects.filter(status=1).count()
+
+    # Get upcoming consultations and evaluations within the next week
+    current_date = date.today()
+    future_date = current_date + timedelta(days=7)
+
+    # Filter 'encounter' objects based on 'consultation_date' within the range and filter by workplace
+    if workplace_choice:
+        week_consultation = encounter.objects.filter(consultation_date__range=(current_date, future_date), details__workplace=workplace_choice).order_by('consultation_date')
+        list_of_psychiatric_evaluate = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0, details__workplace=workplace_choice).order_by('evaluation_consultation_date')
+    else:
+        week_consultation = encounter.objects.filter(consultation_date__range=(current_date, future_date)).order_by('consultation_date')
+        list_of_psychiatric_evaluate = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0).order_by('evaluation_consultation_date')
+
+    returnVal['upcomming_appointment'] = week_consultation.count() + list_of_psychiatric_evaluate.count()
+
+    # Filter today's consultations
+    if workplace_choice:
+        today_consultation = encounter.objects.filter(consultation_date=current_date, is_delete=0, details__workplace=workplace_choice).order_by('consultation_date')
+    else:
+        today_consultation = encounter.objects.filter(consultation_date=current_date, is_delete=0).order_by('consultation_date')
+
+    today_consultation_list = []
+    for consultation in today_consultation:
+        try:
+            hamd_details = hamd.objects.get(details=consultation.details.pk)
+            score = hamd_details.score
+        except:
+            score = 0
+        patient_name = f"{consultation.details.last_name.capitalize()}, {consultation.details.first_name.capitalize()} {consultation.details.middle_name.capitalize()}"
+        consulted_by = consultation.consulted_by is not None
+        today_consultation_list.append({
+            "consultation_id": consultation.pk,
+            "consultation_type": consultation.reason_for_interaction,
+            "patient_name": patient_name,
+            "hamd_score": int(score),
+            "consult_by": consulted_by
+        })
+
+    returnVal['doctor_today_consultation'] = today_consultation_list
+    returnVal['today_consultation'] = today_consultation
+
+    # Filter today's evaluations
+    if workplace_choice:
+        returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date, is_delete=0, details__workplace=workplace_choice)
+    else:
+        returnVal['today_evaluation'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date=current_date, is_delete=0)
+
+    # Filter list of patients based on status and workplace
+    if workplace_choice:
+        returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0, workplace=workplace_choice)
+    else:
+        returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
+
+    current_date_split = str(current_date).split("-")
+
+    return render(request, 'dashboard.html', returnVal)
+
 
 def login_user(request):
 	if request.method == 'POST':
@@ -98,24 +147,39 @@ def login_user(request):
 		return render(request, 'login.html', {"error_msg": "", "username": ""})
 
 def signup(request):
-	errormsg = ""
-	successmsg = ""
-	success = 0
-	if request.method == 'POST':
-		CheckUserByUsername = User.objects.filter(username=request.POST['username'])
-		if len(CheckUserByUsername) == 0:
-			CheckUserByEmail = User.objects.filter(email=request.POST['email'])
-			if len(CheckUserByEmail) == 0:
-				newUser = User.objects.create_user(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'], first_name=request.POST['first_name'], last_name=request.POST['last_name'])
-				group = Group.objects.get(pk=request.POST['usergroup'])
-				newUser.groups.add(group)
-				success = 1
-				successmsg = "Create Account Success!"
-			else:
-				errormsg = "Email already been used!"
-		else:
-			errormsg = "Username Already Taken!"
-	return render(request, "signup.html", {"error_msg":errormsg, "success": success, "successmsg": successmsg})
+    errormsg = ""
+    successmsg = ""
+    success = 0
+    if request.method == 'POST':
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        if password != confirm_password:
+            errormsg = "Passwords do not match!"
+        else:
+            # Check if username and email are already in use
+            CheckUserByUsername = User.objects.filter(username=request.POST['username'])
+            if len(CheckUserByUsername) == 0:
+                CheckUserByEmail = User.objects.filter(email=request.POST['email'])
+                if len(CheckUserByEmail) == 0:
+                    # Create user and assign to group
+                    newUser = User.objects.create_user(
+                        username=request.POST['username'],
+                        email=request.POST['email'],
+                        password=password,
+                        first_name=request.POST['first_name'],
+                        last_name=request.POST['last_name']
+                    )
+                    group = Group.objects.get(pk=request.POST['usergroup'])
+                    newUser.groups.add(group)
+                    success = 1
+                    successmsg = "Account created successfully!"
+                    return redirect('login_user')  # Redirect to login page
+                else:
+                    errormsg = "Email is already in use!"
+            else:
+                errormsg = "Username is already taken!"
+    return render(request, "signup.html", {"error_msg": errormsg, "success": success, "successmsg": successmsg})
+
 
 def change_password(request):
 	returnVal = {}
