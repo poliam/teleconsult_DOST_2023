@@ -22,18 +22,27 @@ from datetime import date, datetime
 def PatientLists(request):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
-	if request.user.groups.filter(name="Doctor").exists():
-		returnVal['group_type'] = "Doctor"
-	elif request.user.groups.filter(name="Nurse-R").exists():
-		returnVal['group_type'] = "Nurse"
-		workplace_choice = 'Riyadh'
-	elif request.user.groups.filter(name="Nurse-J").exists():
-		returnVal['group_type'] = "Nurse"
-		workplace_choice = 'Jeddah'
-	elif request.user.groups.filter(name="Triage").exists():
-		returnVal['group_type'] = "Triage"
-	elif request.user.groups.filter(name="Admin").exists():
-		returnVal['group_type'] = "Admin"
+	 # Get the logged-in user's group and set the workplace_choice accordingly
+    if request.user.groups.filter(name="Doctor").exists():
+        returnVal['group_type'] = "Doctor"
+        workplace_choice = None  # No specific workplace for Doctor
+    elif request.user.groups.filter(name="Nurse-R").exists():
+        returnVal['group_type'] = "Nurse"
+        workplace_choice = 'Riyadh'
+    elif request.user.groups.filter(name="Nurse-J").exists():
+        returnVal['group_type'] = "Nurse"
+        workplace_choice = 'Jeddah'
+    elif request.user.groups.filter(name="Triage").exists():
+        returnVal['group_type'] = "Triage"
+        workplace_choice = None  # No specific workplace for Triage
+    elif request.user.groups.filter(name="Admin").exists():
+        returnVal['group_type'] = "Admin"
+        workplace_choice = None  # Admin can access all workplaces
+
+    # Default value for workplace_choice if not defined above
+    if 'workplace_choice' not in locals():
+        workplace_choice = None
+
 	if workplace_choice:  # Filter by workplace if it's not None
 		list_of_patients = details.objects.filter(
 			is_delete=0,
