@@ -18,12 +18,22 @@ def CreateConsultation(request, patient_id):
 	profile_details = User.objects.get(pk=request.user.id)
 	if request.user.groups.filter(name="Doctor").exists():
 		returnVal['group_type'] = "Doctor"
-	elif request.user.groups.filter(name="Nurse").exists():
+		workplace_choice = None  # No specific workplace for Doctor
+	elif request.user.groups.filter(name="Nurse-R").exists():
 		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Riyadh'
+	elif request.user.groups.filter(name="Nurse-J").exists():
+		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Jeddah'
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Triage"
+		workplace_choice = None  # No specific workplace for Triage
 	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
+		workplace_choice = None  # Admin can access all workplaces
+	# Default value for workplace_choice if not defined above
+	if 'workplace_choice' not in locals():
+		workplace_choice = None
 	returnVal['sidebar'] = "Consultation"
 	returnVal['userDetails'] = profile_details
 	try:
@@ -277,12 +287,22 @@ def EditConsultation(request, encounter_id):
 	returnVal['userDetails'] = profile_details
 	if request.user.groups.filter(name="Doctor").exists():
 		returnVal['group_type'] = "Doctor"
-	elif request.user.groups.filter(name="Nurse").exists():
+		workplace_choice = None  # No specific workplace for Doctor
+	elif request.user.groups.filter(name="Nurse-R").exists():
 		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Riyadh'
+	elif request.user.groups.filter(name="Nurse-J").exists():
+		returnVal['group_type'] = "Nurse"
+		workplace_choice = 'Jeddah'
 	elif request.user.groups.filter(name="Triage").exists():
 		returnVal['group_type'] = "Triage"
+		workplace_choice = None  # No specific workplace for Triage
 	elif request.user.groups.filter(name="Admin").exists():
 		returnVal['group_type'] = "Admin"
+		workplace_choice = None  # Admin can access all workplaces
+	# Default value for workplace_choice if not defined above
+	if 'workplace_choice' not in locals():
+		workplace_choice = None
 
 		
 	try:
