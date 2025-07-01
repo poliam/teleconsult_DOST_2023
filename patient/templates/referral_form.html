@@ -104,7 +104,7 @@
                     <td colspan="3">
                         {% for treatment in referral_treatment %}
                         <ul>
-                            <li>{{ treatment.strength }} {{ treatment.dose }} {{ treatment.route }} {{ treatment.frequency }} # {{ treatment.drug_no }}</li>
+                            <li>{{ treatment.drugs.name }} {{ treatment.strength }} {{ treatment.dose }} {{ treatment.route }} {{ treatment.frequency }} # {{ treatment.drug_no }}</li>
                         </ul>
                         {% endfor %}
                     </td>
