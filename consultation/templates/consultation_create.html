@@ -6,6 +6,7 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style type="text/css">
 	.dashboard_welcome_greeting{
 		color: #6417A1;
@@ -541,11 +542,14 @@
   				<div class="tab-pane fade" id="Diagnosis" role="tabpanel" aria-labelledby="Diagnosis-tab">
   					<div class="row">
   						<div class="col-sm-4">
-  							<div class="row">
-  								<div class="col-sm-12">
+  							<div class="row">                                <div class="col-sm-12">
 									<div class="mb-3">
-									<label class="form-label">Condition*</label>
-									<input type="text" class="form-control" id="Condition" placeholder="Condition">
+									<label class="form-label">ICD-10 Code and Condition*</label>
+									<select class="form-control" id="icd10_select">
+										<option value="">Search ICD-10 codes...</option>
+									</select>
+									<input type="hidden" id="selected_icd10_code">
+									<input type="text" class="form-control mt-2" id="Condition" placeholder="Condition">
 									<div class="invalid-feedback condition_invalid">
 										Condition field should not be empty!
 										</div>
@@ -784,6 +788,7 @@
 {% block script %}
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <script src="{% static 'js/jquery-ui.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -791,7 +796,40 @@
 		LoadAutocomplete()
 		LoadAutocompleteDrug()
 
-	})
+		// Initialize ICD-10 Select2
+		$('#icd10_select').select2({
+			ajax: {
+				url: '{% url "search_icd10" %}',  // You'll need to create this URL
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+						q: params.term // search term
+					};
+				},
+				processResults: function (data) {
+					return {
+						results: data.map(function(item) {
+							return {
+								id: item.code,
+								text: item.code + ' - ' + item.description
+							};
+						})
+					};
+				},
+				cache: true
+			},
+			minimumInputLength: 3,
+			placeholder: 'Search for an ICD-10 code',
+		});
+
+		// When an ICD-10 code is selected
+		$('#icd10_select').on('select2:select', function (e) {
+			var data = e.params.data;
+			$('#selected_icd10_code').val(data.id);
+			$('#Condition').val(data.text);
+		});
+	});
 
 	function AddTreatment(){
 		$(".drug_invalid").hide();
@@ -860,6 +898,7 @@
 
 	function AddCondition(){
 		var Condition = $("#Condition").val();
+		var icd10_code = $("#selected_icd10_code").val();
 		var condition_details = $("#condition_details").val();
 		$(".condition_invalid").hide();
 		$(".condition_details_invalid").hide();
@@ -871,7 +910,7 @@
 		}
 		var condition_html = "";
 		condition_html += "<tr>";
-		condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+Condition+"'></td>";
+		condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+ (icd10_code ? "[" + icd10_code + "] " : "") + Condition+"'></td>";
 		condition_html += "<td><textarea readonly='' class='form-control-plaintext' name='condition_detail[]' rows='3'>"+condition_details+"</textarea></td>";
 		condition_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveConditionRow(this);'>Remove</button></td>";
 		condition_html += "</tr>";
