@@ -57,18 +57,19 @@
 {% block content %}
 <form method="POST">
 	{% csrf_token %}	
-	<nav class="navbar navbar-light bg-light sticky-top">
-		<a href="{% url 'PatientDetailed' patientDetailed.pk %}" class="btn btn-outline-secondary my-2 my-sm-0" style="text-decoration:none;">
-			Back
-		</a>
-		
+	<div class="container-fluid mt-3 mb-3">
 		<div class="row">
-
-			<div class="btn-group" role="group" aria-label="Basic example">
- 			 <button class="btn btn-outline-primary" type="submit" name="action" value="update">Update</button>
-        	<button class="btn btn-outline-success" type="submit" name="action" value="save_exit">Save and Exit</button>
+			<div class="col-sm-12 d-flex justify-content-between align-items-center mb-3 mt-3">
+				<a href="{% url 'PatientDetailed' patientDetailed.pk %}" class="btn btn-outline-secondary my-2 my-sm-0" style="text-decoration:none;">
+					Back
+				</a>
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<button class="btn btn-outline-primary" type="submit" name="action" value="update">Update</button>
+					<button class="btn btn-outline-success" type="submit" name="action" value="save_exit">Save and Exit</button>
+				</div>
+			</div>
 		</div>
-		</div>
+	</div>
 		
 	</nav>
 <div class="container-fluid">
@@ -578,18 +579,19 @@
   				</div>
 
   				<div class="tab-pane fade" id="Diagnosis" role="tabpanel" aria-labelledby="Diagnosis-tab">
-  					<div class="row">
-  						<div class="col-sm-4">
-  							<div class="row">                                <div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="row">
+								<div class="col-sm-12">
 									<div class="mb-3">
-									<label class="form-label">ICD-10 Code and Condition*</label>
-									<select class="form-control" id="icd10_select">
-										<option value="">Search ICD-10 codes...</option>
-									</select>
-									<input type="hidden" id="selected_icd10_code">
-									<input type="text" class="form-control mt-2" id="Condition" placeholder="Condition">
-									<div class="invalid-feedback condition_invalid">
-										Condition field should not be empty!
+										<label class="form-label">ICD-10 Code and Condition*</label>
+										<br>
+										<select class="form-control" id="icd10_select" required style="min-width:400px; width:100%;">
+											<option value="">Search ICD-10 codes...</option>
+										</select>
+										<input type="hidden" id="selected_icd10_code">
+										<div class="invalid-feedback condition_invalid">
+											Condition field should not be empty!
 										</div>
 									</div>
 								</div>
