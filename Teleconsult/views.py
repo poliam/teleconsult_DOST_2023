@@ -136,7 +136,6 @@ def dashboard(request):
 
 
 def login_user(request):
-    # ✅ Prevent logged-in users from accessing the login page
     if request.user.is_authenticated:
         return redirect('dashboard')  # Or wherever you want to send them
 
@@ -159,7 +158,6 @@ def login_user(request):
             "error_msg": "",
             "username": ""
         })
-		#change all the
 
 def signup(request):
     # ❌ Block access if user is already logged in

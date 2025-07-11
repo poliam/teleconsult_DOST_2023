@@ -163,43 +163,65 @@ main {
   padding: 0.3rem 0.5rem;
   font-weight: 700;
 }
+.forgot-password {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.forgot-password:hover {
+  color: #b44593;
+  text-decoration: underline;
+}
+
 </style>
 </head>
 <body>
-<section class="h-100 gradient-form" style="background-color: #eee;">
-	<div class="container py-5 h-100">
-		<div class="row d-flex justify-content-center align-items-center h-100">
-			<div class="col-xl-10">
-        		<div class="card rounded-3 text-black">
+<section class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #eee;">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-8">
+        		<div class="card rounded-3 rounded-sm text-black">
           			<div class="row g-0">
             			<div class="col-lg-6">
-              				<div class="card-body p-md-5 mx-md-4">
+              				<div class="card-body px-4 py-3 mx-auto">
               					<div class="text-center">
                   					<img src="{% static 'images/SPMC LOGO.png' %}" style="width: 85px;" alt="logo">
-                  					<h4 class="mt-1 mb-5 pb-1">Telepsychiatry System</h4>
-                  					<span id="alert_wrapper">
+                  					<h4 class="mt-1 mb-4 pb-1">Telepsychiatry System</h4>
+                  					<!-- <span id="alert_wrapper">
                   						{% if error_msg %}
                   						<div class="alert alert-warning" role="alert">
   											{{ error_msg }}
 										</div>
 										{% endif %}
-                  					</span>
+                  					</span> -->
                 				</div>
                 				<form method="POST" action="{% url 'login_user' %}">
                 					{% csrf_token %}
-                  					<p>Please login to your account</p>
+                  					<p id="login-message" class="mb-3 text-center {% if error_msg %}text-danger{% endif %}">
+										{% if error_msg %}
+											{{ error_msg }}
+										{% else %}
+											Please login to your account
+										{% endif %}
+									</p>
                   					<div class="form-outline mb-4">
-                    					<input type="text" id="username" name="username" class="form-control" value="{{ username }}" placeholder="Username" required />
-                    					<label class="form-label" for="form2Example11">Username</label>
+                    					<input type="text" id="username" name="username" 
+										class="form-control form-control-lg rounded-pill shadow-sm stylish-input"
+										class="form-control" value="{{ username }}" placeholder="Username" required />
                   					</div>
                   					<div class="form-outline mb-4">
-                    					<input type="password" id="password" name="password" class="form-control" required />
-                    					<label class="form-label" for="form2Example22">Password</label>
+                    					<input type="password" id="password" name="password" 
+										class="form-control form-control-lg rounded-pill shadow-sm stylish-input"
+										class="form-control" placeholder="Password" required />
                   					</div>
-                  					<div class="text-center pt-1 mb-5 pb-1">
-                    					<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 login-btn" type="submit">Log in</button>
-                    					<a class="text-muted" href="#!">Forgot password?</a>
+                  					<div class="d-flex justify-content-center mb-3">
+                    					<button class="btn btn-primary gradient-custom-2 login-btn px-4 py-2" type="submit">Log in</button>
                  	 				</div>
+									<div class="text-center mb-4">
+										<a href="#!" class="forgot-password">Forgot password?</a>
+									</div>
                   					<div class="d-flex align-items-center justify-content-center pb-4">
                   						<p class="mb-0 me-2">Version 1.0.1 </p>
                     					<!-- <p class="mb-0 me-2">Don't have an account?</p>
@@ -208,12 +230,12 @@ main {
                 				</form>
               				</div>
             			</div>
-            			<div class="col-lg-6 " style="border-left: 1px solid #f3f3f3; background: linear-gradient(90deg, rgba(252,176,69,1) 9%, rgba(246,100,100,1) 51%); padding-top: 5rem;">
+            			<div class="col-lg-6  rounded-end " style="border-left: 1px solid #f3f3f3; background: linear-gradient(90deg, rgba(252,176,69,1) 9%, rgba(246,100,100,1) 51%); padding-top: 5rem;">
             				<div class="row">
-                				<div class="col-sm-6" >
+                				<div class="col-sm-6 pt-3" >
                 						<img class="img-thumbnail" src="{% static 'images/DOST.png' %}" style="border: 0px; width: 24rem; padding: 1.1rem; background-color: transparent;">
                 				</div>
-                				<div class="col-sm-6" >
+                				<div class="col-sm-6 pt-3" >
                 						<img class="img-thumbnail" src="{% static 'images/DMW.png' %}" style="border: 0px; width: 24rem; padding: 1.1rem; background-color: transparent;">
                 				</div>
                 				
@@ -236,13 +258,22 @@ main {
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		const myTimeout = setTimeout(hideAlert, 4000);
-	})
-	function hideAlert() {
-  		$("#alert_wrapper").hide(1000);
-	}
+<script>
+  $(document).ready(function () {
+    const messageEl = $('#login-message');
+    const originalMessage = "Please login to your account";
+
+    if (messageEl.text().trim() !== originalMessage) {
+      setTimeout(() => {
+        messageEl.fadeOut(400, function () {
+          messageEl
+            .text(originalMessage)
+            .removeClass('text-danger') 
+            .fadeIn(400);
+        });
+      }, 3000); 
+    }
+  });
 </script>
 </body>
 </html>
