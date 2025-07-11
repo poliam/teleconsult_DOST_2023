@@ -20,6 +20,8 @@ urlpatterns = [
 
    path('create_nurse_notes', views.CreateNurseNotes, name="CreateNurseNotes"),
    path('get_nurse_notes', views.getNurseList, name="getNurseList"),
+
+   path('search_icd10/', views.search_icd10, name='search_icd10'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
