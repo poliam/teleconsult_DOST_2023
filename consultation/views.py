@@ -9,7 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from patient.models import details, relatives, medicine, allergies, global_psychotrauma_screen, hamd
 from consultation.models import *
 from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm, patientNurseNotesForm
-import simple_icd_10 as ICD10
+from consultation.icd10_codes import search_mental_health_codes
 import random, os
 from datetime import date, datetime
 
@@ -795,46 +795,13 @@ def getNurseList(request):
 	return HttpResponse(html)
 
 @login_required
+@login_required(login_url='/login')
 def search_icd10(request):
     query = request.GET.get('q', '')
     if len(query) < 3:
-        return JsonResponse([], safe=False)
-    
-    codes = ICD10.get_all_codes()
-    results = []
-    query_upper = query.upper()
-    
-    # Search for both codes and descriptions, but only in mental health codes (F00-F99)
-    for code in codes:
-        # Only process F codes (mental and behavioral disorders)
-        if not code.startswith('F'):
-            continue
-            
-        # Convert the numeric part to check if it's in range 00-99
-        try:
-            numeric_part = int(code[1:3])  # Get the numbers after F
-            if numeric_part < 0 or numeric_part > 99:
-                continue
-        except ValueError:
-            continue
-            
-        description = ICD10.get_description(code)
-        # Check if query matches either the code or the description
-        if (code.startswith(query_upper) or 
-            query.lower() in description.lower()):  # Case-insensitive description search
-            results.append((code, description))
-            
-            
-    
-    # Format the results for Select2
-    formatted_results = [
-        {
-            'code': code,
-            'description': description
-        }
-        for code, description in results
-    ]
-    
-    return JsonResponse(formatted_results, safe=False)
+        return JsonResponse([])
+        
+    results = search_mental_health_codes(query)
+    return JsonResponse(results, safe=False)
 
 # Create your views here.
