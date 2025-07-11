@@ -23,7 +23,10 @@
 <body id="body-pd" class="body-pd" style="display:none;">
     <header class="header body-pd" id="header">
         <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-        <div class="header_img"> <img src="{% static 'images/user_picture_default.png' %}" alt="">{{ userDetails.first_name }} {{ userDetails.last_name }}</div>
+		<div class="header_img d-flex align-items-center justify-content-center" style="height:100%;">
+			<img src="{% static 'images/user_picture_default.png' %}" alt="" class="me-2">
+			<span>{{ userDetails.first_name }} {{ userDetails.last_name }}</span>
+		</div>
     </header>
     <div class="l-navbar" id="nav-bar" style="visibility: hidden;">
         <nav class="nav_base">
