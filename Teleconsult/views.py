@@ -236,7 +236,7 @@ def reportPage(request):
 	returnVal['sidebar'] = "reports"
 	returnVal['userDetails'] = profile_details
 
-	files = details_files.objects.filter(is_delete=0)
+	files = details_files.objects.filter(is_delete=0).order_by('-create_date')
 	returnVal['list_of_files'] = files
 	
 
