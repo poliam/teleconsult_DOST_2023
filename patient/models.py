@@ -115,7 +115,7 @@ class global_psychotrauma_screen(models.Model):
 	is_delete = models.BooleanField(default=0)
 
 class considering_event(models.Model):
-	global_psychotrauma_screen = models.ForeignKey(global_psychotrauma_screen, null=True, blank=True, on_delete=models.SET_NULL)
+	global_psychotrauma_screen = models.ForeignKey(global_psychotrauma_screen, null=True, blank=True, on_delete=models.CASCADE)
 	considering_event_1 = models.CharField(max_length=250, blank=True, null=True)
 	considering_event_2 = models.CharField(max_length=250, blank=True, null=True)
 	considering_event_3 = models.CharField(max_length=250, blank=True, null=True)
