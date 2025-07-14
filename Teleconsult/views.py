@@ -14,6 +14,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
+from django.contrib.auth import logout as auth_logout
+from django.shortcuts import redirect
+from django.views.decorators.cache import never_cache
 import os
 
 # Categorizing provinces into Luzon, Visayas, and Mindanao
@@ -237,9 +240,12 @@ def change_password(request):
 	else:
 		return render(request, 'changePassword.html', returnVal)
 
+@never_cache
 def Logout(request):
-	logout(request)
-	return redirect('login_user')
+    logout(request)
+    auth_logout(request)
+    request.session.flush()
+    return redirect('login_user')
 
 def reportPage(request):
 	returnVal = {}
