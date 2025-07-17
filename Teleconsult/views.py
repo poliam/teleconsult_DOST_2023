@@ -10,6 +10,13 @@ from patient.models import details, address, relatives, medicine, allergies, glo
 from consultation.models import *
 from django.contrib.auth import authenticate, login, logout
 from datetime import date, datetime, timedelta
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, Group
+from django.contrib.auth import logout as auth_logout
+from django.shortcuts import redirect
+from django.views.decorators.cache import never_cache
 import os
 
 # Categorizing provinces into Luzon, Visayas, and Mindanao
@@ -132,36 +139,48 @@ def dashboard(request):
 
 
 def login_user(request):
-	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(request, username=username, password=password)
-		if user is not None:
-			login(request, user)
-			if request.GET.get('next') != None:
-				return redirect(request.GET.get('next'),  '/')
-			return redirect('dashboard')
-		else:
-			return render(request, 'login.html' , {"error_msg": "username and password does not match!", "username":username})
-	else:
-		return render(request, 'login.html', {"error_msg": "", "username": ""})
+    # ✅ Prevent logged-in users from accessing the login page
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Or wherever you want to send them
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if request.GET.get('next') is not None:
+                return redirect(request.GET.get('next'))
+            return redirect('dashboard')
+        else:
+            return render(request, 'login.html', {
+                "error_msg": "Username and password do not match!",
+                "username": username
+            })
+    else:
+        return render(request, 'login.html', {
+            "error_msg": "",
+            "username": ""
+        })
+		#change all the
 
 def signup(request):
+    # ❌ Block access if user is already logged in
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Or use HttpResponseForbidden if you prefer
+
     errormsg = ""
     successmsg = ""
     success = 0
+
     if request.method == 'POST':
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         if password != confirm_password:
             errormsg = "Passwords do not match!"
         else:
-            # Check if username and email are already in use
-            CheckUserByUsername = User.objects.filter(username=request.POST['username'])
-            if len(CheckUserByUsername) == 0:
-                CheckUserByEmail = User.objects.filter(email=request.POST['email'])
-                if len(CheckUserByEmail) == 0:
-                    # Create user and assign to group
+            if not User.objects.filter(username=request.POST['username']).exists():
+                if not User.objects.filter(email=request.POST['email']).exists():
                     newUser = User.objects.create_user(
                         username=request.POST['username'],
                         email=request.POST['email'],
@@ -173,12 +192,17 @@ def signup(request):
                     newUser.groups.add(group)
                     success = 1
                     successmsg = "Account created successfully!"
-                    return redirect('login_user')  # Redirect to login page
+                    return redirect('login_user')
                 else:
                     errormsg = "Email is already in use!"
             else:
                 errormsg = "Username is already taken!"
-    return render(request, "signup.html", {"error_msg": errormsg, "success": success, "successmsg": successmsg})
+
+    return render(request, "signup.html", {
+        "error_msg": errormsg,
+        "success": success,
+        "successmsg": successmsg
+    })
 
 
 def change_password(request):
@@ -218,9 +242,12 @@ def change_password(request):
 	else:
 		return render(request, 'changePassword.html', returnVal)
 
+@never_cache
 def Logout(request):
-	logout(request)
-	return redirect('login_user')
+    logout(request)
+    auth_logout(request)
+    request.session.flush()
+    return redirect('login_user')
 
 def reportPage(request):
 	returnVal = {}

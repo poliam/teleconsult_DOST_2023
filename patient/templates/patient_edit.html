@@ -36,6 +36,11 @@
   					</div>
   					<div class="card-body">
   						<div class="row">
+							<style>
+								.required-star {
+									color: red;
+								}
+							</style>
   							<div class="col-sm-12">
   								{% if patientDetailed.profile_picture|length > 0 %}
                         			<img src="{{ patientDetailed.profile_picture.url|default_if_none:'#' }}" class="object-scale-down w-60 h-60 xl:w-40 xl:h-44 xl_4k:w-85 xl_4k:h-85 rounded-full" >
@@ -51,8 +56,11 @@
     					<div class="row">
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.first_name.label }}{% if form.first_name.field.required %}*{% endif %}
-    								{{ form.first_name }}
+    								{{ form.first_name.label }}{% if form.first_name.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.first_name }}
+									{% if form.first_name.errors %}
+										<div class="text-danger">{{ form.first_name.errors }}</div>
+									{% endif %}
   								</div>
     						</div>
     						<div class="col-sm-4">
@@ -63,25 +71,25 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.last_name.label }}{% if form.last_name.field.required %}*{% endif %}
+    								{{ form.last_name.label }}{% if form.last_name.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.last_name }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.gender.label }}{% if form.gender.field.required %}*{% endif %}
+    								{{ form.gender.label }}{% if form.gender.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.gender }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.gender_indentity.label }}{% if form.gender_indentity.field.required %}*{% endif %}
+    								{{ form.gender_indentity.label }}{% if form.gender_indentity.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.gender_indentity }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.BOD.label }}{% if form.BOD.field.required %}*{% endif %}
+    								{{ form.BOD.label }}{% if form.BOD.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.BOD }}
   								</div>
     						</div>
@@ -93,13 +101,13 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}*{% endif %}
+    								{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.mental_health_history }}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}*{% endif %}
+    								{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.access_to_mental_health }}
   								</div>
     						</div>
@@ -111,7 +119,7 @@
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.contact_number.label }}{% if form.contact_number.field.required %}*{% endif %}
+    								{{ form.contact_number.label }}{% if form.contact_number.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.contact_number }}
   								</div>
     						</div>
@@ -123,7 +131,7 @@
     						</div>
     						<div class="col-sm-4">
     							<div  class="form-group">
-    								{{ form.email.label }}{% if form.email.field.required %}*{% endif %}
+    								{{ form.email.label }}{% if form.email.field.required %}{% endif %}<span class="required-star">*</span>
     								{{ form.email }}
   								</div>
     						</div>

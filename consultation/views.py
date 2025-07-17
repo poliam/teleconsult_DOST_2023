@@ -9,6 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from patient.models import details, relatives, medicine, allergies, global_psychotrauma_screen, hamd
 from consultation.models import *
 from consultation.consultation_form import AddConsultationVitalSignForm, AddConsultationEncounterForm, AddConsultationChiefComplaintForm, AddMentalGeneralDescriptionForm, AddMentalEmotionForm, AddMentalCognitiveForm, AddMentalThoughtPerceptionForm, AddMentalSuicidalityForm, AddReferralForm, patientNurseNotesForm
+from consultation.icd10_codes import search_mental_health_codes
 import random, os
 from datetime import date, datetime
 
@@ -792,5 +793,15 @@ def getNurseList(request):
 	returnVal['list_of_nurse_notes'] = nurse_notes.objects.filter(encounter=encounter_id)
 	html = render_to_string('consultation_nurse_notes.html', returnVal)
 	return HttpResponse(html)
+
+@login_required
+@login_required(login_url='/login')
+def search_icd10(request):
+    query = request.GET.get('q', '')
+    if len(query) < 3:
+        return JsonResponse([])
+        
+    results = search_mental_health_codes(query)
+    return JsonResponse(results, safe=False)
 
 # Create your views here.
