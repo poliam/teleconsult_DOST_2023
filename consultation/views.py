@@ -799,7 +799,7 @@ def getNurseList(request):
 def search_icd10(request):
     query = request.GET.get('q', '')
     if len(query) < 3:
-        return JsonResponse([])
+        return JsonResponse([], safe=False)
         
     results = search_mental_health_codes(query)
     return JsonResponse(results, safe=False)
