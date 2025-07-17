@@ -949,6 +949,21 @@ def PatientUpdateGPS(request, gps_id):
 	return render(request, 'patient_edit_gps.html', returnVal)
 
 @login_required(login_url='/login')
+def PatientDeleteGPS(request, gps_id):
+    """
+    Soft delete a GPS record by setting is_delete=1, then redirect to the patient detail page.
+    """
+    try:
+        gps_instance = global_psychotrauma_screen.objects.get(pk=gps_id)
+        gps_instance.is_delete = 1
+        gps_instance.save()
+        patient_id = gps_instance.details.pk
+        return redirect('PatientDetailed', patient_id=patient_id)
+    except global_psychotrauma_screen.DoesNotExist:
+        return HttpResponse('GPS record does not exist.', status=404)
+
+
+@login_required(login_url='/login')
 def PatientCreateHamD(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
@@ -1026,11 +1041,11 @@ def PatientCreateHamD(request, patient_id):
 		new_hamd.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
 		new_hamd.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
 
-		new_hamd.depersonalization_and_derelization = request.POST['depersonalization_and_derelization']
+		new_hamd.depersonalization_and_derelization = request.POST.get('depersonalization_and_derelization', False)
 		total_score = total_score + int(new_hamd.depersonalization_and_derelization)
-		new_hamd.paranoid_symptoms = request.POST['paranoid_symptoms']
+		new_hamd.paranoid_symptoms = request.POST.get('paranoid_symptoms', False)
 		total_score = total_score + int(new_hamd.paranoid_symptoms)
-		new_hamd.obsessional_symptoms = request.POST['obsessional_symptoms']
+		new_hamd.obsessional_symptoms = request.POST.get('obsessional_symptoms', False)
 		total_score = total_score + int(new_hamd.obsessional_symptoms)
 		new_hamd.total_score = total_score
 		try:
@@ -1299,3 +1314,4 @@ def formatDate(dateValue):
 		return current_date_split[2]+"-"+current_date_split[0]+"-"+current_date_split[1]
 	else:
 		return False
+
