@@ -1332,11 +1332,17 @@ def get_icf_file_path(patient_id):
 		# Return the first matching file (should only be one)
 		return matching_files[0]
 	else:
-		# Return the expected path based on patient surname for new uploads
+		# Return the expected path based on patient full name for new uploads
 		try:
 			patient_details = details.objects.get(pk=patient_id)
-			patient_surname = patient_details.last_name.upper().replace(' ', '_')
-			filename = f"{patient_surname}_ICF_patient_{patient_id}.pdf"
+			last_name = patient_details.last_name.upper().replace(' ', '_')
+			first_name = patient_details.first_name.upper().replace(' ', '_')
+			middle_name = patient_details.middle_name.upper().replace(' ', '_') if patient_details.middle_name else ''
+			
+			if middle_name:
+				filename = f"{last_name}_{first_name}_{middle_name}_ICF_patient_{patient_id}.pdf"
+			else:
+				filename = f"{last_name}_{first_name}_ICF_patient_{patient_id}.pdf"
 			return os.path.join(icf_dir, filename)
 		except details.DoesNotExist:
 			# Fallback to old naming format
@@ -1409,16 +1415,21 @@ def UploadICF(request):
 			import os
 			from django.conf import settings
 			
-			# Get patient details to use surname in filename
+			# Get patient details to use full name in filename
 			patient_details = details.objects.get(pk=patient_id)
-			patient_surname = patient_details.last_name.upper().replace(' ', '_')
+			last_name = patient_details.last_name.upper().replace(' ', '_')
+			first_name = patient_details.first_name.upper().replace(' ', '_')
+			middle_name = patient_details.middle_name.upper().replace(' ', '_') if patient_details.middle_name else ''
 			
 			# Create directory if it doesn't exist
 			icf_dir = os.path.join(settings.MEDIA_ROOT, 'informed_consent')
 			os.makedirs(icf_dir, exist_ok=True)
 			
-			# Save file with new naming format: SURNAME_ICF_patient_PATIENTID
-			filename = f"{patient_surname}_ICF_patient_{patient_id}.pdf"
+			# Save file with new naming format: LASTNAME_FIRSTNAME_MIDDLENAME_ICF_patient_PATIENTID
+			if middle_name:
+				filename = f"{last_name}_{first_name}_{middle_name}_ICF_patient_{patient_id}.pdf"
+			else:
+				filename = f"{last_name}_{first_name}_ICF_patient_{patient_id}.pdf"
 			file_path = os.path.join(icf_dir, filename)
 			
 			# Remove existing ICF files if they exist (using pattern matching)
