@@ -30,12 +30,12 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         self.gps = global_psychotrauma_screen.objects.create(
             details=self.patient,
             event_description='Test trauma event',
-            event_happened='Less than 4 weeks ago',
-            physical_violence='Yes',
-            sexual_violence='No',
-            emotional_abuse='Yes',
-            serious_injury='No',
-            life_threatening='No',
+            event_happened='last week',
+            physical_violence='to yourself',
+            sexual_violence='happened to someone else',
+            emotional_abuse='to yourself',
+            serious_injury='happened to someone else',
+            life_threatening='to yourself',
             sudden_death_of_loved_one=True,
             cause_harm_to_others=False,
             covid=False,
@@ -45,8 +45,8 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         # Create associated considering events
         self.considering_event1 = considering_event.objects.create(
             global_psychotrauma_screen=self.gps,
-            considering_event_1='Nightmares',
-            considering_event_2='Anxiety'
+            considering_event_1='Yes',
+            considering_event_2='No'
         )
 
     def test_gps_creation(self):
@@ -54,7 +54,7 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         new_gps = global_psychotrauma_screen.objects.create(
             details=self.patient,
             event_description='New trauma event',
-            event_happened='More than 4 weeks ago'
+            event_happened='last month'
         )
         self.assertIsInstance(new_gps, global_psychotrauma_screen)
         self.assertEqual(new_gps.event_description, 'New trauma event')
@@ -77,13 +77,13 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         """Test updating GPS records"""
         # Update fields
         self.gps.event_description = 'Updated event description'
-        self.gps.physical_violence = 'No'
+        self.gps.physical_violence = 'happened to someone else'
         self.gps.save()
         
         # Verify changes
         updated_gps = global_psychotrauma_screen.objects.get(pk=self.gps.pk)
         self.assertEqual(updated_gps.event_description, 'Updated event description')
-        self.assertEqual(updated_gps.physical_violence, 'No')
+        self.assertEqual(updated_gps.physical_violence, 'happened to someone else')
 
     def test_gps_delete(self):
         """Test deleting GPS records"""
@@ -113,8 +113,8 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         events = [
             considering_event.objects.create(
                 global_psychotrauma_screen=new_gps,
-                considering_event_1=f'Event {i}',
-                considering_event_2=f'Response {i}'
+                considering_event_1='Yes',
+                considering_event_2='No'
             ) for i in range(3)
         ]
         
@@ -130,12 +130,12 @@ class GlobalPsychotraumaScreenCRUDTests(TransactionTestCase):
         gps1 = global_psychotrauma_screen.objects.create(
             details=self.patient,
             event_description='First event',
-            event_happened='Less than 4 weeks ago'
+            event_happened='last week'
         )
         gps2 = global_psychotrauma_screen.objects.create(
             details=self.patient,
             event_description='Second event',
-            event_happened='More than 4 weeks ago'
+            event_happened='last month'
         )
         
         # Verify both records exist
