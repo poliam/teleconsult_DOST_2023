@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% load tz %}
@@ -268,123 +267,129 @@
 			<div class="row" {% if group_type == 'Nurse' %} style="display:none;" {% endif %}>
 				<div class="col-5">
 					<div class="card">
-		  				<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
-		  					<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
-		  						<i class='bx bx-plus-medical'></i>
-		  					</a>
-		  				</h6>
-		  				<div class="card-body">
-		    				<div class="row">
-		    					<div class="col-sm-12">
-		    						<table class="table patient_GPS_table">
-		    							<thead>
-		    								<tr>
-		      									<th scope="col" width="10%">#</th>
-		      									<th scope="col" width="60%">Consultation Date</th>
-		      									<th scope="col" width="20%">Score</th>
-		      									<th width="10%"></th>
-		    								</tr>
-		  								</thead>
-		  								<tbody>
-		  									{% for GPS in list_of_GPS %}
-			  									<tr>
-			  										<td>{{ forloop.counter }}</td>
-			  										<td>
-			  											<a onclick="showGPSdetails(this)" attr_id="{{ GPS.pk }}" style="text-decoration:none;font-weight: 700; color:#6417A1;" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
-			  										</td>
-			  										<td>
-			  											{{ GPS_CE_score }} 
-			  										</td>
-			  										<td>
-		  												<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none; color: #6417A1">
-		  													<i class="fa-solid fa-pen-to-square"></i>
-		  												</a>
-		  												<a href="">
-		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
-		  												</a>
+						<h6 class="card-header patient_GPS card_background_color">Global Psychotrauma Screen 
+							{% if list_of_GPS|length == 0 %}
+								<a href="{% url 'PatientCreateGPS' patientDetailed.pk  %}" style="text-decoration:none;">
+									<i class='bx bx-plus-medical'></i>
+								</a>
+							{% endif %}
+						</h6>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<table class="table patient_GPS_table">
+										<thead>
+											<tr>
+												<th scope="col" width="10%">#</th>
+												<th scope="col" width="60%">Consultation Date</th>
+												<th scope="col" width="20%">Score</th>
+												<th width="10%"></th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for GPS in list_of_GPS %}
+												<tr>
+													<td>{{ forloop.counter }}</td>
+													<td>
+														<a onclick="showGPSdetails(this)" attr_id="{{ GPS.pk }}" style="text-decoration:none;font-weight: 700; color:#6417A1;" data-bs-toggle="modal" data-bs-target="#gpsDetailsModal">{{ GPS.consultation_date|date:"F d, Y (D)" }}</a>
 													</td>
-			  									</tr>
-		  									{% empty %}
-		  										<tr>
-		  											<td colspan="3">
-		  												No Global Psychotrauma Screen Created. . .
-		  											</td>
-		  										</tr>
+													<td>
+														{{ GPS_CE_score }} 
+													</td>
+													<td>
+														<a href="{% url 'PatientUpdateGPS' GPS.pk %}" style="text-decoration:none; color: #6417A1">
+															<i class="fa-solid fa-pen-to-square"></i>
+														</a>
+														<a href="">
+															<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+														</a>
+													</td>
+												</tr>
+											{% empty %}
+												<tr>
+													<td colspan="3">
+														No Global Psychotrauma Screen Created. . .
+													</td>
+												</tr>
 
-		  									{% endfor %}
-		  								</tbody>
-		    						</table>	
-		    					</div>
-		    				</div>
-		  				</div>
+											{% endfor %}
+										</tbody>
+									</table>	
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-7">
 					<div class="card">
-		  				<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
-		  					<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
-		  						<i class='bx bx-plus-medical'></i>
-		  					</a>
-		  				</h6>
-		  				<div class="card-body">
-		    				<div class="row">
-		    					<div class="col-12">
-		    						<table class="table patient_GPS_table">
-		    							<thead>
-		    								<tr>
-		      									<th scope="col" width="10%">#</th>
-		      									<th scope="col" width="30%">Consultation Date</th>
-		      									<th scope="col" width="30%">Score(1-17)</th>
-		      									<th scope="col" width="20%">Total Score</th>
-		      									<th width="10%"></th>
-		    								</tr>
-		  								</thead>
-		  								<tbody>
-		  									{% for hamd in list_of_hamd %}
-		  										<tr>
-			  										<td>{{ forloop.counter }}</td>
-			  										<td>
-			  											<a onclick="showHamddetails(this)" attr_id="{{ hamd.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
-			  										</td>
-			  										<td>
-			  											<b>{{ hamd.score }}</b>
-			  											{% if hamd.score == 7  or hamd.score < 7 %}
-			  												(Normal)
-			  											{% elif hamd.score  > 7 and hamd.score  < 14 %}
-			  												(Mild Depression)
-			  											{% elif hamd.score  > 13 and hamd.score < 19 %}
-			  												(Moderate Depression)
-			  											{% elif hamd.score > 18 and hamd.score < 23 %}
-			  												(Severe Depression)
-			  											{% else %}
-			  												(Very Severe Depression)
-			  											{% endif %}
-			  										</td>
-			  										<td>
-			  											<b>{{ hamd.total_score }}</b>
-			  										</td>
-			  										<td>
-														<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none; color: #6417A1">
-		  													<i class="fa-solid fa-pen-to-square"></i>
-		  												</a>
-		  												<a href="">
-		  													<i class="fa-solid fa-trash-can relative_remove_icon"></i>
-		  												</a>
+						<h6 class="card-header patient_GPS card_background_color">Hamilton Depression 
+							{% if list_of_hamd|length == 0 %}
+								<a href="{% url 'PatientCreateHamD' patientDetailed.pk  %}" style="text-decoration:none;">
+									<i class='bx bx-plus-medical'></i>
+								</a>
+							{% endif %}
+						</h6>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-12">
+									<table class="table patient_GPS_table">
+										<thead>
+											<tr>
+												<th scope="col" width="10%">#</th>
+												<th scope="col" width="30%">Consultation Date</th>
+												<th scope="col" width="30%">Score(1-17)</th>
+												<th scope="col" width="20%">Total Score</th>
+												<th width="10%"></th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for hamd in list_of_hamd %}
+												{% if not hamd.is_delete %}
+												<tr>
+													<td>{{ forloop.counter }}</td>
+													<td>
+														<a onclick="showHamddetails(this)" attr_id="{{ hamd.pk }}" data-bs-toggle="modal" data-bs-target="#hamdDetailsModal" style="text-decoration:none;font-weight: 700; color:#6417A1;">{{ hamd.consultation_date|date:"F d, Y (D)" }}</a>
 													</td>
-			  									</tr>
-		  									{% empty %}
-		  										<tr>
-		  											<td colspan="5">
-		  												No Hamilton Depression Screen Created. . .
-		  											</td>
-		  										</tr>
-		  									{% endfor %}
-		  									
-		  								</tbody>
-		    						</table>	
-		    					</div>
-		    				</div>
-		  				</div>
+													<td>
+														<b>{{ hamd.score }}</b>
+														{% if hamd.score == 7  or hamd.score < 7 %}
+															(Normal)
+														{% elif hamd.score  > 7 and hamd.score  < 14 %}
+															(Mild Depression)
+														{% elif hamd.score  > 13 and hamd.score < 19 %}
+															(Moderate Depression)
+														{% elif hamd.score > 18 and hamd.score < 23 %}
+															(Severe Depression)
+														{% else %}
+															(Very Severe Depression)
+														{% endif %}
+													</td>
+													<td>
+														<b>{{ hamd.total_score }}</b>
+													</td>
+													<td>
+														<a href="{% url 'PatientUpdateHamD' hamd.pk %}" style="text-decoration:none; color: #6417A1">
+															<i class="fa-solid fa-pen-to-square"></i>
+														</a>
+														<a href="{% url 'PatientDeleteHamD' hamd.pk %}" style="text-decoration:none; color: red" onclick="return confirm('Are you sure you want to delete this record?');">
+															<i class="fa-solid fa-trash-can relative_remove_icon"></i>
+														</a>
+													</td>
+												</tr>
+												{% endif %}
+											{% empty %}
+												<tr>
+													<td colspan="5">
+														No Hamilton Depression Screen Created. . .
+													</td>
+												</tr>
+											{% endfor %}
+											
+										</tbody>
+									</table>	
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

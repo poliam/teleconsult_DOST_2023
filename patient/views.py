@@ -230,7 +230,7 @@ def PatientDetailed(request, patient_id):
 
 	returnVal['patientHistory'] = patientHistory
 
-	list_of_hamd = hamd.objects.filter(details=patient_id)
+	list_of_hamd = hamd.objects.filter(details=patient_id, is_delete=0)
 
 	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.score), "total_score": hamd.total_score} for hamd in list_of_hamd]
 
@@ -1127,6 +1127,20 @@ def PatientUpdateHamD(request, hamd_id):
 	return render(request, 'patient_edit_hamd.html', returnVal)
 
 @login_required(login_url='/login')
+def PatientDeleteHamD(request, hamd_id):
+    """
+    Soft delete a HAMD record by setting is_delete=1, then redirect to the patient detail page.
+    """
+    try:
+        hamd_instance = hamd.objects.get(pk=hamd_id)
+        hamd_instance.is_delete = 1
+        hamd_instance.save()
+        patient_id = hamd_instance.details.pk
+        return redirect('PatientDetailed', patient_id=patient_id)
+    except hamd.DoesNotExist:
+        return HttpResponse('HAMD record does not exist.', status=404)
+
+@login_required(login_url='/login')
 def PatientGetGPS(request):
 	returnVal = {}
 	gps_id = request.GET['gps_id']
@@ -1285,9 +1299,3 @@ def formatDate(dateValue):
 		return current_date_split[2]+"-"+current_date_split[0]+"-"+current_date_split[1]
 	else:
 		return False
-
-
-
-
-
-	
