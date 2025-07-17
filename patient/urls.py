@@ -36,6 +36,12 @@ urlpatterns = [
 
    path('patient_file_upload', views.PatientFileUpload, name="PatientFileUpload"),
    path('patient_referral_pdf/<int:referral_id>/', views.referralFormPdf, name='referralFormPdf'),
+   
+   # ICF (Informed Consent Form) related URLs
+   path('check_icf_status/<int:patient_id>/', views.CheckICFStatus, name="CheckICFStatus"),
+   path('upload_icf/', views.UploadICF, name="UploadICF"),
+   path('preview_icf/<int:patient_id>/', views.PreviewICF, name="PreviewICF"),
+   path('delete_icf/<int:patient_id>/', views.DeleteICF, name="DeleteICF"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
