@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class details(models.Model):
@@ -93,15 +94,28 @@ class allergies(models.Model):
 	is_delete = models.BooleanField(default=0)
 
 class global_psychotrauma_screen(models.Model):
+	EVENT_CHOICES = [
+		('last week', 'last week'),
+		('last month', 'last month'),
+		('last half year', 'last half year'),
+		('last year', 'last year'),
+		('longer ago', 'longer ago'),
+	]
+	
+	VIOLENCE_CHOICES = [
+		('to yourself', 'to yourself'),
+		('happened to someone else', 'happened to someone else'),
+	]
+	
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
 	consultation_date = models.DateTimeField(auto_now_add=True)
 	event_description = models.TextField(null=True, blank=True)
-	event_happened = models.CharField(max_length=250, null=True, blank=True)
-	physical_violence = models.CharField(max_length=250, null=True, blank=True)
-	sexual_violence = models.CharField(max_length=250, null=True, blank=True)
-	emotional_abuse = models.CharField(max_length=250, null=True, blank=True)
-	serious_injury = models.CharField(max_length=250, null=True, blank=True)
-	life_threatening = models.CharField(max_length=250, null=True, blank=True)
+	event_happened = models.CharField(max_length=20, choices=EVENT_CHOICES, null=True, blank=True)
+	physical_violence = models.CharField(max_length=30, choices=VIOLENCE_CHOICES, default='to yourself', null=False, blank=False)
+	sexual_violence = models.CharField(max_length=30, choices=VIOLENCE_CHOICES, default='to yourself', null=False, blank=False)
+	emotional_abuse = models.CharField(max_length=30, choices=VIOLENCE_CHOICES, default='to yourself', null=False, blank=False)
+	serious_injury = models.CharField(max_length=30, choices=VIOLENCE_CHOICES, default='to yourself', null=False, blank=False)
+	life_threatening = models.CharField(max_length=30, choices=VIOLENCE_CHOICES, default='to yourself', null=False, blank=False)
 	sudden_death_of_loved_one = models.BooleanField(default=0)
 	cause_harm_to_others = models.BooleanField(default=0)
 	covid = models.BooleanField(default=0)
@@ -109,43 +123,104 @@ class global_psychotrauma_screen(models.Model):
 	range_event_occurring_from = models.CharField(max_length=250, null=True, blank=True)
 	range_event_occurring_to = models.CharField(max_length=250, null=True, blank=True)
 	create_date = models.DateTimeField(auto_now_add=True)
-	update_date = models.DateTimeField(auto_now_add=True)
+	update_date = models.DateTimeField(auto_now=True)
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
+	
+	class Meta:
+		constraints = [
+			models.CheckConstraint(
+				check=~models.Q(details=None),
+				name='gps_details_required'
+			)
+		]
+	
+	def clean(self):
+		if not self.details:
+			raise ValidationError('Details is required.')
+		if self.event_happened and self.event_happened not in dict(self.EVENT_CHOICES):
+			raise ValidationError('Invalid event_happened choice.')
+	
+	def save(self, *args, **kwargs):
+		self.full_clean()
+		# Always include update_date in update_fields if specified
+		if 'update_fields' in kwargs and 'update_date' not in kwargs['update_fields']:
+			kwargs['update_fields'] = list(kwargs['update_fields']) + ['update_date']
+		super().save(*args, **kwargs)
 
 class considering_event(models.Model):
+	YES_NO_CHOICES = [
+		('No', 'No'),
+		('Yes', 'Yes'),
+	]
+	
+	RATING_CHOICES = [
+		('1', '1'),
+		('2', '2'),
+		('3', '3'),
+		('4', '4'),
+		('5', '5'),
+		('6', '6'),
+		('7', '7'),
+		('8', '8'),
+		('9', '9'),
+		('10', '10'),
+	]
+	
 	global_psychotrauma_screen = models.ForeignKey(global_psychotrauma_screen, null=True, blank=True, on_delete=models.CASCADE)
-	considering_event_1 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_2 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_3 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_4 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_5 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_6 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_7 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_8 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_9 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_10 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_11 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_12 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_13 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_14 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_15 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_16 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_17 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_18 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_19 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_20 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_21 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_22 = models.CharField(max_length=250, blank=True, null=True)
-	considering_event_23 = models.CharField(max_length=250, null=True, blank=True)
-	score_1_16 = models.CharField(max_length=250, blank=True, null=True, default=0)
-	total_score = models.CharField(max_length=250, blank=True, null=True, default=0)
+	considering_event_1 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_2 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_3 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_4 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_5 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_6 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_7 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_8 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_9 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_10 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_11 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_12 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_13 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_14 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_15 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_16 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_17 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_18 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_19 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_20 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_21 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_22 = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No', null=False, blank=False)
+	considering_event_23 = models.CharField(max_length=3, choices=RATING_CHOICES, default='1', null=False, blank=False)
+	score_1_16 = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+	total_score = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
 	create_date = models.DateTimeField(auto_now_add=True)
 	update_date = models.DateTimeField(auto_now_add=True)
 	history = models.TextField(null=True, blank=True)
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
+
+	
+	def clean(self):
+		# Count "Yes" events
+		events = [getattr(self, f'considering_event_{i}') for i in range(1, 24)]
+		yes_events = [e for e in events if e == 'Yes']
+		
+		if not yes_events:
+			raise ValidationError('At least one considering event must be set to Yes.')
+		
+		# Check maximum limit per GPS
+		if self.global_psychotrauma_screen_id:
+			total_events = considering_event.objects.filter(
+				global_psychotrauma_screen=self.global_psychotrauma_screen
+			).exclude(pk=self.pk).count()
+			
+			if total_events >= 15:
+				raise ValidationError('Maximum of 15 considering events per screen allowed.')
+	
+	def save(self, *args, **kwargs):
+		self.full_clean()
+		super().save(*args, **kwargs)
 
 class hamd(models.Model):
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
