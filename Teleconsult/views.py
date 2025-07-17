@@ -142,7 +142,7 @@ def login_user(request):
 				return redirect(request.GET.get('next'),  '/')
 			return redirect('dashboard')
 		else:
-			return render(request, 'login.html' , {"error_msg": "username and password does not match!", "username":username})
+			return render(request, 'login.html' , {"error_msg": "Username and Password does not match!", "username":username})
 	else:
 		return render(request, 'login.html', {"error_msg": "", "username": ""})
 
