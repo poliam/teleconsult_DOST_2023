@@ -19,7 +19,6 @@
     }
 </style>
 <style type="text/css">
-    <style type="text/css">
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -78,29 +77,29 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>First Name</td>
+                    <td><strong>First Name</strong></td>
                     <td>{{ referral_details.encounter.details.first_name }} {{ referral_details.encounter.details.middle_name }}</td>
-                    <td>Last Name</td>
+                    <td><strong>Last Name</strong></td>
                     <td>{{ referral_details.encounter.details.last_name }}</td>
                 </tr>
                 <tr>
-                    <td>Age</td>
+                    <td><strong>Age</strong></td>
                     <td>{{ referral_details.encounter.details.age }}</td>
-                    <td>Sex</td>
+                    <td><strong>Sex</strong></td>
                     <td>{{ referral_details.encounter.details.gender }}</td>
                 </tr>
                 <tr>
-                    <td>Diagnosis</td>
+                    <td><strong>Diagnosis</strong></td>
                     <td colspan="3">
                         {% for diagnosis in referral_diagnosis %}
                         <ul>
-                            <li>{{ diagnosis.condition_details }}</li>
+                            <li>{{ diagnosis.condition.name }} - {{ diagnosis.condition_details }}</li>
                         </ul>
                         {% endfor %}
                     </td>
                 </tr>
                 <tr>
-                    <td>Recommended Medications</td>
+                    <td><strong>Recommended Medications</strong></td>
                     <td colspan="3">
                         {% for treatment in referral_treatment %}
                         <ul>
@@ -115,7 +114,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Medical History</td>
+                    <td><strong>Medical History</strong></td>
                     <td colspan="3">
                         {% for history_present_illness in referral_history_present_illness %}
                         <ul>
@@ -125,23 +124,23 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Referred To</td>
+                    <td><strong>Referred To</strong></td>
                     <td colspan="3">{{ referral_details.referred_to}}</td>
                 </tr>
                 <tr>
-                    <td>Referred From</td>
+                    <td><strong>Referred From</strong></td>
                     <td colspan="3">{{ referral_details.referred_from}}</td>
                 </tr>
                 <tr>
-                    <td>Reason For Referral</td>
+                    <td><strong>Reason For Referral</strong></td>
                     <td colspan="3">{{ referral_details.reason_for_referral}}</td>
                 </tr>
                 <tr>
-                    <td>Referred by</td>
+                    <td><strong>Referred by</strong></td>
                     <td colspan="3">Ismael L. Cordero, Jr. MD, DPCAM</td>
                 </tr>
                 <tr>
-                    <td>Signature</td>
+                    <td><strong>Signature</strong></td>
                     <td colspan="3">
                         <img src="{% static 'images/doc_jun_e_signature.png' %}">
                     </td>
@@ -185,6 +184,8 @@
     <script>
         document.getElementById('download-pdf').addEventListener('click', function() {
     var letterContent = document.getElementById('letter');
+    var lastName = '{{ referral_details.encounter.details.last_name }}';
+    var filename = lastName.toUpperCase() + '-referral-letter.pdf';
 
     html2canvas(letterContent, {
         backgroundColor: '#FFFFFF' // Ensures the background is pure white
@@ -194,7 +195,7 @@
 
         pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); // Adjust the dimensions for proper fitting
 
-        pdf.save('referral-letter.pdf');
+        pdf.save(filename);
     });
 });
 

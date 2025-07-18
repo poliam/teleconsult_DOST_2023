@@ -9,7 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from datetime import date, datetime
 from django.utils.timezone import now 
-from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_audit
+from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_audit, details_files
 from patient.patient_forms import AddRelativesForm, EditRelativesForm, AddPatientForm, AddPatientAddressForm, EditPatientForm, EditPatientAddressForm, patientSurveyForm, patientFilesForm
 from consultation.models import encounter, Referral, diagnosis, treatment, history_present_illness
 import random, os, json, ast
@@ -230,10 +230,9 @@ def PatientDetailed(request, patient_id):
 
 	returnVal['patientHistory'] = patientHistory
 
-	list_of_hamd = hamd.objects.filter(details=patient_id)
+	list_of_hamd = hamd.objects.filter(details=patient_id, is_delete=0)
 
 	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.score), "total_score": hamd.total_score} for hamd in list_of_hamd]
-
 
 	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id, is_delete=0).order_by('-consultation_date')
 	return render(request, 'patient_detailed.html', returnVal)
@@ -949,6 +948,21 @@ def PatientUpdateGPS(request, gps_id):
 	return render(request, 'patient_edit_gps.html', returnVal)
 
 @login_required(login_url='/login')
+def PatientDeleteGPS(request, gps_id):
+    """
+    Soft delete a GPS record by setting is_delete=1, then redirect to the patient detail page.
+    """
+    try:
+        gps_instance = global_psychotrauma_screen.objects.get(pk=gps_id)
+        gps_instance.is_delete = 1
+        gps_instance.save()
+        patient_id = gps_instance.details.pk
+        return redirect('PatientDetailed', patient_id=patient_id)
+    except global_psychotrauma_screen.DoesNotExist:
+        return HttpResponse('GPS record does not exist.', status=404)
+
+
+@login_required(login_url='/login')
 def PatientCreateHamD(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
@@ -1026,11 +1040,11 @@ def PatientCreateHamD(request, patient_id):
 		new_hamd.diurnal_variation_severe_am = request.POST.get('diurnal_variation_severe_am', False)
 		new_hamd.diurnal_variation_severe_pm = request.POST.get('diurnal_variation_severe_pm', False)
 
-		new_hamd.depersonalization_and_derelization = request.POST['depersonalization_and_derelization']
+		new_hamd.depersonalization_and_derelization = request.POST.get('depersonalization_and_derelization', False)
 		total_score = total_score + int(new_hamd.depersonalization_and_derelization)
-		new_hamd.paranoid_symptoms = request.POST['paranoid_symptoms']
+		new_hamd.paranoid_symptoms = request.POST.get('paranoid_symptoms', False)
 		total_score = total_score + int(new_hamd.paranoid_symptoms)
-		new_hamd.obsessional_symptoms = request.POST['obsessional_symptoms']
+		new_hamd.obsessional_symptoms = request.POST.get('obsessional_symptoms', False)
 		total_score = total_score + int(new_hamd.obsessional_symptoms)
 		new_hamd.total_score = total_score
 		try:
@@ -1125,6 +1139,20 @@ def PatientUpdateHamD(request, hamd_id):
 		return redirect("PatientDetailed", patient_id=patient_instance.pk)
 
 	return render(request, 'patient_edit_hamd.html', returnVal)
+
+@login_required(login_url='/login')
+def PatientDeleteHamD(request, hamd_id):
+    """
+    Soft delete a HAMD record by setting is_delete=1, then redirect to the patient detail page.
+    """
+    try:
+        hamd_instance = hamd.objects.get(pk=hamd_id)
+        hamd_instance.is_delete = 1
+        hamd_instance.save()
+        patient_id = hamd_instance.details.pk
+        return redirect('PatientDetailed', patient_id=patient_id)
+    except hamd.DoesNotExist:
+        return HttpResponse('HAMD record does not exist.', status=404)
 
 @login_required(login_url='/login')
 def PatientGetGPS(request):
@@ -1287,7 +1315,222 @@ def formatDate(dateValue):
 		return False
 
 
-
-
-
+# ICF (Informed Consent Form) related functions
+def get_icf_file_path(patient_id):
+	"""Get the ICF file path for a patient using pattern matching"""
+	import os
+	import glob
+	from django.conf import settings
 	
+	icf_dir = os.path.join(settings.MEDIA_ROOT, 'informed_consent')
+	
+	# Search for files matching the pattern *_ICF_patient_PATIENTID.pdf
+	pattern = os.path.join(icf_dir, f"*_ICF_patient_{patient_id}.pdf")
+	matching_files = glob.glob(pattern)
+	
+	if matching_files:
+		# Return the first matching file (should only be one)
+		return matching_files[0]
+	else:
+		# Return the expected path based on patient full name for new uploads
+		try:
+			patient_details = details.objects.get(pk=patient_id)
+			last_name = patient_details.last_name.upper().replace(' ', '_')
+			first_name = patient_details.first_name.upper().replace(' ', '_')
+			middle_name = patient_details.middle_name.upper().replace(' ', '_') if patient_details.middle_name else ''
+			
+			if middle_name:
+				filename = f"{last_name}_{first_name}_{middle_name}_ICF_patient_{patient_id}.pdf"
+			else:
+				filename = f"{last_name}_{first_name}_ICF_patient_{patient_id}.pdf"
+			return os.path.join(icf_dir, filename)
+		except details.DoesNotExist:
+			# Fallback to old naming format
+			filename = f"ICF_patient_{patient_id}.pdf"
+			return os.path.join(icf_dir, filename)
+
+def has_icf_file(patient_id):
+	"""Check if ICF file exists for a patient using pattern matching"""
+	import os
+	import glob
+	from django.conf import settings
+	
+	icf_dir = os.path.join(settings.MEDIA_ROOT, 'informed_consent')
+	
+	# Search for files matching the pattern *_ICF_patient_PATIENTID.pdf
+	pattern = os.path.join(icf_dir, f"*_ICF_patient_{patient_id}.pdf")
+	matching_files = glob.glob(pattern)
+	
+	return len(matching_files) > 0
+
+@login_required(login_url='/login')
+def CheckICFStatus(request, patient_id):
+	"""Check ICF status for a patient via AJAX"""
+	try:
+		# Check both file system and database record
+		has_file = has_icf_file(patient_id)
+		
+		# Also check if database record exists
+		has_db_record = False
+		try:
+			patient_details = details.objects.get(pk=patient_id)
+			has_db_record = details_files.objects.filter(
+				details=patient_details,
+				file_name__regex=r'.*_ICF_patient_' + str(patient_id) + r'\.pdf$',
+				is_delete=False
+			).exists()
+		except details.DoesNotExist:
+			pass
+		
+		# Return true if either file exists or database record exists
+		has_icf = has_file or has_db_record
+		
+		return JsonResponse({
+			'has_icf': has_icf,
+			'has_file': has_file,
+			'has_db_record': has_db_record
+		})
+	except Exception as e:
+		return JsonResponse({'has_icf': False, 'error': str(e)})
+
+@login_required(login_url='/login')
+def UploadICF(request):
+	"""Upload ICF file for a patient"""
+	if request.method == 'POST':
+		patient_id = request.POST.get('patient_id')
+		icf_file = request.FILES.get('icf_file')
+		
+		if not patient_id or not icf_file:
+			return JsonResponse({'error': 'Missing patient ID or file'}, status=400)
+		
+		# Validate file type
+		if not icf_file.name.lower().endswith('.pdf'):
+			return JsonResponse({'error': 'Only PDF files are allowed'}, status=400)
+		
+		# Validate file size (5MB limit)
+		if icf_file.size > 5 * 1024 * 1024:
+			return JsonResponse({'error': 'File size cannot exceed 5MB'}, status=400)
+		
+		try:
+			import os
+			from django.conf import settings
+			
+			# Get patient details to use full name in filename
+			patient_details = details.objects.get(pk=patient_id)
+			last_name = patient_details.last_name.upper().replace(' ', '_')
+			first_name = patient_details.first_name.upper().replace(' ', '_')
+			middle_name = patient_details.middle_name.upper().replace(' ', '_') if patient_details.middle_name else ''
+			
+			# Create directory if it doesn't exist
+			icf_dir = os.path.join(settings.MEDIA_ROOT, 'informed_consent')
+			os.makedirs(icf_dir, exist_ok=True)
+			
+			# Save file with new naming format: LASTNAME_FIRSTNAME_MIDDLENAME_ICF_patient_PATIENTID
+			if middle_name:
+				filename = f"{last_name}_{first_name}_{middle_name}_ICF_patient_{patient_id}.pdf"
+			else:
+				filename = f"{last_name}_{first_name}_ICF_patient_{patient_id}.pdf"
+			file_path = os.path.join(icf_dir, filename)
+			
+			# Remove existing ICF files if they exist (using pattern matching)
+			import glob
+			existing_files_pattern = os.path.join(icf_dir, f"*_ICF_patient_{patient_id}.pdf")
+			existing_files = glob.glob(existing_files_pattern)
+			for existing_file in existing_files:
+				if os.path.exists(existing_file):
+					os.remove(existing_file)
+			
+			# Save new file
+			with open(file_path, 'wb+') as destination:
+				for chunk in icf_file.chunks():
+					destination.write(chunk)
+			
+			# Create database record for the uploaded ICF file
+			try:
+				# Remove existing ICF record if it exists (using pattern matching)
+				details_files.objects.filter(
+					details=patient_details,
+					file_name__regex=r'.*_ICF_patient_' + str(patient_id) + r'\.pdf$'
+				).delete()
+				
+				# Create new ICF record in details_files table
+				details_files.objects.create(
+					details=patient_details,
+					file_name=filename,
+					file=f'informed_consent/{filename}',  # Relative path from MEDIA_ROOT
+					history=f'ICF uploaded by {request.user.username} on {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+					status=True,
+					is_delete=False
+				)
+				
+			except details.DoesNotExist:
+				return JsonResponse({'error': 'Patient not found'}, status=404)
+			except Exception as db_error:
+				# Log the database error but don't fail the upload since file was saved
+				print(f"Database error while saving ICF record: {str(db_error)}")
+			
+			return redirect('PatientDetailed', patient_id=patient_id)
+			
+		except Exception as e:
+			return JsonResponse({'error': f'Error uploading file: {str(e)}'}, status=500)
+	
+	return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@login_required(login_url='/login')
+def PreviewICF(request, patient_id):
+	"""Preview ICF file for a patient"""
+	import os
+	from django.http import FileResponse, Http404
+	
+	file_path = get_icf_file_path(patient_id)
+	
+	if not os.path.exists(file_path):
+		raise Http404("ICF file not found")
+	
+	try:
+		# Get the actual filename from the file path
+		actual_filename = os.path.basename(file_path)
+		
+		response = FileResponse(
+			open(file_path, 'rb'),
+			content_type='application/pdf'
+		)
+		response['Content-Disposition'] = f'inline; filename="{actual_filename}"'
+		return response
+	except Exception as e:
+		raise Http404(f"Error loading file: {str(e)}")
+
+@login_required(login_url='/login')
+def DeleteICF(request, patient_id):
+	"""Delete ICF file for a patient"""
+	import os
+	import glob
+	from django.conf import settings
+	
+	# Delete all ICF files matching the pattern
+	icf_dir = os.path.join(settings.MEDIA_ROOT, 'informed_consent')
+	pattern = os.path.join(icf_dir, f"*_ICF_patient_{patient_id}.pdf")
+	matching_files = glob.glob(pattern)
+	
+	for file_path in matching_files:
+		if os.path.exists(file_path):
+			try:
+				os.remove(file_path)
+			except Exception as e:
+				return JsonResponse({'error': f'Error deleting file: {str(e)}'}, status=500)
+	
+	# Remove database record for the ICF file
+	try:
+		patient_details = details.objects.get(pk=patient_id)
+		details_files.objects.filter(
+			details=patient_details,
+			file_name__regex=r'.*_ICF_patient_' + str(patient_id) + r'\.pdf$'
+		).delete()
+	except details.DoesNotExist:
+		pass  # Patient not found, but file was already deleted
+	except Exception as db_error:
+		# Log the database error but don't fail the deletion
+		print(f"Database error while deleting ICF record: {str(db_error)}")
+	
+	return redirect('PatientDetailed', patient_id=patient_id)
+

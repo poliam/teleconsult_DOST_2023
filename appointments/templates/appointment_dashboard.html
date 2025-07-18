@@ -61,7 +61,7 @@
   							<th>Name</th>
   							<th>Consultation Date</th>
   							<th>Consultation Type</th>
-  							{% if group_type == "Admin" %}
+  							{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
   								<th>Option</th>
   							{% endif %}
   						</thead>
@@ -81,9 +81,14 @@
 		    							</td>	
 		    							<td>{{ consultation.consultation_date|date:"F d, Y" }}</td>  
 		    							<td>{{consultation.reason_for_interaction}} - Checkup </td>
-		    							{% if group_type == "Admin" %}
+		    							{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
 		    								<td>
-		    									<i class="fa-solid fa-trash-can" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);"></i>
+		    									<a href="{% url 'EditConsultation' consultation.pk %}" style="margin-right: 10px;" title="Edit">
+		    										<i class="fa-solid fa-edit"></i>
+		    									</a>
+		    									{% if group_type == "Admin" %}
+		    										<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);" title="Delete"></i>
+		    									{% endif %}
 		    								</td>
 		    							{% endif %}
 		    						</tr>
@@ -100,9 +105,14 @@
 		    								<td>
 		    									Mental Health Screening
 		    								</td>
-		    								{% if group_type == "Admin" %}
+		    								{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
 			    								<td>
-			    									<i class="fa-solid fa-trash-can" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);"></i>
+			    									<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="margin-right: 10px;" title="View Patient">
+			    										<i class="fa-solid fa-eye"></i>
+			    									</a>
+			    									{% if group_type == "Admin" %}
+			    										<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);" title="Delete"></i>
+			    									{% endif %}
 			    								</td>
 			    							{% endif %}
 		    							</tr>
@@ -120,9 +130,14 @@
 		    							</td>	
 		    							<td>{{ consultation.consultation_date|date:"F d, Y" }}</td>  
 		    							<td>{{consultation.reason_for_interaction}} - Checkup </td>
-		    							{% if group_type == "Admin" %}
+		    							{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
 		    								<td>
-		    									<i class="fa-solid fa-trash-can" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);"></i>
+		    									<a href="{% url 'EditConsultation' consultation.pk %}" style="margin-right: 10px;" title="Edit">
+		    										<i class="fa-solid fa-edit"></i>
+		    									</a>
+		    									{% if group_type == "Admin" %}
+		    										<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);" title="Delete"></i>
+		    									{% endif %}
 		    								</td>
 		    							{% endif %}
 		    						</tr>
@@ -141,9 +156,14 @@
 	    								<td>
 	    									Mental Health Screening
 	    								</td>
-	    								{% if group_type == "Admin" %}
+	    								{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
 		    								<td>
-		    									<i class="fa-solid fa-trash-can" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);"></i>
+		    									<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="margin-right: 10px;" title="View Patient">
+		    										<i class="fa-solid fa-eye"></i>
+		    									</a>
+		    									{% if group_type == "Admin" %}
+		    										<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);" title="Delete"></i>
+		    									{% endif %}
 		    								</td>
 		    							{% endif %}
 	    							</tr>
@@ -167,6 +187,9 @@
   							<th>Name</th>
   							<th>Consultation Date</th>
   							<th>Consultation Type</th>
+  							{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
+  								<th>Option</th>
+  							{% endif %}
   						</thead>
   						<tbody>
   							{% for consultation in month_consultation %}
@@ -187,6 +210,16 @@
   										<td>
   											{{consultation.reason_for_interaction}} - Checkup
   										</td>
+  										{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
+  											<td>
+  												<a href="{% url 'EditConsultation' consultation.pk %}" style="margin-right: 10px;" title="Edit">
+  													<i class="fa-solid fa-edit"></i>
+  												</a>
+  												{% if group_type == "Admin" %}
+  													<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);" title="Delete"></i>
+  												{% endif %}
+  											</td>
+  										{% endif %}
   									</tr>
   									{% for psychiatric_evaluate in list_of_psychiatric_evaluate_month %}
   										<tr>
@@ -201,6 +234,16 @@
   											<td>
   												Mental Health Screening
   											</td>
+  											{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
+  												<td>
+  													<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" style="margin-right: 10px;" title="View Patient">
+  														<i class="fa-solid fa-eye"></i>
+  													</a>
+  													{% if group_type == "Admin" %}
+  														<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);" title="Delete"></i>
+  													{% endif %}
+  												</td>
+  											{% endif %}
   										</tr>
   									{% endfor %}
   								{% else %}
@@ -220,6 +263,16 @@
   										<td>
   											{{consultation.reason_for_interaction}} - Checkup
   										</td>
+  										{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
+  											<td>
+  												<a href="{% url 'EditConsultation' consultation.pk %}" class="btn btn-sm btn-outline-primary me-1" title="Edit">
+  													<i class="fa-solid fa-edit"></i>
+  												</a>
+  												{% if group_type == "Admin" %}
+  													<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{consultation.pk}}" onclick="removeConsultation(this);" title="Delete"></i>
+  												{% endif %}
+  											</td>
+  										{% endif %}
   									</tr>
   								{% endif %} 
   							{% empty %}
@@ -236,6 +289,16 @@
 										<td>
 											Mental Health Screening
 										</td>
+										{% if group_type == "Admin" or group_type == "Doctor" or group_type == "Nurse" %}
+											<td>
+												<a href="{% url 'PatientDetailed' psychiatric_evaluate.details.pk %}" class="btn btn-sm btn-outline-primary me-1" title="View Patient">
+													<i class="fa-solid fa-eye"></i>
+												</a>
+												{% if group_type == "Admin" %}
+													<i class="fa-solid fa-trash-can" style="color: red; cursor: pointer;" attr_id="{{ psychiatric_evaluate.pk }}" onclick="removePsychiatricEvaluation(this);" title="Delete"></i>
+												{% endif %}
+											</td>
+										{% endif %}
 									</tr>
   								{% empty %}
   									No Appointment for this Month. . .

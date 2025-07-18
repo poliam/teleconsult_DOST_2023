@@ -9,3 +9,10 @@
 /consultation/migrations/*
 /patient/migrations/*
 /media/*
+/venv/
+/linux-venv/
+/staticfiles/
+bandit.json
+bandit-clean.json
+.gitignore
+Teleconsult/urls.py
