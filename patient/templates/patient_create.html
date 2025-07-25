@@ -44,98 +44,147 @@
   					</div>
 
   					<div class="card-body">
-  						<div class="row">
-  							<div class="col-sm-6">
-  								<div class="mb-3">
-  									{{ form.profile_picture.label }}
-                                	{{ form.profile_picture }}
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="mb-3">
+									{{ form.profile_picture.label }}
+									{{ form.profile_picture }}
+									{% if form.profile_picture.errors %}
+										<div class="text-danger">{{ form.profile_picture.errors }}</div>
+									{% endif %}
 								</div>
-  							</div>
-  						</div>
-    					<div class="row">
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.first_name.label }}{% if form.first_name.field.required %}*{% endif %}
-    								{{ form.first_name }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.middle_name.label }}{% if form.middle_name.field.required %}*{% endif %}
-    								{{ form.middle_name }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.last_name.label }}{% if form.last_name.field.required %}*{% endif %}
-    								{{ form.last_name }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.gender.label }}{% if form.gender.field.required %}*{% endif %}
-    								{{ form.gender }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.gender_indentity.label }}{% if form.gender_indentity.field.required %}*{% endif %}
-    								{{ form.gender_indentity }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.BOD.label }}{% if form.BOD.field.required %}*{% endif %}
-    								{{ form.BOD }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.employment_status.label }}{% if form.employment_status.field.required %}*{% endif %}
-    								{{ form.employment_status }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}*{% endif %}
-    								{{ form.mental_health_history }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}*{% endif %}
-    								{{ form.access_to_mental_health }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.marital_status.label }}{% if form.marital_status.field.required %}*{% endif %}
-    								{{ form.marital_status }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.contact_number.label }}{% if form.contact_number.field.required %}*{% endif %}
-    								{{ form.contact_number }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.alias.label }}{% if form.alias.field.required %}*{% endif %}
-    								{{ form.alias }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.email.label }}{% if form.email.field.required %}*{% endif %}
-    								{{ form.email }}
-  								</div>
+							</div>
+						</div>
+						<div class="row">
+							<style>
+								.required-star {
+									color: red;
+								}
+							</style>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.first_name.label }}{% if form.first_name.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.first_name }}
+									{% if form.first_name.errors %}
+										<div class="text-danger">{{ form.first_name.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.middle_name.label }}{% if form.middle_name.field.required %}*{% endif %}
+									{{ form.middle_name }}
+									{% if form.middle_name.errors %}
+										<div class="text-danger">{{ form.middle_name.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.last_name.label }}{% if form.last_name.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.last_name }}
+									{% if form.last_name.errors %}
+										<div class="text-danger">{{ form.last_name.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.gender.label }}{% if form.gender.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.gender }}
+									{% if form.gender.errors %}
+										<div class="text-danger">{{ form.gender.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.gender_indentity.label }}{% if form.gender_indentity.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.gender_indentity }}
+									{% if form.gender_indentity.errors %}
+										<div class="text-danger">{{ form.gender_indentity.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.BOD.label }}{% if form.BOD.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.BOD }}
+									{% if form.BOD.errors %}
+										<div class="text-danger">{{ form.BOD.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.employment_status.label }}{% if form.employment_status.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.employment_status }}
+									{% if form.employment_status.errors %}
+										<div class="text-danger">{{ form.employment_status.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.mental_health_history }}
+									{% if form.mental_health_history.errors %}
+										<div class="text-danger">{{ form.mental_health_history.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.access_to_mental_health }}
+									{% if form.access_to_mental_health.errors %}
+										<div class="text-danger">{{ form.access_to_mental_health.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.marital_status.label }}{% if form.marital_status.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.marital_status }}
+									{% if form.marital_status.errors %}
+										<div class="text-danger">{{ form.marital_status.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.contact_number.label }}{% if form.contact_number.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.contact_number }}
+									{% if form.contact_number.errors %}
+										<div class="text-danger">{{ form.contact_number.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.alias.label }}{% if form.alias.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.alias }}
+									{% if form.alias.errors %}
+										<div class="text-danger">{{ form.alias.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.email.label }}{% if form.email.field.required %}{% endif %}<span class="required-star">*</span>
+									{{ form.email }}
+									{% if form.email.errors %}
+										<div class="text-danger">{{ form.email.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
     						</div>
     					</div>
     				</div>
 				</div>
 				<br>
-				<div class="card">
+				<div class="card"> 
   					<div class="card-header">
     					<h4>Personal Address</h4>
   					</div>
@@ -219,41 +268,67 @@
   					</div>
   					<div class="card-body">
     					<div class="row">
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.birth_place.label }}{% if form.birth_place.field.required %}*{% endif %}
-    								{{ form.birth_place }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.religion.label }}{% if form.religion.field.required %}*{% endif %}
-    								{{ form.religion }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.high_education.label }}{% if form.high_education.field.required %}*{% endif %}
-    								{{ form.high_education }}
-  								</div>
-    						</div>
+							<style>
+								.required-star {
+									color: red;
+								}
+							</style>
 
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.nationality.label }}{% if form.nationality.field.required %}*{% endif %}
-    								{{ form.nationality }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.workplace.label }}{% if form.workplace.field.required %}*{% endif %}
-    								{{ form.workplace }}
-  								</div>
-    						</div>
-    						<div class="col-sm-4">
-    							<div class="form-group">
-    								{{ form.occupation.label }}{% if form.occupation.field.required %}*{% endif %}
-    								{{ form.occupation }}
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.birth_place.label }}{% if form.birth_place.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.birth_place }}
+									{% if form.birth_place.errors %}
+										<div class="text-danger">{{ form.birth_place.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.religion.label }}{% if form.religion.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.religion }}
+									{% if form.religion.errors %}
+										<div class="text-danger">{{ form.religion.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.high_education.label }}{% if form.high_education.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.high_education }}
+									{% if form.high_education.errors %}
+										<div class="text-danger">{{ form.high_education.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.nationality.label }}{% if form.nationality.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.nationality }}
+									{% if form.nationality.errors %}
+										<div class="text-danger">{{ form.nationality.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.workplace.label }}{% if form.workplace.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.workplace }}
+									{% if form.workplace.errors %}
+										<div class="text-danger">{{ form.workplace.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									{{ form.occupation.label }}{% if form.occupation.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.occupation }}
+									{% if form.occupation.errors %}
+										<div class="text-danger">{{ form.occupation.errors }}</div>
+									{% endif %}
+								</div>
+							</div>
   								</div>
     						</div>
     					</div>
