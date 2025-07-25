@@ -147,7 +147,7 @@ class condition(models.Model):
 
 class encounter(models.Model):
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
-	reason_for_interaction = models.CharField(max_length=250, null=True, blank=True)
+	reason_for_interaction = models.CharField(max_length=250, default="Outpatient", null=True, blank=True)
 	encounter_notes = models.TextField(null=True, blank=True)
 	treatment_recommendations = models.TextField(null=True, blank=True)
 	consultation_date = models.DateField(null=True, blank=True)
