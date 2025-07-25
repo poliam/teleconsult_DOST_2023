@@ -2,13 +2,12 @@
 /consultation/migrations/__pycache__/*
 /patient/migrations/__pycache__/*
 /Teleconsult/__pycache__/*
+/Teleconsult/settings/__pycache__/*
 /appointments/__pycache__/*
 /patient/__pycache__/*
 /appointments/migrations/__pycache__/*
 /Teleconsult/settings.py
 /Teleconsult/settings/local.py
-/consultation/migrations/*
-/patient/migrations/*
 /media/*
 /venv/
 /linux-venv/
