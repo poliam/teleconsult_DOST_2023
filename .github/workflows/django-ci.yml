@@ -66,6 +66,7 @@ jobs:
     - name: Run Django system check
       run: python manage.py check
       env:
+        DJANGO_SETTINGS_MODULE: Teleconsult.settings.ci
         GITHUB_ACTIONS: true
         DATABASE_HOST: 127.0.0.1
         DATABASE_PORT: 3306
@@ -76,6 +77,7 @@ jobs:
     - name: Run migrations
       run: python manage.py migrate --verbosity=2
       env:
+        DJANGO_SETTINGS_MODULE: Teleconsult.settings.ci
         GITHUB_ACTIONS: true
         DATABASE_HOST: 127.0.0.1
         DATABASE_PORT: 3306
@@ -89,6 +91,7 @@ jobs:
         coverage report --show-missing
         coverage xml
       env:
+        DJANGO_SETTINGS_MODULE: Teleconsult.settings.ci
         GITHUB_ACTIONS: true
         DATABASE_HOST: 127.0.0.1
         DATABASE_PORT: 3306

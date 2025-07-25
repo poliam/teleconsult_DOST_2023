@@ -6,6 +6,7 @@
 /patient/__pycache__/*
 /appointments/migrations/__pycache__/*
 /Teleconsult/settings.py
+/Teleconsult/settings/local.py
 /consultation/migrations/*
 /patient/migrations/*
 /media/*
@@ -16,3 +17,8 @@ bandit.json
 bandit-clean.json
 .gitignore
 Teleconsult/urls.py
+.env
+*.log
+db.sqlite3
+coverage.xml
+htmlcov/
