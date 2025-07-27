@@ -492,7 +492,6 @@ def PatientAutoSaveGPS(request):
 	returnVal['status_code'] = 0
 	patient_id = request.POST['patient_id']
 	current_id = request.POST['current_id']
-	print(current_id)
 	if current_id != "0":
 		try:
 			gps_details = global_psychotrauma_screen.objects.get(pk=current_id)
@@ -504,48 +503,49 @@ def PatientAutoSaveGPS(request):
 		gps_details.event_description = request.POST['event_description']
 		gps_details.event_happened = request.POST['event_happened']
 
-		gps_details.physical_violence = request.POST.get('physical_violence', False)
-		gps_details.sexual_violence = request.POST.get('sexual_violence', False)
-		gps_details.emotional_abuse = request.POST.get('emotional_abuse', False)
-		gps_details.serious_injury = request.POST.get('serious_injury', False)
-		gps_details.life_threatening = request.POST.get('life_threatening', False)
+		gps_details.physical_violence = request.POST.get('physical_violence', 'to yourself')
+		gps_details.sexual_violence = request.POST.get('sexual_violence', 'to yourself')
+		gps_details.emotional_abuse = request.POST.get('emotional_abuse', 'to yourself')
+		gps_details.serious_injury = request.POST.get('serious_injury', 'to yourself')
+		gps_details.life_threatening = request.POST.get('life_threatening', 'to yourself')
 		
-		gps_details.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
-		gps_details.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
-		gps_details.covid =  request.POST.get('covid', False)
+		gps_details.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False) == 'True'
+		gps_details.cause_harm_to_others = request.POST.get('cause_harm_to_others', False) == 'True'
+		gps_details.covid =  request.POST.get('covid', False) == 'True'
 		gps_details.single_event_occurring = request.POST['single_event_occurring']
 		gps_details.range_event_occurring_from = request.POST['range_event_occurring_from']
 		gps_details.range_event_occurring_to = request.POST['range_event_occurring_to']
 		try:
 			gps_details.save()
-		except:
-			returnVal['error_msg'] = "Error on saving gps"
+		except Exception as e:
+			print(f"Error saving GPS details: {str(e)}")
+			returnVal['error_msg'] = f"Error on saving gps: {str(e)}"
 			return JsonResponse(returnVal, safe=False)
 
 		considering_event_details = considering_event.objects.get(global_psychotrauma_screen=gps_details.pk)
-		considering_event_details.considering_event_1 = request.POST.get('considering_event_1', False)
-		considering_event_details.considering_event_2 = request.POST.get('considering_event_2', False)
-		considering_event_details.considering_event_3 = request.POST.get('considering_event_3', False)
-		considering_event_details.considering_event_4 = request.POST.get('considering_event_4', False)
-		considering_event_details.considering_event_5 = request.POST.get('considering_event_5', False)
-		considering_event_details.considering_event_6 = request.POST.get('considering_event_6', False)
-		considering_event_details.considering_event_7 = request.POST.get('considering_event_7', False)
-		considering_event_details.considering_event_8 = request.POST.get('considering_event_8', False)
-		considering_event_details.considering_event_9 = request.POST.get('considering_event_9', False)
-		considering_event_details.considering_event_10 = request.POST.get('considering_event_10', False)
-		considering_event_details.considering_event_11 = request.POST.get('considering_event_11', False)
-		considering_event_details.considering_event_12 = request.POST.get('considering_event_12', False)
-		considering_event_details.considering_event_13 = request.POST.get('considering_event_13', False)
-		considering_event_details.considering_event_14 = request.POST.get('considering_event_14', False)
-		considering_event_details.considering_event_15 = request.POST.get('considering_event_15', False)
-		considering_event_details.considering_event_16 = request.POST.get('considering_event_16', False)
-		considering_event_details.considering_event_17 = request.POST.get('considering_event_17', False)
-		considering_event_details.considering_event_18 = request.POST.get('considering_event_18', False)
-		considering_event_details.considering_event_19 = request.POST.get('considering_event_19', False)
-		considering_event_details.considering_event_20 = request.POST.get('considering_event_20', False)
-		considering_event_details.considering_event_21 = request.POST.get('considering_event_21', False)
-		considering_event_details.considering_event_22 = request.POST.get('considering_event_22', False)
-		considering_event_details.considering_event_23 = request.POST.get('considering_event_23', False)
+		considering_event_details.considering_event_1 = request.POST.get('considering_event_1', 'No')
+		considering_event_details.considering_event_2 = request.POST.get('considering_event_2', 'No')
+		considering_event_details.considering_event_3 = request.POST.get('considering_event_3', 'No')
+		considering_event_details.considering_event_4 = request.POST.get('considering_event_4', 'No')
+		considering_event_details.considering_event_5 = request.POST.get('considering_event_5', 'No')
+		considering_event_details.considering_event_6 = request.POST.get('considering_event_6', 'No')
+		considering_event_details.considering_event_7 = request.POST.get('considering_event_7', 'No')
+		considering_event_details.considering_event_8 = request.POST.get('considering_event_8', 'No')
+		considering_event_details.considering_event_9 = request.POST.get('considering_event_9', 'No')
+		considering_event_details.considering_event_10 = request.POST.get('considering_event_10', 'No')
+		considering_event_details.considering_event_11 = request.POST.get('considering_event_11', 'No')
+		considering_event_details.considering_event_12 = request.POST.get('considering_event_12', 'No')
+		considering_event_details.considering_event_13 = request.POST.get('considering_event_13', 'No')
+		considering_event_details.considering_event_14 = request.POST.get('considering_event_14', 'No')
+		considering_event_details.considering_event_15 = request.POST.get('considering_event_15', 'No')
+		considering_event_details.considering_event_16 = request.POST.get('considering_event_16', 'No')
+		considering_event_details.considering_event_17 = request.POST.get('considering_event_17', 'No')
+		considering_event_details.considering_event_18 = request.POST.get('considering_event_18', 'No')
+		considering_event_details.considering_event_19 = request.POST.get('considering_event_19', 'No')
+		considering_event_details.considering_event_20 = request.POST.get('considering_event_20', 'No')
+		considering_event_details.considering_event_21 = request.POST.get('considering_event_21', 'No')
+		considering_event_details.considering_event_22 = request.POST.get('considering_event_22', 'No')
+		considering_event_details.considering_event_23 = request.POST.get('considering_event_23', '1')
 
 		considering_event_details.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
 		considering_event_details.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
@@ -553,9 +553,8 @@ def PatientAutoSaveGPS(request):
 		try:
 			considering_event_details.save()
 			returnVal['status_code'] = 1
-		except:
-			new_global_psychotrauma_screen.delete()
-			returnVal['error_msg'] = "Error on saving gps screen"
+		except Exception as e:
+			returnVal['error_msg'] = f"Error on saving gps screen: {str(e)}"
 			return JsonResponse(returnVal, safe=False)
 
 		returnVal['current_id'] = current_id
@@ -574,15 +573,15 @@ def PatientAutoSaveGPS(request):
 		new_global_psychotrauma_screen.event_description = request.POST['event_description']
 		new_global_psychotrauma_screen.event_happened = request.POST['event_happened']
 
-		new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', False)
-		new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', False)
-		new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', False)
-		new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', False)
-		new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', False)
+		new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', 'to yourself')
+		new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', 'to yourself')
+		new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', 'to yourself')
+		new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', 'to yourself')
+		new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', 'to yourself')
 		
-		new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
-		new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
-		new_global_psychotrauma_screen.covid =  request.POST.get('covid', False)
+		new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False) == 'True'
+		new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False) == 'True'
+		new_global_psychotrauma_screen.covid =  request.POST.get('covid', False) == 'True'
 		new_global_psychotrauma_screen.single_event_occurring = request.POST['single_event_occurring']
 		new_global_psychotrauma_screen.range_event_occurring_from = request.POST['range_event_occurring_from']
 		new_global_psychotrauma_screen.range_event_occurring_to = request.POST['range_event_occurring_to']
@@ -595,29 +594,29 @@ def PatientAutoSaveGPS(request):
 
 		new_considering_event = considering_event()
 		new_considering_event.global_psychotrauma_screen = new_global_psychotrauma_screen
-		new_considering_event.considering_event_1 = request.POST.get('considering_event_1', False)
-		new_considering_event.considering_event_2 = request.POST.get('considering_event_2', False)
-		new_considering_event.considering_event_3 = request.POST.get('considering_event_3', False)
-		new_considering_event.considering_event_4 = request.POST.get('considering_event_4', False)
-		new_considering_event.considering_event_5 = request.POST.get('considering_event_5', False)
-		new_considering_event.considering_event_6 = request.POST.get('considering_event_6', False)
-		new_considering_event.considering_event_7 = request.POST.get('considering_event_7', False)
-		new_considering_event.considering_event_8 = request.POST.get('considering_event_8', False)
-		new_considering_event.considering_event_9 = request.POST.get('considering_event_9', False)
-		new_considering_event.considering_event_10 = request.POST.get('considering_event_10', False)
-		new_considering_event.considering_event_11 = request.POST.get('considering_event_11', False)
-		new_considering_event.considering_event_12 = request.POST.get('considering_event_12', False)
-		new_considering_event.considering_event_13 = request.POST.get('considering_event_13', False)
-		new_considering_event.considering_event_14 = request.POST.get('considering_event_14', False)
-		new_considering_event.considering_event_15 = request.POST.get('considering_event_15', False)
-		new_considering_event.considering_event_16 = request.POST.get('considering_event_16', False)
-		new_considering_event.considering_event_17 = request.POST.get('considering_event_17', False)
-		new_considering_event.considering_event_18 = request.POST.get('considering_event_18', False)
-		new_considering_event.considering_event_19 = request.POST.get('considering_event_19', False)
-		new_considering_event.considering_event_20 = request.POST.get('considering_event_20', False)
-		new_considering_event.considering_event_21 = request.POST.get('considering_event_21', False)
-		new_considering_event.considering_event_22 = request.POST.get('considering_event_22', False)
-		new_considering_event.considering_event_23 = request.POST.get('considering_event_23', False)
+		new_considering_event.considering_event_1 = request.POST.get('considering_event_1', 'No')
+		new_considering_event.considering_event_2 = request.POST.get('considering_event_2', 'No')
+		new_considering_event.considering_event_3 = request.POST.get('considering_event_3', 'No')
+		new_considering_event.considering_event_4 = request.POST.get('considering_event_4', 'No')
+		new_considering_event.considering_event_5 = request.POST.get('considering_event_5', 'No')
+		new_considering_event.considering_event_6 = request.POST.get('considering_event_6', 'No')
+		new_considering_event.considering_event_7 = request.POST.get('considering_event_7', 'No')
+		new_considering_event.considering_event_8 = request.POST.get('considering_event_8', 'No')
+		new_considering_event.considering_event_9 = request.POST.get('considering_event_9', 'No')
+		new_considering_event.considering_event_10 = request.POST.get('considering_event_10', 'No')
+		new_considering_event.considering_event_11 = request.POST.get('considering_event_11', 'No')
+		new_considering_event.considering_event_12 = request.POST.get('considering_event_12', 'No')
+		new_considering_event.considering_event_13 = request.POST.get('considering_event_13', 'No')
+		new_considering_event.considering_event_14 = request.POST.get('considering_event_14', 'No')
+		new_considering_event.considering_event_15 = request.POST.get('considering_event_15', 'No')
+		new_considering_event.considering_event_16 = request.POST.get('considering_event_16', 'No')
+		new_considering_event.considering_event_17 = request.POST.get('considering_event_17', 'No')
+		new_considering_event.considering_event_18 = request.POST.get('considering_event_18', 'No')
+		new_considering_event.considering_event_19 = request.POST.get('considering_event_19', 'No')
+		new_considering_event.considering_event_20 = request.POST.get('considering_event_20', 'No')
+		new_considering_event.considering_event_21 = request.POST.get('considering_event_21', 'No')
+		new_considering_event.considering_event_22 = request.POST.get('considering_event_22', 'No')
+		new_considering_event.considering_event_23 = request.POST.get('considering_event_23', '1')
 
 		new_considering_event.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
 		new_considering_event.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')

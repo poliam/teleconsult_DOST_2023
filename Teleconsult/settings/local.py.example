@@ -1,0 +1,21 @@
+"""
+Local development settings example
+Copy this file to local.py and update with your database credentials
+"""
+from .base import *
+
+# Local development database - UPDATE THESE VALUES FOR YOUR SETUP
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'teleconsult_db',          # Your database name
+        'USER': 'root',                    # Your MySQL username
+        'PASSWORD': '1234',                # Your MySQL password
+        'HOST': 'localhost',               # Your MySQL host
+        'PORT': '3306',                    # Your MySQL port
+    }
+}
+
+# Add any other local-specific settings here
+# DEBUG = True  # Already set in base.py
+# ALLOWED_HOSTS = ["*"]  # Already set in base.py
