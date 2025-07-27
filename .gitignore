@@ -2,12 +2,12 @@
 /consultation/migrations/__pycache__/*
 /patient/migrations/__pycache__/*
 /Teleconsult/__pycache__/*
+/Teleconsult/settings/__pycache__/*
 /appointments/__pycache__/*
 /patient/__pycache__/*
 /appointments/migrations/__pycache__/*
 /Teleconsult/settings.py
-/consultation/migrations/*
-/patient/migrations/*
+/Teleconsult/settings/local.py
 /media/*
 /venv/
 /linux-venv/
@@ -16,3 +16,8 @@ bandit.json
 bandit-clean.json
 .gitignore
 Teleconsult/urls.py
+.env
+*.log
+db.sqlite3
+coverage.xml
+htmlcov/

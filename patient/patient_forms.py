@@ -1,5 +1,8 @@
 from django import forms
 from patient.models import details, address, relatives, medicine, allergies, global_psychotrauma_screen, considering_event, hamd, patient_survey, details_files
+from django.core.validators import validate_email
+from datetime import date
+from .models import details
 
 SEX_CHOICES = (
 	("", "- - Select Sex - -"),
@@ -102,7 +105,7 @@ class AddPatientForm(forms.ModelForm):
 	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
 	contact_number = forms.CharField(required=True, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
-	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+	email = forms.CharField(required=True, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 	birth_place = forms.CharField(required=True, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
 	religion = forms.CharField(required=True, label="Religion", widget=forms.TextInput(attrs={'placeholder': 'Religion'}))
 	high_education = forms.CharField(required=True, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
@@ -113,15 +116,71 @@ class AddPatientForm(forms.ModelForm):
 	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
 	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
 	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)
+	
 
 	def __init__(self, *args, **kwargs):
 		super(AddPatientForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+			base_classes = field.widget.attrs.get('class', '')
+			css_classes = 'form-control'
+			if self.errors.get(field_name):
+				css_classes += ' is-invalid'
+			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
+			
 
-		for visible in self.visible_fields():
+	def clean_first_name(self):
+		first_name = self.cleaned_data.get('first_name', '').strip()
+		if not first_name:
+			raise forms.ValidationError("First name is required.")
+		if not first_name.isalpha():
+			raise forms.ValidationError("First name should only contain letters.")
+		return first_name
+
+	def clean_last_name(self):
+		last_name = self.cleaned_data.get('last_name', '').strip()
+		if not last_name:
+			raise forms.ValidationError("Last name is required.")
+		if not last_name.isalpha():
+			raise forms.ValidationError("Last name should only contain letters.")
+		return last_name
+	
+	def clean_contact_number(self):
+		contact_number = self.cleaned_data.get('contact_number', '').strip()
+		if not contact_number.isdigit() or len(contact_number) != 11:
+			raise forms.ValidationError("Enter a valid contact number.")
+		return contact_number
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email', '').strip()
+		if email:
 			try:
-				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
-			except:
-				visible.field.widget.attrs['class'] = 'form-control'
+				validate_email(email)
+			except forms.ValidationError:
+				raise forms.ValidationError("Enter a valid email address.")
+		return email
+
+	def clean_BOD(self):
+		BOD = self.cleaned_data.get('BOD')
+		if BOD and BOD > date.today():
+			raise forms.ValidationError("Date of birth cannot be in the future.")
+		return BOD
+
+	def clean(self):
+		cleaned_data = super().clean()
+		first_name = cleaned_data.get('first_name')
+		middle_name = cleaned_data.get('middle_name')
+		last_name = cleaned_data.get('last_name')
+		BOD = cleaned_data.get('BOD')
+		if first_name and middle_name and last_name and BOD:
+			exists = details.objects.filter(
+				first_name__iexact=first_name,
+				middle_name__iexact=middle_name,
+				last_name__iexact=last_name,
+				BOD=BOD
+			).exists()
+			if exists:
+				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
+		return cleaned_data
 
 	def patientCheck(self):
 		first_name = self.cleaned_data['first_name']
@@ -131,7 +190,7 @@ class AddPatientForm(forms.ModelForm):
 		try:
 			patient_exists = details.objects.get(first_name=first_name, middle_name=middle_name, last_name=last_name)
 			return "Email already present."
-		except:
+		except details.DoesNotExist:
 			return False
 
 	def save(self, *args, **kwargs):
@@ -192,12 +251,78 @@ class EditPatientForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(EditPatientForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+			base_classes = field.widget.attrs.get('class', '')
+			css_classes = 'form-control'
+			if self.errors.get(field_name):
+				css_classes += ' is-invalid'
+			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
+			
 
-		for visible in self.visible_fields():
+	def clean_first_name(self):
+		first_name = self.cleaned_data.get('first_name', '').strip()
+		if not first_name:
+			raise forms.ValidationError("First name is required.")
+		if not first_name.isalpha():
+			raise forms.ValidationError("First name should only contain letters.")
+		return first_name
+	
+	
+	def clean_last_name(self):
+		last_name = self.cleaned_data.get('last_name', '').strip()
+		if not last_name.isalpha():
+			raise forms.ValidationError("Last name should only contain letters.")
+		return last_name
+	
+	def clean_contact_number(self):
+		contact_number = self.cleaned_data.get('contact_number', '').strip()
+		if not contact_number.isdigit() or len(contact_number) !=11:
+			raise forms.ValidationError("Enter a valid contact number.")
+		return contact_number
+	
+	def clean_email(self):
+		email = self.cleaned_data.get('email', '').strip()
+		if email:
 			try:
-				visible.field.widget.attrs['class'] = 'form-control '+ str(visible.field.widget.attrs['class'])
-			except:
-				visible.field.widget.attrs['class'] = 'form-control'
+				validate_email(email)
+			except forms.ValidationError:
+				raise forms.ValidationError("Enter a valid email address.")
+		return email
+	
+	def clean_BOD(self):
+		BOD = self.cleaned_data.get('BOD')
+		if BOD and BOD > date.today():
+			raise forms.ValidationError("Date of birth cannot be in the future.")
+		return BOD
+	
+	def clean(self):
+		cleaned_data = super().clean()
+		first_name = cleaned_data.get('first_name')
+		middle_name = cleaned_data.get('middle_name')
+		last_name = cleaned_data.get('last_name')
+		BOD = cleaned_data.get('BOD')
+		if first_name and middle_name and last_name and BOD:
+			exists = details.objects.filter(
+				first_name__iexact=first_name,
+				middle_name__iexact=middle_name,
+				last_name__iexact=last_name,
+				BOD=BOD
+			).exists()
+			if exists:
+				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
+		return cleaned_data
+	
+	def patientCheck(self):
+		first_name = self.cleaned_data['first_name']
+		middle_name = self.cleaned_data['middle_name']
+		last_name = self.cleaned_data['last_name']
+		BOD = self.cleaned_data['BOD']
+		try:
+			patient_exists = details.objects.get(first_name=first_name, middle_name=middle_name, last_name=last_name)
+			return "Email already present."
+		except:
+			return False
+
 
 	class Meta:
 		model = details
