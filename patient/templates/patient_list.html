@@ -14,9 +14,11 @@
 		background-color: white;
 		color: #6417A180;
 		border: 1px solid #6417A180;
+		transition: all 0.3s ease;
 	}
 	.add_patient_btn:hover{
 		background-color: #6417A180;
+		color: white;
 	}
 	#patient_list thead{
 		background-color: #6417A180;
@@ -28,6 +30,24 @@
 	#patient_list{
 		padding-top: 1rem;
 	}
+	#workplace_filter{
+		color: #6417A180;
+		border: 1px solid #6417A180;
+		border-radius: 4px;
+		padding: 6px 12px;
+		margin-top: 8px;
+		transition: all 0.3s ease;
+	}
+	#workplace_filter:hover{
+		color: white;
+		border-color: #6417A1;
+		background-color: #6417A180;
+		box-shadow: 0 2px 4px rgba(100, 23, 161, 0.1);
+	}
+	#workplace_filter:focus{
+		border-color: #6417A1;
+		box-shadow: 0 0 0 0.2rem rgba(100, 23, 161, 0.25);
+	}
 </style>
 {% endblock style %}
 
@@ -35,22 +55,30 @@
 <div class="container-fluid">
 	<br/>
 	<div class="row">
-		<div class="col-sm-8">
+		<div class="col-sm-12">
 			<h2 class="dashboard_welcome_greeting">Patient List</h2>
 		</div>
-		<div class="col-sm-3" style="text-align:right;">
-			<a href="{% url 'PatientCreate' %}" style="text-decoration:none;">
-				<button type="button" class="btn add_patient_btn">Add Patient</button>				
-			</a>
-			
-		</div>
-		<div class="col-sm-1"></div>
 		
 	</div>
 	<br/>
 	<div class="row">
 		<div class="col-sm-1"></div>
 		<div class="col-sm-10">
+			<div class="row mb-3 ">
+				<div class="col-sm-3">
+					<select class="form-control" id="workplace_filter">
+						<option value="">All Workplaces</option>
+						<option value="Jeddah">Jeddah</option>
+						<option value="Riyadh">Riyadh</option>
+					</select>
+				</div>
+				<div class="col-sm-6"></div>
+				<div class="col-sm-3" style="text-align:right;">
+					<a href="{% url 'PatientCreate' %}" style="text-decoration:none;">
+						<button type="button" class="btn add_patient_btn">Add Patient</button>				
+					</a>
+				</div>
+			</div>
 			<table class="table" id="patient_list">
 				<thead>
 					<th>No.</th>
@@ -58,6 +86,7 @@
 					<th>Gender</th>
 					<th>Marital Status</th>
 					<th>Age</th>
+					<th>Workplace</th>
 				</thead>
 				<tbody>
 					{% if list_of_patients %}
@@ -68,6 +97,7 @@
 								<td>{{ patient.gender }}</td>
 								<td>{{ patient.marital_status }}</td>
 								<td>{{ patient.age }}</td>
+								<td>{{ patient.workplace }}</td>
 							</tr>
 						{% endfor %}
 					{% endif %}
@@ -86,6 +116,18 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		let table = new DataTable('#patient_list');
+		
+		// Add workplace filter functionality
+		$('#workplace_filter').on('change', function() {
+			let selectedWorkplace = $(this).val();
+			if (selectedWorkplace === '') {
+				// Show all rows if "All Workplaces" is selected
+				table.column(5).search('').draw();
+			} else {
+				// Filter by selected workplace (column index 5 is the workplace column)
+				table.column(5).search(selectedWorkplace).draw();
+			}
+		});
 	})
 	
 </script>
