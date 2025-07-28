@@ -57,7 +57,7 @@
 					<th>Patient Name</th>
 					<th>Gender</th>
 					<th>Marital Status</th>
-					<th>Birthday</th>
+					<th>Age</th>
 				</thead>
 				<tbody>
 					{% if list_of_patients %}
@@ -67,7 +67,7 @@
 								<td class="patient_list_name"><a href="{% url 'PatientDetailed' patient.pk %}" style="text-decoration:none;">{{ patient.last_name }}, {{ patient.first_name }} {{ patient.middle_name }}</a> </td>
 								<td>{{ patient.gender }}</td>
 								<td>{{ patient.marital_status }}</td>
-								<td>{{ patient.BOD |date:"M d, Y" }}</td>
+								<td>{{ patient.age }}</td>
 							</tr>
 						{% endfor %}
 					{% endif %}

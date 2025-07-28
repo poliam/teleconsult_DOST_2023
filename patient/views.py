@@ -45,12 +45,12 @@ def PatientLists(request):
 		list_of_patients = details.objects.filter(
 			is_delete=0,
 			workplace=workplace_choice  # Filter by the workplace field in related 'details'
-		)
+		).order_by('-create_date')
 	else:
 		# If no specific workplace is set (e.g., for "Doctor", "Triage", or "Admin"), skip the workplace filter
 		list_of_patients = details.objects.filter(
 			is_delete=0
-		)
+		).order_by('-create_date')
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['list_of_patients'] = list_of_patients
