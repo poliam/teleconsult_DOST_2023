@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('patient', '0020_merge_20250727_2145'),
+        ('patient', '0019_considering_event_score_1_16_and_more'),
         ('consultation', '0019_encounter_consulted_by_encounter_update_by_referral'),
     ]
 

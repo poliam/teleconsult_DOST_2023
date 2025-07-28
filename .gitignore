@@ -3,6 +3,8 @@
 /patient/migrations/__pycache__/*
 /Teleconsult/__pycache__/*
 /Teleconsult/settings/__pycache__/*
+/Teleconsult/management/__pycache__/*
+/Teleconsult/management/commands/__pycache__/*
 /appointments/__pycache__/*
 /patient/__pycache__/*
 /appointments/migrations/__pycache__/*
