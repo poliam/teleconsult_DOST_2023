@@ -105,7 +105,7 @@ class AddPatientForm(forms.ModelForm):
 	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
 	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
-	email = forms.CharField(required=True, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 	birth_place = forms.CharField(required=True, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
 	religion = forms.CharField(required=True, label="Religion", widget=forms.TextInput(attrs={'placeholder': 'Religion'}))
 	high_education = forms.CharField(required=True, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
