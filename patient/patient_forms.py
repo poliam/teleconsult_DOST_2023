@@ -144,11 +144,11 @@ class AddPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Last name should only contain letters.")
 		return last_name
 	
-	def clean_contact_number(self):
-		contact_number = self.cleaned_data.get('contact_number', '').strip()
-		if not contact_number.isdigit() or len(contact_number) != 11:
-			raise forms.ValidationError("Enter a valid contact number.")
-		return contact_number
+	# def clean_contact_number(self):
+	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
+	# 	if not contact_number.isdigit() or len(contact_number) != 11:
+	# 		raise forms.ValidationError("Enter a valid contact number.")
+	# 	return contact_number
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '').strip()
@@ -274,11 +274,11 @@ class EditPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Last name should only contain letters.")
 		return last_name
 	
-	def clean_contact_number(self):
-		contact_number = self.cleaned_data.get('contact_number', '').strip()
-		if not contact_number.isdigit() or len(contact_number) !=11:
-			raise forms.ValidationError("Enter a valid contact number.")
-		return contact_number
+	# def clean_contact_number(self):
+	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
+	# 	if not contact_number.isdigit() or len(contact_number) !=11:
+	# 		raise forms.ValidationError("Enter a valid contact number.")
+	# 	return contact_number
 	
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '').strip()
