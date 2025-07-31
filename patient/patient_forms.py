@@ -97,7 +97,7 @@ SECTION_V_CHOICES = (
 class AddPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -132,16 +132,16 @@ class AddPatientForm(forms.ModelForm):
 		first_name = self.cleaned_data.get('first_name', '').strip()
 		if not first_name:
 			raise forms.ValidationError("First name is required.")
-		if not first_name.isalpha():
-			raise forms.ValidationError("First name should only contain letters.")
+		if not first_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("First name should only contain letters and spaces.")
 		return first_name
 
 	def clean_last_name(self):
 		last_name = self.cleaned_data.get('last_name', '').strip()
 		if not last_name:
 			raise forms.ValidationError("Last name is required.")
-		if not last_name.isalpha():
-			raise forms.ValidationError("Last name should only contain letters.")
+		if not last_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("Last name should only contain letters and spaces.")
 		return last_name
 	
 	# def clean_contact_number(self):
@@ -229,7 +229,7 @@ class AddPatientForm(forms.ModelForm):
 class EditPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -263,15 +263,15 @@ class EditPatientForm(forms.ModelForm):
 		first_name = self.cleaned_data.get('first_name', '').strip()
 		if not first_name:
 			raise forms.ValidationError("First name is required.")
-		if not first_name.isalpha():
-			raise forms.ValidationError("First name should only contain letters.")
+		if not first_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("First name should only contain letters and spaces.")
 		return first_name
 	
 	
 	def clean_last_name(self):
 		last_name = self.cleaned_data.get('last_name', '').strip()
-		if not last_name.isalpha():
-			raise forms.ValidationError("Last name should only contain letters.")
+		if not last_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("Last name should only contain letters and spaces.")
 		return last_name
 	
 	# def clean_contact_number(self):
@@ -391,7 +391,7 @@ class EditPatientAddressForm(forms.ModelForm):
 
 class AddRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -422,7 +422,7 @@ class AddRelativesForm(forms.ModelForm):
 
 class EditRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))

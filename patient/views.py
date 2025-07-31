@@ -226,7 +226,7 @@ def PatientDetailed(request, patient_id):
 
 	for history in patientHistory:
 		if isinstance(history.updated_fields, str):
-			history.updated_fields = json.loads(history.updated_fields.replace("'", '"'))
+			history.updated_fields = [history.updated_fields]
 
 	returnVal['patientHistory'] = patientHistory
 
