@@ -21,8 +21,8 @@ YES_NO_TEXT_CHOICES = [
 ]
 
 WORKPLACE_CHOICES = [
-	("Riyadh", "Riyadh"), 
-	("Jeddah", "Jeddah")
+	("Jeddah", "Jeddah"),
+	("Riyadh", "Riyadh") 
 ]
 
 EMPLOYMENT_STATUS_CHOICES = [
