@@ -128,21 +128,21 @@ class AddPatientForm(forms.ModelForm):
 			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
 			
 
-	def clean_first_name(self):
-		first_name = self.cleaned_data.get('first_name', '').strip()
-		if not first_name:
-			raise forms.ValidationError("First name is required.")
-		if not first_name.isalpha():
-			raise forms.ValidationError("First name should only contain letters.")
-		return first_name
+	# def clean_first_name(self):
+	# 	first_name = self.cleaned_data.get('first_name', '').strip()
+	# 	if not first_name:
+	# 		raise forms.ValidationError("First name is required.")
+	# 	if not first_name.isalpha():
+	# 		raise forms.ValidationError("First name should only contain letters.")
+	# 	return first_name
 
-	def clean_last_name(self):
-		last_name = self.cleaned_data.get('last_name', '').strip()
-		if not last_name:
-			raise forms.ValidationError("Last name is required.")
-		if not last_name.isalpha():
-			raise forms.ValidationError("Last name should only contain letters.")
-		return last_name
+	# def clean_last_name(self):
+	# 	last_name = self.cleaned_data.get('last_name', '').strip()
+	# 	if not last_name:
+	# 		raise forms.ValidationError("Last name is required.")
+	# 	if not last_name.isalpha():
+	# 		raise forms.ValidationError("Last name should only contain letters.")
+	# 	return last_name
 	
 	# def clean_contact_number(self):
 	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
@@ -259,20 +259,20 @@ class EditPatientForm(forms.ModelForm):
 			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
 			
 
-	def clean_first_name(self):
-		first_name = self.cleaned_data.get('first_name', '').strip()
-		if not first_name:
-			raise forms.ValidationError("First name is required.")
-		if not first_name.isalpha():
-			raise forms.ValidationError("First name should only contain letters.")
-		return first_name
+	# def clean_first_name(self):
+	# 	first_name = self.cleaned_data.get('first_name', '').strip()
+	# 	if not first_name:
+	# 		raise forms.ValidationError("First name is required.")
+	# 	if not first_name.isalpha():
+	# 		raise forms.ValidationError("First name should only contain letters.")
+	# 	return first_name
 	
 	
-	def clean_last_name(self):
-		last_name = self.cleaned_data.get('last_name', '').strip()
-		if not last_name.isalpha():
-			raise forms.ValidationError("Last name should only contain letters.")
-		return last_name
+	# def clean_last_name(self):
+	# 	last_name = self.cleaned_data.get('last_name', '').strip()
+	# 	if not last_name.isalpha():
+	# 		raise forms.ValidationError("Last name should only contain letters.")
+	# 	return last_name
 	
 	# def clean_contact_number(self):
 	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
