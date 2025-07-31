@@ -215,7 +215,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['userDetails'] = profile_details
 	returnVal['patientDetailed'] = patient_instance
 	returnVal['CURRENT_URL'] = settings.CURRENT_URL
-	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
+	returnVal['age'] = patient_instance.age
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
 	try:
