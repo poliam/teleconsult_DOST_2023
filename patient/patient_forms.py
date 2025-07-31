@@ -103,9 +103,9 @@ class AddPatientForm(forms.ModelForm):
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
 	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
 	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
-	contact_number = forms.CharField(required=True, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
+	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
-	email = forms.CharField(required=True, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 	birth_place = forms.CharField(required=True, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
 	religion = forms.CharField(required=True, label="Religion", widget=forms.TextInput(attrs={'placeholder': 'Religion'}))
 	high_education = forms.CharField(required=True, label="Highest Education Attainment", widget=forms.TextInput(attrs={'placeholder': 'Highest Education Attainment'}))
@@ -144,11 +144,11 @@ class AddPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Last name should only contain letters.")
 		return last_name
 	
-	def clean_contact_number(self):
-		contact_number = self.cleaned_data.get('contact_number', '').strip()
-		if not contact_number.isdigit() or len(contact_number) != 11:
-			raise forms.ValidationError("Enter a valid contact number.")
-		return contact_number
+	# def clean_contact_number(self):
+	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
+	# 	if not contact_number.isdigit() or len(contact_number) != 11:
+	# 		raise forms.ValidationError("Enter a valid contact number.")
+	# 	return contact_number
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '').strip()
@@ -274,11 +274,11 @@ class EditPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Last name should only contain letters.")
 		return last_name
 	
-	def clean_contact_number(self):
-		contact_number = self.cleaned_data.get('contact_number', '').strip()
-		if not contact_number.isdigit() or len(contact_number) !=11:
-			raise forms.ValidationError("Enter a valid contact number.")
-		return contact_number
+	# def clean_contact_number(self):
+	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
+	# 	if not contact_number.isdigit() or len(contact_number) !=11:
+	# 		raise forms.ValidationError("Enter a valid contact number.")
+	# 	return contact_number
 	
 	def clean_email(self):
 		email = self.cleaned_data.get('email', '').strip()
