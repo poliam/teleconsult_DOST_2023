@@ -139,7 +139,7 @@ def PatientEdit(request, patient_id):
 			return redirect("PatientDetailed", patient_id=patient_instance.pk)
 		else:
 			returnVal['error_msg'] = patientform.errors
-			return render(request, 'patient_create.html', returnVal)
+			return render(request, 'patient_edit.html', returnVal)
 	return render(request, 'patient_edit.html', returnVal)
 
 def PatientAuditTrail(request, patient_old_details, formDetails):
