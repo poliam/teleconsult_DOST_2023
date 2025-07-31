@@ -602,6 +602,7 @@
 											<option value="">Search ICD-10 codes...</option>
 										</select>
 										<input type="hidden" id="selected_icd10_code">
+										<input type="hidden" id="Condition">
 										<div class="invalid-feedback condition_invalid">
 											Condition field should not be empty!
 										</div>
@@ -949,7 +950,9 @@
 		$('#icd10_select').on('select2:select', function (e) {
 			var data = e.params.data;
 			$('#selected_icd10_code').val(data.id);
-			$('#Condition').val(data.text);
+			// Extract only the description part (after the " - ")
+			var description = data.text.split(' - ').slice(1).join(' - ');
+			$('#Condition').val(description);
 		});
 	})
 
@@ -1192,28 +1195,66 @@
 	function AddCondition(that){
 		$(that).empty();
 		$(that).append("Processing . . .");
-		var Condition = $("#Condition").val();
-		var icd10_code = $("#selected_icd10_code").val();
-		var condition_details = $("#condition_details").val();
+		var Condition = $("#Condition").val() || "";
+		var icd10_code = $("#selected_icd10_code").val() || "";
+		var condition_details = $("#condition_details").val() || "";
+		
 		$(".condition_invalid").hide();
 		$(".condition_details_invalid").hide();
+		
 		if(Condition == ""){
 			$(".condition_invalid").show();
+			$(that).empty();
+			$(that).append("Add Diagnosis");
+			return false;
 		}
 		if(condition_details == ""){
 			$(".condition_details_invalid").show();
+			$(that).empty();
+			$(that).append("Add Diagnosis");
+			return false;
 		}
-		var condition_html = "";
-		condition_html += "<tr>";
-		condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+ (icd10_code ? "[" + icd10_code + "] " : "") + Condition+"'></td>";
-		condition_html += "<td><textarea readonly='' class='form-control-plaintext' name='condition_detail[]' rows='3'>"+condition_details+"</textarea></td>";
-		condition_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveConditionRow(this);'>Remove</button></td>";
-		condition_html += "</tr>";
-		$(".condition_table_body").append(condition_html);
-		$("#Condition").val("");
-		$("#selected_icd10_code").val("");
-		$("#condition_details").val("");
-		$("#icd10_select").val(null).trigger('change');
+		
+		// Prepare the condition name with ICD-10 code if available
+		var condition_name = (icd10_code ? "[" + icd10_code + "] " : "") + Condition;
+		
+		$.ajax({
+	        type: "POST",
+	        url: "{% url 'CreateDiagnosis' %}",
+	        data: {
+	        	"condition_name": condition_name,
+	        	"condition_details": condition_details,
+	        	"encounter_id": "{{ encounter_details.pk }}",
+	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
+	        },
+	        async:true,
+	        success: function (data) {
+	        	if(data.status_code == 1){
+	        		var condition_html = "";
+					condition_html += "<tr>";
+					condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+ condition_name +"'></td>";
+					condition_html += "<td><textarea readonly='' class='form-control-plaintext' rows='3'>"+condition_details+"</textarea></td>";
+					condition_html += "<td><button type='button' class='btn btn-outline-danger' attr_id='"+data.diagnosis_id+"' onclick='RemoveConditionRow(this);'>Remove</button></td>";
+					condition_html += "</tr>";
+					$(".condition_table_body").append(condition_html);
+					$("#Condition").val("");
+					$("#selected_icd10_code").val("");
+					$("#condition_details").val("");
+					$("#icd10_select").val(null).trigger('change');
+					$(that).empty();
+					$(that).append("Add Diagnosis");
+	        	}else{
+	        		alert(data.error_msg);
+	        		$(that).empty();
+					$(that).append("Add Diagnosis");
+	        	}
+	        },
+	        error: function (e) {
+	           alert("Error saving diagnosis. Please try again.");
+	           $(that).empty();
+				$(that).append("Add Diagnosis");
+	        }
+	    })
 	}
 
 	function AddHOPI(that){
