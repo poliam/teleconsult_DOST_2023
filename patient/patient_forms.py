@@ -302,13 +302,17 @@ class EditPatientForm(forms.ModelForm):
 		last_name = cleaned_data.get('last_name')
 		BOD = cleaned_data.get('BOD')
 		if first_name and middle_name and last_name and BOD:
-			exists = details.objects.filter(
+			# Exclude the current instance when checking for duplicates during editing
+			duplicate_query = details.objects.filter(
 				first_name__iexact=first_name,
 				middle_name__iexact=middle_name,
 				last_name__iexact=last_name,
 				BOD=BOD
-			).exists()
-			if exists:
+			)
+			if self.instance and self.instance.pk:
+				duplicate_query = duplicate_query.exclude(pk=self.instance.pk)
+			
+			if duplicate_query.exists():
 				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
 		return cleaned_data
 	
