@@ -295,22 +295,22 @@ class EditPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Date of birth cannot be in the future.")
 		return BOD
 	
-	def clean(self):
-		cleaned_data = super().clean()
-		first_name = cleaned_data.get('first_name')
-		middle_name = cleaned_data.get('middle_name')
-		last_name = cleaned_data.get('last_name')
-		BOD = cleaned_data.get('BOD')
-		if first_name and middle_name and last_name and BOD:
-			exists = details.objects.filter(
-				first_name__iexact=first_name,
-				middle_name__iexact=middle_name,
-				last_name__iexact=last_name,
-				BOD=BOD
-			).exists()
-			if exists:
-				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
-		return cleaned_data
+	# def clean(self):
+	# 	cleaned_data = super().clean()
+	# 	first_name = cleaned_data.get('first_name')
+	# 	middle_name = cleaned_data.get('middle_name')
+	# 	last_name = cleaned_data.get('last_name')
+	# 	BOD = cleaned_data.get('BOD')
+	# 	if first_name and middle_name and last_name and BOD:
+	# 		exists = details.objects.filter(
+	# 			first_name__iexact=first_name,
+	# 			middle_name__iexact=middle_name,
+	# 			last_name__iexact=last_name,
+	# 			BOD=BOD
+	# 		).exists()
+	# 		if exists:
+	# 			raise forms.ValidationError("A patient with the same name and date of birth already exists.")
+	# 	return cleaned_data
 	
 	def patientCheck(self):
 		first_name = self.cleaned_data['first_name']
