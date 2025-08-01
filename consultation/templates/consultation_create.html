@@ -570,6 +570,7 @@
 												<option value="">Search ICD-10 codes...</option>
 											</select>
 											<input type="hidden" id="selected_icd10_code">
+											<input type="hidden" id="Condition">
 											<div class="invalid-feedback condition_invalid">
 												Condition field should not be empty!
 											</div>
@@ -847,7 +848,9 @@
 		$('#icd10_select').on('select2:select', function (e) {
 			var data = e.params.data;
 			$('#selected_icd10_code').val(data.id);
-			$('#Condition').val(data.text);
+			// Extract only the description part (after the " - ")
+			var description = data.text.split(' - ').slice(1).join(' - ');
+			$('#Condition').val(description);
 		});
 	});
 
@@ -917,17 +920,23 @@
 	}
 
 	function AddCondition(){
-		var Condition = $("#Condition").val();
-		var icd10_code = $("#selected_icd10_code").val();
-		var condition_details = $("#condition_details").val();
+		var Condition = $("#Condition").val() || "";
+		var icd10_code = $("#selected_icd10_code").val() || "";
+		var condition_details = $("#condition_details").val() || "";
+		
 		$(".condition_invalid").hide();
 		$(".condition_details_invalid").hide();
+		
 		if(Condition == ""){
 			$(".condition_invalid").show();
+			return false;
 		}
 		if(condition_details == ""){
 			$(".condition_details_invalid").show();
+			return false;
 		}
+		
+		// Add diagnosis to form table for submission with the main form
 		var condition_html = "";
 		condition_html += "<tr>";
 		condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+ (icd10_code ? "[" + icd10_code + "] " : "") + Condition+"'></td>";
@@ -935,8 +944,12 @@
 		condition_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveConditionRow(this);'>Remove</button></td>";
 		condition_html += "</tr>";
 		$(".condition_table_body").append(condition_html);
+		
+		// Clear form fields
 		$("#Condition").val("");
 		$("#condition_details").val("");
+		$("#selected_icd10_code").val("");
+		$("#icd10_select").val(null).trigger('change');
 	}
 
 	function AddHOPI(){

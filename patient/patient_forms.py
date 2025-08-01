@@ -21,8 +21,8 @@ YES_NO_TEXT_CHOICES = [
 ]
 
 WORKPLACE_CHOICES = [
-	("Riyadh", "Riyadh"), 
-	("Jeddah", "Jeddah")
+	("Jeddah", "Jeddah"),
+	("Riyadh", "Riyadh") 
 ]
 
 EMPLOYMENT_STATUS_CHOICES = [
@@ -97,7 +97,7 @@ SECTION_V_CHOICES = (
 class AddPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -128,21 +128,21 @@ class AddPatientForm(forms.ModelForm):
 			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
 			
 
-	# def clean_first_name(self):
-	# 	first_name = self.cleaned_data.get('first_name', '').strip()
-	# 	if not first_name:
-	# 		raise forms.ValidationError("First name is required.")
-	# 	if not first_name.isalpha():
-	# 		raise forms.ValidationError("First name should only contain letters.")
-	# 	return first_name
+	def clean_first_name(self):
+		first_name = self.cleaned_data.get('first_name', '').strip()
+		if not first_name:
+			raise forms.ValidationError("First name is required.")
+		if not first_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("First name should only contain letters and spaces.")
+		return first_name
 
-	# def clean_last_name(self):
-	# 	last_name = self.cleaned_data.get('last_name', '').strip()
-	# 	if not last_name:
-	# 		raise forms.ValidationError("Last name is required.")
-	# 	if not last_name.isalpha():
-	# 		raise forms.ValidationError("Last name should only contain letters.")
-	# 	return last_name
+	def clean_last_name(self):
+		last_name = self.cleaned_data.get('last_name', '').strip()
+		if not last_name:
+			raise forms.ValidationError("Last name is required.")
+		if not last_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("Last name should only contain letters and spaces.")
+		return last_name
 	
 	# def clean_contact_number(self):
 	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
@@ -229,7 +229,7 @@ class AddPatientForm(forms.ModelForm):
 class EditPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -259,20 +259,20 @@ class EditPatientForm(forms.ModelForm):
 			field.widget.attrs['class'] = f"{base_classes} {css_classes}".strip()
 			
 
-	# def clean_first_name(self):
-	# 	first_name = self.cleaned_data.get('first_name', '').strip()
-	# 	if not first_name:
-	# 		raise forms.ValidationError("First name is required.")
-	# 	if not first_name.isalpha():
-	# 		raise forms.ValidationError("First name should only contain letters.")
-	# 	return first_name
+	def clean_first_name(self):
+		first_name = self.cleaned_data.get('first_name', '').strip()
+		if not first_name:
+			raise forms.ValidationError("First name is required.")
+		if not first_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("First name should only contain letters and spaces.")
+		return first_name
 	
 	
-	# def clean_last_name(self):
-	# 	last_name = self.cleaned_data.get('last_name', '').strip()
-	# 	if not last_name.isalpha():
-	# 		raise forms.ValidationError("Last name should only contain letters.")
-	# 	return last_name
+	def clean_last_name(self):
+		last_name = self.cleaned_data.get('last_name', '').strip()
+		if not last_name.replace(' ', '').isalpha():
+			raise forms.ValidationError("Last name should only contain letters and spaces.")
+		return last_name
 	
 	# def clean_contact_number(self):
 	# 	contact_number = self.cleaned_data.get('contact_number', '').strip()
@@ -295,22 +295,26 @@ class EditPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Date of birth cannot be in the future.")
 		return BOD
 	
-	# def clean(self):
-	# 	cleaned_data = super().clean()
-	# 	first_name = cleaned_data.get('first_name')
-	# 	middle_name = cleaned_data.get('middle_name')
-	# 	last_name = cleaned_data.get('last_name')
-	# 	BOD = cleaned_data.get('BOD')
-	# 	if first_name and middle_name and last_name and BOD:
-	# 		exists = details.objects.filter(
-	# 			first_name__iexact=first_name,
-	# 			middle_name__iexact=middle_name,
-	# 			last_name__iexact=last_name,
-	# 			BOD=BOD
-	# 		).exists()
-	# 		if exists:
-	# 			raise forms.ValidationError("A patient with the same name and date of birth already exists.")
-	# 	return cleaned_data
+	def clean(self):
+		cleaned_data = super().clean()
+		first_name = cleaned_data.get('first_name')
+		middle_name = cleaned_data.get('middle_name')
+		last_name = cleaned_data.get('last_name')
+		BOD = cleaned_data.get('BOD')
+		if first_name and middle_name and last_name and BOD:
+			# Exclude the current instance when checking for duplicates during editing
+			duplicate_query = details.objects.filter(
+				first_name__iexact=first_name,
+				middle_name__iexact=middle_name,
+				last_name__iexact=last_name,
+				BOD=BOD
+			)
+			if self.instance and self.instance.pk:
+				duplicate_query = duplicate_query.exclude(pk=self.instance.pk)
+			
+			if duplicate_query.exists():
+				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
+		return cleaned_data
 	
 	def patientCheck(self):
 		first_name = self.cleaned_data['first_name']
@@ -391,7 +395,7 @@ class EditPatientAddressForm(forms.ModelForm):
 
 class AddRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
@@ -422,7 +426,7 @@ class AddRelativesForm(forms.ModelForm):
 
 class EditRelativesForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-	middle_name = forms.CharField(required=True, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
+	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial=0)
 	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
