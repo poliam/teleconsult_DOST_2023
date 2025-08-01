@@ -16,6 +16,7 @@ YES_NO_CHOICES = [
 ]
 
 YES_NO_TEXT_CHOICES = [
+	("", "- - Select Status - -"),
 	("No", "No"), 
 	("Yes", "Yes")
 ]
@@ -26,6 +27,7 @@ WORKPLACE_CHOICES = [
 ]
 
 EMPLOYMENT_STATUS_CHOICES = [
+	("", "- - Select Status - -"),
 	("Currently Employed", "Currently Employed"), 
 	("Previously Employed", "Previously Employed"),
 	("Unemployed", "Unemployed")
@@ -99,10 +101,9 @@ class AddPatientForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
-	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
+	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial="")
 	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
-	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
+	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
 	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
@@ -113,9 +114,9 @@ class AddPatientForm(forms.ModelForm):
 	nationality = forms.CharField(required=True, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
 	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=True, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
-	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
-	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
-	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)
+	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
+	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES, initial="")
+	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES, initial="")
 	
 
 	def __init__(self, *args, **kwargs):
@@ -200,7 +201,6 @@ class AddPatientForm(forms.ModelForm):
 		new_patient.middle_name = self.cleaned_data['middle_name']
 		new_patient.last_name = self.cleaned_data['last_name']
 		new_patient.gender = self.cleaned_data['gender']
-		new_patient.gender_indentity = self.cleaned_data['gender_indentity']
 		new_patient.BOD = self.cleaned_data['BOD']
 		new_patient.marital_status = self.cleaned_data['marital_status']
 		new_patient.contact_number = self.cleaned_data['contact_number']
@@ -224,17 +224,16 @@ class AddPatientForm(forms.ModelForm):
 
 	class Meta:
 		model = details
-		fields = ['profile_picture','first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
+		fields = ['profile_picture','first_name', 'middle_name', 'last_name', 'gender', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
 
 class EditPatientForm(forms.ModelForm):
 	profile_picture = forms.ImageField(required=False, label='Choose your image')
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial=0)
-	gender_indentity = forms.CharField(required=False, label="Gender Identity", widget=forms.TextInput(attrs={'placeholder': 'Gender Identity'}))
+	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial="")
 	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
-	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial=0)
+	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
 	contact_number = forms.CharField(required=True, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
@@ -245,9 +244,9 @@ class EditPatientForm(forms.ModelForm):
 	nationality = forms.CharField(required=True, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
 	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=True, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
-	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES)
-	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES)
-	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES)
+	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
+	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES, initial="")
+	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES, initial="")
 
 	def __init__(self, *args, **kwargs):
 		super(EditPatientForm, self).__init__(*args, **kwargs)
@@ -330,7 +329,7 @@ class EditPatientForm(forms.ModelForm):
 
 	class Meta:
 		model = details
-		fields = ['profile_picture', 'first_name', 'middle_name', 'last_name', 'gender', 'gender_indentity', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
+		fields = ['profile_picture', 'first_name', 'middle_name', 'last_name', 'gender', 'BOD','marital_status', 'contact_number', 'alias', 'email', 'birth_place', 'religion', 'high_education', 'citizenship', 'nationality', 'workplace', 'occupation', 'employment_status', 'mental_health_history', 'access_to_mental_health']
 
 class AddPatientAddressForm(forms.ModelForm):
 	current_street = forms.CharField(required=False, label="Street", widget=forms.TextInput(attrs={'placeholder': 'Street'}))
