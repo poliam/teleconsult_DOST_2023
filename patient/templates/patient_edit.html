@@ -26,8 +26,7 @@
 	</div>
 	<br/>
 	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			<form id="Create_patient" method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="card">
@@ -39,6 +38,14 @@
 							<style>
 								.required-star {
 									color: red;
+								}
+								.field-error {
+									border: 2px solid #dc3545 !important;
+									box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+								}
+								.field-error:focus {
+									border-color: #dc3545 !important;
+									box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
 								}
 							</style>
   							<div class="col-sm-12">
@@ -72,13 +79,19 @@
     						<div class="col-sm-4">
     							<div class="form-group">
     								{{ form.last_name.label }}{% if form.last_name.field.required %}<span class="required-star">*</span>{% endif %}
-    								{{ form.last_name }}
+    								{{ form.last_name}}
+									{% if form.last_name.errors %}
+										<div class="text-danger">{{ form.last_name.errors }}</div>
+									{% endif %}
   								</div>
     						</div>
     						<div class="col-sm-4">
     							<div class="form-group">
-    								{{ form.gender.label }}{% if form.gender.field.required %}<span class="required-star">*</span>{% endif %}
+    								{{ form.gender.label }}<span class="required-star">*</span>{% if form.gender.field.required %}<{% endif %}
     								{{ form.gender }}
+									{% if form.gender.errors %}
+										<div class="text-danger">{{ form.gender.errors }}</div>
+									{% endif %}
   								</div>
     						</div>
     						<div class="col-sm-4">
@@ -115,6 +128,10 @@
     							<div class="form-group">
     								{{ form.contact_number.label }}{% if form.contact_number.field.required %}<span class="required-star">*</span>{% endif %}
     								{{ form.contact_number }}
+    								<div class="contact-error-message text-danger" style="display: none;">Contact number must be exactly 11 digits.</div>
+									{% if form.contact_number.errors %}
+										<div class="text-danger">{{ form.contact_number.errors }}</div>
+									{% endif %}
   								</div>
     						</div>
     						<div class="col-sm-4">
@@ -267,7 +284,6 @@
 				<br/><br/>
 			</form>
 		</div>
-		<div class="col-sm-1"></div>
 	</div>
 </div>
 {% endblock content %}
@@ -319,6 +335,125 @@
     	const occupation = [ "household service worker", "skilled worker", "homemaker", "none"];
     	$("#id_occupation").autocomplete({
     		source: occupation
+    	});
+
+    	// Validation functions
+    	function validateFirstName() {
+    		const firstNameField = $("#id_first_name");
+    		const firstNameValue = firstNameField.val().trim();
+    		
+    		// Check if field is empty, has errors, or contains numbers
+    		if (firstNameValue === "" || 
+    			firstNameField.closest('.form-group').find('.text-danger').length > 0 ||
+    			!/^[a-zA-Z\s]+$/.test(firstNameValue)) {
+    			firstNameField.addClass('field-error');
+    		} else {
+    			firstNameField.removeClass('field-error');
+    		}
+    	}
+
+    	function validateLastName() {
+    		const lastNameField = $("#id_last_name");
+    		const lastNameValue = lastNameField.val().trim();
+    		
+    		// Check if field is empty, has errors, or contains numbers
+    		if (lastNameValue === "" || 
+    			lastNameField.closest('.form-group').find('.text-danger').length > 0 ||
+    			!/^[a-zA-Z\s]+$/.test(lastNameValue)) {
+    			lastNameField.addClass('field-error');
+    		} else {
+    			lastNameField.removeClass('field-error');
+    		}
+    	}
+
+    	function validateContactNumber() {
+    		const contactField = $("#id_contact_number");
+    		const contactValue = contactField.val().trim();
+    		const errorMessage = contactField.closest('.form-group').find('.contact-error-message');
+    		
+    		// Only show warning if field has content and is not 11 digits
+    		// Don't block form submission, just provide visual feedback
+    		if (contactValue !== "" && (!/^\d+$/.test(contactValue) || contactValue.length !== 11)) {
+    			contactField.addClass('field-error');
+    			errorMessage.show();
+    		} else {
+    			contactField.removeClass('field-error');
+    			errorMessage.hide();
+    		}
+    	}
+
+    	// Apply error styling on page load if there are errors
+    	$(document).ready(function() {
+    		validateFirstName();
+    		validateLastName();
+    		validateContactNumber();
+    	});
+
+    	// Add real-time validation
+    	$("#id_first_name").on('blur keyup', function() {
+    		validateFirstName();
+    	});
+
+    	$("#id_last_name").on('blur keyup', function() {
+    		validateLastName();
+    	});
+
+    	$("#id_contact_number").on('blur keyup', function() {
+    		validateContactNumber();
+    	});
+
+    	// Form submission validation - prevent submission if validation fails
+    	$("#Create_patient").on('submit', function(e) {
+    		validateFirstName();
+    		validateLastName();
+    		validateContactNumber();
+    		
+    		const firstNameField = $("#id_first_name");
+    		const lastNameField = $("#id_last_name");
+    		const contactField = $("#id_contact_number");
+    		
+    		let hasErrors = false;
+    		let firstErrorField = null;
+    		
+    		// Check first name
+    		if (firstNameField.val().trim() === "") {
+    			firstNameField.addClass('field-error');
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = firstNameField;
+    		}
+    		
+    		// Check last name
+    		if (lastNameField.val().trim() === "") {
+    			lastNameField.addClass('field-error');
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = lastNameField;
+    		}
+    		
+    		// Check contact number
+    		const contactValue = contactField.val().trim();
+    		if (contactValue !== "" && (!/^\d+$/.test(contactValue) || contactValue.length !== 11)) {
+    			contactField.addClass('field-error');
+    			contactField.closest('.form-group').find('.contact-error-message').show();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = contactField;
+    		}
+    		
+    		// Prevent form submission if there are validation errors
+    		if (hasErrors) {
+    			e.preventDefault();
+    			
+    			// Scroll to the first error field and focus on it
+    			if (firstErrorField) {
+    				$('html, body').animate({
+    					scrollTop: firstErrorField.offset().top - 100
+    				}, 500, function() {
+    					// Focus on the field after scrolling
+    					firstErrorField.focus();
+    				});
+    			}
+    			
+    			return false;
+    		}
     	});
 	
 </script>

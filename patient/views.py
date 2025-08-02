@@ -80,20 +80,16 @@ def PatientCreate(request):
 		returnVal['form'] = patientform
 		returnVal['FormAddPatientAddress'] = AddressForm
 		if patientform.is_valid() and AddressForm.is_valid():
-			if patientform.patientCheck():
-				returnVal['error_msg'] = patientform.patientCheck()
-				return render(request, 'patient_create.html', returnVal)
-			else:
-				patient_instance = patientform.save()
-				if patient_instance:
-					AddressFormPost = AddressForm.save(commit=False)
-					AddressFormPost.details = patient_instance
-					AddressFormPost.save()
+			patient_instance = patientform.save()
+			if patient_instance:
+				AddressFormPost = AddressForm.save(commit=False)
+				AddressFormPost.details = patient_instance
+				AddressFormPost.save()
 
-					return redirect("PatientDetailed", patient_id=patient_instance.pk)
-				else:
-					returnVal['error_msg'] = "error on saving patient!"
-					return render(request, 'patient_create.html', returnVal)
+				return redirect("PatientDetailed", patient_id=patient_instance.pk)
+			else:
+				returnVal['error_msg'] = "error on saving patient!"
+				return render(request, 'patient_create.html', returnVal)
 
 		else:
 			returnVal['error_msg'] = patientform.errors

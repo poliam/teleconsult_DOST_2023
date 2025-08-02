@@ -29,8 +29,7 @@
 	</div>
 	<br/>
 	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			{% if error_msg %}
 				<div class="alert alert-warning" role="alert">
 				  {{ error_msg }}
@@ -59,6 +58,14 @@
 							<style>
 								.required-star {
 									color: red;
+								}
+								.field-error {
+									border: 2px solid #dc3545 !important;
+									box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+								}
+								.field-error:focus {
+									border-color: #dc3545 !important;
+									box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
 								}
 							</style>
 							<div class="col-sm-4">
@@ -90,8 +97,9 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-									{{ form.gender.label }}{% if form.gender.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.gender.label }}<span class="required-star">*</span>
 									{{ form.gender }}
+									<div class="gender-error-message text-danger" style="display: none;">Please select a gender.</div>
 									{% if form.gender.errors %}
 										<div class="text-danger">{{ form.gender.errors }}</div>
 									{% endif %}
@@ -101,6 +109,7 @@
 								<div class="form-group">
 									{{ form.BOD.label }}{% if form.BOD.field.required %}<span class="required-star">*</span>{% endif %}
 									{{ form.BOD }}
+									<div class="birthday-error-message text-danger" style="display: none;">Please select a date of birth.</div>
 									{% if form.BOD.errors %}
 										<div class="text-danger">{{ form.BOD.errors }}</div>
 									{% endif %}
@@ -119,6 +128,7 @@
 								<div class="form-group">
 									{{ form.mental_health_history.label }}{% if form.mental_health_history.field.required %}<span class="required-star">*</span>{% endif %}
 									{{ form.mental_health_history }}
+									<div class="mental-health-history-error-message text-danger" style="display: none;">Please select a mental health history option.</div>
 									{% if form.mental_health_history.errors %}
 										<div class="text-danger">{{ form.mental_health_history.errors }}</div>
 									{% endif %}
@@ -128,6 +138,7 @@
 								<div class="form-group">
 									{{ form.access_to_mental_health.label }}{% if form.access_to_mental_health.field.required %}<span class="required-star">*</span>{% endif %}
 									{{ form.access_to_mental_health }}
+									<div class="access-mental-health-error-message text-danger" style="display: none;">Please select an access to mental health option.</div>
 									{% if form.access_to_mental_health.errors %}
 										<div class="text-danger">{{ form.access_to_mental_health.errors }}</div>
 									{% endif %}
@@ -144,8 +155,9 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-									{{ form.contact_number.label }}{% if form.contact_number.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.contact_number.label }}<span class="required-star">*</span>{% if form.contact_number.field.required %}{% endif %}
 									{{ form.contact_number }}
+									<div class="contact-error-message text-danger" style="display: none;">Contact number must be exactly 11 digits.</div>
 									{% if form.contact_number.errors %}
 										<div class="text-danger">{{ form.contact_number.errors }}</div>
 									{% endif %}
@@ -162,7 +174,7 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-									{{ form.email.label }}{% if form.email.field.required %}<span class="required-star">*</span>{% endif %}
+									{{ form.email.label }}<span class="required-star">*</span>{% if form.email.field.required %}{% endif %}
 									{{ form.email }}
 									{% if form.email.errors %}
 										<div class="text-danger">{{ form.email.errors }}</div>
@@ -337,7 +349,6 @@
 				<br/><br/>
 			</form>
 		</div>
-		<div class="col-sm-1"></div>
 	</div>
 </div>
 {% endblock content %}
@@ -390,6 +401,364 @@
     	const occupation = [ "household service worker", "skilled worker", "homemaker", "none"];
     	$("#id_occupation").autocomplete({
     		source: occupation
+    	});
+
+    	// Validation functions
+    	function validateFirstName() {
+    		const firstNameField = $("#id_first_name");
+    		const firstNameValue = firstNameField.val().trim();
+    		
+    		// Check if field is empty, has errors, or contains numbers
+    		if (firstNameValue === "" || 
+    			firstNameField.closest('.form-group').find('.text-danger').length > 0 ||
+    			!/^[a-zA-Z\s]+$/.test(firstNameValue)) {
+    			firstNameField.addClass('field-error');
+    		} else {
+    			firstNameField.removeClass('field-error');
+    		}
+    	}
+
+    	function validateLastName() {
+    		const lastNameField = $("#id_last_name");
+    		const lastNameValue = lastNameField.val().trim();
+    		
+    		// Check if field is empty, has errors, or contains numbers
+    		if (lastNameValue === "" || 
+    			lastNameField.closest('.form-group').find('.text-danger').length > 0 ||
+    			!/^[a-zA-Z\s]+$/.test(lastNameValue)) {
+    			lastNameField.addClass('field-error');
+    		} else {
+    			lastNameField.removeClass('field-error');
+    		}
+    	}
+
+    	function validateContactNumber() {
+    		const contactField = $("#id_contact_number");
+    		const contactValue = contactField.val().trim();
+    		const errorMessage = contactField.closest('.form-group').find('.contact-error-message');
+    		
+    		// Only validate if user has interacted with the field or there's content
+    		if (contactValue === "" && !fieldsInteracted.contact) {
+    			// Don't show error for empty field if user hasn't interacted with it
+    			contactField.removeClass('field-error');
+    			errorMessage.hide();
+    			return true; // Allow empty if not interacted
+    		}
+    		// Check if field is empty after user interaction
+    		else if (contactValue === "" && fieldsInteracted.contact) {
+    			contactField.addClass('field-error');
+    			errorMessage.text("Contact number is required.");
+    			errorMessage.show();
+    			return false;
+    		} 
+    		// Check if contains non-numeric characters
+    		else if (!/^\d+$/.test(contactValue)) {
+    			contactField.addClass('field-error');
+    			errorMessage.text("Contact number must contain only numbers.");
+    			errorMessage.show();
+    			return false;
+    		}
+    		// Check if length is not exactly 11 digits
+    		else if (contactValue.length !== 11) {
+    			contactField.addClass('field-error');
+    			errorMessage.text("Contact number must be exactly 11 digits.");
+    			errorMessage.show();
+    			return false;
+    		} 
+    		else {
+    			contactField.removeClass('field-error');
+    			errorMessage.hide();
+    			return true;
+    		}
+    	}
+
+    	function validateGender() {
+    		const genderField = $("#id_gender");
+    		const genderValue = genderField.val();
+    		const errorMessage = genderField.closest('.form-group').find('.gender-error-message');
+    		
+    		// Check if gender is not selected (empty or null)
+    		if (!genderValue || genderValue === "" || genderValue === "null") {
+    			genderField.addClass('field-error');
+    			errorMessage.show();
+    		} else {
+    			genderField.removeClass('field-error');
+    			errorMessage.hide();
+    		}
+    	}
+
+    	function validateBirthday() {
+    		const birthdayField = $("#id_BOD");
+    		const birthdayValue = birthdayField.val().trim();
+    		const errorMessage = birthdayField.closest('.form-group').find('.birthday-error-message');
+    		
+    		// Check if birthday is empty
+    		if (birthdayValue === "") {
+    			birthdayField.addClass('field-error');
+    			errorMessage.show();
+    		} else {
+    			birthdayField.removeClass('field-error');
+    			errorMessage.hide();
+    		}
+    	}
+
+    	function validateMentalHealthHistory() {
+    		const mentalHealthField = $("#id_mental_health_history");
+    		const mentalHealthValue = mentalHealthField.val();
+    		const errorMessage = mentalHealthField.closest('.form-group').find('.mental-health-history-error-message');
+    		
+    		// Check if mental health history is not selected (empty or null)
+    		if (!mentalHealthValue || mentalHealthValue === "" || mentalHealthValue === "null") {
+    			mentalHealthField.addClass('field-error');
+    			errorMessage.show();
+    		} else {
+    			mentalHealthField.removeClass('field-error');
+    			errorMessage.hide();
+    		}
+    	}
+
+    	function validateAccessToMentalHealth() {
+    		const accessMentalHealthField = $("#id_access_to_mental_health");
+    		const accessMentalHealthValue = accessMentalHealthField.val();
+    		const errorMessage = accessMentalHealthField.closest('.form-group').find('.access-mental-health-error-message');
+    		
+    		// Check if access to mental health is not selected (empty or null)
+    		if (!accessMentalHealthValue || accessMentalHealthValue === "" || accessMentalHealthValue === "null") {
+    			accessMentalHealthField.addClass('field-error');
+    			errorMessage.show();
+    		} else {
+    			accessMentalHealthField.removeClass('field-error');
+    			errorMessage.hide();
+    		}
+    	}
+
+    	function validateEmail() {
+    		const emailField = $("#id_email");
+    		const emailValue = emailField.val().trim();
+    		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    		
+    		// Only validate if user has interacted with the field or there's content
+    		if (emailValue === "" && !fieldsInteracted.email) {
+    			// Don't show error for empty field if user hasn't interacted with it
+    			emailField.removeClass('field-error');
+    			return true; // Allow empty if not interacted
+    		}
+    		// Check if field is empty after user interaction
+    		else if (emailValue === "" && fieldsInteracted.email) {
+    			emailField.addClass('field-error');
+    			return false;
+    		}
+    		// Check if email format is valid
+    		else if (!emailRegex.test(emailValue)) {
+    			emailField.addClass('field-error');
+    			return false;
+    		} 
+    		else {
+    			emailField.removeClass('field-error');
+    			return true;
+    		}
+    	}
+
+    	// Apply error styling on page load only if there are Django form errors
+    	$(document).ready(function() {
+    		// Only validate fields that have existing Django form errors
+    		if ($("#id_first_name").closest('.form-group').find('.text-danger').length > 0) {
+    			validateFirstName();
+    		}
+    		if ($("#id_last_name").closest('.form-group').find('.text-danger').length > 0) {
+    			validateLastName();
+    		}
+    		if ($("#id_contact_number").closest('.form-group').find('.text-danger').length > 0) {
+    			validateContactNumber();
+    		}
+    		if ($("#id_email").closest('.form-group').find('.text-danger').length > 0) {
+    			validateEmail();
+    		}
+    		// Gender and birthday validation removed from page load - only triggered by user interaction
+    	});
+
+    	// Add real-time validation
+    	$("#id_first_name").on('blur keyup', function() {
+    		validateFirstName();
+    	});
+
+    	$("#id_last_name").on('blur keyup', function() {
+    		validateLastName();
+    	});
+
+    	// Contact number validation - real-time validation
+    	$("#id_contact_number").on('input blur keyup', function() {
+    		fieldsInteracted.contact = true;
+    		validateContactNumber();
+    	});
+
+    	// Email validation - real-time validation
+    	$("#id_email").on('input blur keyup', function() {
+    		fieldsInteracted.email = true;
+    		validateEmail();
+    	});
+
+    	// Prevent non-numeric input in contact number field
+    	$("#id_contact_number").on('keypress', function(e) {
+    		// Allow only numbers, backspace, delete, tab, escape, enter
+    		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+    			// Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
+    			(e.keyCode === 65 && e.ctrlKey === true) ||
+    			(e.keyCode === 67 && e.ctrlKey === true) ||
+    			(e.keyCode === 86 && e.ctrlKey === true) ||
+    			(e.keyCode === 88 && e.ctrlKey === true) ||
+    			(e.keyCode === 90 && e.ctrlKey === true)) {
+    			return;
+    		}
+    		// Ensure that it is a number and stop the keypress
+    		if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+    			e.preventDefault();
+    		}
+    	});
+
+    	// Contact number validation removed from real-time - only on form submission
+
+    	// Gender and birthday validation only on user interaction
+    	$("#id_gender").on('change blur', function() {
+    		fieldsInteracted.gender = true;
+    		validateGender();
+    	});
+
+    	// Mental Health fields validation only on user interaction
+    	$("#id_mental_health_history").on('change blur', function() {
+    		fieldsInteracted.mentalHealthHistory = true;
+    		validateMentalHealthHistory();
+    	});
+
+    	$("#id_access_to_mental_health").on('change blur', function() {
+    		fieldsInteracted.accessToMentalHealth = true;
+    		validateAccessToMentalHealth();
+    	});
+
+    	// Email validation only on user interaction
+    	$("#id_email").on('input blur keyup', function() {
+    		fieldsInteracted.email = true;
+    		validateEmail();
+    	});
+
+    	// Track which fields have been interacted with
+    	let fieldsInteracted = {
+    		firstName: false,
+    		lastName: false,
+    		gender: false,
+    		birthday: false,
+    		contact: false,
+    		mentalHealthHistory: false,
+    		accessToMentalHealth: false,
+    		email: false
+    	};
+
+    	// Update interaction tracking for first name, last name, and contact number only
+    	$("#id_first_name").on('focus', function() { fieldsInteracted.firstName = true; });
+    	$("#id_last_name").on('focus', function() { fieldsInteracted.lastName = true; });
+    	$("#id_contact_number").on('focus', function() { fieldsInteracted.contact = true; });
+    	$("#id_email").on('focus', function() { fieldsInteracted.email = true; });
+    	// Gender and birthday interaction tracking is handled in their respective event handlers above
+
+    	// Form submission validation - only validate fields that have been interacted with
+    	$("#Create_patient").on('submit', function(e) {
+    		const firstNameField = $("#id_first_name");
+    		const lastNameField = $("#id_last_name");
+    		const contactField = $("#id_contact_number");
+    		const genderField = $("#id_gender");
+    		const birthdayField = $("#id_BOD");
+    		const mentalHealthHistoryField = $("#id_mental_health_history");
+    		const accessToMentalHealthField = $("#id_access_to_mental_health");
+    		const emailField = $("#id_email");
+    		
+    		let hasErrors = false;
+    		let firstErrorField = null;
+    		
+    		// Check first name - validate if empty
+    		if (firstNameField.val().trim() === "") {
+    			validateFirstName();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = firstNameField;
+    		}
+    		
+    		// Check last name - validate if empty
+    		if (lastNameField.val().trim() === "") {
+    			validateLastName();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = lastNameField;
+    		}
+
+    		// Check email - always validate and show error
+    		const emailValue = emailField.val().trim();
+    		if (emailValue === "") {
+    			fieldsInteracted.email = true;
+    			validateEmail();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = emailField;
+    		} else if (fieldsInteracted.email || emailValue !== "") {
+    			if (!validateEmail()) {
+    				hasErrors = true;
+    				if (!firstErrorField) firstErrorField = emailField;
+    			}
+    		}
+
+    		// Check gender - only show validation if user has interacted with it
+    		const genderValue = genderField.val();
+    		if (fieldsInteracted.gender && (!genderValue || genderValue === "" || genderValue === "null")) {
+    			validateGender();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = genderField;
+    		}
+
+    		// Check birthday - only show validation if user has interacted with it
+    		const birthdayValue = birthdayField.val().trim();
+    		if (fieldsInteracted.birthday && birthdayValue === "") {
+    			validateBirthday();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = birthdayField;
+    		}
+
+    		// Check mental health history - always validate and show error
+    		const mentalHealthHistoryValue = mentalHealthHistoryField.val();
+    		if (!mentalHealthHistoryValue || mentalHealthHistoryValue === "" || mentalHealthHistoryValue === "null") {
+    			validateMentalHealthHistory();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = mentalHealthHistoryField;
+    		}
+
+    		// Check access to mental health - always validate and show error
+    		const accessToMentalHealthValue = accessToMentalHealthField.val();
+    		if (!accessToMentalHealthValue || accessToMentalHealthValue === "" || accessToMentalHealthValue === "null") {
+    			validateAccessToMentalHealth();
+    			hasErrors = true;
+    			if (!firstErrorField) firstErrorField = accessToMentalHealthField;
+    		}
+    		
+    		// Check contact number - only validate if user has interacted with it or entered content
+    		const contactValue = contactField.val().trim();
+    		if (fieldsInteracted.contact || contactValue !== "") {
+    			if (!validateContactNumber()) {
+    				hasErrors = true;
+    				if (!firstErrorField) firstErrorField = contactField;
+    			}
+    		}
+    		
+    		// Prevent form submission if there are validation errors
+    		if (hasErrors) {
+    			e.preventDefault();
+    			
+    			// Scroll to the first error field and focus on it
+    			if (firstErrorField) {
+    				$('html, body').animate({
+    					scrollTop: firstErrorField.offset().top - 100
+    				}, 500, function() {
+    					// Focus on the field after scrolling
+    					firstErrorField.focus();
+    				});
+    			}
+    			
+    			return false;
+    		}
     	});
 	})
 </script>

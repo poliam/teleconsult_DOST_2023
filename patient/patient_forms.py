@@ -101,9 +101,9 @@ class AddPatientForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial="")
+	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial="")
 	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
-	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
+	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
 	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
@@ -114,7 +114,7 @@ class AddPatientForm(forms.ModelForm):
 	nationality = forms.CharField(required=True, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
 	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=True, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
-	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
+	employment_status = forms.TypedChoiceField(required=False, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
 	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES, initial="")
 	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES, initial="")
 	
@@ -166,34 +166,13 @@ class AddPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Date of birth cannot be in the future.")
 		return BOD
 
-	def clean(self):
-		cleaned_data = super().clean()
-		first_name = cleaned_data.get('first_name')
-		middle_name = cleaned_data.get('middle_name')
-		last_name = cleaned_data.get('last_name')
-		BOD = cleaned_data.get('BOD')
-		if first_name and middle_name and last_name and BOD:
-			exists = details.objects.filter(
-				first_name__iexact=first_name,
-				middle_name__iexact=middle_name,
-				last_name__iexact=last_name,
-				BOD=BOD
-			).exists()
-			if exists:
-				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
-		return cleaned_data
+	# Removed duplicate patient validation
+	# def clean(self):
+	#	cleaned_data = super().clean()
+	#	return cleaned_data
 
-	def patientCheck(self):
-		first_name = self.cleaned_data['first_name']
-		middle_name = self.cleaned_data['middle_name']
-		last_name = self.cleaned_data['last_name']
-		BOD = self.cleaned_data['BOD']
-		try:
-			patient_exists = details.objects.get(first_name=first_name, middle_name=middle_name, last_name=last_name)
-			return "Email already present."
-		except details.DoesNotExist:
-			return False
-
+	# Removed patientCheck method - no duplicate validation needed
+	
 	def save(self, *args, **kwargs):
 		new_patient = details()
 		new_patient.profile_picture = self.cleaned_data['profile_picture']
@@ -231,10 +210,10 @@ class EditPatientForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, label="First Name", widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
 	middle_name = forms.CharField(required=False, label="Middle Name", widget=forms.TextInput(attrs={'placeholder': 'Middle Name'}))
 	last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-	gender = forms.TypedChoiceField(required=True, label="Sex", choices=SEX_CHOICES, initial="")
+	gender = forms.TypedChoiceField(required=False, label="Sex", choices=SEX_CHOICES, initial="")
 	BOD = forms.DateField(required=True, label="Date of Birth(mm/dd/yyyy)", widget=forms.DateInput(format="%m/%d/%Y"), input_formats=("%m/%d/%Y",))
-	marital_status = forms.TypedChoiceField(required=True, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
-	contact_number = forms.CharField(required=True, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
+	marital_status = forms.TypedChoiceField(required=False, label="Marital Status", choices=MARITAL_CHOICES, initial="0")
+	contact_number = forms.CharField(required=False, label="Contact Number", widget=forms.TextInput(attrs={'placeholder': 'Contact Number'}))
 	alias = forms.CharField(required=False, label="Alias", widget=forms.TextInput(attrs={'placeholder': 'Alias'}))
 	email = forms.CharField(required=False, label="Email", widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 	birth_place = forms.CharField(required=True, label="Birth Place", widget=forms.TextInput(attrs={'placeholder': 'Birth Place'}))
@@ -244,7 +223,7 @@ class EditPatientForm(forms.ModelForm):
 	nationality = forms.CharField(required=True, label="Nationality", widget=forms.TextInput(attrs={'placeholder': 'Nationality'}))
 	workplace = forms.TypedChoiceField(required=True, label="Workplace", choices=WORKPLACE_CHOICES)
 	occupation = forms.CharField(required=True, label="Occupation", widget=forms.TextInput(attrs={'placeholder': 'Occupation'}))
-	employment_status = forms.TypedChoiceField(required=True, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
+	employment_status = forms.TypedChoiceField(required=False, label="Employment Status", choices=EMPLOYMENT_STATUS_CHOICES, initial="")
 	mental_health_history = forms.TypedChoiceField(required=True, label="Mental Health History", choices=YES_NO_TEXT_CHOICES, initial="")
 	access_to_mental_health = forms.TypedChoiceField(required=True, label="Access To Mental Health", choices=YES_NO_TEXT_CHOICES, initial="")
 
@@ -269,6 +248,8 @@ class EditPatientForm(forms.ModelForm):
 	
 	def clean_last_name(self):
 		last_name = self.cleaned_data.get('last_name', '').strip()
+		if not last_name:
+			raise forms.ValidationError("Last name is required.")
 		if not last_name.replace(' ', '').isalpha():
 			raise forms.ValidationError("Last name should only contain letters and spaces.")
 		return last_name
@@ -294,38 +275,12 @@ class EditPatientForm(forms.ModelForm):
 			raise forms.ValidationError("Date of birth cannot be in the future.")
 		return BOD
 	
-	def clean(self):
-		cleaned_data = super().clean()
-		first_name = cleaned_data.get('first_name')
-		middle_name = cleaned_data.get('middle_name')
-		last_name = cleaned_data.get('last_name')
-		BOD = cleaned_data.get('BOD')
-		if first_name and middle_name and last_name and BOD:
-			# Exclude the current instance when checking for duplicates during editing
-			duplicate_query = details.objects.filter(
-				first_name__iexact=first_name,
-				middle_name__iexact=middle_name,
-				last_name__iexact=last_name,
-				BOD=BOD
-			)
-			if self.instance and self.instance.pk:
-				duplicate_query = duplicate_query.exclude(pk=self.instance.pk)
-			
-			if duplicate_query.exists():
-				raise forms.ValidationError("A patient with the same name and date of birth already exists.")
-		return cleaned_data
+	# Removed duplicate patient validation
+	# def clean(self):
+	#	cleaned_data = super().clean()
+	#	return cleaned_data
 	
-	def patientCheck(self):
-		first_name = self.cleaned_data['first_name']
-		middle_name = self.cleaned_data['middle_name']
-		last_name = self.cleaned_data['last_name']
-		BOD = self.cleaned_data['BOD']
-		try:
-			patient_exists = details.objects.get(first_name=first_name, middle_name=middle_name, last_name=last_name)
-			return "Email already present."
-		except:
-			return False
-
+	# Removed patientCheck method - no duplicate validation needed
 
 	class Meta:
 		model = details
