@@ -430,11 +430,11 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 	new_global_psychotrauma_screen.event_description = request.POST['event_description']
 	new_global_psychotrauma_screen.event_happened = request.POST['event_happened']
 
-	new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence', False)
-	new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence', False)
-	new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse', False)
-	new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury', False)
-	new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening', False)
+	new_global_psychotrauma_screen.physical_violence = request.POST.get('physical_violence') or None
+	new_global_psychotrauma_screen.sexual_violence = request.POST.get('sexual_violence') or None
+	new_global_psychotrauma_screen.emotional_abuse = request.POST.get('emotional_abuse') or None
+	new_global_psychotrauma_screen.serious_injury = request.POST.get('serious_injury') or None
+	new_global_psychotrauma_screen.life_threatening = request.POST.get('life_threatening') or None
 	
 	new_global_psychotrauma_screen.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
 	new_global_psychotrauma_screen.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
@@ -892,12 +892,11 @@ def PatientUpdateGPS(request, gps_id):
 		global_psychotrauma_screen_instance.event_description = request.POST['event_description']
 		global_psychotrauma_screen_instance.event_happened = request.POST['event_happened']
 
-		global_psychotrauma_screen_instance.physical_violence = request.POST.get('physical_violence', False)
-		global_psychotrauma_screen_instance.sexual_violence = request.POST.get('sexual_violence', False)
-		global_psychotrauma_screen_instance.emotional_abuse = request.POST.get('emotional_abuse', False)
-		global_psychotrauma_screen_instance.serious_injury = request.POST.get('serious_injury', False)
-		global_psychotrauma_screen_instance.life_threatening = request.POST.get('life_threatening', False)
-
+		global_psychotrauma_screen_instance.physical_violence = request.POST.get('physical_violence') or None
+		global_psychotrauma_screen_instance.sexual_violence = request.POST.get('sexual_violence') or None
+		global_psychotrauma_screen_instance.emotional_abuse = request.POST.get('emotional_abuse') or None
+		global_psychotrauma_screen_instance.serious_injury = request.POST.get('serious_injury') or None
+		global_psychotrauma_screen_instance.life_threatening = request.POST.get('life_threatening') or None
 
 		global_psychotrauma_screen_instance.sudden_death_of_loved_one = request.POST.get('sudden_death_of_loved_one', False)
 		global_psychotrauma_screen_instance.cause_harm_to_others = request.POST.get('cause_harm_to_others', False)
@@ -907,8 +906,9 @@ def PatientUpdateGPS(request, gps_id):
 		global_psychotrauma_screen_instance.range_event_occurring_to = request.POST['range_event_occurring_to']
 		try:
 			global_psychotrauma_screen_instance.save()
-		except:
-			returnVal['error_msg'] = "error on Saving the GPS Data!"
+		except Exception as e:
+			# returnVal['error_msg'] = f"Error on Saving the GPS Data: {str(e)}"
+			returnVal['error_msg'] = f"Error on Saving the GPS Data"
 			return render(request, 'patient_edit_gps.html', returnVal)
 
 		considering_event_instance.considering_event_1 = request.POST['considering_event_1']
