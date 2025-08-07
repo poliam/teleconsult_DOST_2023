@@ -155,8 +155,8 @@ def PatientAuditTrail(request, patient_old_details, formDetails):
 					new_date_value = datetime.strptime(new_value, '%m/%d/%Y').date()
 					if old_value != new_date_value:
 						updated_fields[field] = {
-							'old_value': old_value,
-							'new_value': new_date_value
+							'old_value': serialize_value(old_value),
+							'new_value': serialize_value(new_date_value)
 						}
 				except ValueError:
 					continue
@@ -164,27 +164,21 @@ def PatientAuditTrail(request, patient_old_details, formDetails):
 			else:
 				if str(old_value) != str(new_value):  # formDetails values are lists
 					updated_fields[field] = {
-						'old_value': old_value,
-						'new_value': new_value
+						'old_value': serialize_value(old_value),
+						'new_value': serialize_value(new_value)
 					}
 	if updated_fields:
 		new_audit_entry = details_audit()
 		new_audit_entry.user = request.user
 		new_audit_entry.url = "patient_edit"
 		new_audit_entry.details = patient_old_details
-		new_audit_entry.updated_fields=updated_fields
+		new_audit_entry.updated_fields= json.dumps(updated_fields)
 		new_audit_entry.create_date=now()
 		new_audit_entry.status=True
 		new_audit_entry.is_delete=False
 		new_audit_entry.save()
 	return False
 
-
-
-
-
-
-	return False
 
 @login_required(login_url='/login')
 def PatientDetailed(request, patient_id):
@@ -1532,4 +1526,8 @@ def DeleteICF(request, patient_id):
 		print(f"Database error while deleting ICF record: {str(db_error)}")
 	
 	return redirect('PatientDetailed', patient_id=patient_id)
-
+	
+def serialize_value(value):
+	if isinstance(value, (datetime, date)):
+		return value.isoformat()
+	return value
