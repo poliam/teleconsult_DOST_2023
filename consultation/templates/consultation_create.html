@@ -936,6 +936,7 @@
 			return false;
 		}
 		
+		// Add diagnosis to form table for submission with the main form
 		var condition_html = "";
 		condition_html += "<tr>";
 		condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+ (icd10_code ? "[" + icd10_code + "] " : "") + Condition+"'></td>";
@@ -943,6 +944,8 @@
 		condition_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveConditionRow(this);'>Remove</button></td>";
 		condition_html += "</tr>";
 		$(".condition_table_body").append(condition_html);
+		
+		// Clear form fields
 		$("#Condition").val("");
 		$("#condition_details").val("");
 		$("#selected_icd10_code").val("");

@@ -641,12 +641,12 @@
   										</tr>
   									{% empty %}
 
-  									{% endfor %}
-  								</tbody>
-  							</table>
-  						</div>
-  					</div>
-  				</div>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 
   				<div class="tab-pane fade" id="Treatment" role="tabpanel" aria-labelledby="Treatment-tab">
   					<div class="row">
@@ -1143,31 +1143,67 @@
 		
 	}
 
-	function RemoveConditionRow(that){
+	function RemoveConditionRow(that, diagnosis_id){
 		$(that).empty();
 		$(that).append("Deleting . . .");
-		$.ajax({
-	        type: "POST",
-	        url: "{% url 'DeleteDiagnosis' %}",
-	        data: {
-	        	"diagnosis_id":$(that).attr("attr_id"),
-	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
-	        },
-	        async:true,
-	        success: function (data) {
-	        	if(data.status_code == 1){
-	        		$(that).parent().parent('tr').remove();
-	        	}else{
-	        		alert(data.error_msg);
-	        		$(that).empty();
-					$(that).append("Remove");
-	        	}
-	        },
-	        error: function (e) {
-	           
-	        }
-	    })
 		
+		// If diagnosis_id is provided, delete from backend
+		if(diagnosis_id) {
+			$.ajax({
+				type: "POST",
+				url: "{% url 'DeleteDiagnosis' %}",
+				data: {
+					"diagnosis_id": diagnosis_id,
+					"csrfmiddlewaretoken": '{{ csrf_token }}',
+				},
+				async: true,
+				success: function (data) {
+					if(data.status_code == 1){
+						$(that).parent().parent('tr').remove();
+					} else {
+						alert(data.error_msg);
+						$(that).empty();
+						$(that).append("Remove");
+					}
+				},
+				error: function (e) {
+					alert("Error deleting diagnosis");
+					$(that).empty();
+					$(that).append("Remove");
+				}
+			});
+		} else {
+			// For existing rows without diagnosis_id, use the old attr_id method
+			var diagnosisId = $(that).attr("attr_id");
+			if(diagnosisId) {
+				$.ajax({
+					type: "POST",
+					url: "{% url 'DeleteDiagnosis' %}",
+					data: {
+						"diagnosis_id": diagnosisId,
+						"csrfmiddlewaretoken": '{{ csrf_token }}',
+					},
+					async: true,
+					success: function (data) {
+						if(data.status_code == 1){
+							$(that).parent().parent('tr').remove();
+						} else {
+							alert(data.error_msg);
+							$(that).empty();
+							$(that).append("Remove");
+						}
+					},
+					error: function (e) {
+						alert("Error deleting diagnosis");
+						$(that).empty();
+						$(that).append("Remove");
+					}
+				});
+			} else {
+				// Just remove from UI if no ID
+				$(that).parent().parent('tr').remove();
+			}
+		}
 	}
 
 	function LoadAutocompleteDrug(){
@@ -1195,10 +1231,9 @@
 	function AddCondition(that){
 		$(that).empty();
 		$(that).append("Processing . . .");
-		var Condition = $("#Condition").val() || "";
-		var icd10_code = $("#selected_icd10_code").val() || "";
-		var condition_details = $("#condition_details").val() || "";
-		
+		var Condition = $("#Condition").val();
+		var icd10_code = $("#selected_icd10_code").val();
+		var condition_details = $("#condition_details").val();
 		$(".condition_invalid").hide();
 		$(".condition_details_invalid").hide();
 		
@@ -1214,47 +1249,49 @@
 			$(that).append("Add Diagnosis");
 			return false;
 		}
-		
-		// Prepare the condition name with ICD-10 code if available
-		var condition_name = (icd10_code ? "[" + icd10_code + "] " : "") + Condition;
-		
+
+		// Make AJAX call to save diagnosis to backend
 		$.ajax({
-	        type: "POST",
-	        url: "{% url 'CreateDiagnosis' %}",
-	        data: {
-	        	"condition_name": condition_name,
-	        	"condition_details": condition_details,
-	        	"encounter_id": "{{ encounter_details.pk }}",
-	        	"csrfmiddlewaretoken": '{{ csrf_token }}',
-	        },
-	        async:true,
-	        success: function (data) {
-	        	if(data.status_code == 1){
-	        		var condition_html = "";
-					condition_html += "<tr>";
-					condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' value='"+ condition_name +"'></td>";
-					condition_html += "<td><textarea readonly='' class='form-control-plaintext' rows='3'>"+condition_details+"</textarea></td>";
-					condition_html += "<td><button type='button' class='btn btn-outline-danger' attr_id='"+data.diagnosis_id+"' onclick='RemoveConditionRow(this);'>Remove</button></td>";
+			type: "POST",
+			url: "{% url 'CreateDiagnosis' %}",
+			data: {
+				"encounter_id": "{{ encounter_details.pk }}",
+				"condition_name": (icd10_code ? "[" + icd10_code + "] " : "") + Condition,
+				"condition_details": condition_details,
+				"csrfmiddlewaretoken": '{{ csrf_token }}',
+			},
+			async: true,
+			success: function (data) {
+				if(data.status_code == 1){
+					// Add to UI table
+					var condition_html = "";
+					condition_html += "<tr data-diagnosis-id='" + data.diagnosis_id + "'>";
+					condition_html += "<td><input type='text' readonly='' class='form-control-plaintext' name='condition[]' value='"+ (icd10_code ? "[" + icd10_code + "] " : "") + Condition+"'></td>";
+					condition_html += "<td><textarea readonly='' class='form-control-plaintext' name='condition_detail[]' rows='3'>"+condition_details+"</textarea></td>";
+					condition_html += "<td><button type='button' class='btn btn-outline-danger' onclick='RemoveConditionRow(this, " + data.diagnosis_id + ");'>Remove</button></td>";
 					condition_html += "</tr>";
 					$(".condition_table_body").append(condition_html);
+					
+					// Clear form fields
 					$("#Condition").val("");
 					$("#selected_icd10_code").val("");
 					$("#condition_details").val("");
 					$("#icd10_select").val(null).trigger('change');
+					
 					$(that).empty();
 					$(that).append("Add Diagnosis");
-	        	}else{
-	        		alert(data.error_msg);
-	        		$(that).empty();
+				} else {
+					alert("Error saving diagnosis: " + (data.error_msg || "Unknown error"));
+					$(that).empty();
 					$(that).append("Add Diagnosis");
-	        	}
-	        },
-	        error: function (e) {
-	           alert("Error saving diagnosis. Please try again.");
-	           $(that).empty();
+				}
+			},
+			error: function (xhr, status, error) {
+				alert("AJAX Error: " + error);
+				$(that).empty();
 				$(that).append("Add Diagnosis");
-	        }
-	    })
+			}
+		});
 	}
 
 	function AddHOPI(that){
