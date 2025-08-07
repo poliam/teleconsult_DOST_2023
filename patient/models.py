@@ -201,22 +201,22 @@ class considering_event(models.Model):
 	is_delete = models.BooleanField(default=0)
 
 	
-	def clean(self):
-		# Count "Yes" events
-		events = [getattr(self, f'considering_event_{i}') for i in range(1, 24)]
-		yes_events = [e for e in events if e == 'Yes']
+	# def clean(self):
+	# 	# Count "Yes" events
+	# 	events = [getattr(self, f'considering_event_{i}') for i in range(1, 24)]
+	# 	yes_events = [e for e in events if e == 'Yes']
 		
-		if not yes_events:
-			raise ValidationError('At least one considering event must be set to Yes.')
+	# 	if not yes_events:
+	# 		raise ValidationError('At least one considering event must be set to Yes.')
 		
-		# Check maximum limit per GPS
-		if self.global_psychotrauma_screen_id:
-			total_events = considering_event.objects.filter(
-				global_psychotrauma_screen=self.global_psychotrauma_screen
-			).exclude(pk=self.pk).count()
+	# 	# Check maximum limit per GPS
+	# 	if self.global_psychotrauma_screen_id:
+	# 		total_events = considering_event.objects.filter(
+	# 			global_psychotrauma_screen=self.global_psychotrauma_screen
+	# 		).exclude(pk=self.pk).count()
 			
-			if total_events >= 15:
-				raise ValidationError('Maximum of 15 considering events per screen allowed.')
+	# 		if total_events >= 15:
+	# 			raise ValidationError('Maximum of 15 considering events per screen allowed.')
 	
 	def save(self, *args, **kwargs):
 		self.full_clean()
