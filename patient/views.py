@@ -618,9 +618,9 @@ def PatientAutoSaveGPS(request):
 		try:
 			new_considering_event.save()
 			returnVal['status_code'] = 1
-		except:
+		except Exception as e:
 			new_global_psychotrauma_screen.delete()
-			returnVal['error_msg'] = "Error on saving gps screen"
+			returnVal['error_msg'] = f"Error saving GPS screen: {str(e)}"
 			return JsonResponse(returnVal, safe=False)
 	return JsonResponse(returnVal, safe=False)
 
