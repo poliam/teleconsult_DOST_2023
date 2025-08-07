@@ -192,6 +192,41 @@ def PatientAuditTrail(request, patient_old_details, formDetails):
 	return False
 
 @login_required(login_url='/login')
+def PatientDelete(request):
+	from django.http import JsonResponse
+	import json
+	
+	if request.method != 'POST':
+		return JsonResponse({'success': False, 'error': 'Invalid request method'})
+	
+	# Check if user is admin
+	profile_details = User.objects.get(pk=request.user.id)
+	group_type = profile_details.groups.all().first().name if profile_details.groups.exists() else None
+	
+	if group_type != "Admin":
+		return JsonResponse({'success': False, 'error': 'Unauthorized access'})
+	
+	try:
+		patient_id = request.POST.get('patient_id')
+		if not patient_id:
+			return JsonResponse({'success': False, 'error': 'Patient ID not provided'})
+		
+		# Get the patient instance
+		patient_instance = details.objects.get(pk=patient_id)
+		
+		# Soft delete - mark as deleted instead of actually deleting
+		patient_instance.is_delete = True
+		patient_instance.status = False
+		patient_instance.save()
+		
+		return JsonResponse({'success': True, 'message': 'Patient deleted successfully'})
+		
+	except details.DoesNotExist:
+		return JsonResponse({'success': False, 'error': 'Patient not found'})
+	except Exception as e:
+		return JsonResponse({'success': False, 'error': str(e)})
+
+@login_required(login_url='/login')
 def PatientDetailed(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
@@ -1207,7 +1242,7 @@ def PatientDeleteAllergy(request):
 	returnVal = {}
 	returnVal['status_code'] = 0
 	try:
-		allergies_details = relatives.objects.get(pk=request.GET['allergy_id'])
+		allergies_details = allergies.objects.get(pk=request.GET['allergy_id'])
 	except:
 		returnVal['error_msg'] = "Allergy Does not exists!"
 		return JsonResponse(returnVal, safe=False)
@@ -1215,7 +1250,7 @@ def PatientDeleteAllergy(request):
 	allergies_details.is_delete = 1
 	try:
 		allergies_details.save()
-		returnVal['status_code'] = 0
+		returnVal['status_code'] = 1
 		return JsonResponse(returnVal, safe=False)
 	except:
 		returnVal['error_msg'] = "Error on saving!"

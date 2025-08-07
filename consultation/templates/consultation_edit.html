@@ -1119,6 +1119,9 @@
 	}
 
 	function RemoveHOPIRow(that){
+		if (!confirm('Are you sure you want to delete this history record?')) {
+			return;
+		}
 		$(that).empty();
 		$(that).append("Deleting . . .");
 		$.ajax({
@@ -1144,6 +1147,9 @@
 	}
 
 	function RemoveConditionRow(that, diagnosis_id){
+		if (!confirm('Are you sure you want to delete this diagnosis record?')) {
+			return;
+		}
 		$(that).empty();
 		$(that).append("Deleting . . .");
 		

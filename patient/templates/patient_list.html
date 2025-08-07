@@ -52,6 +52,7 @@
 {% endblock style %}
 
 {% block content %}
+{% csrf_token %}
 <div class="container-fluid">
 	<br/>
 	<div class="row">
@@ -87,6 +88,7 @@
 					<th>Marital Status</th>
 					<th>Age</th>
 					<th>Workplace</th>
+					<th>Actions</th>
 				</thead>
 				<tbody>
 					{% if list_of_patients %}
@@ -98,6 +100,13 @@
 								<td>{{ patient.marital_status }}</td>
 								<td>{{ patient.age }}</td>
 								<td>{{ patient.workplace }}</td>
+								<td>
+									{% if group_type == "Admin" %}
+										<a href="#" attr_id="{{ patient.pk }}" onclick="deletePatient(this)" style="text-decoration:none;">
+											<i class="fa-solid fa-trash-can" style="color:red;"></i>
+										</a>
+									{% endif %}
+								</td>
 							</tr>
 						{% endfor %}
 					{% endif %}
@@ -129,6 +138,33 @@
 			}
 		});
 	})
+	
+	function deletePatient(that) {
+		if (!confirm('Are you sure you want to delete this patient record? The patient will be removed from the list but can be restored by an administrator if needed.')) {
+			return;
+		}
+		var patient_id = $(that).attr("attr_id");
+		$.ajax({
+			type: "POST",
+			url: "{% url 'PatientDelete' %}",
+			data: {
+				"patient_id": patient_id,
+				"csrfmiddlewaretoken": $('[name=csrfmiddlewaretoken]').val()
+			},
+			async: true,
+			success: function (data) {
+				if (data.success) {
+					alert('Patient record deleted successfully.');
+					window.location.reload();
+				} else {
+					alert('Error deleting patient: ' + data.error);
+				}
+			},
+			error: function (e) {
+				alert('An error occurred while deleting the patient.');
+			}
+		});
+	}
 	
 </script>
 {% endblock script %}
