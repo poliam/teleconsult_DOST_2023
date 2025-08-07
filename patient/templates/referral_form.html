@@ -65,6 +65,7 @@
 {% endblock style %}
 
 {% block content %}
+<br/><br/><br/><br/>
 <div class="container-fluid">
     <div class="letter-container" id="letter">
         <center><h3>SOUTHERN PHILIPPINES MEDICAL CENTER TELEPSYCHIATRY SERVICE FOR OVERSEAS FILIPINO WORKERS</h3></center>
@@ -93,7 +94,11 @@
                     <td colspan="3">
                         {% for diagnosis in referral_diagnosis %}
                         <ul>
-                            <li>{{ diagnosis.condition.name }} - {{ diagnosis.condition_details }}</li>
+                            <li>{{ diagnosis.condition.name }} 
+                                {% if diagnosis.condition_details %}
+                                    - {{ diagnosis.condition_details }}
+                                {% endif %}
+                            </li>
                         </ul>
                         {% endfor %}
                     </td>
@@ -137,7 +142,7 @@
                 </tr>
                 <tr>
                     <td><strong>Referred by</strong></td>
-                    <td colspan="3">Ismael L. Cordero, Jr. MD, DPCAM</td>
+                    <td colspan="3">Ismael L. Cordero, Jr. MD, DPCAM<br/>PRC License Number: 0117930</td>
                 </tr>
                 <tr>
                     <td><strong>Signature</strong></td>
