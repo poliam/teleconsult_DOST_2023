@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('patient', '0016_considering_event_score_1_16_and_more'),
+        ('patient', '0016_details_files'),
         ('patient', '0019_considering_event_score_1_16_and_more'),
     ]
 

@@ -45,12 +45,12 @@ def PatientLists(request):
 		list_of_patients = details.objects.filter(
 			is_delete=0,
 			workplace=workplace_choice  # Filter by the workplace field in related 'details'
-		)
+		).order_by('-create_date')
 	else:
 		# If no specific workplace is set (e.g., for "Doctor", "Triage", or "Admin"), skip the workplace filter
 		list_of_patients = details.objects.filter(
 			is_delete=0
-		)
+		).order_by('-create_date')
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['list_of_patients'] = list_of_patients
@@ -125,12 +125,17 @@ def PatientEdit(request, patient_id):
 		patient_address = address.objects.get(details=patient_instance)
 		returnVal['FormEditPatientAddress'] = EditPatientAddressForm(instance=patient_address)
 	except:
+		patient_address = None
 		returnVal['FormEditPatientAddress'] = EditPatientAddressForm()
 	
 	if request.method == 'POST':
 		PatientAuditTrail(request ,patient_instance, request.POST)
 		patientform = EditPatientForm(request.POST, request.FILES, instance=patient_instance)
-		addressForm = EditPatientAddressForm(request.POST, instance=patient_address)
+		if patient_address:
+			addressForm = EditPatientAddressForm(request.POST, instance=patient_address)
+		else:
+			addressForm = EditPatientAddressForm(request.POST)
+			addressForm.instance.details = patient_instance
 		returnVal['form'] = patientform
 		returnVal['FormEditPatientAddress'] = addressForm
 		if patientform.is_valid() and addressForm.is_valid():
@@ -181,6 +186,41 @@ def PatientAuditTrail(request, patient_old_details, formDetails):
 
 
 @login_required(login_url='/login')
+def PatientDelete(request):
+	from django.http import JsonResponse
+	import json
+	
+	if request.method != 'POST':
+		return JsonResponse({'success': False, 'error': 'Invalid request method'})
+	
+	# Check if user is admin
+	profile_details = User.objects.get(pk=request.user.id)
+	group_type = profile_details.groups.all().first().name if profile_details.groups.exists() else None
+	
+	if group_type != "Admin":
+		return JsonResponse({'success': False, 'error': 'Unauthorized access'})
+	
+	try:
+		patient_id = request.POST.get('patient_id')
+		if not patient_id:
+			return JsonResponse({'success': False, 'error': 'Patient ID not provided'})
+		
+		# Get the patient instance
+		patient_instance = details.objects.get(pk=patient_id)
+		
+		# Soft delete - mark as deleted instead of actually deleting
+		patient_instance.is_delete = True
+		patient_instance.status = False
+		patient_instance.save()
+		
+		return JsonResponse({'success': True, 'message': 'Patient deleted successfully'})
+		
+	except details.DoesNotExist:
+		return JsonResponse({'success': False, 'error': 'Patient not found'})
+	except Exception as e:
+		return JsonResponse({'success': False, 'error': str(e)})
+
+@login_required(login_url='/login')
 def PatientDetailed(request, patient_id):
 	returnVal = {}
 	profile_details = User.objects.get(pk=request.user.id)
@@ -204,7 +244,7 @@ def PatientDetailed(request, patient_id):
 	returnVal['userDetails'] = profile_details
 	returnVal['patientDetailed'] = patient_instance
 	returnVal['CURRENT_URL'] = settings.CURRENT_URL
-	returnVal['age'] = datetime.now().year - 	patient_instance.BOD.year
+	returnVal['age'] = patient_instance.age
 	returnVal['list_of_relatives'] = relatives.objects.filter(details=patient_id, is_delete=0)
 	returnVal['list_of_allergies'] = allergies.objects.filter(details=patient_id, is_delete=0)
 	try:
@@ -220,7 +260,7 @@ def PatientDetailed(request, patient_id):
 
 	for history in patientHistory:
 		if isinstance(history.updated_fields, str):
-			history.updated_fields = json.loads(history.updated_fields.replace("'", '"'))
+			history.updated_fields = [history.updated_fields]
 
 	returnVal['patientHistory'] = patientHistory
 
@@ -1196,7 +1236,7 @@ def PatientDeleteAllergy(request):
 	returnVal = {}
 	returnVal['status_code'] = 0
 	try:
-		allergies_details = relatives.objects.get(pk=request.GET['allergy_id'])
+		allergies_details = allergies.objects.get(pk=request.GET['allergy_id'])
 	except:
 		returnVal['error_msg'] = "Allergy Does not exists!"
 		return JsonResponse(returnVal, safe=False)
@@ -1204,7 +1244,7 @@ def PatientDeleteAllergy(request):
 	allergies_details.is_delete = 1
 	try:
 		allergies_details.save()
-		returnVal['status_code'] = 0
+		returnVal['status_code'] = 1
 		return JsonResponse(returnVal, safe=False)
 	except:
 		returnVal['error_msg'] = "Error on saving!"
