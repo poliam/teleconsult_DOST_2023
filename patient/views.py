@@ -125,12 +125,17 @@ def PatientEdit(request, patient_id):
 		patient_address = address.objects.get(details=patient_instance)
 		returnVal['FormEditPatientAddress'] = EditPatientAddressForm(instance=patient_address)
 	except:
+		patient_address = None
 		returnVal['FormEditPatientAddress'] = EditPatientAddressForm()
 	
 	if request.method == 'POST':
 		PatientAuditTrail(request ,patient_instance, request.POST)
 		patientform = EditPatientForm(request.POST, request.FILES, instance=patient_instance)
-		addressForm = EditPatientAddressForm(request.POST, instance=patient_address)
+		if patient_address:
+			addressForm = EditPatientAddressForm(request.POST, instance=patient_address)
+		else:
+			addressForm = EditPatientAddressForm(request.POST)
+			addressForm.instance.details = patient_instance
 		returnVal['form'] = patientform
 		returnVal['FormEditPatientAddress'] = addressForm
 		if patientform.is_valid() and addressForm.is_valid():
@@ -220,7 +225,7 @@ def PatientDetailed(request, patient_id):
 
 	for history in patientHistory:
 		if isinstance(history.updated_fields, str):
-			history.updated_fields = json.loads(history.updated_fields.replace("'", '"'))
+			history.updated_fields = [history.updated_fields]
 
 	returnVal['patientHistory'] = patientHistory
 
