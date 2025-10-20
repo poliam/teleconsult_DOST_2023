@@ -258,6 +258,36 @@ class hamd(models.Model):
 	status = models.BooleanField(default=1)
 	is_delete = models.BooleanField(default=0)
 
+	def calculate_score(self):
+		"""Compute only the 17 core items for the HAMD score."""
+		def safe_int(value):
+			try:
+				return int(value)
+			except (ValueError, TypeError):
+				return 0
+
+		core_fields = [
+			self.depressed_mood,
+			self.feeling_of_guilt,
+			self.suicide,
+			self.insomnia_initial,
+			self.insomnia_middle,
+			self.insomnia_delayed,
+			self.work_and_interests,
+			self.retardation_delayed,
+			self.agitation_delayed,
+			self.anxiety_psychic,
+			self.anxiety_somatic,
+			self.somatic_symptoms_gastrointestinal,
+			self.somatic_symptoms_general,
+			self.genital_symptoms,
+			self.hypochondriasis,
+			self.weight_loss,
+			self.insight,
+		]
+
+		return sum(safe_int(f) for f in core_fields)
+
 class patient_survey(models.Model):
 	details = models.ForeignKey(details, null=True, blank=True, on_delete=models.SET_NULL)
 	responde_date = models.DateTimeField(auto_now_add=True)
