@@ -226,7 +226,7 @@ def PatientDetailed(request, patient_id):
 
 	list_of_hamd = hamd.objects.filter(details=patient_id, is_delete=0)
 
-	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.calculate_score()), "total_score": hamd.total_score} for hamd in list_of_hamd]
+	returnVal['list_of_hamd'] = [{"pk": hamd.pk, "consultation_date": hamd.consultation_date, "score": int(hamd.calculate_score()), "total_score": int(hamd.total_score)} for hamd in list_of_hamd]
 
 	returnVal['list_of_encounter'] = encounter.objects.filter(details=patient_id, is_delete=0).order_by('-consultation_date')
 	return render(request, 'patient_detailed.html', returnVal)

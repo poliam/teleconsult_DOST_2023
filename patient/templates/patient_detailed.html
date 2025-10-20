@@ -390,6 +390,18 @@
 													</td>
 													<td>
 														<b>{{ hamd.total_score }}</b>
+															{% if hamd.total_score == 7  or hamd.total_score < 7 %}
+																(Normal)
+															{% elif hamd.total_score  > 7 and hamd.total_score  < 14 %}
+																(Mild Depression)
+															{% elif hamd.total_score  > 13 and hamd.total_score < 19 %}
+																(Moderate Depression)
+															{% elif hamd.total_score > 18 and hamd.total_score < 23 %}
+																(Severe Depression)
+															{% else %}
+																(Very Severe Depression)
+															{% endif %}
+														
 													</td>
 													<td>
 														{% if group_type == "Triage" or group_type == "Admin" %}
