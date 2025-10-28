@@ -471,7 +471,10 @@ def Create_global_psychotrauma_screen(request, patient_instance):
 	new_considering_event.considering_event_22 = request.POST['considering_event_22']
 	new_considering_event.considering_event_23 = request.POST['considering_event_23']
 
-	new_considering_event.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+	new_considering_event.score_1_16 = sum(
+		1 for i in list(range(1, 17)) + [18]
+		if request.POST.get(f'considering_event_{i}') == 'Yes'
+	)
 	new_considering_event.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
 
 	try:
@@ -541,7 +544,11 @@ def PatientAutoSaveGPS(request):
 		considering_event_details.considering_event_22 = request.POST.get('considering_event_22', 'No')
 		considering_event_details.considering_event_23 = request.POST.get('considering_event_23', '1')
 
-		considering_event_details.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		considering_event_details.score_1_16 = sum(
+			1 for i in list(range(1, 17)) + [18]
+			if request.POST.get(f'considering_event_{i}') == 'Yes'
+		)
+
 		considering_event_details.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
 		
 		try:
@@ -612,7 +619,10 @@ def PatientAutoSaveGPS(request):
 		new_considering_event.considering_event_22 = request.POST.get('considering_event_22', 'No')
 		new_considering_event.considering_event_23 = request.POST.get('considering_event_23', '1')
 
-		new_considering_event.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		considering_event_details.score_1_16 = sum(
+			1 for i in list(range(1, 17)) + [18]
+			if request.POST.get(f'considering_event_{i}') == 'Yes'
+		)
 		new_considering_event.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
 
 		try:
@@ -929,7 +939,10 @@ def PatientUpdateGPS(request, gps_id):
 		considering_event_instance.considering_event_22 = request.POST['considering_event_22']
 		considering_event_instance.considering_event_23 = request.POST['considering_event_23']
 
-		considering_event_instance.score_1_16 = sum(1 for i in range(1, 17) if request.POST.get(f'considering_event_{i}') == 'Yes')
+		considering_event_instance.score_1_16 = sum(
+			1 for i in list(range(1, 17)) + [18]
+			if request.POST.get(f'considering_event_{i}') == 'Yes'
+		)
 		considering_event_instance.total_score = sum(1 for i in range(1, 23) if request.POST.get(f'considering_event_{i}') == 'Yes')
 
 		try:
