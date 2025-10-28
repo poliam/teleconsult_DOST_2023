@@ -217,11 +217,14 @@ def PatientDetailed(request, patient_id):
 
 	returnVal['list_of_GPS'] = global_psychotrauma_screen.objects.filter(details=patient_id, is_delete=0)
 	patientHistory = details_audit.objects.filter(details=patient_id, is_delete=0)
-
+	
 	for history in patientHistory:
 		if isinstance(history.updated_fields, str):
-			history.updated_fields = ast.literal_eval(history.updated_fields)
-
+			try:
+				history.updated_fields = json.loads(history.updated_fields)
+			except (json.JSONDecodeError, ValueError, SyntaxError):
+				history.updated_fields = {}
+	
 	returnVal['patientHistory'] = patientHistory
 
 	list_of_hamd = hamd.objects.filter(details=patient_id, is_delete=0)
