@@ -45,15 +45,18 @@ def PatientLists(request):
 		list_of_patients = details.objects.filter(
 			is_delete=0,
 			workplace=workplace_choice  # Filter by the workplace field in related 'details'
-		)
+		).order_by('-id') 
 	else:
 		# If no specific workplace is set (e.g., for "Doctor", "Triage", or "Admin"), skip the workplace filter
 		list_of_patients = details.objects.filter(
 			is_delete=0
-		)
+		).order_by('-id') 
 	returnVal['sidebar'] = "patient"
 	returnVal['userDetails'] = profile_details
 	returnVal['list_of_patients'] = list_of_patients
+	workplaces = details.objects.values_list('workplace', flat=True).distinct()
+	returnVal['workplaces'] = workplaces
+
 	return render(request, 'patient_list.html', returnVal)
 
 @login_required(login_url='/login')
@@ -1268,6 +1271,7 @@ def referralFormPdf(request, referral_id):
 	returnVal = {}
 	referralDetails = Referral.objects.get(pk=referral_id)
 	returnVal['referral_details'] = referralDetails
+	returnVal['referral_date_formatted'] = referralDetails.create_date.strftime("%B %d, %Y")
 	encounter_details = encounter.objects.get(pk=referralDetails.encounter_id)
 	returnVal['referral_diagnosis'] = diagnosis.objects.filter(encounter_id=referralDetails.encounter_id, is_delete=0)
 	returnVal['referral_treatment'] = treatment.objects.filter(encounter_id=referralDetails.encounter_id, is_delete=0)
