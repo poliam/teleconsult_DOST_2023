@@ -50,18 +50,18 @@ def AppointmentList(request):
     # Filter consultations based on workplace choice
     if workplace_choice:
         returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date), is_delete=0, details__workplace=workplace_choice).order_by('consultation_date')
-        returnVal['month_consultation'] = encounter.objects.filter(consultation_date__month=current_date.month, is_delete=0, details__workplace=workplace_choice).order_by('consultation_date')
+        returnVal['month_consultation'] = encounter.objects.filter(consultation_date__year=current_date.year, consultation_date__month=current_date.month, is_delete=0).order_by('consultation_date')
         returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=current_date - timedelta(hours=24), is_delete=0, details__workplace=workplace_choice).order_by('consultation_date')
         returnVal['list_of_psychiatric_evaluate'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0, details__workplace=workplace_choice).order_by('evaluation_consultation_date')
-        returnVal['list_of_psychiatric_evaluate_month'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__month=current_date.month, is_delete=0, details__workplace=workplace_choice).order_by('evaluation_consultation_date')
+        returnVal['list_of_psychiatric_evaluate_month'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__year=current_date.year, evaluation_consultation_date__month=current_date.month, is_delete=0, details__workplace=workplace_choice).order_by('evaluation_consultation_date')
         returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0, workplace=workplace_choice)
     else:
         # If no specific workplace is assigned (e.g., Doctor, Admin)
         returnVal['week_consultation'] = encounter.objects.filter(consultation_date__range=(current_date, future_date), is_delete=0).order_by('consultation_date')
-        returnVal['month_consultation'] = encounter.objects.filter(consultation_date__month=current_date.month, is_delete=0).order_by('consultation_date')
+        returnVal['month_consultation'] = encounter.objects.filter(consultation_date__year=current_date.year, consultation_date__month=current_date.month, is_delete=0).order_by('consultation_date')
         returnVal['past_consultation'] = encounter.objects.filter(consultation_date__lte=current_date - timedelta(hours=24), is_delete=0).order_by('consultation_date')
         returnVal['list_of_psychiatric_evaluate'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__range=(current_date, future_date), is_delete=0).order_by('evaluation_consultation_date')
-        returnVal['list_of_psychiatric_evaluate_month'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__month=current_date.month, is_delete=0).order_by('evaluation_consultation_date')
+        returnVal['list_of_psychiatric_evaluate_month'] = psychiatric_evaluate.objects.filter(evaluation_consultation_date__month=current_date.month, evaluation_consultation_date__year=current_date.year, is_delete=0).order_by('evaluation_consultation_date')
         returnVal['list_of_patients'] = details.objects.filter(status=1, is_delete=0)
 
     # Process the form for adding a consultation or psychiatric evaluation
